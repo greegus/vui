@@ -1,0 +1,22 @@
+.link {
+  cursor: pointer;
+  color: var(--vui-color-primary);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--vui-color-primary--darker);
+    text-decoration: underline;
+  }
+
+  &.link--danger {
+    color: var(--vui-color-danger--darker);
+
+    &:hover {
+      color: var(--vui-color-danger--darker);
+    }
+  }
+}
+
+.muted {
+  color: var(--vui-color-gray-darker);
+}

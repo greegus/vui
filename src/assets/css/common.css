@@ -1,0 +1,41 @@
+:root {
+  /* colors */
+  --vui-color-gray: rgb(212 212 216); /* natural.300 */
+  --vui-color-gray--light: rgb(229, 229, 229); /* natural.200 */
+  --vui-color-gray--lighter: rgb(245, 245, 245); /* natural.100 */
+  --vui-color-gray--lightest: rgb(250, 250, 250); /* natural.50 */
+  --vui-color-gray--dark: rgb(163, 163, 163); /* natural.400 */
+  --vui-color-gray--darker: rgb(115, 115, 115); /* natural.500 */
+  --vui-color-gray--darkest: rgb(82, 82, 82); /* natural.600 */
+
+  --vui-color-primary: rgb(79 70 229); /* indigo.600 */
+  --vui-color-primary-shadow: rgb(67 56 202/0.25); /* indigo.700 */
+  --vui-color-primary--darker: rgb(67 56 202); /* indigo.700 */
+
+  --vui-color-danger: rgb(225 29 72); /* rose.600 */
+  --vui-color-danger-shadow: rgb(225 29 72/0.25); /* rose.600 */
+  --vui-color-danger--darker: rgb(190 18 60); /* rose.700 */
+
+  --vui-color-success: rgb(77 124 15); /* lime.700 */
+  --vui-color-success-shadow: rgb(77 124 15/0.25); /* lime.700 */
+  --vui-color-success--darker: rgb(63 98 18); /* lime.800 */
+
+  --vui-shadow: 0 1px 3px 0 rgb(0 0 0/0.1), 0 1px 2px -1px rgb(0 0 0/0.1));
+
+  /* field */
+  --vui-field-height: 3rem;
+  --vui-field-ringSize: 4px;
+  --vui-field-borderRadius: 0.375rem;
+  --vui-field-fontSize: 0.96rem;
+  --vui-field-borderColor: rgb(212 212 216); /* natural.300 */
+  --vui-field-borderColor--active: rgb(67 56 202); /* indigo.700 */
+  --vui-field-ringColor: rgb(79 70 229/0.1); /* indingo.600 */
+  --vui-field-transition: box-shadow .15s, transform .15s, box-shadow .15s, border-color .15s, background-color .15s;
+  --vui-field-fontSize--small: 0.85rem;
+  --vui-field-height--small: 2.25rem;
+  --vui-field-ringSize--small: 2px;
+
+  /* typography */
+  --vui-fontSize-base: 1rem;
+  --vui-fontSize-small: 0.85rem;
+}

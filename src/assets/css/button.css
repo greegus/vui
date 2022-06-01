@@ -1,0 +1,105 @@
+@import './common.css';
+
+.button {
+    --bgColor: var(--vui-button-bgColor, transparent);
+    --textColor: var(--vui-button-textColor, black);
+    --borderRadius: var(--vui-button-borderRadius, var(--vui-field-borderRadius));
+    --borderWidth: var(--vui-button-borderWidth, 1px);
+    --borderColor: var(--vui-button-borderColor, var(--vui-color-gray));
+    --height: var(--vui-button-height, var(--vui-field-height));
+    --padding: var(--vui-button-padding, 2rem);
+    --fontSize: var(--vui-button-fontSize, var(--vui-field-fontSize));
+    --shadow: var(--vui-button-shadow, var(--vui-shadow));
+    --transition: var(--vui-button-transition, var(--vui-field-transition));
+    --shadow: var(--vui-button-shadow, var(--vui-field-shadow));
+    --ringColor: var(--vui-button-ringColor, rgb(0 0 0/0.05));
+    --ringSize: 0;
+
+    appearance: none;
+    display: inline-flex;
+    gap: 0.5rem;
+    align-items: center;
+    align-self: center;
+    justify-content: center;
+    padding: 0 var(--padding);
+    min-height: var(--height);
+    cursor: pointer;
+    font-size: var(--fontSize);
+    outline: none;
+    user-select: none;
+    border-radius: var(--borderRadius);
+    box-shadow: 0 0 0 var(--ringSize) var(--ringColor), var(--shadow);
+    transition: var(--transition);
+    position: relative;
+    background-color: var(--bgColor);
+    border: var(--borderWidth) solid var(--borderColor);
+    color: var(--textColor);
+
+    &:hover {
+        --bgColor: var(--vui-button-bgColor--hover, var(--vui-button-bgColor, transparent));
+        --borderColor: var(--vui-button-borderColor--hover, var(--vui-color-gray--dark));
+        --textColor: var(--vui-button-textColor--hover, var(--vui-button-textColor, black));
+    }
+
+    &:focus {
+        --shadow: var(--vui-button-shadow--focus, var(--vui-field-shadow--focus));
+        --ringSize: var(--vui-button-ringSize, var(--vui-field-ringSize));
+        --borderColor: var(--vui-button-borderColor--focus, var(--vui-field-borderColor--focus));
+        --bgColor: var(--vui-button-bgColor--focus, var(--vui-button-bgColor));
+    }
+
+    &.button--small {
+        --height: var(--vui-button-height--small, var(--vui-field-height--small));
+        --padding: var(--vui-button-padding--small, 1rem);
+        --fontSize: var(--vui-button-fontSize--small, var(--vui-field-fontSize--small));
+
+        &:focus {
+            --ringSize: var(--vui-field-ringSize--small);
+        }
+    }
+
+    &.button--primary {
+        --bgColor: var(--vui-button-bgColor--primary, var(--vui-color-primary));
+        --borderColor: var(--vui-button-borderColor--primary, transparent);
+        --textColor: var(--vui-button-textColor--primary, white);
+        --ringColor: var(--vui-button-ringColor--primary, var(--vui-color-primary-shadow));
+
+        &:hover {
+            --bgColor: var(--vui-button-bgColor--primary--hover, var(--vui-button-bgColor--primary, var(--vui-color-primary--darker)));
+            --borderColor: var(--vui-button-borderColor--primary--hover, var(--vui-button-borderColor--primary, transparent));
+            --textColor: var(--vui-button-textColor--primary--hover, var(--vui-button-textColor--primary, white));
+        }
+    }
+
+    &.button--secondary {
+        --bgColor: var(--vui-button-bgColor--secondary, var(--vui-color-gray));
+        --borderColor: var(--vui-button-borderColor--secondary, transparent);
+        --textColor: var(--vui-button-textColor--secondary, black);
+        --ringColor: var(--vui-button-ringColor--secondary, var(--vui-color-secondary-shadow));
+
+        &:hover {
+            --bgColor: var(--vui-button-bgColor--secondary--hover, var(--vui-button-bgColor--secondary, var(--vui-color-gray--dark)));
+            --borderColor: var(--vui-button-borderColor--secondary--hover, var(--vui-button-borderColor--secondary, transparent));
+            --textColor: var(--vui-button-textColor--secondary--hover, var(--vui-button-textColor--secondary, black));
+        }
+    }
+
+    &.button--danger {
+        --bgColor: var(--vui-button-bgColor--danger, var(--vui-color-danger));
+        --borderColor: var(--vui-button-borderColor--danger, transparent);
+        --textColor: var(--vui-button-textColor--danger, white);
+        --ringColor: var(--vui-button-ringColor--danger, var(--vui-color-danger-shadow));
+
+        &:hover {
+            --bgColor: var(--vui-button-bgColor--danger--hover, var(--vui-button-bgColor--danger, var(--vui-color-danger--darker)));
+            --borderColor: var(--vui-button-borderColor--danger--hover, var(--vui-button-borderColor--danger, transparent));
+            --textColor: var(--vui-button-textColor--danger--hover, var(--vui-button-textColor--danger, white));
+        }
+    }
+
+    &:disabled,
+    &.button--disabled {
+        opacity: 0.65;
+        pointer-events: none;
+    }
+}

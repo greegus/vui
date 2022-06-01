@@ -1,0 +1,33 @@
+.table {
+  min-width: 100%;
+
+  & thead {
+    & tr {
+      border-bottom: 1px solid var(--vui-color-gray);
+    }
+
+    & th {
+      padding: 0.75rem 1.5rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-align: left;
+      letter-spacing: 0.025em;
+      color: rgb(64 64 64);
+      text-transform: uppercase;
+    }
+  }
+
+  & tbody {
+    & > * + * {
+      border-top: 1px solid var(--vui-color-gray);
+    }
+
+    & td {
+      padding: 1rem 1.5rem;
+    }
+  }
+
+  &.table--hover tbody tr:hover td {
+    background-color: rgb(0 0 0 / 0.025);
+  }
+}
