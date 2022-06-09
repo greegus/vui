@@ -15,7 +15,7 @@ export declare type ValidationResults<T = any> = {
 
 type ConfirmParams = Parameters<ReturnType<typeof useModal>['confirm']>[0]
 
-export function useAction<T = unknown, R = unknown>(
+export function useAction<R = unknown, T = unknown>(
   action: (data: T) => any | Promise<any>,
   params: {
     validator?: (data: T) => boolean | Promise<ValidationResults<T> | boolean>
