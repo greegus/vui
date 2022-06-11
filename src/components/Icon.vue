@@ -1,13 +1,14 @@
 <template>
-  <component :is="{ ...component }" class="Icon" />
+  <component :is="component" class="Icon" />
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { AsyncComponentLoader, Component, shallowRef, watch } from 'vue'
 
 import { resolveGlobImport } from '../utils/resolveGlobImport'
 
-type IconResolver = (name: string) => string | undefined | void
+type IconComponent = string | Component | AsyncComponentLoader | undefined
+type IconResolver = (name: string) => IconComponent
 
 let customIconResolver: IconResolver
 
@@ -15,7 +16,7 @@ export function registerCustomIconResolver(resolver: IconResolver) {
   customIconResolver = resolver
 }
 
-function resolveIconComponent(name: string): string | undefined {
+function resolveIconComponent(name: string): IconComponent {
   let component
 
   if (customIconResolver) {
@@ -31,30 +32,23 @@ function resolveIconComponent(name: string): string | undefined {
 
 // @ts-ignore
 const icons = import.meta.globEager('../icons/*.vue')
+</script>
 
-export default defineComponent({
-  props: {
-    name: {
-      type: String,
-      required: true
-    }
-  },
-
-  data() {
-    return {
-      component: undefined as any
-    }
-  },
-
-  watch: {
-    name: {
-      immediate: true,
-      handler() {
-        this.component = resolveIconComponent(this.name)
-      }
-    }
+<script lang="ts" setup>
+const props = defineProps({
+  name: {
+    type: String,
+    required: true
   }
 })
+
+const component = shallowRef<IconComponent>(undefined)
+
+watch(
+  () => props.name,
+  () => (component.value = resolveIconComponent(props.name)),
+  { immediate: true }
+)
 </script>
 
 <style lang="postcss" scoped>
