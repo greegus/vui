@@ -34,9 +34,6 @@ import Icon from '../Icon.vue'
 const slots = useSlots()
 const attrs = useAttrs()
 
-const instance = getCurrentInstance()
-const scope = getCurrentScope()
-
 const props = defineProps({
   title: {
     type: String,
