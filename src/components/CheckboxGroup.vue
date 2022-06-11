@@ -4,10 +4,9 @@
       <Checkbox
         :disabled="option.disabled"
         :model-value="checkedValues[option.value]"
+        :caption="option.label"
         @update:model-value="toggleCheckedValue(option.value)"
-      >
-        {{ option.label }}
-      </Checkbox>
+      />
     </div>
   </div>
 </template>
