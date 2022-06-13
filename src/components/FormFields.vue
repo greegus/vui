@@ -39,7 +39,7 @@ export type FormField = {
   value?: FormFieldValue
 }
 
-export type FormFieldsStructure<T extends any = any> = Record<Partial<keyof T>, FormField>
+export type FormFieldsStructure<T extends any = any> = Record<keyof T | string, FormField>
 
 const emits = defineEmits(['update:modelValue'])
 

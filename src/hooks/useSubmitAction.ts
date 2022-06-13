@@ -15,23 +15,23 @@ export declare type ValidationResults<T = any> = {
 
 type ConfirmParams = Parameters<ReturnType<typeof useModal>['confirm']>[0]
 
-export function useAction<R = unknown, T = unknown>(
-  action: (data: T) => any | Promise<any>,
+export function useSubmitAction<D = unknown, R = unknown>(
+  action: (data: D) => any | Promise<any>,
   params: {
-    validator?: (data: T) => boolean | Promise<ValidationResults<T> | boolean>
-    confirm?: ((data: T) => ConfirmParams) | ConfirmParams
-    onSuccess?: (params: { result: R; data: T; router: Router }) => void
-    onError?: (params: { error: Error; data: T; router: Router }) => boolean | void
-    redirectOnSuccess?: RouteLocationRaw | ((result: R, data: T) => RouteLocationRaw) | undefined
-    successMessage?: ((result: R, data: T) => string) | string
-    errorMessage?: ((error: Error, data: T) => string) | string
+    validator?: (data: D) => boolean | Promise<ValidationResults<D> | boolean>
+    confirm?: ((data: D) => ConfirmParams) | ConfirmParams
+    onSuccess?: (params: { result: R; data: D; router: Router }) => void
+    onError?: (params: { error: Error; data: D; router: Router }) => boolean | void
+    redirectOnSuccess?: RouteLocationRaw | ((result: R, data: D) => RouteLocationRaw) | undefined
+    successMessage?: ((result: R, data: D) => string) | string
+    errorMessage?: ((error: Error, data: D) => string) | string
     immediate?: boolean
   } = {}
 ): {
-  submit: (data?: T) => Promise<any>
+  submit: (data?: D) => Promise<any>
   isSubmitting: Ref<boolean>
   result: Ref<R>
-  errors: Ref<ValidationErrors<T>>
+  errors: Ref<ValidationErrors<D>>
 } {
   const snackbard = useSnackbar()
   const modal = useModal()
@@ -39,9 +39,9 @@ export function useAction<R = unknown, T = unknown>(
 
   const isSubmitting = ref<boolean>(false)
   const result = ref<R>() as Ref<R>
-  const errors = ref<ValidationErrors<T>>(Object.freeze({})) as Ref<ValidationErrors<T>>
+  const errors = ref<ValidationErrors<D>>(Object.freeze({})) as Ref<ValidationErrors<D>>
 
-  const submit = async (data?: T): Promise<R | undefined> => {
+  const submit = async (data?: D): Promise<R | undefined> => {
     if (params.confirm) {
       const confirmed = await modal.confirm(
         typeof params.confirm === 'function' ? params.confirm(data!) : params.confirm
