@@ -1,6 +1,6 @@
 <template>
   <div class="Form">
-    <form v-if="modelValue" :disabled="submitting" @submit.prevent="submit?.()">
+    <form v-if="modelValue" :disabled="submitting" @submit.prevent="handleSubmit?.()">
       <div v-for="(block, index) in structure" :key="index">
         <div v-if="block.title" class="Form__title">{{ block.title }}</div>
 
@@ -24,7 +24,7 @@
             :prefix-icon="submitting ? 'spinner' : undefined"
           />
 
-          <Button v-if="cancel" :label="cancelLabel" :disabled="submitting" @click="cancel()" />
+          <Button v-if="cancel" :label="cancelLabel" :disabled="submitting" @click="handleCancel()" />
         </div>
       </slot>
     </form>
@@ -90,11 +90,11 @@ const props = defineProps({
   submitting: Boolean
 })
 
-function submit() {
+function handleSubmit() {
   props.submit?.(props.modelValue)
 }
 
-function cancel() {
+function handleCancel() {
   typeof props.cancel === 'function' ? props.cancel?.() : props.cancel && router.push(props.cancel)
 }
 </script>
