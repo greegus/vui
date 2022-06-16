@@ -2,7 +2,7 @@ import { onMounted, Ref, ref } from 'vue'
 import { RouteLocationRaw, Router, useRouter } from 'vue-router'
 
 import { useModal } from '../modal'
-import { useSnackbar } from '../snackbar'
+import { Snackbar, useSnackbar } from '../snackbar'
 
 export declare type ValidationErrors<T = any> = {
   [key in keyof T]?: any
@@ -20,8 +20,8 @@ export function useSubmitAction<D = unknown, R = unknown>(
   params: {
     validator?: (data: D) => boolean | Promise<ValidationResults<D> | boolean>
     confirm?: ((data: D) => ConfirmParams) | ConfirmParams
-    onSuccess?: (params: { result: R; data: D; router: Router }) => void
-    onError?: (params: { error: Error; data: D; router: Router }) => boolean | void
+    onSuccess?: (params: { result: R; data: D; router: Router; snackbar: Snackbar }) => void
+    onError?: (params: { error: Error; data: D; router: Router; snackbar: Snackbar }) => boolean | void
     redirectOnSuccess?: RouteLocationRaw | ((result: R, data: D) => RouteLocationRaw) | undefined
     successMessage?: ((result: R, data: D) => string) | string
     errorMessage?: ((error: Error, data: D) => string) | string
@@ -33,7 +33,7 @@ export function useSubmitAction<D = unknown, R = unknown>(
   result: Ref<R>
   errors: Ref<ValidationErrors<D>>
 } {
-  const snackbard = useSnackbar()
+  const snackbar = useSnackbar()
   const modal = useModal()
   const router = useRouter()
 
@@ -42,7 +42,7 @@ export function useSubmitAction<D = unknown, R = unknown>(
   const errors = ref<ValidationErrors<D>>(Object.freeze({})) as Ref<ValidationErrors<D>>
 
   const submit = async (data?: D): Promise<R | undefined> => {
-    if (params.confirm) {
+    if (params.confirm && modal) {
       const confirmed = await modal.confirm(
         typeof params.confirm === 'function' ? params.confirm(data!) : params.confirm
       )
@@ -73,16 +73,18 @@ export function useSubmitAction<D = unknown, R = unknown>(
     try {
       result.value = await action(data!)
     } catch (error) {
-      snackbard.error(
-        typeof params.errorMessage === 'function'
-          ? params.errorMessage(error as Error, data!)
-          : params.errorMessage || (error as Error).message
-      )
+      if (params.errorMessage && snackbar) {
+        snackbar.error(
+          typeof params.errorMessage === 'function'
+            ? params.errorMessage(error as Error, data!)
+            : params.errorMessage || (error as Error).message
+        )
+      }
 
       isSubmitting.value = false
 
       if (params.onError) {
-        const hasErrorBeenResolved = params.onError({ error: error as Error, data: data!, router })
+        const hasErrorBeenResolved = params.onError({ error: error as Error, data: data!, router, snackbar })
 
         if (hasErrorBeenResolved) {
           return
@@ -94,15 +96,15 @@ export function useSubmitAction<D = unknown, R = unknown>(
 
     isSubmitting.value = false
 
-    if (params.successMessage) {
-      snackbard.success(
+    if (params.successMessage && snackbar) {
+      snackbar.success(
         typeof params.successMessage === 'function'
           ? params.successMessage(result.value!, data!)
           : params.successMessage
       )
     }
 
-    params.onSuccess?.({ result: result.value!, data: data!, router })
+    params.onSuccess?.({ result: result.value!, data: data!, router, snackbar })
 
     if (params.redirectOnSuccess) {
       router.push(
