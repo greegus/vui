@@ -1,12 +1,12 @@
 <template>
   <div
-    class="Input input"
+    class="Input vuiii-input"
     :class="[
       $attrs.class,
       {
-        'input--invalid': invalid,
-        'input--disabled': $attrs.disabled,
-        'input--small': size === 'small'
+        'vuiii-input--invalid': invalid,
+        'vuiii-input--disabled': $attrs.disabled,
+        'vuiii-input--small': size === 'small'
       }
     ]"
     @click="$refs.input.focus()"
@@ -21,7 +21,7 @@
       ref="input"
       :aria-label="$attrs.placeholder || 'input'"
       v-bind="normalizedAttrs"
-      class="Input__nestedInput input__nested"
+      class="Input__nestedInput vuiii-input__nested"
       :value="modelValue"
     />
 
@@ -91,7 +91,7 @@ export default defineComponent({
 })
 </script>
 
-<style lang="postcss">
+<style lang="postcss" scoped>
 .Input.Input /* Intentional selector overload */ {
   cursor: text;
   display: flex;

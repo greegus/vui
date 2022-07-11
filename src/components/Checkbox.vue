@@ -4,7 +4,7 @@
       v-show="!$props.switch"
       v-bind="normalizedAttrs"
       :checked="modelValue"
-      class="Checkbox__input input"
+      class="Checkbox__input vuiii-input"
       :required="required"
       type="checkbox"
     />
@@ -75,7 +75,7 @@ export default defineComponent({
   background: rgb(115, 115, 115) /* neutral.500 */;
 
   &--active {
-    background: var(--vui-color-primary);
+    background: var(--vuiii-color-primary);
   }
 }
 
@@ -98,6 +98,6 @@ export default defineComponent({
 
 .Checkbox__required {
   line-height: 1;
-  color: var(--vui-color-danger);
+  color: var(--vuiii-color-danger);
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <table class="table table--hover">
+  <table class="vuiii-table vuiii-table--hover">
     <thead>
       <tr>
         <th
@@ -17,7 +17,7 @@
       <tr v-for="(item, index) in items" :key="index" :class="resolveRowClass(item)">
         <td v-for="(column, key) in normalizedColumns" :key="key" :style="{ textAlign: column.align || 'left' }">
           <slot :name="key" v-bind="{ item }">
-            <router-link v-if="column.href" class="link" :to="column.href(item)">
+            <router-link v-if="column.href" class="vuiii-link" :to="column.href(item)">
               {{ formatValue(item, key) }}
             </router-link>
 

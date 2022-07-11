@@ -1,9 +1,10 @@
 <template>
   <component
     :is="component"
-    class="Button button"
-    :class="[classModifiers, { 'Button--block': block }, { 'button--disabled': $attrs.disabled }]"
-    v-bind="normalizedAttrs"
+    class="Button vuiii-button"
+    :class="[classModifiers, { 'Button--block': block }, { 'vuiii-button--disabled': $attrs.disabled }]"
+    v-bind="$attrs"
+    :type="component === 'button' ? 'button' : $attrs.type"
   >
     <slot name="prefix">
       <Icon
@@ -36,13 +37,8 @@ import '../assets/css/button.css'
 
 import { defineComponent, PropType } from 'vue'
 
+import { ButtonSize, buttonSizes, ButtonVariant, buttonVariants } from '../types'
 import Icon from './Icon.vue'
-
-const sizes = ['normal', 'small'] as const
-const variants = ['default', 'primary', 'secondary', 'danger'] as const
-
-export type Size = typeof sizes[number]
-export type Variant = typeof variants[number]
 
 export default defineComponent({
   components: {
@@ -52,15 +48,15 @@ export default defineComponent({
 
   props: {
     size: {
-      type: String as PropType<Size>,
+      type: String as PropType<ButtonSize>,
       default: 'normal',
-      validator: (value: Size) => sizes.includes(value)
+      validator: (value: ButtonSize) => buttonSizes.includes(value)
     },
 
     variant: {
-      type: String as PropType<Variant>,
+      type: String as PropType<ButtonVariant>,
       default: 'default',
-      validator: (value: Variant) => variants.includes(value)
+      validator: (value: ButtonVariant) => buttonVariants.includes(value)
     },
 
     prefixIcon: {
@@ -115,15 +111,7 @@ export default defineComponent({
         classModifiers.push('disabled')
       }
 
-      return classModifiers.map((modifier) => `button--${modifier}`)
-    },
-
-    normalizedAttrs(): object {
-      return {
-        // Sanitize attrs so the button would have attribute `type="button"` set by default
-        type: this.component === 'button' ? 'button' : undefined,
-        ...this.$attrs
-      }
+      return classModifiers.map((modifier) => `vuiii-button--${modifier}`)
     }
   }
 })

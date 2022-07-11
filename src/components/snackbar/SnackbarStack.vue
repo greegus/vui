@@ -18,27 +18,35 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-import { computed, defineEmits, PropType } from 'vue'
+<script lang="ts">
+import { defineComponent, PropType } from 'vue'
 
 import { Message } from '../../snackbar'
 import Icon from '../Icon.vue'
 
-const emit = defineEmits(['remove-message'])
+export default defineComponent({
+  components: {
+    Icon
+  },
 
-const props = defineProps({
-  messages: {
-    type: Array as PropType<Message[]>,
-    default: () => []
+  props: {
+    messages: {
+      type: Array as PropType<Message[]>,
+      default: () => []
+    }
+  },
+
+  emits: ['remove-message'],
+
+  computed: {
+    messagesInReverse(): Message[] {
+      return [...this.messages].reverse()
+    }
   }
-})
-
-const messagesInReverse = computed<Message[]>(() => {
-  return [...props.messages].reverse()
 })
 </script>
 
-<style lang="postcss">
+<style lang="postcss" scoped>
 .Snackbar {
   position: fixed;
   bottom: 0;
@@ -96,7 +104,7 @@ const messagesInReverse = computed<Message[]>(() => {
 }
 
 .Snackbar__messageBlock--error {
-  background-color: var(--vui-color-danger);
+  background-color: var(--vuiii-color-danger);
 }
 
 .Snackbar__messageClose {

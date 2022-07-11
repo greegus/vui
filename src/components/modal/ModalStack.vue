@@ -1,12 +1,12 @@
 <template>
   <div class="ModalStack">
     <transition name="ModalStack__backdrop">
-      <div v-if="props.modals.length" class="ModalStack__backdrop" />
+      <div v-if="modals.length" class="ModalStack__backdrop" />
     </transition>
 
     <transition-group name="ModalStack__modal">
       <div
-        v-for="modal in props.modals"
+        v-for="modal in modals"
         :key="modal.id"
         class="ModalStack__modalWrapper"
         @click="closeModalByBackdropClick($event, modal)"
@@ -24,73 +24,82 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-import { ComponentPublicInstance, computed, onBeforeUnmount, onMounted, PropType, ref } from 'vue'
+<script lang="ts">
+import { ComponentPublicInstance, computed, defineComponent, PropType, ref } from 'vue'
 
 import { Modal } from '@/modal'
 
-const modalInstances = ref<Record<number, ComponentPublicInstance>>({})
+export default defineComponent({
+  props: {
+    modals: {
+      type: Array as PropType<Modal[]>,
+      default: () => []
+    }
+  },
 
-const emits = defineEmits(['closeModal'])
+  emits: ['closeModal'],
 
-const props = defineProps({
-  modals: {
-    type: Array as PropType<Modal[]>,
-    default: () => []
+  data() {
+    return {
+      modalInstances: {} as Record<number, ComponentPublicInstance>,
+      registerReference(modalId: number) {
+        return (instance: ComponentPublicInstance) => (this.modalInstances[modalId] = instance)
+      }
+    }
+  },
+
+  computed: {
+    activeModal() {
+      return this.modals.length ? this.modals[this.modals.length - 1] : null
+    }
+  },
+
+  mounted() {
+    window.addEventListener('keydown', this.closeActiveModalByEscapeKey)
+  },
+
+  beforeUnmount() {
+    window.removeEventListener('keydown', this.closeActiveModalByEscapeKey)
+  },
+
+  methods: {
+    closeModal(modal: Modal, result?: any) {
+      const close = () => {
+        this.$emit('closeModal', { modal, result })
+      }
+
+      const modalRootInstance = this.modalInstances[modal.id].$el as any
+
+      if (modalRootInstance.$attrs?.onBeforeClose) {
+        ;(modalRootInstance.$attrs.onBeforeClose as any)(close)
+      } else {
+        close()
+      }
+    },
+
+    closeActiveModal() {
+      if (this.activeModal) {
+        this.closeModal(this.activeModal)
+      }
+    },
+
+    closeActiveModalByEscapeKey(e: KeyboardEvent) {
+      if (this.activeModal && e.key === 'Escape' && !e.defaultPrevented) {
+        e.preventDefault()
+        this.closeActiveModal()
+      }
+    },
+
+    closeModalByBackdropClick(e: MouseEvent, modal: Modal) {
+      if (e.target === e.currentTarget) {
+        this.closeModal(modal)
+      }
+    }
   }
-})
-
-const activeModal = computed<Modal | null>(() => {
-  return props.modals.length ? props.modals[props.modals.length - 1] : null
-})
-
-function registerReference(modalId: number) {
-  return (instance: ComponentPublicInstance) => (modalInstances.value[modalId] = instance)
-}
-
-function closeModal(modal: Modal, result?: any) {
-  const close = () => {
-    emits('closeModal', { modal, result })
-  }
-
-  const modalRootInstance = modalInstances.value[modal.id].$refs.root as any
-
-  if (modalRootInstance.$attrs?.onBeforeClose) {
-    ;(modalRootInstance.$attrs.onBeforeClose as any)(close)
-  } else {
-    close()
-  }
-}
-
-function closeActiveModal() {
-  if (activeModal.value) {
-    closeModal(activeModal.value)
-  }
-}
-
-function closeActiveModalByEscapeKey(e: KeyboardEvent) {
-  if (activeModal.value && e.key === 'Escape' && !e.defaultPrevented) {
-    e.preventDefault()
-    closeActiveModal()
-  }
-}
-
-function closeModalByBackdropClick(e: MouseEvent, modal: Modal) {
-  if (e.target === e.currentTarget) {
-    closeModal(modal)
-  }
-}
-
-onMounted(() => {
-  window.addEventListener('keydown', closeActiveModalByEscapeKey)
-})
-
-onBeforeUnmount(() => {
-  window.removeEventListener('keydown', closeActiveModalByEscapeKey)
 })
 </script>
 
-<style lang="postcss">
+<style lang="postcss" scoped>
 .ModalStack {
   position: fixed;
   z-index: 1050;

@@ -1,5 +1,5 @@
 <template>
-  <textarea v-bind="normalizedAttrs" class="Textarea input" :class="$attrs.class" :value="value" />
+  <textarea class="Textarea vuiii-input" v-bind="normalizedAttrs" />
 </template>
 
 <script lang="ts">
@@ -13,7 +13,7 @@ export default defineComponent({
   mixins: [transformInputAttrs],
 
   props: {
-    value: {
+    modelValue: {
       type: String,
       default: ''
     }

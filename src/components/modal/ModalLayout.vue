@@ -1,7 +1,7 @@
 <template>
   <div
     class="ModalLayout"
-    :class="{ hasHeader, hasFooter, isScrollable: $props.scroll, isPlain: $props.plain }"
+    :class="{ hasHeader, hasFooter, isScrollable: scroll, isPlain: plain }"
     :style="computedStyle"
   >
     <div v-if="!hideCloser" class="ModalLayout__close" @click="close()">
@@ -26,59 +26,66 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-import { computed, CSSProperties, getCurrentInstance, getCurrentScope, useAttrs, useSlots } from 'vue'
+<script lang="ts">
+import { CSSProperties, defineComponent } from 'vue'
 
 import Icon from '../Icon.vue'
 
-const slots = useSlots()
-const attrs = useAttrs()
-
-const props = defineProps({
-  title: {
-    type: String,
-    default: ''
+export default defineComponent({
+  components: {
+    Icon
   },
 
-  width: {
-    type: [Number, String],
-    default: 600
+  props: {
+    title: {
+      type: String,
+      default: ''
+    },
+
+    width: {
+      type: [Number, String],
+      default: 600
+    },
+
+    hideCloser: Boolean,
+
+    scroll: Boolean,
+
+    plain: Boolean
   },
 
-  hideCloser: Boolean,
+  computed: {
+    hasHeader(): boolean {
+      return Boolean(this.$slots.header || this.title)
+    },
 
-  scroll: Boolean,
+    hasFooter(): boolean {
+      return Boolean(this.$slots.footer)
+    },
 
-  plain: Boolean
-})
+    computedStyle(): Partial<CSSProperties> {
+      const maxWidth = this.width + (Number(this.width) ? 'px' : '')
 
-const hasHeader = computed<boolean>(() => {
-  return Boolean(slots.header || props.title)
-})
+      if (maxWidth && maxWidth !== 'auto') {
+        return {
+          width: '100%',
+          maxWidth
+        }
+      }
 
-const hasFooter = computed<boolean>(() => {
-  return Boolean(slots.footer)
-})
+      return {}
+    }
+  },
 
-const computedStyle = computed<Partial<CSSProperties>>(() => {
-  const maxWidth = props.width + (Number(props.width) ? 'px' : '')
-
-  if (maxWidth && maxWidth !== 'auto') {
-    return {
-      width: '100%',
-      maxWidth
+  methods: {
+    close() {
+      window.dispatchEvent(new KeyboardEvent('keydown', { 'key': 'Escape' }))
     }
   }
-
-  return {}
 })
-
-function close() {
-  window.dispatchEvent(new KeyboardEvent('keydown', { 'key': 'Escape' }))
-}
 </script>
 
-<style lang="postcss">
+<style lang="postcss" scoped>
 .ModalLayout {
   position: relative;
 

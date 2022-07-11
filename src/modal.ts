@@ -1,8 +1,8 @@
 import { Component, ComponentCustomProps, createApp, getCurrentInstance, h, Plugin, reactive } from 'vue'
 
-import { Variant as ButtonVariant } from './components/Button.vue'
 import ModalLayoutDialog from './components/modal/ModalLayoutDialog.vue'
 import ModalStack from './components/modal/ModalStack.vue'
+import { ButtonVariant } from './types'
 
 export type Modal = {
   id: number
@@ -186,7 +186,7 @@ export const modal: Plugin = (app, config: Config = {}) => {
       message,
       buttons: [
         {
-          variant: cancelVariant || 'secondary',
+          variant: cancelVariant,
           label: cancelLabel || '',
           icon: cancelIcon,
           value: false

@@ -8,8 +8,8 @@
           :fields="block.fields"
           :model-value="modelValue"
           :errors="errors"
-          @update:model-value="emits('update:modelValue', $event)"
-          @change="emits('change', $event)"
+          @update:model-value="$emit('update:modelValue', $event)"
+          @change="$emit('change', $event)"
         />
       </div>
 
@@ -33,70 +33,75 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-import { PropType } from 'vue'
-import { RouteLocationRaw, useRouter } from 'vue-router'
-
-import Button from './Button.vue'
-import FormFields, { FormFieldsStructure } from './FormFields.vue'
-import Icon from './Icon.vue'
-
+<script lang="ts">
 export type FormStructure<T = any> = {
   title?: string
   separator?: boolean
   fields: FormFieldsStructure<T>
 }[]
 
-const emits = defineEmits(['update:modelValue', 'change', 'submit', 'cancel'])
+import { defineComponent } from 'vue'
+import { PropType } from 'vue'
+import { RouteLocationRaw } from 'vue-router'
 
-const router = useRouter()
+import Button from './Button.vue'
+import FormFields, { FormFieldsStructure } from './FormFields.vue'
+import Icon from './Icon.vue'
 
-const props = defineProps({
-  structure: {
-    type: Object as PropType<FormStructure>,
-    default: () => ({})
+export default defineComponent({
+  components: { Button, FormFields, Icon },
+
+  props: {
+    structure: {
+      type: Object as PropType<FormStructure>,
+      default: () => ({})
+    },
+
+    modelValue: {
+      type: Object as PropType<any>,
+      default: () => undefined
+    },
+
+    errors: {
+      type: Object as PropType<Record<string, boolean | string | string[]>>,
+      default: () => ({})
+    },
+
+    submit: {
+      type: Function as PropType<(modelValue: any) => void>,
+      default: undefined
+    },
+
+    submitLabel: {
+      type: String as PropType<string>,
+      default: 'Submit'
+    },
+
+    cancel: {
+      type: [Function, Object] as PropType<(() => void) | RouteLocationRaw>,
+      default: undefined
+    },
+
+    cancelLabel: {
+      type: String as PropType<string>,
+      default: 'Cancel'
+    },
+
+    submitting: Boolean
   },
 
-  modelValue: {
-    type: Object as PropType<any>,
-    default: () => undefined
-  },
+  emits: ['update:modelValue', 'change', 'submit', 'cancel'],
 
-  errors: {
-    type: Object as PropType<Record<string, boolean | string | string[]>>,
-    default: () => ({})
-  },
+  methods: {
+    handleSubmit() {
+      this.submit?.(this.modelValue)
+    },
 
-  submit: {
-    type: Function as PropType<(modelValue: any) => void>,
-    default: undefined
-  },
-
-  submitLabel: {
-    type: String as PropType<string>,
-    default: 'Submit'
-  },
-
-  cancel: {
-    type: [Function, Object] as PropType<(() => void) | RouteLocationRaw>,
-    default: undefined
-  },
-
-  cancelLabel: {
-    type: String as PropType<string>,
-    default: 'Cancel'
-  },
-
-  submitting: Boolean
+    handleCancel() {
+      typeof this.cancel === 'function' ? this.cancel?.() : this.cancel && this.$router.push(this.cancel)
+    }
+  }
 })
-
-function handleSubmit() {
-  props.submit?.(props.modelValue)
-}
-
-function handleCancel() {
-  typeof props.cancel === 'function' ? props.cancel?.() : props.cancel && router.push(props.cancel)
-}
 </script>
 
 <style lang="postcss" scoped>

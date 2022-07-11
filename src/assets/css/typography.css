@@ -1,22 +1,22 @@
-.link {
+.vuiii-link {
   cursor: pointer;
-  color: var(--vui-color-primary);
+  color: var(--vuiii-color-primary);
   text-decoration: none;
 
   &:hover {
-    color: var(--vui-color-primary--darker);
+    color: var(--vuiii-color-primary--darker);
     text-decoration: underline;
   }
 
-  &.link--danger {
-    color: var(--vui-color-danger--darker);
+  &.vuiii-link--danger {
+    color: var(--vuiii-color-danger--darker);
 
     &:hover {
-      color: var(--vui-color-danger--darker);
+      color: var(--vuiii-color-danger--darker);
     }
   }
 }
 
-.muted {
-  color: var(--vui-color-gray-darker);
+.vuiii-muted {
+  color: var(--vuiii-color-gray-darker);
 }

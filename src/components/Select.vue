@@ -1,11 +1,11 @@
 <template>
   <select
-    class="Select input"
+    class="Select vuiii-input"
     v-bind="normalizedAttrs"
-    :class="[$attrs.class, { 'input--small': size === 'small' }]"
-    :value="value"
+    :class="[$attrs.class, { 'vuiii-input--small': size === 'small' }]"
+    :value="modelValue"
   >
-    <option v-if="placeholder" :disabled="!allowEmpty" selected :value="undefined">
+    <option v-if="placeholder" :disabled="!allowEmpty" selected value="">
       {{ placeholder }}
     </option>
 
@@ -31,7 +31,7 @@ export default defineComponent({
   mixins: [transformInputAttrs],
 
   props: {
-    value: {
+    modelValue: {
       type: [String, Number, Object],
       default: ''
     },

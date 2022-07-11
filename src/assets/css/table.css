@@ -1,9 +1,14 @@
-.table {
+.vuiii-table {
   min-width: 100%;
+  background-color: var(--vuiii-table-bgColor);
+  border: 1px solid var(--vuiii-table-borderColor, transparent);
+  border-radius: var(--vuiii-table-borderRadius, var(--vuiii-field-borderRadius));
+  shadow: var(--vuiii-table-shadow, var(--vuiii-shadow));
+  font-size: var(--vuiii-table-fontSize, inherit);
 
   & thead {
     & tr {
-      border-bottom: 1px solid var(--vui-color-gray);
+      border-bottom: 1px solid var(--vuiii-color-gray--light);
     }
 
     & th {
@@ -19,7 +24,7 @@
 
   & tbody {
     & > * + * {
-      border-top: 1px solid var(--vui-color-gray);
+      border-top: 1px solid var(--vuiii-color-gray--light);
     }
 
     & td {
@@ -27,7 +32,7 @@
     }
   }
 
-  &.table--hover tbody tr:hover td {
+  &.vuiii-table--hover tbody tr:hover td {
     background-color: rgb(0 0 0 / 0.025);
   }
 }

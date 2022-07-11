@@ -1,13 +1,27 @@
 <template>
-  <div class="CheckboxGroup">
-    <div v-for="option in normalizedOptions" :key="option.value">
-      <Checkbox
+  <div class="Radio">
+    <label
+      v-for="option in normalizedOptions"
+      :key="option.value"
+      class="Radio__option"
+      :class="{ 'Radio--disabled': option.disabled }"
+    >
+      <input
+        v-bind="normalizedAttrs"
+        :checked="modelValue === option.value"
+        class="Radio__input vuiii-input"
+        :required="required"
+        type="Radio"
+        :name="inputName"
         :disabled="option.disabled"
-        :model-value="checkedValues[option.value]"
-        :caption="option.label"
-        @update:model-value="toggleCheckedValue(option.value)"
       />
-    </div>
+
+      <div class="Radio__label">
+        <slot>
+          {{ option.label }}
+        </slot>
+      </div>
+    </label>
   </div>
 </template>
 
@@ -15,19 +29,19 @@
 import { defineComponent, PropType } from 'vue'
 
 import { Extractor, normalizeOptions, Option } from '../utils/normalizeOptions'
-import Checkbox from './Checkbox.vue'
+import { transformInputAttrs } from '../utils/transformInputAttrs'
 
-type CheckedValues = Record<Option['value'], boolean>
+let iterator = 1
 
 export default defineComponent({
-  components: {
-    Checkbox
-  },
+  mixins: [transformInputAttrs],
+
+  inheritAttrs: false,
 
   props: {
     modelValue: {
-      type: Array as PropType<Option['value'][]>,
-      default: () => []
+      type: [String, Number] as PropType<Option['value']>,
+      default: undefined
     },
 
     options: {
@@ -48,10 +62,18 @@ export default defineComponent({
     optionDisabledKey: {
       type: [Function, String, Number] as PropType<Extractor>,
       default: undefined
-    }
+    },
+
+    required: Boolean
   },
 
   emits: ['update:modelValue'],
+
+  data() {
+    return {
+      inputName: iterator++
+    }
+  },
 
   computed: {
     normalizedOptions(): Option[] {
@@ -60,40 +82,31 @@ export default defineComponent({
         label: this.optionLabelKey,
         disabled: this.optionDisabledKey
       })
-    },
-
-    checkedValues(): CheckedValues {
-      return this.modelValue.reduce(
-        (result, value) => ({
-          ...result,
-          [value]: true
-        }),
-        {}
-      )
-    }
-  },
-
-  methods: {
-    toggleCheckedValue(value: Option['value']) {
-      const checkedValues: CheckedValues = {
-        ...this.checkedValues,
-        [value]: !this.checkedValues[value]
-      }
-
-      const modelValue = Object.entries(checkedValues)
-        .filter(([_, isChecked]) => isChecked)
-        .map(([value]) => value)
-
-      this.$emit('update:modelValue', modelValue)
     }
   }
 })
 </script>
 
 <style lang="postcss" scoped>
-.CheckboxGroup {
+.Radio {
   & > * + * {
     margin-top: 0.5rem;
   }
+}
+
+.Radio__option {
+  display: flex;
+  align-items: flex-start;
+  vertical-align: top;
+  cursor: pointer;
+}
+
+.Radio__input {
+  margin-top: 1px;
+}
+
+.Radio__label {
+  margin-left: 0.5rem;
+  line-height: 1.375;
 }
 </style>

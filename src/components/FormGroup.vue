@@ -78,10 +78,10 @@ export default defineComponent({
 }
 
 .FormGroup--invalid {
-  &:deep() .input,
-  &:deep() .input:hover {
-    --borderColor: var(--vui-field-borderColor--invalid, rgb(190 18 60) /* rose.700 */);
-    --ringColor: var(--vui-field-ringColor--invalid, rgb(225 29 72/0.2) /* rose.600 */);
+  &:deep() .vuiii-input,
+  &:deep() .vuiii-input:hover {
+    --borderColor: var(--vuiii-field-borderColor--invalid);
+    --ringColor: var(--vuiii-field-ringColor--invalid, rgb(225 29 72/0.2) /* rose.600 */);
   }
 }
 
@@ -101,7 +101,7 @@ export default defineComponent({
 
 .FormGroup__required {
   line-height: 1;
-  color: var(--vui-color-danger);
+  color: var(--vuiii-color-danger);
 }
 
 .FormGroup__description {
@@ -122,6 +122,6 @@ export default defineComponent({
   font-size: 0.8rem;
   margin-top: 0.5rem;
   max-width: 48rem; /* max-w-3xl */
-  color: var(--vui-color-danger);
+  color: var(--vuiii-color-danger);
 }
 </style>

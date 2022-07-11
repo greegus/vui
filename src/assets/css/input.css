@@ -1,71 +1,71 @@
-.input {
-    --bgColor: var(--vui-input-bgColor, white);
-    --borderRadus: var(--vui-input-borderRadius, var(--vui-field-borderRadius));
-    --borderWidth: var(--vui-input-borderWidth, 1px);
-    --borderColor: var(--vui-input-borderColor, var(--vui-color-gray));
-    --height: var(--vui-input-height, var(--vui-field-height));
-    --padding: var(--vui-input-padding, 1rem);
-    --fontSize: var(--vui-input-fontSize, var(--vui-field-fontSize));
-    --transition: var(--vui-input-transition, var(--vui-field-transition));
-    --shadow: var(--vui-input-shadow, var(--vui-field-shadow));
-    --ringColor: var(--vui-input-ringColor, var(--vui-field-ringColor));
+.vuiii-input {
+    --bgColor: var(--vuiii-input-bgColor, white);
+    --borderRadus: var(--vuiii-input-borderRadius, var(--vuiii-field-borderRadius));
+    --borderWidth: var(--vuiii-input-borderWidth, 1px);
+    --borderColor: var(--vuiii-input-borderColor, var(--vuiii-color-gray));
+    --height: var(--vuiii-input-height, var(--vuiii-field-height));
+    --padding: var(--vuiii-input-padding, 1rem);
+    --fontSize: var(--vuiii-input-fontSize, var(--vuiii-field-fontSize));
+    --transition: var(--vuiii-input-transition, var(--vuiii-field-transition));
+    --shadow: var(--vuiii-input-shadow, 0 0);
+    --ringColor: var(--vuiii-input-ringColor, var(--vuiii-field-ringColor));
     --ringSize: 0;
 
     width: 100%;
     background-color: var(--bgColor);
     border: var(--borderWidth) solid var(--borderColor);
     border-radius: var(--borderRadus);
-    padding: 0 var(--padding);
+    padding-left: var(--padding);
+    padding-right: var(--padding);
     min-height: var(--height);
     font-size: var(--fontSize);
     transition: var(--transition);
     box-shadow: 0 0 0 var(--ringSize) var(--ringColor), var(--shadow);
 
     &::placeholder {
-      color: var(--vui-input-placeholderColor, var(--vui-color-gray--dark))
+      color: var(--vuiii-input-placeholderColor, var(--vuiii-color-gray--dark))
     }
 
     &:focus,
     &:focus-within {
-      --shadow: var(--vui-input-shadow--focus, var(--vui-field-shadow--focus, var(--vui-input-shadow, var(--vui-field-shadow))));
-      --ringSize: var(--vui-input-ringSize, var(--vui-field-ringSize));
-      --borderColor: var(--vui-input-borderColor--focus, var(--vui-field-borderColor--focus, var(--vui-input-borderColor, var(--vui-color-gray))));
-      --bgColor: var(--vui-input-bgColor--focus, var(--vui-input-bgColor, white));
+      --ringSize: var(--vuiii-input-ringSize, var(--vuiii-field-ringSize));
+      --borderColor: var(--vuiii-input-borderColor--focus, var(--vuiii-field-borderColor--focus, var(--vuiii-input-borderColor, var(--vuiii-color-gray))));
+      --bgColor: var(--vuiii-input-bgColor--focus, var(--vuiii-input-bgColor, white));
 
       outline: none;
     }
 
     &:disabled,
-    &.input--disabled {
-      --borderColor: var(--vui-color-gray--light);
+    &.vuiii-input--disabled {
+      --borderColor: var(--vuiii-color-gray--light);
 
       opacity: 0.6;
       pointer-events: none;
     }
 
-    &.input--small {
-      --height: var(--vui-input-height--small, var(--vui-field-height--small));
-      --fontSize: var(--vui-input-fontSize--small, var(--vui-field-fontSize--small));
+    &.vuiii-input--small {
+      --height: var(--vuiii-input-height--small, var(--vuiii-field-height--small));
+      --fontSize: var(--vuiii-input-fontSize--small, var(--vuiii-field-fontSize--small));
 
       &:focus,
       &:focus-within {
-          --ringSize: var(--vui-field-ringSize--small);
+          --ringSize: var(--vuiii-field-ringSize--small);
       }
     }
 
-    &.input--valid {
-      color: var(--vui-color-success);
+    &.vuiii-input--valid {
+      color: var(--vuiii-color-success);
       background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='%2356B981' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-position: right calc(.415em + .25rem) center;
       background-size: calc(.83em + .5rem) calc(.83em + .5rem);
     }
 
-    &.input--invalid {
-      --borderColor: var(--vui-color-danger);
-      --ringColor: var(--vui-color-danger-shadow);
+    &.vuiii-input--invalid {
+      --borderColor: var(--vuiii-color-danger);
+      --ringColor: var(--vuiii-color-danger-shadow);
 
-      color: var(--vui-color-success);
+      color: var(--vuiii-color-success);
       background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23dc3545' viewBox='-2 -2 7 7'%3E%3Cpath stroke='%23dc3545' d='M0 0l3 3m0-3L0 3'/%3E%3Ccircle r='.5'/%3E%3Ccircle cx='3' r='.5'/%3E%3Ccircle cy='3' r='.5'/%3E%3Ccircle cx='3' cy='3' r='.5'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-position: right calc(.415em + .25rem) center;
@@ -77,8 +77,8 @@
       }
     }
 
-    /* nested <input> inside class .input */
-    & .input__nested {
+    /* nested <input> inside class .vuiii-input */
+    & .vuiii-input__nested {
       padding: 0 var(--padding);
       line-height: 1;
       background: transparent;
@@ -89,14 +89,14 @@
       cursor: inherit;
 
       &::placeholder {
-        color: var(--vui-color-gray--dark)
+        color: var(--vuiii-color-gray--dark)
       }
     }
   }
 
   /* select */
 
-  select.input {
+  select.vuiii-input {
     padding-right: 2.5rem;
     appearance: none;
     background-repeat: no-repeat;
@@ -111,14 +111,14 @@
     }
   }
 
-  select.input.input--small {
+  select.vuiii-input.vuiii-input--small {
     padding-right: 2rem;
     background-size: 1rem;
   }
 
   /* number */
 
-  input[type=number].input {
+  input[type=number].vuiii-input {
     -moz-appearance: textfield;
 
     &::-webkit-outer-spin-button,
@@ -129,8 +129,8 @@
 
   /* checkbox and radio */
 
-  input[type=checkbox].input,
-  input[type=radio].input {
+  input[type=checkbox].vuiii-input,
+  input[type=radio].vuiii-input {
     appearance: none;
     width: 1.25rem;
     height: 1.25rem;
@@ -143,8 +143,8 @@
     &:checked {
       background-repeat: no-repeat;
       background-position: center;
-      background-color: var(--vui-color-primary);
-      border-color: var(--vui-color-primary);
+      background-color: var(--vuiii-color-primary);
+      border-color: var(--vuiii-color-primary);
     }
 
     &:disabled {
@@ -152,7 +152,7 @@
     }
   }
 
-  input[type=checkbox].input {
+  input[type=checkbox].vuiii-input {
     border-radius: 0.25rem;
 
     &:checked {
@@ -161,7 +161,7 @@
     }
   }
 
-  input[type=radio].input {
+  input[type=radio].vuiii-input {
     border-radius: 100%;
 
     &:checked {
@@ -172,7 +172,7 @@
 
   /* textarea */
 
-  textarea.input {
+  textarea.vuiii-input {
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
     vertical-align: middle;

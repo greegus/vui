@@ -1,6 +1,6 @@
 {
   "name": "vuiii",
-  "version": "0.1.6-alpha",
+  "version": "0.1.7-alpha",
   "scripts": {
     "dev": "vite",
     "build": "vite build && vue-tsc --emitDeclarationOnly --declaration",

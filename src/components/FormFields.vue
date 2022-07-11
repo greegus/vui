@@ -19,8 +19,8 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-import { AsyncComponentLoader, Component, PropType } from 'vue'
+<script lang="ts">
+import { AsyncComponentLoader, Component, defineComponent, PropType } from 'vue'
 
 import FormGroup from './FormGroup.vue'
 
@@ -41,37 +41,41 @@ export type FormField = {
 
 export type FormFieldsStructure<T extends any = any> = Record<keyof T | string, FormField>
 
-const emits = defineEmits(['update:modelValue'])
+export default defineComponent({
+  props: {
+    fields: {
+      type: Object as PropType<FormFieldsStructure>,
+      default: () => ({})
+    },
 
-const props = defineProps({
-  fields: {
-    type: Object as PropType<FormFieldsStructure>,
-    default: () => ({})
+    modelValue: {
+      type: Object as PropType<any>,
+      default: () => ({})
+    },
+
+    errors: {
+      type: Object as PropType<Record<string, boolean | string | string[]>>,
+      default: () => ({})
+    }
   },
 
-  modelValue: {
-    type: Object as PropType<any>,
-    default: () => ({})
-  },
+  emits: ['update:modelValue'],
 
-  errors: {
-    type: Object as PropType<Record<string, boolean | string | string[]>>,
-    default: () => ({})
+  methods: {
+    getFieldValue(name: string): unknown {
+      const getter = this.fields[name].value?.getter || ((modelValue) => modelValue[name])
+
+      return getter(this.modelValue)
+    },
+
+    setFieldValue(name: string, value: unknown): void {
+      const setter = this.fields[name].value?.setter || ((value, modelValue) => ({ ...modelValue, [name]: value }))
+      const modelValue = setter(value, this.modelValue)
+
+      this.$emit('update:modelValue', modelValue)
+    }
   }
 })
-
-function getFieldValue(name: string): unknown {
-  const getter = props.fields[name].value?.getter || ((modelValue) => modelValue[name])
-
-  return getter(props.modelValue)
-}
-
-function setFieldValue(name: string, value: unknown): void {
-  const setter = props.fields[name].value?.setter || ((value, modelValue) => ({ ...modelValue, [name]: value }))
-  const modelValue = setter(value, props.modelValue)
-
-  emits('update:modelValue', modelValue)
-}
 </script>
 
 <style lang="postcss" scoped>

@@ -1,10 +1,12 @@
 <template>
-  <ModalLayout ref="root" class="ModalLayoutDialog" width="480" :title="$props.title">
-    {{ $props.message }}
+  <ModalLayout class="ModalLayoutDialog" width="480" :title="title">
+    <div class="ModalLayoutDialog__message" :class="{ 'ModalLayoutDialog__message--offset': !title }">
+      {{ message }}
+    </div>
 
-    <template v-if="$props.buttons?.length" #footer>
+    <template v-if="buttons?.length" #footer>
       <div class="ModalLayoutDialog__buttons">
-        <span v-for="(button, $index) in $props.buttons" :key="$index" class="ModalLayoutDialog__buttonWrapper">
+        <span v-for="(button, $index) in buttons" :key="$index" class="ModalLayoutDialog__buttonWrapper">
           <Button
             type="button"
             :variant="button.variant"
@@ -20,34 +22,41 @@
   </ModalLayout>
 </template>
 
-<script lang="ts" setup>
-import { PropType } from 'vue'
+<script lang="ts">
+import { defineComponent, PropType } from 'vue'
 
 import { ButtonOptions } from '../../modal'
 import Button from '../Button.vue'
 import ModalLayout from './ModalLayout.vue'
 
-defineEmits(['close'])
-
-const props = defineProps({
-  title: {
-    type: String,
-    default: ''
+export default defineComponent({
+  components: {
+    ModalLayout,
+    Button
   },
 
-  message: {
-    type: String,
-    default: ''
+  props: {
+    title: {
+      type: String,
+      default: ''
+    },
+
+    message: {
+      type: String,
+      default: ''
+    },
+
+    buttons: {
+      type: Array as PropType<ButtonOptions[]>,
+      default: () => []
+    }
   },
 
-  buttons: {
-    type: Array as PropType<ButtonOptions[]>,
-    default: () => []
-  }
+  emits: ['close']
 })
 </script>
 
-<style lang="postcss">
+<style lang="postcss" scoped>
 .ModalLayoutDialog__buttons {
   display: flex;
   align-items: center;
@@ -57,5 +66,9 @@ const props = defineProps({
   & > * + * {
     margin-left: 0.5rem;
   }
+}
+
+.ModalLayoutDialog__message--offset {
+  padding-right: 2.5rem;
 }
 </style>
