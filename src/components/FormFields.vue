@@ -42,6 +42,10 @@ export type FormField = {
 export type FormFieldsStructure<T extends any = any> = Record<keyof T | string, FormField>
 
 export default defineComponent({
+  components: {
+    FormGroup
+  },
+
   props: {
     fields: {
       type: Object as PropType<FormFieldsStructure>,
