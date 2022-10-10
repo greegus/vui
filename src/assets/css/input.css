@@ -1,4 +1,5 @@
 .vuiii-input {
+    --textColor: var(--vuiii-input-textColor, inherit);
     --bgColor: var(--vuiii-input-bgColor, white);
     --borderRadus: var(--vuiii-input-borderRadius, var(--vuiii-field-borderRadius));
     --borderWidth: var(--vuiii-input-borderWidth, 1px);
@@ -12,6 +13,7 @@
     --ringSize: 0;
 
     width: 100%;
+    color: var(--textColor);
     background-color: var(--bgColor);
     border: var(--borderWidth) solid var(--borderColor);
     border-radius: var(--borderRadus);
@@ -79,6 +81,7 @@
 
     /* nested <input> inside class .vuiii-input */
     & .vuiii-input__nested {
+      color: inherit;
       padding: 0 var(--padding);
       line-height: 1;
       background: transparent;
