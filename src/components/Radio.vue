@@ -8,6 +8,7 @@
     >
       <input
         v-bind="normalizedAttrs"
+        :value="option.value"
         :checked="modelValue === option.value"
         class="Radio__input vuiii-input"
         :required="required"
@@ -71,7 +72,7 @@ export default defineComponent({
 
   data() {
     return {
-      inputName: iterator++
+      inputName: 'vuiii-radio-input-' + iterator++
     }
   },
 
