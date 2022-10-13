@@ -38,7 +38,7 @@ export default defineComponent({
 
     options: {
       type: [Array, Object],
-      required: true
+      default: () => []
     },
 
     optionLabelKey: {
