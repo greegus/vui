@@ -33,6 +33,7 @@
       --ringSize: var(--vuiii-input-ringSize, var(--vuiii-field-ringSize));
       --borderColor: var(--vuiii-input-borderColor--focus, var(--vuiii-field-borderColor--focus, var(--vuiii-input-borderColor, var(--vuiii-color-gray))));
       --bgColor: var(--vuiii-input-bgColor--focus, var(--vuiii-input-bgColor, white));
+      --shadow: var(--vuiii-input-shadow--focus, var(--vuiii-input-shadow, 0 0));
 
       outline: none;
     }
