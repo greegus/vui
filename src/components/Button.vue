@@ -4,7 +4,7 @@
     class="Button vuiii-button"
     :class="[classModifiers, { 'Button--block': block }, { 'vuiii-button--disabled': $attrs.disabled }]"
     v-bind="$attrs"
-    :type="component === 'button' ? 'button' : $attrs.type"
+    :type="$attrs.type || (component === 'button' ? 'button' : undefined)"
   >
     <slot name="prefix">
       <Icon
@@ -44,6 +44,7 @@ export default defineComponent({
   components: {
     Icon
   },
+
   inheritAttrs: false,
 
   props: {
