@@ -4,7 +4,7 @@ import { Router } from 'vue-router'
 import { useSubmitAction } from './useSubmitAction'
 
 export const useLoadData = <D = unknown, P = unknown>(
-  source: (params: P) => D | Promise<D>,
+  source: (params?: P) => D | Promise<D>,
   options: {
     onSuccess?: ({ data, params, router }: { data: D; params: P; router: Router }) => void
     onError?: ({ error, params, router }: { error: Error; params: P; router: Router }) => boolean | void
@@ -13,7 +13,7 @@ export const useLoadData = <D = unknown, P = unknown>(
     immediate?: boolean
   } = {}
 ): {
-  load: () => Promise<D>
+  load: (params?: P) => Promise<D>
   isLoading: Ref<boolean>
   data: Ref<D>
 } => {
