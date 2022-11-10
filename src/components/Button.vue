@@ -2,140 +2,68 @@
   <component
     :is="component"
     class="Button vuiii-button"
-    :class="[classModifiers, { 'Button--block': block }, { 'vuiii-button--disabled': $attrs.disabled }]"
+    :class="{
+      [`vuiii-button--${$props.variant}`]: $props.variant,
+      [`vuiii-button--${$props.size}`]: $props.size,
+      'vuiii-button--disabled': $props.loading || $attrs.disabled,
+      'vuiii-button--loading': $props.loading,
+      'vuiii-button--active': $props.active,
+      'vuiii-button--block': $props.block
+    }"
     v-bind="$attrs"
     :type="$attrs.type || (component === 'button' ? 'button' : undefined)"
   >
     <slot name="prefix">
       <Icon
-        v-if="prefixIcon && !loading"
-        class="Button__icon Button__icon--prefix"
-        :class="[`Button__icon--${size}`]"
-        :name="prefixIcon"
+        v-if="$props.prefixIcon && !$props.loading"
+        class="vuiii-button__icon vuiii-button__icon--prefix"
+        :name="$props.prefixIcon"
       />
     </slot>
 
-    <Icon v-if="loading" class="Button__icon Button__icon--prefix" :class="[`Button__icon--${size}`]" name="spinner" />
+    <Icon v-if="$props.loading" class="vuiii-button__icon vuiii-button__icon--prefix" name="spinner" />
 
-    <span v-if="$slots.default || label">
-      <slot>{{ label }}</slot>
+    <span v-if="$slots.default || $props.label">
+      <slot>{{ $props.label }}</slot>
     </span>
 
     <slot name="suffix">
-      <Icon
-        v-if="suffixIcon"
-        class="Button__icon Button__icon--suffix"
-        :class="[`Button__icon--${size}`]"
-        :name="suffixIcon"
-      />
+      <Icon v-if="$props.suffixIcon" class="vuiii-button__icon vuiii-button__icon--suffix" :name="$props.suffixIcon" />
     </slot>
   </component>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import '../assets/css/button.css'
 
-import { defineComponent, PropType } from 'vue'
+import { computed } from 'vue'
+import { useAttrs } from 'vue'
 
-import { ButtonSize, buttonSizes, ButtonVariant, buttonVariants } from '../types'
+import { ButtonSize, ButtonVariant } from '../types'
 import Icon from './Icon.vue'
 
-export default defineComponent({
-  components: {
-    Icon
-  },
+defineProps<{
+  size?: ButtonSize
+  variant?: ButtonVariant
+  prefixIcon?: string
+  suffixIcon?: string
+  label?: string
+  block?: boolean
+  loading?: boolean
+  active?: boolean
+}>()
 
-  inheritAttrs: false,
+const attrs = useAttrs()
 
-  props: {
-    size: {
-      type: String as PropType<ButtonSize>,
-      default: 'normal',
-      validator: (value: ButtonSize) => buttonSizes.includes(value)
-    },
-
-    variant: {
-      type: String as PropType<ButtonVariant>,
-      default: 'default',
-      validator: (value: ButtonVariant) => buttonVariants.includes(value)
-    },
-
-    prefixIcon: {
-      type: String,
-      default: ''
-    },
-
-    suffixIcon: {
-      type: String,
-      default: ''
-    },
-
-    label: {
-      type: String,
-      default: ''
-    },
-
-    active: Boolean,
-
-    loading: Boolean,
-
-    block: Boolean,
-
-    disabled: Boolean
-  },
-
-  computed: {
-    component(): string {
-      if (this.$attrs.to) {
-        return 'router-link'
-      }
-
-      if (this.$attrs.href) {
-        return 'a'
-      }
-
-      return 'button'
-    },
-
-    classModifiers() {
-      const classModifiers: any[] = [this.size, this.variant]
-
-      if (this.active) {
-        classModifiers.push('active')
-      }
-
-      if (this.loading) {
-        classModifiers.push('loading')
-      }
-
-      if (this.disabled) {
-        classModifiers.push('disabled')
-      }
-
-      return classModifiers.map((modifier) => `vuiii-button--${modifier}`)
-    }
+const component = computed<string>(() => {
+  if (attrs.to) {
+    return 'router-link'
   }
+
+  if (attrs.href) {
+    return 'a'
+  }
+
+  return 'button'
 })
 </script>
-
-<style lang="postcss" scoped>
-.Button--block {
-  width: 100%;
-}
-
-.Button__icon--small {
-  width: 0.75rem;
-}
-
-.Button__icon--normal {
-  width: 1.35rem;
-}
-
-.Button__icon--prefix.Button__icon--normal {
-  margin-left: -0.125rem;
-}
-
-.Button__icon--suffix.Button__icon--normal {
-  margin-right: -0.125rem;
-}
-</style>

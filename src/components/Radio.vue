@@ -12,7 +12,7 @@
         :checked="modelValue === option.value"
         class="Radio__input vuiii-input"
         :required="required"
-        type="Radio"
+        type="radio"
         :name="inputName"
         :disabled="option.disabled"
       />

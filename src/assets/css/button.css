@@ -40,38 +40,44 @@
 
   /* States */
 
-  &:focus:not(:disabled) {
+  &:focus:not(:disabled):not(.vuiii-button--disabled) {
     --borderColor: var(--vuiii-button-borderColor--focus, var(--vuiii-button-borderColor, transparent));
     --bgColor: var(--vuiii-button-bgColor--focus, var(--vuiii-button-bgColor, transparent));
     --textColor: var(--vuiii-button-textColor--hover, var(--vuiii-button-textColor, black));
     --ringSize: var(--vuiii-button-ringSize, var(--vuiii-field-ringSize));
   }
 
-  &:hover:not(:disabled) {
+  &:hover:not(:disabled):not(.vuiii-button--disabled) {
     --borderColor: var(--vuiii-button-borderColor--hover, var(--vuiii-button-borderColor, transparent));
     --bgColor: var(--vuiii-button-bgColor--hover, var(--vuiii-button-bgColor, transparent));
     --textColor: var(--vuiii-button-textColor--hover, var(--vuiii-button-textColor, black));
   }
 
-  &&:disabled {
+  &&:disabled,
+  &.vuiii-button--disabled {
     pointer-events: none;
-    opacity: var(--vuiii-button-opacity--disabled, var(--vuiii-field-opacity--disabled, 0.75));
-
-    --borderColor: var(--vuiii-button-borderColor--disabled, var(--vuiii-button-borderColor, transparent));
-    --bgColor: var(--vuiii-button-bgColor--disabled, var(--vuiii-button-bgColor, transparent));
-    --textColor: var(--vuiii-button-textColor--disabled, var(--vuiii-button-textColor, black));
+    opacity: var(--vuiii-button-opacity--disabled, var(--vuiii-field-opacity--disabled, 0.5));
   }
 
   /* Sizes */
 
   &.vuiii-button--small {
-    --gap: 0.25rem;
-    --height: var(--vuiii-button-height--small, var(--vuiii-field-height--small));
-    --padding: var(--vuiii-button-padding--small, var(--vuiii-field-padding--small));
-    --fontSize: var(--vuiii-button-fontSize--small, var(--vuiii-field-fontSize--small));
+    --gap: 0.5rem;
+    --height: var(
+      --vuiii-button-height--small,
+      var(--vuiii-button-height, var(--vuiii-field-height--small, var(--vuiii-field-height)))
+    );
+    --padding: var(
+      --vuiii-button-padding--small,
+      var(--vuiii-button-padding, var(--vuiii-field-padding--small, var(--vuiii-field-padding)))
+    );
+    --fontSize: var(
+      --vuiii-button-fontSize--small,
+      var(--vuiii-button-fontSize, var(--vuiii-field-fontSize--small, var(--vuiii-field-fontSize)))
+    );
     --borderRadius: var(
       --vuiii-button-borderRadius--small,
-      var(--vuiii-field-borderRadius--small, var(--vuiii-field-borderRadius))
+      var(--vuiii-button-borderRadius, var(--vuiii-field-borderRadius--small, var(--vuiii-field-borderRadius)))
     );
 
     &:focus:not(:disabled) {
@@ -81,26 +87,41 @@
 
   &.vuiii-button--large {
     --gap: 0.75rem;
-    --height: var(--vuiii-button-height--large, var(--vuiii-field-height--large));
-    --padding: var(--vuiii-button-padding--large, var(--vuiii-field-padding--large));
-    --fontSize: var(--vuiii-button-fontSize--large, var(--vuiii-field-fontSize--large));
+    --height: var(
+      --vuiii-button-height--large,
+      var(--vuiii-button-height, var(--vuiii-field-height--large, var(--vuiii-field-height)))
+    );
+    --padding: var(
+      --vuiii-button-padding--large,
+      var(--vuiii-button-padding, var(--vuiii-field-padding--large, var(--vuiii-field-padding)))
+    );
+    --fontSize: var(
+      --vuiii-button-fontSize--large,
+      var(--vuiii-button-fontSize, var(--vuiii-field-fontSize--large, var(--vuiii-field-fontSize)))
+    );
     --borderRadius: var(
       --vuiii-button-borderRadius--large,
-      var(--vuiii-field-borderRadius--large, var(--vuiii-field-borderRadius))
+      var(--vuiii-button-borderRadius, var(--vuiii-field-borderRadius--large, var(--vuiii-field-borderRadius)))
     );
   }
 
   &.vuiii-button--xlarge {
     --gap: 1rem;
-    --height: var(--vuiii-button-height--xlarge, var(--vuiii-field-height--xlarge));
-    --padding: var(--vuiii-button-padding--xlarge, var(--vuiii-field-padding--xlarge));
-    --fontSize: var(--vuiii-button-fontSize--xlarge, var(--vuiii-field-fontSize--xlarge));
+    --height: var(
+      --vuiii-button-height--xlarge,
+      var(--vuiii-button-height, var(--vuiii-field-height--xlarge, var(--vuiii-field-height)))
+    );
+    --padding: var(
+      --vuiii-button-padding--xlarge,
+      var(--vuiii-button-padding, var(--vuiii-field-padding--xlarge, var(--vuiii-field-padding)))
+    );
+    --fontSize: var(
+      --vuiii-button-fontSize--xlarge,
+      var(--vuiii-button-fontSize, var(--vuiii-field-fontSize--xlarge, var(--vuiii-field-fontSize)))
+    );
     --borderRadius: var(
       --vuiii-button-borderRadius--xlarge,
-      var(
-        --vuiii-button-borderRadius--large,
-        var(--vuiii-field-borderRadius--xlarge, var(--vuiii-field-borderRadius--large))
-      )
+      var(--vuiii-button-borderRadius, var(--vuiii-field-borderRadius--xlarge, var(--vuiii-field-borderRadius)))
     );
   }
 
@@ -109,18 +130,12 @@
   &.vuiii-button--primary {
     --bgColor: var(--vuiii-button-bgColor--primary, var(--vuiii-color-primary));
     --borderColor: var(--vuiii-button-borderColor--primary, transparent);
-    --borderWidth: var(
-      --vuiii-button-borderWidth--primary,
-      var(--vuiii-button-borderWidth, var(--vuiii-field-borderWidth))
-    );
+    --borderWidth: var(--vuiii-button-borderWidth--primary, var(--vuiii-button-borderWidth, var(--vuiii-field-borderWidth)));
     --textColor: var(--vuiii-button-textColor--primary, white);
     --ringColor: var(--vuiii-button-ringColor--primary, var(--vuiii-color-primary-shadow));
 
     &:focus:not(:disabled) {
-      --bgColor: var(
-        --vuiii-button-bgColor--primary--focus,
-        var(--vuiii-button-bgColor--primary, var(--vuiii-color-primary))
-      );
+      --bgColor: var(--vuiii-button-bgColor--primary--focus, var(--vuiii-button-bgColor--primary, var(--vuiii-color-primary)));
       --borderColor: var(
         --vuiii-button-borderColor--primary--focus,
         var(--vuiii-button-borderColor--primary, var(--vuiii-color-primary--darker, transparent))
@@ -145,10 +160,7 @@
   &.vuiii-button--secondary {
     --bgColor: var(--vuiii-button-bgColor--secondary, var(--vuiii-color-secondary));
     --borderColor: var(--vuiii-button-borderColor--secondary, transparent);
-    --borderWidth: var(
-      --vuiii-button-borderWidth--secondary,
-      var(--vuiii-button-borderWidth, var(--vuiii-field-borderWidth))
-    );
+    --borderWidth: var(--vuiii-button-borderWidth--secondary, var(--vuiii-button-borderWidth, var(--vuiii-field-borderWidth)));
     --textColor: var(--vuiii-button-textColor--secondary, black);
     --ringColor: var(--vuiii-button-ringColor--secondary, var(--vuiii-color-secondary-shadow));
 
@@ -179,33 +191,21 @@
   }
 
   &.vuiii-button--danger {
-    --bgColor: var(--vuiii-button-bgColor--danger, var(--vuiii-color-danger));
-    --borderColor: var(--vuiii-button-borderColor--danger, transparent);
-    --textColor: var(--vuiii-button-textColor--danger, white);
+    --bgColor: var(--vuiii-button-bgColor--danger, transparent);
+    --borderColor: var(--vuiii-button-borderColor--danger, var(--vuiii-color-danger));
+    --textColor: var(--vuiii-button-textColor--danger, var(--vuiii-color-danger));
     --ringColor: var(--vuiii-button-ringColor--danger, var(--vuiii-color-danger-shadow));
 
     &:focus:not(:disabled) {
-      --bgColor: var(
-        --vuiii-button-bgColor--danger--focus,
-        var(--vuiii-button-bgColor--danger, var(--vuiii-color-danger))
-      );
-      --borderColor: var(
-        --vuiii-button-borderColor--danger--focus,
-        var(--vuiii-button-borderColor--danger, transparent)
-      );
+      --bgColor: var(--vuiii-button-bgColor--danger--focus, var(--vuiii-button-bgColor--danger, var(--vuiii-color-danger)));
+      --borderColor: var(--vuiii-button-borderColor--danger--focus, var(--vuiii-button-borderColor--danger, transparent));
       --textColor: var(--vuiii-button-textColor--danger--focus, var(--vuiii-button-textColor--danger, white));
     }
 
     &:hover:not(:disabled),
     &.vuiii-button--active:not(:disabled) {
-      --bgColor: var(
-        --vuiii-button-bgColor--danger--hover,
-        var(--vuiii-button-bgColor--danger, var(--vuiii-color-danger--darker))
-      );
-      --borderColor: var(
-        --vuiii-button-borderColor--danger--hover,
-        var(--vuiii-button-borderColor--danger, transparent)
-      );
+      --bgColor: var(--vuiii-button-bgColor--danger--hover, var(--vuiii-button-bgColor--danger, var(--vuiii-color-danger)));
+      --borderColor: var(--vuiii-button-borderColor--danger--hover, var(--vuiii-button-borderColor--danger, transparent));
       --textColor: var(--vuiii-button-textColor--danger--hover, var(--vuiii-button-textColor--danger, white));
     }
   }
@@ -219,8 +219,8 @@
     &:hover:not(:disabled),
     &:focus:not(:disabled) {
       --ringSize: 0;
+      --bgColor: white;
       --textColor: black;
-      --bgColor: rgba(39, 41, 55, 0.05);
     }
   }
 
@@ -230,9 +230,36 @@
 
     &:hover:not(:disabled),
     &:focus:not(:disabled) {
-      --ringColor: rgba(39, 41, 55, 0.05);
-      --textColor: white;
+      --ringSize: 0;
       --bgColor: black;
+      --textColor: white;
     }
   }
+
+  &.vuiii-button--block {
+    width: 100%;
+  }
+
+}
+
+/* Increase specificity of the icon to ovveride default sizing */
+.vuiii-button__icon,
+.vuiii-button__icon.vuiii-button__icon {
+  width: 1.25rem;
+
+  @nest .vuiii-button--small & {
+    width: 0.75rem;
+  }
+
+  @nest .vuiii-button--large & {
+    width: 1.35rem;
+  }
+}
+
+.vuiii-button__icon--prefix {
+  margin-left: -0.125rem;
+}
+
+.vuiii-button__icon--suffix {
+  margin-right: -0.125rem;
 }
