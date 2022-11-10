@@ -1,184 +1,238 @@
 @import './common.css';
 
 .vuiii-button {
-    --bgColor: var(--vuiii-button-bgColor, transparent);
-    --borderColor: var(--vuiii-button-borderColor, transparent);
-    --textColor: var(--vuiii-button-textColor, black);
-    --borderRadius: var(--vuiii-button-borderRadius, var(--vuiii-field-borderRadius));
-    --borderWidth: var(--vuiii-button-borderWidth, var(--vuiii-field-borderWidth));
-    --height: var(--vuiii-button-height, var(--vuiii-field-height));
-    --padding: var(--vuiii-button-padding, var(--vuiii-field-padding));
-    --fontSize: var(--vuiii-button-fontSize, var(--vuiii-field-fontSize));
-    --fontWeight: var(--vuiii-button-fontWeight, 600);
-    --shadow: var(--vuiii-button-shadow, 0 0);
-    --transition: var(--vuiii-button-transition, var(--vuiii-field-transition, none));
-    --ringColor: var(--vuiii-button-ringColor, rgb(0 0 0/0.05));
-    --gap: 0.5rem;
-    --ringSize: 0;
+  --bgColor: var(--vuiii-button-bgColor, transparent);
+  --borderColor: var(--vuiii-button-borderColor, transparent);
+  --textColor: var(--vuiii-button-textColor, black);
+  --borderRadius: var(--vuiii-button-borderRadius, var(--vuiii-field-borderRadius));
+  --borderWidth: var(--vuiii-button-borderWidth, var(--vuiii-field-borderWidth));
+  --height: var(--vuiii-button-height, var(--vuiii-field-height));
+  --padding: var(--vuiii-button-padding, var(--vuiii-field-padding));
+  --fontSize: var(--vuiii-button-fontSize, var(--vuiii-field-fontSize));
+  --fontWeight: var(--vuiii-button-fontWeight, 600);
+  --shadow: var(--vuiii-button-shadow, 0 0);
+  --transition: var(--vuiii-button-transition, var(--vuiii-field-transition, none));
+  --ringColor: var(--vuiii-button-ringColor, rgb(0 0 0/0.05));
+  --gap: 0.5rem;
+  --ringSize: 0;
 
-    appearance: none;
-    display: inline-flex;
-    gap: var(--gap);
-    align-items: center;
-    align-self: center;
-    justify-content: center;
-    padding: 0 var(--padding);
-    min-height: var(--height);
-    cursor: pointer;
-    font-size: var(--fontSize, inherit);
-    font-weight: var(--fontWeight, normal);
-    font-family: var(--fontFamily, inherit);
-    outline: none;
-    user-select: none;
-    border-radius: var(--borderRadius);
-    box-shadow: 0 0 0 var(--ringSize) var(--ringColor), var(--shadow);
-    transition: var(--transition);
-    position: relative;
-    background-color: var(--bgColor);
-    border: var(--borderWidth) solid var(--borderColor);
-    color: var(--textColor);
+  appearance: none;
+  display: inline-flex;
+  gap: var(--gap);
+  align-items: center;
+  align-self: center;
+  justify-content: center;
+  padding: 0 var(--padding);
+  min-height: var(--height);
+  cursor: pointer;
+  font-size: var(--fontSize, inherit);
+  font-weight: var(--fontWeight, normal);
+  font-family: var(--fontFamily, inherit);
+  outline: none;
+  user-select: none;
+  border-radius: var(--borderRadius);
+  box-shadow: 0 0 0 var(--ringSize) var(--ringColor), var(--shadow);
+  transition: var(--transition);
+  position: relative;
+  background-color: var(--bgColor);
+  border: var(--borderWidth) solid var(--borderColor);
+  color: var(--textColor);
 
-    /* States */
+  /* States */
+
+  &:focus:not(:disabled) {
+    --borderColor: var(--vuiii-button-borderColor--focus, var(--vuiii-button-borderColor, transparent));
+    --bgColor: var(--vuiii-button-bgColor--focus, var(--vuiii-button-bgColor, transparent));
+    --textColor: var(--vuiii-button-textColor--hover, var(--vuiii-button-textColor, black));
+    --ringSize: var(--vuiii-button-ringSize, var(--vuiii-field-ringSize));
+  }
+
+  &:hover:not(:disabled) {
+    --borderColor: var(--vuiii-button-borderColor--hover, var(--vuiii-button-borderColor, transparent));
+    --bgColor: var(--vuiii-button-bgColor--hover, var(--vuiii-button-bgColor, transparent));
+    --textColor: var(--vuiii-button-textColor--hover, var(--vuiii-button-textColor, black));
+  }
+
+  &&:disabled {
+    pointer-events: none;
+    opacity: var(--vuiii-button-opacity--disabled, var(--vuiii-field-opacity--disabled, 0.75));
+
+    --borderColor: var(--vuiii-button-borderColor--disabled, var(--vuiii-button-borderColor, transparent));
+    --bgColor: var(--vuiii-button-bgColor--disabled, var(--vuiii-button-bgColor, transparent));
+    --textColor: var(--vuiii-button-textColor--disabled, var(--vuiii-button-textColor, black));
+  }
+
+  /* Sizes */
+
+  &.vuiii-button--small {
+    --gap: 0.25rem;
+    --height: var(--vuiii-button-height--small, var(--vuiii-field-height--small));
+    --padding: var(--vuiii-button-padding--small, var(--vuiii-field-padding--small));
+    --fontSize: var(--vuiii-button-fontSize--small, var(--vuiii-field-fontSize--small));
+    --borderRadius: var(
+      --vuiii-button-borderRadius--small,
+      var(--vuiii-field-borderRadius--small, var(--vuiii-field-borderRadius))
+    );
 
     &:focus:not(:disabled) {
-        --borderColor: var(--vuiii-button-borderColor--focus, var(--vuiii-button-borderColor, transparent));
-        --bgColor: var(--vuiii-button-bgColor--focus, var(--vuiii-button-bgColor, transparent));
-        --textColor: var(--vuiii-button-textColor--hover, var(--vuiii-button-textColor, black));
-        --ringSize: var(--vuiii-button-ringSize, var(--vuiii-field-ringSize));
+      --ringSize: var(--vuiii-button-ringSize--small, var(--vuiii-button-ringSize, var(--vuiii-field-ringSize--small)));
+    }
+  }
+
+  &.vuiii-button--large {
+    --gap: 0.75rem;
+    --height: var(--vuiii-button-height--large, var(--vuiii-field-height--large));
+    --padding: var(--vuiii-button-padding--large, var(--vuiii-field-padding--large));
+    --fontSize: var(--vuiii-button-fontSize--large, var(--vuiii-field-fontSize--large));
+    --borderRadius: var(
+      --vuiii-button-borderRadius--large,
+      var(--vuiii-field-borderRadius--large, var(--vuiii-field-borderRadius))
+    );
+  }
+
+  &.vuiii-button--xlarge {
+    --gap: 1rem;
+    --height: var(--vuiii-button-height--xlarge, var(--vuiii-field-height--xlarge));
+    --padding: var(--vuiii-button-padding--xlarge, var(--vuiii-field-padding--xlarge));
+    --fontSize: var(--vuiii-button-fontSize--xlarge, var(--vuiii-field-fontSize--xlarge));
+    --borderRadius: var(
+      --vuiii-button-borderRadius--xlarge,
+      var(
+        --vuiii-button-borderRadius--large,
+        var(--vuiii-field-borderRadius--xlarge, var(--vuiii-field-borderRadius--large))
+      )
+    );
+  }
+
+  /* Variants */
+
+  &.vuiii-button--primary {
+    --bgColor: var(--vuiii-button-bgColor--primary, var(--vuiii-color-primary));
+    --borderColor: var(--vuiii-button-borderColor--primary, transparent);
+    --borderWidth: var(
+      --vuiii-button-borderWidth--primary,
+      var(--vuiii-button-borderWidth, var(--vuiii-field-borderWidth))
+    );
+    --textColor: var(--vuiii-button-textColor--primary, white);
+    --ringColor: var(--vuiii-button-ringColor--primary, var(--vuiii-color-primary-shadow));
+
+    &:focus:not(:disabled) {
+      --bgColor: var(
+        --vuiii-button-bgColor--primary--focus,
+        var(--vuiii-button-bgColor--primary, var(--vuiii-color-primary))
+      );
+      --borderColor: var(
+        --vuiii-button-borderColor--primary--focus,
+        var(--vuiii-button-borderColor--primary, var(--vuiii-color-primary--darker, transparent))
+      );
+      --textColor: var(--vuiii-button-textColor--primary--focus, var(--vuiii-button-textColor--primary, white));
     }
 
-    &:hover:not(:disabled) {
-        --borderColor: var(--vuiii-button-borderColor--hover, var(--vuiii-button-borderColor, transparent));
-        --bgColor: var(--vuiii-button-bgColor--hover, var(--vuiii-button-bgColor, transparent));
-        --textColor: var(--vuiii-button-textColor--hover, var(--vuiii-button-textColor, black));
+    &:hover:not(:disabled),
+    &.vuiii-button--active:not(:disabled) {
+      --bgColor: var(
+        --vuiii-button-bgColor--primary--hover,
+        var(--vuiii-button-bgColor--primary, var(--vuiii-color-primary--darker))
+      );
+      --borderColor: var(
+        --vuiii-button-borderColor--primary--hover,
+        var(--vuiii-button-borderColor--primary, var(--vuiii-color-primary--darker, transparent))
+      );
+      --textColor: var(--vuiii-button-textColor--primary--hover, var(--vuiii-button-textColor--primary, white));
+    }
+  }
+
+  &.vuiii-button--secondary {
+    --bgColor: var(--vuiii-button-bgColor--secondary, var(--vuiii-color-secondary));
+    --borderColor: var(--vuiii-button-borderColor--secondary, transparent);
+    --borderWidth: var(
+      --vuiii-button-borderWidth--secondary,
+      var(--vuiii-button-borderWidth, var(--vuiii-field-borderWidth))
+    );
+    --textColor: var(--vuiii-button-textColor--secondary, black);
+    --ringColor: var(--vuiii-button-ringColor--secondary, var(--vuiii-color-secondary-shadow));
+
+    &:focus:not(:disabled) {
+      --bgColor: var(
+        --vuiii-button-bgColor--secondary--focus,
+        var(--vuiii-button-bgColor--secondary, var(--vuiii-color-secondary, transparent))
+      );
+      --borderColor: var(
+        --vuiii-button-borderColor--secondary--focus,
+        var(--vuiii-button-borderColor--secondary, var(--vuiii-color-secondary--darker, transparent))
+      );
+      --textColor: var(--vuiii-button-textColor--secondary--focus, var(--vuiii-button-textColor--secondary, black));
     }
 
-    &&:disabled {
-        pointer-events: none;
-        opacity: var(--vuiii-button-opacity--disabled, var(--vuiii-field-opacity--disabled, .75));
+    &:hover:not(:disabled),
+    &.vuiii-button--active:not(:disabled) {
+      --bgColor: var(
+        --vuiii-button-bgColor--secondary--hover,
+        var(--vuiii-button-bgColor--secondary, var(--vuiii-color-secondary--darker, transparent))
+      );
+      --borderColor: var(
+        --vuiii-button-borderColor--secondary--hover,
+        var(--vuiii-button-borderColor--secondary, var(--vuiii-color-secondary--darker, transparent))
+      );
+      --textColor: var(--vuiii-button-textColor--secondary--hover, var(--vuiii-button-textColor--secondary, black));
+    }
+  }
 
-        --borderColor: var(--vuiii-button-borderColor--disabled, var(--vuiii-button-borderColor, transparent));
-        --bgColor: var(--vuiii-button-bgColor--disabled, var(--vuiii-button-bgColor, transparent));
-        --textColor: var(--vuiii-button-textColor--disabled, var(--vuiii-button-textColor, black));
+  &.vuiii-button--danger {
+    --bgColor: var(--vuiii-button-bgColor--danger, var(--vuiii-color-danger));
+    --borderColor: var(--vuiii-button-borderColor--danger, transparent);
+    --textColor: var(--vuiii-button-textColor--danger, white);
+    --ringColor: var(--vuiii-button-ringColor--danger, var(--vuiii-color-danger-shadow));
+
+    &:focus:not(:disabled) {
+      --bgColor: var(
+        --vuiii-button-bgColor--danger--focus,
+        var(--vuiii-button-bgColor--danger, var(--vuiii-color-danger))
+      );
+      --borderColor: var(
+        --vuiii-button-borderColor--danger--focus,
+        var(--vuiii-button-borderColor--danger, transparent)
+      );
+      --textColor: var(--vuiii-button-textColor--danger--focus, var(--vuiii-button-textColor--danger, white));
     }
 
-    /* Sizes */
-
-    &.vuiii-button--small {
-        --gap: 0.25rem;
-        --height: var(--vuiii-button-height--small, var(--vuiii-field-height--small));
-        --padding: var(--vuiii-button-padding--small, var(--vuiii-field-padding--small));
-        --fontSize: var(--vuiii-button-fontSize--small, var(--vuiii-field-fontSize--small));
-        --borderRadius: var(--vuiii-button-borderRadius--small, var(--vuiii-field-borderRadius--small, var(--vuiii-field-borderRadius)));
-
-        &:focus:not(:disabled) {
-            --ringSize: var(--vuiii-button-ringSize--small, var(--vuiii-button-ringSize, var(--vuiii-field-ringSize--small)));
-        }
+    &:hover:not(:disabled),
+    &.vuiii-button--active:not(:disabled) {
+      --bgColor: var(
+        --vuiii-button-bgColor--danger--hover,
+        var(--vuiii-button-bgColor--danger, var(--vuiii-color-danger--darker))
+      );
+      --borderColor: var(
+        --vuiii-button-borderColor--danger--hover,
+        var(--vuiii-button-borderColor--danger, transparent)
+      );
+      --textColor: var(--vuiii-button-textColor--danger--hover, var(--vuiii-button-textColor--danger, white));
     }
+  }
 
-    &.vuiii-button--large {
-        --gap: 0.75rem;
-        --height: var(--vuiii-button-height--large, var(--vuiii-field-height--large));
-        --padding: var(--vuiii-button-padding--large, var(--vuiii-field-padding--large));
-        --fontSize: var(--vuiii-button-fontSize--large, var(--vuiii-field-fontSize--large));
-        --borderRadius: var(--vuiii-button-borderRadius--large, var(--vuiii-field-borderRadius--large, var(--vuiii-field-borderRadius)));
+  /* Additional variants */
+
+  &.vuiii-button--light {
+    --bgColor: white;
+    --textColor: black;
+
+    &:hover:not(:disabled),
+    &:focus:not(:disabled) {
+      --ringSize: 0;
+      --textColor: black;
+      --bgColor: rgba(39, 41, 55, 0.05);
     }
+  }
 
-    &.vuiii-button--xlarge {
-        --gap: 1rem;
-        --height: var(--vuiii-button-height--xlarge, var(--vuiii-field-height--xlarge));
-        --padding: var(--vuiii-button-padding--xlarge, var(--vuiii-field-padding--xlarge));
-        --fontSize: var(--vuiii-button-fontSize--xlarge, var(--vuiii-field-fontSize--xlarge));
-        --borderRadius: var(--vuiii-button-borderRadius--xlarge, var(--vuiii-button-borderRadius--large, var(--vuiii-field-borderRadius--xlarge, var(--vuiii-field-borderRadius--large))));
+  &.vuiii-button--dark {
+    --bgColor: black;
+    --textColor: white;
+
+    &:hover:not(:disabled),
+    &:focus:not(:disabled) {
+      --ringColor: rgba(39, 41, 55, 0.05);
+      --textColor: white;
+      --bgColor: black;
     }
-
-    /* Variants */
-
-    &.vuiii-button--primary {
-        --bgColor: var(--vuiii-button-bgColor--primary, var(--vuiii-color-primary));
-        --borderColor: var(--vuiii-button-borderColor--primary, transparent);
-        --borderWidth: var(--vuiii-button-borderWidth--primary, var(--vuiii-button-borderWidth, var(--vuiii-field-borderWidth)));
-        --textColor: var(--vuiii-button-textColor--primary, white);
-        --ringColor: var(--vuiii-button-ringColor--primary, var(--vuiii-color-primary-shadow));
-
-        &:focus:not(:disabled) {
-            --bgColor: var(--vuiii-button-bgColor--primary--focus, var(--vuiii-button-bgColor--primary, var(--vuiii-color-primary)));
-            --borderColor: var(--vuiii-button-borderColor--primary--focus, var(--vuiii-button-borderColor--primary, var(--vuiii-color-primary--darker, transparent)));
-            --textColor: var(--vuiii-button-textColor--primary--focus, var(--vuiii-button-textColor--primary, white));
-        }
-
-        &:hover:not(:disabled),
-        &.vuiii-button--active:not(:disabled) {
-            --bgColor: var(--vuiii-button-bgColor--primary--hover, var(--vuiii-button-bgColor--primary, var(--vuiii-color-primary--darker)));
-            --borderColor: var(--vuiii-button-borderColor--primary--hover, var(--vuiii-button-borderColor--primary, var(--vuiii-color-primary--darker, transparent)));
-            --textColor: var(--vuiii-button-textColor--primary--hover, var(--vuiii-button-textColor--primary, white));
-        }
-    }
-
-    &.vuiii-button--secondary {
-        --bgColor: var(--vuiii-button-bgColor--secondary, var(--vuiii-color-secondary));
-        --borderColor: var(--vuiii-button-borderColor--secondary, transparent);
-        --borderWidth: var(--vuiii-button-borderWidth--secondary, var(--vuiii-button-borderWidth, var(--vuiii-field-borderWidth)));
-        --textColor: var(--vuiii-button-textColor--secondary, black);
-        --ringColor: var(--vuiii-button-ringColor--secondary, var(--vuiii-color-secondary-shadow));
-
-        &:focus:not(:disabled) {
-            --bgColor: var(--vuiii-button-bgColor--secondary--focus, var(--vuiii-button-bgColor--secondary, var(--vuiii-color-secondary, transparent)));
-            --borderColor: var(--vuiii-button-borderColor--secondary--focus, var(--vuiii-button-borderColor--secondary, var(--vuiii-color-secondary--darker, transparent)));
-            --textColor: var(--vuiii-button-textColor--secondary--focus, var(--vuiii-button-textColor--secondary, black));
-        }
-
-        &:hover:not(:disabled),
-        &.vuiii-button--active:not(:disabled) {
-            --bgColor: var(--vuiii-button-bgColor--secondary--hover, var(--vuiii-button-bgColor--secondary, var(--vuiii-color-secondary--darker, transparent)));
-            --borderColor: var(--vuiii-button-borderColor--secondary--hover, var(--vuiii-button-borderColor--secondary, var(--vuiii-color-secondary--darker, transparent)));
-            --textColor: var(--vuiii-button-textColor--secondary--hover, var(--vuiii-button-textColor--secondary, black));
-        }
-    }
-
-    &.vuiii-button--danger {
-        --bgColor: var(--vuiii-button-bgColor--danger, var(--vuiii-color-danger));
-        --borderColor: var(--vuiii-button-borderColor--danger, transparent);
-        --textColor: var(--vuiii-button-textColor--danger, white);
-        --ringColor: var(--vuiii-button-ringColor--danger, var(--vuiii-color-danger-shadow));
-
-        &:focus:not(:disabled) {
-            --bgColor: var(--vuiii-button-bgColor--danger--focus, var(--vuiii-button-bgColor--danger, var(--vuiii-color-danger)));
-            --borderColor: var(--vuiii-button-borderColor--danger--focus, var(--vuiii-button-borderColor--danger, transparent));
-            --textColor: var(--vuiii-button-textColor--danger--focus, var(--vuiii-button-textColor--danger, white));
-        }
-
-        &:hover:not(:disabled),
-        &.vuiii-button--active:not(:disabled) {
-            --bgColor: var(--vuiii-button-bgColor--danger--hover, var(--vuiii-button-bgColor--danger, var(--vuiii-color-danger--darker)));
-            --borderColor: var(--vuiii-button-borderColor--danger--hover, var(--vuiii-button-borderColor--danger, transparent));
-            --textColor: var(--vuiii-button-textColor--danger--hover, var(--vuiii-button-textColor--danger, white));
-        }
-    }
-
-    /* Additional variants */
-
-    &.vuiii-button--light {
-        --bgColor: white;
-        --textColor: black;
-
-        &:hover:not(:disabled),
-        &:focus:not(:disabled) {
-            --ringSize: 0;
-            --textColor: black;
-            --bgColor: rgba(39, 41, 55, 0.05);
-        }
-    }
-
-    &.vuiii-button--dark {
-        --bgColor: black;
-        --textColor: white;
-
-         &:hover:not(:disabled),
-         &:focus:not(:disabled) {
-            --ringColor: rgba(39, 41, 55, 0.05);
-            --textColor: white;
-            --bgColor: black;
-        }
-    }
+  }
 }
