@@ -3,11 +3,12 @@
 </template>
 
 <script lang="ts">
-import { AsyncComponentLoader, Component, shallowRef, watch } from 'vue'
+/* eslint-disable vue/prefer-import-from-vue */
+import { shallowRef, watch } from 'vue'
 
 import { resolveGlobImport } from '../utils/resolveGlobImport'
 
-type IconComponent = string | Component | AsyncComponentLoader | undefined
+type IconComponent = any
 type IconResolver = (name: string) => IconComponent
 
 let customIconResolver: IconResolver

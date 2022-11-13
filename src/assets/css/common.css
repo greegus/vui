@@ -1,4 +1,12 @@
 :root {
+  /* Typography */
+  --vuiii-typeface-display: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --vuiii-typeface-body: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+  --vuiii-fontSize: 1rem;
+  --vuiii-fontSize--small: 0.875rem;
+  --vuiii-fontSize--large: 1.125rem;
+
   /* colors */
   --vuiii-color-white: white;
   --vuiii-color-black: black;
@@ -28,34 +36,60 @@
 
   --vuiii-shadow: 0 1px 3px 0 rgb(0 0 0/0.1), 0 1px 2px -1px rgb(0 0 0/0.1);
 
-  /* field */
-  --vuiii-field-height: 2.75rem;
+  /* Field */
+  --vuiii-field-height: 2.5rem;
   --vuiii-field-padding: 1.4375rem;
-  --vuiii-field-borderRadius: 0.35rem;
+  --vuiii-field-borderRadius: 3px;
   --vuiii-field-borderWidth: 1px;
+  --vuiii-field-bgColor: var(--vuiii-color-white);
   --vuiii-field-borderColor: var(--vuiii-color-gray);
-  --vuiii-field-fontSize: 1rem;
-  --vuiii-field-ringColor: var(--vuiii-color-primary-shadow);
-  --vuiii-field-ringSize: 4px;
+  --vuiii-field-fontSize: var(--vuiii-fontSize--small);
+  --vuiii-field-ringColor: none;
+  --vuiii-field-ringSize: 0;
 
-  --vuiii-field-borderColor--active: var(--vuiii-color-primary);
-  --vuiii-field-borderColor--focus: var(--vuiii-color-primary);
+  --vuiii-field-borderColor--active: var(--vuiii-color-gray--dark);
+  --vuiii-field-borderColor--focus: var(--vuiii-color-gray--dark);
   --vuiii-field-borderColor--invalid: var(--vuiii-color-danger);
 
   --vuiii-field-height--small: 2rem;
   --vuiii-field-padding--small: 1.1875rem;
   --vuiii-field-fontSize--small: 0.8125rem;
-  --vuiii-field-ringSize--small: 2px;
+  --vuiii-field-borderRadius--small: 2px;
 
   --vuiii-field-height--large: 3rem;
   --vuiii-field-padding--large: 1.4375rem;
   --vuiii-field-fontSize--large: 1rem;
+  --vuiii-field-borderRadius--large: 3px;
 
   --vuiii-field-height--xlarge: 3.25rem;
   --vuiii-field-padding--xlarge: 1.5625rem;
   --vuiii-field-fontSize--xlarge: 1.125rem;
+  --vuiii-field-borderRadius--xlarge: 4px;
 
-  /* typography */
-  --vuiii-fontSize-base: 1rem;
-  --vuiii-fontSize-small: 0.85rem;
+  /* Buttons */
+  --vuiii-button-bgColor--primary: var(--vuiii-color-primary);
+  --vuiii-button-textColor--primary: var(--vuiii-color-white);
+  --vuiii-button-borderColor--primary: var(--vuiii-color-primary);
+  --vuiii-button-borderWidth--primary: 1px;
+  --vuiii-button-bgColor--primary--hover: var(--vuiii-color-primary);
+  --vuiii-button-textColor--primary--hover: var(--vuiii-color-white);
+
+  --vuiii-button-bgColor--secondary: transparent;
+  --vuiii-button-textColor--secondary: var(--vuiii-color-black);
+  --vuiii-button-borderColor--secondary: var(--vuiii-color-black);
+  --vuiii-button-borderWidth--secondary: 1px;
+  --vuiii-button-bgColor--secondary--hover: var(--vuiii-color-black);
+  --vuiii-button-textColor--secondary--hover: var(--vuiii-color-white);
+
+  /* Inputs */
+  --vuiii-input-textColor: var(--vuiii-color-black);
+  --vuiii-input-borderColor: var(--vuiii-color-gray);
+  --vuiii-input-borderColor--focus: var(--vuiii-color-gray--dark);
+  --vuiii-input-bgColor: var(--vuiii-color-white);
+  --vuiii-input-placeholderColor: var(--vuiii-color-gray--lighter);
+}
+
+
+body {
+  font: var(--vuiii-fontSize) var(--vuiii-typeface-body);
 }

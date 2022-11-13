@@ -7,7 +7,7 @@ module.exports = {
     parser: '@typescript-eslint/parser',
     sourceType: 'module'
   },
-  extends: ['plugin:vue/vue3-recommended', 'plugin:prettier/recommended', 'prettier'],
+  extends: ['plugin:vue/vue3-recommended', 'plugin:prettier/recommended', 'prettier', 'plugin:storybook/recommended'],
   plugins: ['vue', 'prettier', 'simple-import-sort'],
   rules: {
     'import/order': 'off',
@@ -17,4 +17,4 @@ module.exports = {
     'vue/multi-word-component-names': 'off',
     'vue/no-reserved-component-names': 'off'
   }
-}
+};

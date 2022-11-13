@@ -36,8 +36,7 @@
 <script lang="ts" setup>
 import '../assets/css/button.css'
 
-import { computed } from 'vue'
-import { useAttrs } from 'vue'
+import { computed, useAttrs } from 'vue'
 
 import { ButtonSize, ButtonVariant } from '../types'
 import Icon from './Icon.vue'
