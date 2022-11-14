@@ -2,46 +2,14 @@
   <component :is="component" class="Icon" />
 </template>
 
-<script lang="ts">
-/* eslint-disable vue/prefer-import-from-vue */
+<script lang="ts" setup>
 import { shallowRef, watch } from 'vue'
 
-import { resolveGlobImport } from '../utils/resolveGlobImport'
+import { IconComponent, resolveIconComponent } from '../utils/iconsResolver'
 
-type IconComponent = any
-type IconResolver = (name: string) => IconComponent
-
-let customIconResolver: IconResolver
-
-export function registerCustomIconResolver(resolver: IconResolver) {
-  customIconResolver = resolver
-}
-
-function resolveIconComponent(name: string): IconComponent {
-  let component
-
-  if (customIconResolver) {
-    component = customIconResolver(name)
-  }
-
-  if (!component) {
-    component = resolveGlobImport(icons, `${name}.vue`)
-  }
-
-  return component
-}
-
-// @ts-ignore
-const icons = import.meta.globEager('../icons/*.vue')
-</script>
-
-<script lang="ts" setup>
-const props = defineProps({
-  name: {
-    type: String,
-    required: true
-  }
-})
+const props = defineProps<{
+  name: string
+}>()
 
 const component = shallowRef<IconComponent>(undefined)
 
