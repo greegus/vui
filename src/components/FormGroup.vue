@@ -1,75 +1,42 @@
 <template>
-  <div class="FormGroup" :class="{ 'FormGroup--invalid': error }">
-    <div v-if="label" class="FormGroup__header">
-      <label class="FormGroup__label">
-        {{ label }}
+  <div class="FormGroup" :class="{ 'FormGroup--invalid': $props.error }">
+    <div v-if="$props.label" class="FormGroup__header">
+      <label class="FormGroup__label" :for="$props.for">
+        {{ $props.label }}
       </label>
 
-      <div v-if="required" class="FormGroup__required">*</div>
+      <div v-if="$props.required" class="FormGroup__required">*</div>
     </div>
 
-    <div v-if="$slots.description || description" class="FormGroup__description">
+    <div v-if="$slots.description || $props.description" class="FormGroup__description">
       <slot name="description">
-        {{ description }}
+        {{ $props.description }}
       </slot>
     </div>
 
     <slot />
 
-    <div v-if="$slots.hint || hint" class="FormGroup__hint">
+    <div v-if="$slots.hint || $props.hint" class="FormGroup__hint">
       <slot name="hint">
-        {{ hint }}
+        {{ $props.hint }}
       </slot>
     </div>
 
-    <div v-if="errorMessage" class="FormGroup__error">
-      {{ errorMessage }}
+    <div v-if="$props.error && typeof $props.error === 'string'" class="FormGroup__error">
+      {{ $props.error }}
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from 'vue'
-
-export default defineComponent({
-  props: {
-    label: {
-      type: String,
-      default: ''
-    },
-
-    error: {
-      type: [String, Array, Boolean] as PropType<boolean | string | string[]>,
-      default: ''
-    },
-
-    description: {
-      type: String,
-      default: ''
-    },
-
-    hint: {
-      type: String,
-      default: ''
-    },
-
-    required: Boolean
-  },
-
-  computed: {
-    errorMessage(): string {
-      if (Array.isArray(this.error)) {
-        return this.error.filter(Boolean).join(' ')
-      }
-
-      if (typeof this.error === 'string') {
-        return this.error
-      }
-
-      return ''
-    }
-  }
-})
+<script lang="ts" setup>
+defineProps<{
+  label?: string
+  for?: string
+  required?: boolean
+  error?: string | boolean
+  description?: string
+  hint?: string
+}>()
 </script>
 
 <style lang="postcss" scoped>

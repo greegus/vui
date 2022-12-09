@@ -7,14 +7,14 @@
       :class="{ 'Radio--disabled': option.disabled }"
     >
       <input
-        v-bind="normalizedAttrs"
+        v-bind="$attrs"
         :value="option.value"
-        :checked="modelValue === option.value"
+        :checked="$props.modelValue === option.value"
         class="Radio__input vuiii-input"
-        :required="required"
         type="radio"
         :name="inputName"
         :disabled="option.disabled"
+        @input="$emit('update:modelValue', option.value)"
       />
 
       <div class="Radio__label">
@@ -27,65 +27,39 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+export default {
+  inheritAttrs: false
+}
+</script>
 
-import { Extractor, normalizeOptions, Option } from '../utils/normalizeOptions'
-import { transformInputAttrs } from '../utils/transformInputAttrs'
+<script lang="ts" setup>
+import { computed } from 'vue'
 
-let iterator = 1
+import { Extractor, Option } from '../types'
+import { generateId } from '../utils/generateId'
+import { normalizeOptions } from '../utils/normalizeOptions'
 
-export default defineComponent({
-  mixins: [transformInputAttrs],
+defineEmits<{
+  (e: 'update:modelValue', value: string | number): void
+}>()
 
-  inheritAttrs: false,
+const inputName = 'Radio-input-' + generateId()
 
-  props: {
-    modelValue: {
-      type: [String, Number] as PropType<Option['value']>,
-      default: undefined
-    },
+const props = defineProps<{
+  modelValue: string | number | undefined
+  options: any[] | any
+  optionLabel?: Extractor
+  optionValue?: Extractor
+  optionDisabled?: Extractor
+}>()
 
-    options: {
-      type: [Array, Object],
-      required: true
-    },
-
-    optionLabelKey: {
-      type: [Function, String, Number] as PropType<Extractor>,
-      default: undefined
-    },
-
-    optionValueKey: {
-      type: [Function, String, Number] as PropType<Extractor>,
-      default: undefined
-    },
-
-    optionDisabledKey: {
-      type: [Function, String, Number] as PropType<Extractor>,
-      default: undefined
-    },
-
-    required: Boolean
-  },
-
-  emits: ['update:modelValue'],
-
-  data() {
-    return {
-      inputName: 'vuiii-radio-input-' + iterator++
-    }
-  },
-
-  computed: {
-    normalizedOptions(): Option[] {
-      return normalizeOptions(this.options, {
-        value: this.optionValueKey,
-        label: this.optionLabelKey,
-        disabled: this.optionDisabledKey
-      })
-    }
-  }
-})
+const normalizedOptions = computed<Option[]>(() =>
+  normalizeOptions(props.options, {
+    value: props.optionValue,
+    label: props.optionLabel,
+    disabled: props.optionDisabled
+  })
+)
 </script>
 
 <style lang="postcss" scoped>

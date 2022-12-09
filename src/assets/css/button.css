@@ -9,7 +9,7 @@
   --height: var(--vuiii-button-height, var(--vuiii-field-height));
   --padding: var(--vuiii-button-padding, var(--vuiii-field-padding));
   --fontSize: var(--vuiii-button-fontSize, var(--vuiii-field-fontSize));
-  --fontWeight: var(--vuiii-button-fontWeight, 600);
+  --fontWeight: var(--vuiii-button-fontWeight);
   --shadow: var(--vuiii-button-shadow, 0 0);
   --transition: var(--vuiii-button-transition, var(--vuiii-field-transition, none));
   --ringColor: var(--vuiii-button-ringColor, rgb(0 0 0/0.05));
@@ -75,10 +75,7 @@
       --vuiii-button-fontSize--small,
       var(--vuiii-button-fontSize, var(--vuiii-field-fontSize--small, var(--vuiii-field-fontSize)))
     );
-    --borderRadius: var(
-      --vuiii-button-borderRadius--small,
-      var(--vuiii-button-borderRadius, var(--vuiii-field-borderRadius--small, var(--vuiii-field-borderRadius)))
-    );
+    --borderRadius: var(--vuiii-button-borderRadius--small, var(--vuiii-button-borderRadius, var(--vuiii-field-borderRadius--small, var(--vuiii-field-borderRadius))));
 
     &:focus:not(:disabled) {
       --ringSize: var(--vuiii-button-ringSize--small, var(--vuiii-button-ringSize, var(--vuiii-field-ringSize--small)));

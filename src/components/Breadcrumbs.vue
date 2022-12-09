@@ -10,26 +10,19 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from 'vue'
-import { RouteLocationRaw } from 'vue-router'
+<script lang="ts" setup>
+import { BreadcrumbItems } from '@/types'
 
 import Icon from './Icon.vue'
 
-export type BreadcrumbItems = Record<string, RouteLocationRaw>
-
-export default defineComponent({
-  components: {
-    Icon
-  },
-
-  props: {
-    breadcrumbs: {
-      type: Object as PropType<BreadcrumbItems>,
-      default: () => ({})
-    }
+withDefaults(
+  defineProps<{
+    breadcrumbs: BreadcrumbItems
+  }>(),
+  {
+    breadcrumbs: () => ({})
   }
-})
+)
 </script>
 
 <style lang="postcss" scoped>

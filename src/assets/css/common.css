@@ -71,22 +71,18 @@
   --vuiii-button-textColor--primary: var(--vuiii-color-white);
   --vuiii-button-borderColor--primary: var(--vuiii-color-primary);
   --vuiii-button-borderWidth--primary: 1px;
-  --vuiii-button-bgColor--primary--hover: var(--vuiii-color-primary);
-  --vuiii-button-textColor--primary--hover: var(--vuiii-color-white);
 
   --vuiii-button-bgColor--secondary: transparent;
   --vuiii-button-textColor--secondary: var(--vuiii-color-black);
   --vuiii-button-borderColor--secondary: var(--vuiii-color-black);
   --vuiii-button-borderWidth--secondary: 1px;
-  --vuiii-button-bgColor--secondary--hover: var(--vuiii-color-black);
-  --vuiii-button-textColor--secondary--hover: var(--vuiii-color-white);
 
   /* Inputs */
-  --vuiii-input-textColor: var(--vuiii-color-black);
+  --vuiii-input-textColor: inherit;
   --vuiii-input-borderColor: var(--vuiii-color-gray);
   --vuiii-input-borderColor--focus: var(--vuiii-color-gray--dark);
   --vuiii-input-bgColor: var(--vuiii-color-white);
-  --vuiii-input-placeholderColor: var(--vuiii-color-gray--lighter);
+  --vuiii-input-placeholderColor: var(--vuiii-color-gray--dark);
 }
 
 

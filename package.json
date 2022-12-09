@@ -1,6 +1,6 @@
 {
   "name": "vuiii",
-  "version": "1.0.0-beta.6",
+  "version": "1.0.0-beta.7",
   "scripts": {
     "dev": "vite",
     "build": "vite build && vue-tsc --emitDeclarationOnly --declaration",
@@ -12,10 +12,10 @@
     "dist"
   ],
   "main": "./dist/vuiii.umd.js",
-  "module": "./dist/vuiii.es.js",
+  "module": "./dist/vuiii.mjs",
   "exports": {
     ".": {
-      "import": "./dist/vuiii.es.js",
+      "import": "./dist/vuiii.mjs",
       "require": "./dist/vuiii.umd.js"
     },
     "./style.css": "./dist/style.css"

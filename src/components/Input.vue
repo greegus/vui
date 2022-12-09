@@ -1,125 +1,158 @@
 <template>
   <div
     class="Input vuiii-input"
-    :class="[
-      $attrs.class,
-      {
-        'vuiii-input--invalid': invalid,
-        'vuiii-input--disabled': $attrs.disabled,
-        'vuiii-input--small': size === 'small'
-      }
-    ]"
-    @click="$refs.input.focus()"
+    :class="{
+      'vuiii-input--invalid': $props.invalid,
+      'vuiii-input--disabled': $attrs.disabled,
+      [`vuiii-input--${$props.size}`]: $props.size
+    }"
+    @click="input.focus()"
   >
     <slot v-if="hasPrefix" name="prefix">
-      <div class="Input__icon Input__icon--left">
-        <Icon :name="prefixIcon" />
-      </div>
+      <component
+        :is="isPrefixIconClickable ? 'button' : 'div'"
+        class="Input__prefix"
+        :class="{ 'Input__prefix--clickable': isPrefixIconClickable }"
+        tabindex="-1"
+        @click.prevent="$emit('prefix-click')"
+      >
+        <Icon class="Input__icon" :name="$props.prefixIcon || ''" />
+      </component>
     </slot>
 
     <input
       ref="input"
-      :aria-label="$attrs.placeholder || 'input'"
-      v-bind="normalizedAttrs"
-      class="Input__nestedInput vuiii-input__nested"
-      :value="modelValue"
+      :aria-label="($attrs.placeholder as string) || 'input'"
+      v-bind="$attrs"
+      class="vuiii-input__nested Input__input"
+      :class="{
+        'Input__input--withPrefixIcon': $props.prefixIcon,
+        'Input__input--withSuffixIcon': $props.suffixIcon
+      }"
+      :type="($attrs.type as string) || 'text'"
+      :value="$props.modelValue"
+      @input="$emit('update:modelValue', retrieveTargetValue($event))"
     />
 
     <slot v-if="hasSuffix" name="suffix">
-      <div class="Input__icon Input__icon--right">
-        <Icon :name="suffixIcon" />
-      </div>
+      <component
+        :is="isSuffixIconClickable ? 'button' : 'div'"
+        class="Input__suffix"
+        :class="{ 'Input__suffix--clickable': isSuffixIconClickable }"
+        tabindex="-1"
+        @click.prevent="$emit('suffix-click')"
+      >
+        <Icon class="Input__icon" :name="$props.suffixIcon || ''" />
+      </component>
     </slot>
   </div>
 </template>
 
 <script lang="ts">
-import '../assets/css/input.css'
-
-import { defineComponent, PropType } from 'vue'
-
-import { transformInputAttrs } from '../utils/transformInputAttrs'
-import Icon from './Icon.vue'
-
-const sizes = ['normal', 'small'] as const
-
-type Size = typeof sizes[number]
-
-export default defineComponent({
-  components: {
-    Icon
-  },
-
-  mixins: [transformInputAttrs],
-
-  inheritAttrs: false,
-
-  props: {
-    modelValue: {
-      type: [Number, String],
-      default: ''
-    },
-
-    prefixIcon: {
-      type: String,
-      default: ''
-    },
-
-    suffixIcon: {
-      type: String,
-      default: ''
-    },
-
-    size: {
-      type: String as PropType<Size>,
-      default: 'normal',
-      validator: (value: Size) => sizes.includes(value)
-    },
-
-    invalid: Boolean
-  },
-
-  computed: {
-    hasPrefix(): boolean {
-      return Boolean(this.$slots.prefix || this.prefixIcon)
-    },
-
-    hasSuffix(): boolean {
-      return Boolean(this.$slots.suffix || this.suffixIcon)
-    }
-  }
-})
+export default {
+  inheritAttrs: false
+}
 </script>
 
-<style lang="postcss" scoped>
+<script lang="ts" setup>
+import { computed, ref, useAttrs, useSlots } from 'vue'
+
+import { InputSize } from '../types'
+import Icon from './Icon.vue'
+
+const props = defineProps<{
+  modelValue?: number | string | Date | null
+  prefixIcon?: string
+  suffixIcon?: string
+  size?: InputSize
+  invalid?: boolean
+}>()
+
+defineEmits<{
+  (event: 'update:modelValue', value: number | string | Date | null): void
+  (event: 'prefix-click'): void
+  (event: 'suffix-click'): void
+}>()
+
+const attrs = useAttrs()
+const slots = useSlots()
+const input = ref()
+
+const hasPrefix = computed<boolean>(() => Boolean(slots.prefix || props.prefixIcon))
+const hasSuffix = computed<boolean>(() => Boolean(slots.suffix || props.suffixIcon))
+const isPrefixIconClickable = computed<boolean>(() => Boolean(attrs.onPrefixIconClick))
+const isSuffixIconClickable = computed<boolean>(() => Boolean(attrs.onSuffixIconClick))
+
+const retrieveTargetValue = (e: Event) => {
+  const target = e.target as HTMLInputElement
+
+  if (attrs.type === 'number') {
+    return target.valueAsNumber
+  }
+
+  if (attrs.type === 'date') {
+    return target.valueAsDate
+  }
+
+  return target.value
+}
+</script>
+
+<style lang="postcss">
 .Input.Input /* Intentional selector overload */ {
-  cursor: text;
+  position: relative;
   display: flex;
-  align-items: center;
+  align-items: stretch;
+  cursor: text;
   padding-left: 0;
   padding-right: 0;
-  line-height: 1;
+  line-height: none;
+}
+
+.Input__prefix,
+.Input__suffix {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  width: 3rem;
+  opacity: 0.5;
+  outline: none;
+}
+
+.Input__prefix {
+  left: 0;
+}
+
+.Input__suffix {
+  right: 0;
+}
+
+.Input__prefix--clickable,
+.Input__suffix--clickable {
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.75;
+  }
+}
+
+.Input__input--withPrefixIcon {
+  padding-left: 3rem;
+}
+
+.Input__input--withSuffixIcon {
+  padding-right: 3rem;
 }
 
 .Input__icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 3rem;
-  opacity: 0.35;
+  margin: auto;
+  width: 1.25rem;
 }
 
-.Input__icon--right {
-  margin-left: -1rem;
-}
-
-.Input__icon--left {
-  margin-right: -1rem;
-}
-
-.Input__nestedInput {
+.Input__input {
+  width: 100%;
   flex: auto;
   align-self: stretch;
-  width: 100%;
 }
 </style>

@@ -210,5 +210,5 @@ export const modal: Plugin = (app, config: Config = {}) => {
 }
 
 export function useModal(): ModalInterface {
-  return getCurrentInstance()?.appContext.config.globalProperties.$modal
+  return getCurrentInstance()?.appContext.config.globalProperties.$modal!
 }

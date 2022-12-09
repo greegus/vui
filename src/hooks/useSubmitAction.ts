@@ -3,15 +3,8 @@ import { RouteLocationRaw, Router, useRouter } from 'vue-router'
 
 import { useModal } from '../modal'
 import { Snackbar, useSnackbar } from '../snackbar'
-
-export declare type ValidationErrors<T = any> = {
-  [key in keyof T]?: any
-}
-
-export declare type ValidationResults<T = any> = {
-  isValid: boolean
-  errors: ValidationErrors<T>
-}
+import { ValidationErrors, ValidationResults } from '../types'
+import { ValidationError } from '../validations/validator'
 
 type ConfirmParams = Parameters<ReturnType<typeof useModal>['confirm']>[0]
 
@@ -53,27 +46,27 @@ export function useSubmitAction<D = unknown, R = unknown>(
       }
     }
 
-    if (options.validator) {
-      const validationResult = await options.validator(data!)
+    try {
+      isSubmitting.value = true
 
-      options.onValidationResults?.(validationResult)
+      if (options.validator) {
+        const validationResult = await options.validator(data!)
 
-      if (!validationResult) {
-        return
-      }
+        options.onValidationResults?.(validationResult)
 
-      if (typeof validationResult === 'object') {
-        errors.value = validationResult?.errors || {}
+        if (!validationResult) {
+          throw new ValidationError()
+        }
 
-        if (!validationResult?.isValid) {
-          return
+        if (typeof validationResult === 'object') {
+          errors.value = validationResult?.errors || {}
+
+          if (!validationResult?.isValid) {
+            throw new ValidationError()
+          }
         }
       }
-    }
 
-    isSubmitting.value = true
-
-    try {
       result.value = await action(data!)
     } catch (error) {
       if (options.errorMessage && snackbar) {

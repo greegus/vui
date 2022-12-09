@@ -31,72 +31,45 @@
   </table>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import '../assets/css/table.css'
 import '../assets/css/typography.css'
 
-import { defineComponent, PropType } from 'vue'
-import { RouteLocationRaw } from 'vue-router'
+import { computed } from 'vue'
 
-type ColumnOptions<T = any> = {
-  label?: string
-  align?: 'left' | 'right' | 'center'
-  width?: string
-  value?: (item: T) => unknown
-  format?: (...params: any[]) => unknown
-  href?: (item: T) => RouteLocationRaw
-}
+import { ColumnOptions, TableColumns } from '@/types'
 
 type NormalizedTableColumns<T = any> = Record<keyof T | string, ColumnOptions<T>>
 
-export type TableColumns<T = any> = Record<keyof T | string, string | ColumnOptions<T>>
+const props = defineProps<{
+  items: any[]
+  columns: TableColumns
+  rowClass?: string | ((item: any) => string)
+}>()
 
-export default defineComponent({
-  props: {
-    items: {
-      type: Array,
-      default: () => []
-    },
-
-    columns: {
-      type: Object as PropType<TableColumns>,
-      default: null
-    },
-
-    rowClass: {
-      type: [String, Function],
-      default: null
-    }
-  },
-
-  computed: {
-    normalizedColumns(): NormalizedTableColumns {
-      return Object.entries(this.columns).reduce(
-        (result, [key, options]) => ({
-          ...result,
-          [key]: typeof options === 'string' ? { label: options } : options
-        }),
-        {}
-      )
-    }
-  },
-
-  methods: {
-    formatValue(item: any, key: keyof NormalizedTableColumns): any {
-      const column = this.normalizedColumns[key]
-
-      const value = typeof column.value === 'function' ? column.value(item) : item[key]
-
-      if (column.format) {
-        return column.format(value)
-      }
-
-      return value
-    },
-
-    resolveRowClass(item: any): any {
-      return typeof this.rowClass === 'function' ? this.rowClass(item) : this.rowClass
-    }
-  }
+const normalizedColumns = computed<NormalizedTableColumns>(() => {
+  return Object.entries(props.columns).reduce(
+    (result, [key, options]) => ({
+      ...result,
+      [key]: typeof options === 'string' ? { label: options } : options
+    }),
+    {}
+  )
 })
+
+const formatValue = (item: any, key: keyof NormalizedTableColumns): any => {
+  const column = normalizedColumns.value[key]
+
+  const value = typeof column.value === 'function' ? column.value(item) : item[key]
+
+  if (column.format) {
+    return column.format(value)
+  }
+
+  return value
+}
+
+const resolveRowClass = (item: any): any => {
+  return typeof props.rowClass === 'function' ? props.rowClass(item) : props.rowClass
+}
 </script>

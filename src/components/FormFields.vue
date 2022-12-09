@@ -7,7 +7,7 @@
       :description="field.description"
       :hint="field.hint"
       :required="field.required"
-      :error="errors?.[name]"
+      :error="(errors?.[name] as any)"
     >
       <component
         :is="field.component"

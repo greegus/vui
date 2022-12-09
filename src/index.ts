@@ -1,6 +1,5 @@
 import './assets/css/style.css'
 
-export type { BreadcrumbItems } from './components/Breadcrumbs.vue'
 export { default as Breadcrumbs } from './components/Breadcrumbs.vue'
 export { default as Button } from './components/Button.vue'
 export { default as Checkbox } from './components/Checkbox.vue'
@@ -10,17 +9,27 @@ export { default as Form } from './components/Form.vue'
 export type { FormFieldsStructure } from './components/FormFields.vue'
 export { default as FormFields } from './components/FormFields.vue'
 export { default as FormGroup } from './components/FormGroup.vue'
-export { default as Icon, registerCustomIconResolver } from './components/Icon.vue'
+export { default as Icon } from './components/Icon.vue'
 export { default as Input } from './components/Input.vue'
 export { default as ModalLayout } from './components/modal/ModalLayout.vue'
 export { default as Radio } from './components/Radio.vue'
 export { default as Select } from './components/Select.vue'
-export type { TableColumns } from './components/Table.vue'
 export { default as Table } from './components/Table.vue'
 export { default as Textarea } from './components/Textarea.vue'
 export { useLoadData } from './hooks/useLoadData'
+export { useOnClickOutside } from './hooks/useOnClickOutside'
+export { useOnKeyPress } from './hooks/useOnKeyPress'
 export { usePageFromRouteQuery, useRouteQuery } from './hooks/useRouteQuery'
 export { useSubmitAction } from './hooks/useSubmitAction'
 export { modal, useModal } from './modal'
 export { snackbar, useSnackbar } from './snackbar'
-export type { ButtonSize, ButtonVariant } from './types'
+export type {
+  BreadcrumbItems,
+  ButtonSize,
+  ButtonVariant,
+  TableColumns,
+  ValidationErrors,
+  ValidationResults
+} from './types'
+export { registerCustomIconResolver } from './utils/iconsResolver'
+export { ValidationError } from './validations/validator'

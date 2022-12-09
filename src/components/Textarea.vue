@@ -1,22 +1,22 @@
 <template>
-  <textarea class="Textarea vuiii-input" v-bind="normalizedAttrs" />
+  <textarea
+    v-bind="$attrs"
+    class="Textarea vuiii-input"
+    :class="{ [`vuiii-input--${$props.size}`]: $props.size }"
+    :value="$props.modelValue"
+    @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+  />
 </template>
 
-<script lang="ts">
-import '../assets/css/input.css'
+<script lang="ts" setup>
+import { InputSize } from '../types'
 
-import { defineComponent } from 'vue'
+defineProps<{
+  modelValue?: string
+  size?: InputSize
+}>()
 
-import { transformInputAttrs } from '../utils/transformInputAttrs'
-
-export default defineComponent({
-  mixins: [transformInputAttrs],
-
-  props: {
-    modelValue: {
-      type: String,
-      default: ''
-    }
-  }
-})
+defineEmits<{
+  (e: 'update:modelValue', value: string): void
+}>()
 </script>

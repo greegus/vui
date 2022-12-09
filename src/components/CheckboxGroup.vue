@@ -14,7 +14,8 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 
-import { Extractor, normalizeOptions, Option } from '../utils/normalizeOptions'
+import { Extractor, Option } from '../types'
+import { normalizeOptions } from '../utils/normalizeOptions'
 import Checkbox from './Checkbox.vue'
 
 type CheckedValues = Record<Option['value'], boolean>

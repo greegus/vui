@@ -76,5 +76,5 @@ export const snackbar: Plugin = (app) => {
 }
 
 export function useSnackbar(): Snackbar {
-  return getCurrentInstance()?.appContext.config.globalProperties.$snackbar
+  return getCurrentInstance()?.appContext.config.globalProperties.$snackbar!
 }
