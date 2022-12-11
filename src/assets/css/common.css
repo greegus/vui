@@ -1,7 +1,7 @@
 :root {
   /* Typography */
-  --vuiii-typeface-display: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --vuiii-typeface-body: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --vuiii-typeface-display: var(--vuiii-typeface-body);
 
   --vuiii-fontSize: 1rem;
   --vuiii-fontSize--small: 0.875rem;

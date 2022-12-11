@@ -1,6 +1,7 @@
 import { Meta, StoryFn } from '@storybook/vue3'
 
 import Button from '../components/Button.vue'
+import { icons } from './icons'
 
 // More on default export: https://storybook.js.org/docs/vue/writing-stories/introduction#default-export
 export default {
@@ -27,6 +28,14 @@ export default {
     variant: {
       control: { type: 'select' },
       options: ['primary', 'secondary']
+    },
+    prefixIcon: {
+      control: { type: 'select' },
+      options: icons
+    },
+    suffixIcon: {
+      control: { type: 'select' },
+      options: icons
     }
   }
 } as Meta<typeof Button>

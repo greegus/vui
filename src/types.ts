@@ -1,3 +1,4 @@
+import { AsyncComponentLoader, Component } from 'vue'
 import { RouteLocationRaw } from 'vue-router'
 
 export type InputSize = 'small' | 'normal' | 'large' | 'xlarge'
@@ -40,3 +41,26 @@ export declare type ValidationResults<T = any> = {
   isValid: boolean
   errors: ValidationErrors<T>
 }
+
+export type FormFieldValue = {
+  getter: (modelValue: any) => unknown
+  setter: (value: unknown, modelValue: any) => void
+}
+
+export type FormField = {
+  label?: string
+  description?: string
+  hint?: string
+  required?: boolean
+  component: string | Component | AsyncComponentLoader
+  props?: Record<string, unknown>
+  value?: FormFieldValue
+}
+
+export type FormFieldsStructure<T extends any = any> = Record<keyof T | string, FormField>
+
+export type FormStructure<T = any> = {
+  title?: string
+  separator?: boolean
+  fields: FormFieldsStructure<T>
+}[]

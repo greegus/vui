@@ -4,9 +4,7 @@ export { default as Breadcrumbs } from './components/Breadcrumbs.vue'
 export { default as Button } from './components/Button.vue'
 export { default as Checkbox } from './components/Checkbox.vue'
 export { default as CheckboxGroup } from './components/CheckboxGroup.vue'
-export type { FormStructure } from './components/Form.vue'
 export { default as Form } from './components/Form.vue'
-export type { FormFieldsStructure } from './components/FormFields.vue'
 export { default as FormFields } from './components/FormFields.vue'
 export { default as FormGroup } from './components/FormGroup.vue'
 export { default as Icon } from './components/Icon.vue'
@@ -27,6 +25,8 @@ export type {
   BreadcrumbItems,
   ButtonSize,
   ButtonVariant,
+  FormFieldsStructure,
+  FormStructure,
   TableColumns,
   ValidationErrors,
   ValidationResults

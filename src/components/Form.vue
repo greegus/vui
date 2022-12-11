@@ -1,30 +1,35 @@
 <template>
   <div class="Form">
-    <form v-if="modelValue" :disabled="submitting" @submit.prevent="handleSubmit?.()">
-      <div v-for="(block, index) in structure" :key="index">
+    <form v-if="$props.modelValue" :disabled="$props.submitting" @submit.prevent="handleSubmit?.()">
+      <div v-for="(block, index) in $props.structure" :key="index">
         <div v-if="block.title" class="Form__title">{{ block.title }}</div>
 
         <FormFields
           :fields="block.fields"
-          :model-value="modelValue"
-          :errors="errors"
+          :model-value="$props.modelValue"
+          :errors="$props.errors"
           @update:model-value="$emit('update:modelValue', $event)"
           @change="$emit('change', $event)"
         />
       </div>
 
-      <slot name="buttons" v-bind="{ cancel, submit }">
-        <div v-if="submit || cancel" class="Form__buttons">
+      <slot name="buttons" v-bind="{ cancel: $props.cancel, submit: $props.submit, submitting: $props.submitting }">
+        <div v-if="$props.submit || $props.cancel" class="Form__buttons">
           <Button
-            v-if="submit"
+            v-if="$props.submit"
             variant="primary"
             type="submit"
-            :label="submitLabel"
-            :disabled="submitting"
-            :prefix-icon="submitting ? 'spinner' : undefined"
+            :label="$props.submitLabel"
+            :loading="$props.submitting"
+            :prefix-icon="$props.submitting ? 'spinner' : undefined"
           />
 
-          <Button v-if="cancel" :label="cancelLabel" :disabled="submitting" @click="handleCancel()" />
+          <Button
+            v-if="$props.cancel"
+            :label="$props.cancelLabel"
+            :disabled="$props.submitting"
+            @click="handleCancel()"
+          />
         </div>
       </slot>
     </form>
@@ -33,75 +38,54 @@
   </div>
 </template>
 
-<script lang="ts">
-export type FormStructure<T = any> = {
-  title?: string
-  separator?: boolean
-  fields: FormFieldsStructure<T>
-}[]
+<script lang="ts" setup>
+import { RouteLocationRaw, useRouter } from 'vue-router'
 
-import { defineComponent } from 'vue'
-import { PropType } from 'vue'
-import { RouteLocationRaw } from 'vue-router'
+import { FormStructure } from '@/types'
 
 import Button from './Button.vue'
-import FormFields, { FormFieldsStructure } from './FormFields.vue'
+import FormFields from './FormFields.vue'
 import Icon from './Icon.vue'
 
-export default defineComponent({
-  components: { Button, FormFields, Icon },
-
-  props: {
-    structure: {
-      type: Object as PropType<FormStructure>,
-      default: () => ({})
-    },
-
-    modelValue: {
-      type: Object as PropType<any>,
-      default: () => undefined
-    },
-
-    errors: {
-      type: Object as PropType<Record<string, boolean | string | string[]>>,
-      default: () => ({})
-    },
-
-    submit: {
-      type: Function as PropType<(modelValue: any) => void>,
-      default: undefined
-    },
-
-    submitLabel: {
-      type: String as PropType<string>,
-      default: 'Submit'
-    },
-
-    cancel: {
-      type: [Function, Object] as PropType<(() => void) | RouteLocationRaw>,
-      default: undefined
-    },
-
-    cancelLabel: {
-      type: String as PropType<string>,
-      default: 'Cancel'
-    },
-
-    submitting: Boolean
-  },
-
-  emits: ['update:modelValue', 'change', 'submit', 'cancel'],
-
-  methods: {
-    handleSubmit() {
-      this.submit?.(this.modelValue)
-    },
-
-    handleCancel() {
-      typeof this.cancel === 'function' ? this.cancel?.() : this.cancel && this.$router.push(this.cancel)
-    }
+const props = withDefaults(
+  defineProps<{
+    structure: FormStructure
+    modelValue: unknown
+    errors?: Record<string, any>
+    submit?: (modelValue: any) => void
+    submitLabel?: string
+    cancel?: (() => void) | RouteLocationRaw
+    cancelLabel: string
+    submitting: boolean
+  }>(),
+  {
+    structure: () => [],
+    errors: () => ({}),
+    submit: undefined,
+    submitLabel: 'Submit',
+    cancel: undefined,
+    cancelLabel: 'Cancel'
   }
-})
+)
+
+const emit = defineEmits<{
+  (e: 'update:modelValue', value: unknown): void
+  (e: 'change', change: Record<string, unknown>): void
+  (e: 'submit'): void
+  (e: 'cancel'): void
+}>()
+
+const router = useRouter()
+
+const handleSubmit = () => {
+  emit('submit')
+  typeof props.submit === 'function' ? props.submit?.(props.modelValue) : props.submit && router.push(props.submit)
+}
+
+const handleCancel = () => {
+  emit('cancel')
+  typeof props.cancel === 'function' ? props.cancel?.() : props.cancel && router.push(props.cancel)
+}
 </script>
 
 <style lang="postcss" scoped>

@@ -1,53 +1,49 @@
 <template>
-  <label class="Checkbox" :class="[$attrs.class, { 'Checkbox--disabled': $attrs.disabled }]">
+  <label class="Checkbox" :class="{ 'Checkbox--disabled': $props.disabled }">
     <input
       v-show="!$props.switch"
-      v-bind="normalizedAttrs"
-      :checked="modelValue"
+      :checked="$props.modelValue"
       class="Checkbox__input vuiii-input"
-      :required="required"
+      :required="$props.required"
+      :disabled="$props.disabled"
       type="checkbox"
+      @input="$emit('update:modelValue', ($event.target! as any).checked)"
     />
 
-    <div v-if="$props.switch" class="Checkbox__switch" :class="{ 'Checkbox__switch--active': modelValue }">
+    <div v-if="$props.switch" class="Checkbox__switch" :class="{ 'Checkbox__switch--active': $props.modelValue }">
       <div class="Checkbox__switchDot"></div>
     </div>
 
-    <div v-if="$slots.default || caption" class="Checkbox__label">
-      <span v-if="required" class="Checkbox__required">*</span>
+    <div v-if="$slots.default || $props.label" class="Checkbox__label">
+      <span v-if="$props.required" class="Checkbox__required">*</span>
 
       <slot>
-        {{ caption }}
+        {{ $props.label }}
       </slot>
     </div>
   </label>
 </template>
 
 <script lang="ts">
+export default {
+  inheritAttrs: false
+}
+</script>
+
+<script lang="ts" setup>
 import '../assets/css/input.css'
 
-import { defineComponent } from 'vue'
+defineProps<{
+  modelValue: boolean
+  required?: boolean
+  disabled?: boolean
+  switch?: boolean
+  label?: string
+}>()
 
-import { transformInputAttrs } from '../utils/transformInputAttrs'
-
-export default defineComponent({
-  mixins: [transformInputAttrs],
-
-  inheritAttrs: false,
-
-  props: {
-    modelValue: Boolean,
-
-    required: Boolean,
-
-    switch: Boolean,
-
-    caption: {
-      type: String,
-      default: ''
-    }
-  }
-})
+defineEmits<{
+  (e: 'update:modelValue', value: boolean): void
+}>()
 </script>
 
 <style lang="postcss" scoped>

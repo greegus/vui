@@ -23,7 +23,9 @@
   "unpkg": "./dist/vuiii.umd.js",
   "jsdelivr": "./dist/vuiii.umd.js",
   "types": "./dist/index.d.ts",
-  "dependencies": {},
+  "dependencies": {
+    "storybook": "^6.5.14"
+  },
   "devDependencies": {
     "@babel/core": "^7.20.2",
     "@babel/runtime": "^7.18.3",

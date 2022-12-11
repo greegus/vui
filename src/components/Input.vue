@@ -14,7 +14,7 @@
         class="Input__prefix"
         :class="{ 'Input__prefix--clickable': isPrefixIconClickable }"
         tabindex="-1"
-        @click.prevent="$emit('prefix-click')"
+        @click.prevent="$emit('prefix-icon-click')"
       >
         <Icon class="Input__icon" :name="$props.prefixIcon || ''" />
       </component>
@@ -40,7 +40,7 @@
         class="Input__suffix"
         :class="{ 'Input__suffix--clickable': isSuffixIconClickable }"
         tabindex="-1"
-        @click.prevent="$emit('suffix-click')"
+        @click.prevent="$emit('suffix-icon-click')"
       >
         <Icon class="Input__icon" :name="$props.suffixIcon || ''" />
       </component>
@@ -70,8 +70,8 @@ const props = defineProps<{
 
 defineEmits<{
   (event: 'update:modelValue', value: number | string | Date | null): void
-  (event: 'prefix-click'): void
-  (event: 'suffix-click'): void
+  (event: 'prefix-icon-click'): void
+  (event: 'suffix-icon-click'): void
 }>()
 
 const attrs = useAttrs()
@@ -99,14 +99,28 @@ const retrieveTargetValue = (e: Event) => {
 </script>
 
 <style lang="postcss">
-.Input.Input /* Intentional selector overload */ {
+.Input.Input {
   position: relative;
   display: flex;
   align-items: stretch;
   cursor: text;
   padding-left: 0;
   padding-right: 0;
-  line-height: none;
+  line-height: 1;
+}
+
+.Input__input.Input__input {
+  width: 100%;
+  flex: auto;
+  align-self: stretch;
+}
+
+.Input__input.Input__input--withPrefixIcon {
+  padding-left: 3rem;
+}
+
+.Input__input.Input__input--withSuffixIcon {
+  padding-right: 3rem;
 }
 
 .Input__prefix,
@@ -137,22 +151,8 @@ const retrieveTargetValue = (e: Event) => {
   }
 }
 
-.Input__input--withPrefixIcon {
-  padding-left: 3rem;
-}
-
-.Input__input--withSuffixIcon {
-  padding-right: 3rem;
-}
-
 .Input__icon {
   margin: auto;
   width: 1.25rem;
-}
-
-.Input__input {
-  width: 100%;
-  flex: auto;
-  align-self: stretch;
 }
 </style>

@@ -2,7 +2,7 @@
   --textColor: var(--vuiii-input-textColor, inherit);
   --bgColor: var(--vuiii-input-bgColor, white);
   --borderRadus: var(--vuiii-input-borderRadius, var(--vuiii-field-borderRadius));
-  --borderWidth: var(--vuiii-input-borderWidth, 1px);
+  --borderWidth: var(--vuiii-input-borderWidth, var(--vuiii-field-borderWidth));
   --borderColor: var(--vuiii-input-borderColor, var(--vuiii-color-gray));
   --height: var(--vuiii-input-height, var(--vuiii-field-height));
   --padding: var(--vuiii-input-padding, 1rem);
@@ -13,7 +13,6 @@
   --ringSize: 0;
 
   width: 100%;
-  text-align: left;
   color: var(--textColor);
   background-color: var(--bgColor);
   border: var(--borderWidth) solid var(--borderColor);
@@ -24,6 +23,7 @@
   font-size: var(--fontSize);
   transition: var(--transition);
   box-shadow: 0 0 0 var(--ringSize) var(--ringColor), var(--shadow);
+  text-align: left;
 
   &::placeholder {
     color: var(--vuiii-input-placeholderColor);
@@ -44,20 +44,64 @@
 
   &:disabled,
   &.vuiii-input--disabled {
-    --borderColor: var(--vuiii-input-borderColor--disabled, --vuiii-color-gray--light);
-
     opacity: 0.6;
     pointer-events: none;
   }
 
   &.vuiii-input--small {
-    --height: var(--vuiii-input-height--small, var(--vuiii-field-height--small));
-    --fontSize: var(--vuiii-input-fontSize--small, var(--vuiii-field-fontSize--small));
+    --height: var(--vuiii-input-height--small, var(--vuiii-field-height--small, var(--vuiii-field-height)));
+    --padding: var(
+      --vuiii-input-padding--small,
+      var(--vuiii-input-padding, var(--vuiii-field-padding--small, var(--vuiii-field-padding)))
+    );
+    --fontSize: var(
+      --vuiii-input-fontSize--small,
+      var(--vuiii-input-fontSize, var(--vuiii-field-fontSize--small, var(--vuiii-field-fontSize)))
+    );
+    --borderRadius: var(
+      --vuiii-input-borderRadius--small,
+      var(--vuiii-input-borderRadius, var(--vuiii-field-borderRadius--small, var(--vuiii-field-borderRadius)))
+    );
 
     &:focus,
     &:focus-within {
-      --ringSize: var(--vuiii-field-ringSize--small);
+      --ringSize: var(--vuiii-field-ringSize--small, var(--vuiii-field-ringSize));
     }
+  }
+
+  &.vuiii-input--large {
+    --height: var(--vuiii-input-height--large, var(--vuiii-field-height--large, var(--vuiii-field-height)));
+    --padding: var(
+      --vuiii-input-padding--large,
+      var(--vuiii-input-padding, var(--vuiii-field-padding--large, var(--vuiii-field-padding)))
+    );
+    --fontSize: var(
+      --vuiii-input-fontSize--large,
+      var(--vuiii-input-fontSize, var(--vuiii-field-fontSize--large, var(--vuiii-field-fontSize)))
+    );
+    --borderRadius: var(
+      --vuiii-input-borderRadius--large,
+      var(--vuiii-input-borderRadius, var(--vuiii-field-borderRadius--large, var(--vuiii-field-borderRadius)))
+    );
+  }
+
+  &.vuiii-input--xlarge {
+    --height: var(
+      --vuiii-input-height--xlarge,
+      var(--vuiii-input-height, var(--vuiii-field-height--xlarge, var(--vuiii-field-height)))
+    );
+    --padding: var(
+      --vuiii-input-padding--xlarge,
+      var(--vuiii-input-padding, var(--vuiii-field-padding--xlarge, var(--vuiii-field-padding)))
+    );
+    --fontSize: var(
+      --vuiii-input-fontSize--xlarge,
+      var(--vuiii-input-fontSize, var(--vuiii-field-fontSize--xlarge, var(--vuiii-field-fontSize)))
+    );
+    --borderRadius: var(
+      --vuiii-input-borderRadius--xlarge,
+      var(--vuiii-input-borderRadius, var(--vuiii-field-borderRadius--xlarge, var(--vuiii-field-borderRadius)))
+    );
   }
 
   &.vuiii-input--valid {
