@@ -1,5 +1,10 @@
 <template>
-  <select class="Select vuiii-input" :class="{ [`vuiii-input--${$props.size}`]: $props.size }" :value="$props.value">
+  <select
+    class="Select vuiii-input"
+    :class="{ [`vuiii-input--${$props.size}`]: $props.size }"
+    :value="$props.modelValue"
+    @input="$emit('update:modelValue', ($event.target as any).value)"
+  >
     <option v-if="$props.placeholder" :disabled="!$props.allowEmpty" selected :value="undefined">
       {{ $props.placeholder }}
     </option>
@@ -18,7 +23,7 @@ import { normalizeOptions } from '../utils/normalizeOptions'
 
 const props = withDefaults(
   defineProps<{
-    value: string | number | null
+    modelValue: Option['value']
     options: any[] | any
     optionLabel?: Extractor
     optionValue?: Extractor
@@ -35,6 +40,10 @@ const props = withDefaults(
     placeholder: undefined
   }
 )
+
+defineEmits<{
+  (e: 'update:modelValue', value: Option['value']): void
+}>()
 
 const normalizedOptions = computed<Option[]>(() =>
   normalizeOptions(props.options, {
