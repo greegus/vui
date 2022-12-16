@@ -1,3 +1,5 @@
+@import './common.css';
+
 .vuiii-input {
   --textColor: var(--vuiii-input-textColor, inherit);
   --bgColor: var(--vuiii-input-bgColor, white);
@@ -5,12 +7,13 @@
   --borderWidth: var(--vuiii-input-borderWidth, var(--vuiii-field-borderWidth));
   --borderColor: var(--vuiii-input-borderColor, var(--vuiii-color-gray));
   --height: var(--vuiii-input-height, var(--vuiii-field-height));
-  --padding: var(--vuiii-input-padding, 1rem);
+  --padding: var(--vuiii-input-padding, var(--vuiii-field-padding));
   --fontSize: var(--vuiii-input-fontSize, var(--vuiii-field-fontSize));
   --transition: var(--vuiii-input-transition, var(--vuiii-field-transition));
   --shadow: var(--vuiii-input-shadow, 0 0);
   --ringColor: var(--vuiii-input-ringColor, var(--vuiii-field-ringColor));
   --ringSize: 0;
+  --iconSize: var(--vuiii-icon-size);
 
   width: 100%;
   color: var(--textColor);
@@ -56,12 +59,13 @@
     );
     --fontSize: var(
       --vuiii-input-fontSize--small,
-      var(--vuiii-input-fontSize, var(--vuiii-field-fontSize--small, var(--vuiii-field-fontSize)))
+      var(--vuiii-field-fontSize--small, var(--vuiii-input-fontSize, var(--vuiii-field-fontSize)))
     );
     --borderRadius: var(
       --vuiii-input-borderRadius--small,
       var(--vuiii-input-borderRadius, var(--vuiii-field-borderRadius--small, var(--vuiii-field-borderRadius)))
     );
+    --iconSize: var(--vuiii-icon-size--small);
 
     &:focus,
     &:focus-within {
@@ -83,6 +87,7 @@
       --vuiii-input-borderRadius--large,
       var(--vuiii-input-borderRadius, var(--vuiii-field-borderRadius--large, var(--vuiii-field-borderRadius)))
     );
+    --iconSize: var(--vuiii-icon-size--large);
   }
 
   &.vuiii-input--xlarge {
@@ -102,16 +107,19 @@
       --vuiii-input-borderRadius--xlarge,
       var(--vuiii-input-borderRadius, var(--vuiii-field-borderRadius--xlarge, var(--vuiii-field-borderRadius)))
     );
+    --iconSize: var(--vuiii-icon-size--xlarge);
   }
+
+  /* validity */
 
   &.vuiii-input--valid {
     --textColor: var(--vuiii-input-textColor--valid, var(--vuiii-color-success));
     --borderColor: var(--vuiii-input-borderColor--valid, var(--vuiii-color-success));
 
-    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='%2356B981' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3E%3C/svg%3E");
+    /* background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='%2356B981' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right calc(0.415em + 0.25rem) center;
-    background-size: calc(0.83em + 0.5rem) calc(0.83em + 0.5rem);
+    background-size: calc(0.83em + 0.5rem) calc(0.83em + 0.5rem); */
   }
 
   &.vuiii-input--invalid {
@@ -119,10 +127,10 @@
     --borderColor: var(--vuiii-input-borderColor--invalid, var(--vuiii-color-danger));
     --ringColor: var(--vuiii-color-danger-shadow);
 
-    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23dc3545' viewBox='-2 -2 7 7'%3E%3Cpath stroke='%23dc3545' d='M0 0l3 3m0-3L0 3'/%3E%3Ccircle r='.5'/%3E%3Ccircle cx='3' r='.5'/%3E%3Ccircle cy='3' r='.5'/%3E%3Ccircle cx='3' cy='3' r='.5'/%3E%3C/svg%3E");
+    /* background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23dc3545' viewBox='-2 -2 7 7'%3E%3Cpath stroke='%23dc3545' d='M0 0l3 3m0-3L0 3'/%3E%3Ccircle r='.5'/%3E%3Ccircle cx='3' r='.5'/%3E%3Ccircle cy='3' r='.5'/%3E%3Ccircle cx='3' cy='3' r='.5'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right calc(0.415em + 0.25rem) center;
-    background-size: calc(0.83em + 0.5rem) calc(0.83em + 0.5rem);
+    background-size: calc(0.83em + 0.5rem) calc(0.83em + 0.5rem); */
 
     &:focus,
     &:focus-within {
@@ -142,33 +150,32 @@
     outline: none;
     cursor: inherit;
     text-align: inherit;
+    font-size: inherit;
 
     &::placeholder {
       color: var(--vuiii-input-placeholderColor);
     }
   }
-}
 
-/* select */
+  /* prefix and suffix icons */
 
-select.vuiii-input {
-  padding-right: 2.5rem;
-  appearance: none;
-  background-repeat: no-repeat;
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792"><path d="M1408 704q0 26-19 45l-448 448q-19 19-45 19t-45-19l-448-448q-19-19-19-45t19-45 45-19h896q26 0 45 19t19 45z"/></svg>');
-  background-position: right 0.75rem center;
-  background-size: 1.2rem;
-  text-overflow: ellipsis;
-
-  /* XXX: targets only Firerefox to fix the vertical text alignment */
-  @supports (-moz-appearance: none) {
-    line-height: 3;
+  & .vuiii-input__prefix-icon,
+  & .vuiii-input__suffix-icon {
+    display: flex;
+    width: calc(var(--iconSize) * 2 + var(--padding));
+    opacity: 0.5;
+    outline: none;
+    align-items: center;
+    justify-content: center;
   }
-}
 
-select.vuiii-input.vuiii-input--small {
-  padding-right: 2rem;
-  background-size: 1rem;
+  & .vuiii-input__prefix-icon {
+    margin-right: calc(var(--padding) * -1.25);
+  }
+
+  & .vuiii-input__suffix-icon {
+    margin-left: calc(var(--padding) * -1.25);
+  }
 }
 
 /* number */

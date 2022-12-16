@@ -6,6 +6,7 @@
   --vuiii-fontSize: 1rem;
   --vuiii-fontSize--small: 0.875rem;
   --vuiii-fontSize--large: 1.125rem;
+  --vuiii-fontSize--xlarge: 1.2rem;
 
   /* colors */
   --vuiii-color-white: white;
@@ -38,7 +39,7 @@
 
   /* Field */
   --vuiii-field-height: 2.5rem;
-  --vuiii-field-padding: 1.4375rem;
+  --vuiii-field-padding: 1.35rem;
   --vuiii-field-borderRadius: 3px;
   --vuiii-field-borderWidth: 1px;
   --vuiii-field-bgColor: var(--vuiii-color-white);
@@ -83,8 +84,13 @@
   --vuiii-input-borderColor--focus: var(--vuiii-color-gray--dark);
   --vuiii-input-bgColor: var(--vuiii-color-white);
   --vuiii-input-placeholderColor: var(--vuiii-color-gray--dark);
-}
 
+  /* Icons */
+  --vuiii-icon-size: 1.3rem;
+  --vuiii-icon-size--small: 1.1rem;
+  --vuiii-icon-size--large: 1.5rem;
+  --vuiii-icon-size--xlarge: 1.75rem;
+}
 
 body {
   font: var(--vuiii-fontSize) var(--vuiii-typeface-body);

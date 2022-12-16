@@ -11,12 +11,12 @@
     <slot v-if="hasPrefix" name="prefix">
       <component
         :is="isPrefixIconClickable ? 'button' : 'div'"
-        class="Input__prefix"
-        :class="{ 'Input__prefix--clickable': isPrefixIconClickable }"
+        class="vuiii-input__prefix-icon"
+        :class="{ 'Input__icon': isPrefixIconClickable }"
         tabindex="-1"
         @click.prevent="$emit('prefix-icon-click')"
       >
-        <Icon class="Input__icon" :name="$props.prefixIcon || ''" />
+        <Icon :name="$props.prefixIcon || ''" :size="$props.size" />
       </component>
     </slot>
 
@@ -37,12 +37,12 @@
     <slot v-if="hasSuffix" name="suffix">
       <component
         :is="isSuffixIconClickable ? 'button' : 'div'"
-        class="Input__suffix"
-        :class="{ 'Input__suffix--clickable': isSuffixIconClickable }"
+        class="vuiii-input__suffix-icon"
+        :class="{ 'Input__icon': isSuffixIconClickable }"
         tabindex="-1"
         @click.prevent="$emit('suffix-icon-click')"
       >
-        <Icon class="Input__icon" :name="$props.suffixIcon || ''" />
+        <Icon :name="$props.suffixIcon || ''" :size="$props.size" />
       </component>
     </slot>
   </div>
@@ -55,6 +55,8 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import '../assets/css/input.css'
+
 import { computed, ref, useAttrs, useSlots } from 'vue'
 
 import { InputSize } from '../types'
@@ -115,44 +117,33 @@ const retrieveTargetValue = (e: Event) => {
   align-self: stretch;
 }
 
+/*
 .Input__input.Input__input--withPrefixIcon {
-  padding-left: 3rem;
+  padding-left: 0rem;
+  margin-left: calc(var(--padding) / -2.5);
 }
 
 .Input__input.Input__input--withSuffixIcon {
-  padding-right: 3rem;
+  padding-right: 0rem;
+  margin-right: calc(var(--padding) / -2.5);
 }
 
 .Input__prefix,
 .Input__suffix {
-  position: absolute;
-  top: 0;
-  bottom: 0;
   display: flex;
-  width: 3rem;
+  width: calc(var(--padding) * 3);
   opacity: 0.5;
   outline: none;
+  align-items: center;
+  justify-content: center;
 }
+*/
 
-.Input__prefix {
-  left: 0;
-}
-
-.Input__suffix {
-  right: 0;
-}
-
-.Input__prefix--clickable,
-.Input__suffix--clickable {
+.Input__icon {
   cursor: pointer;
 
   &:hover {
     opacity: 0.75;
   }
-}
-
-.Input__icon {
-  margin: auto;
-  width: 1.25rem;
 }
 </style>

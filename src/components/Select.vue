@@ -1,18 +1,19 @@
 <template>
-  <select
-    class="Select vuiii-input"
-    :class="{ [`vuiii-input--${$props.size}`]: $props.size }"
-    :value="$props.modelValue"
-    @input="$emit('update:modelValue', ($event.target as any).value)"
-  >
-    <option v-if="$props.placeholder" :disabled="!$props.allowEmpty" selected :value="undefined">
-      {{ $props.placeholder }}
-    </option>
+  <div class="Select vuiii-input" :class="{ [`vuiii-input--${$props.size}`]: $props.size }">
+    <select class="vuiii-input__nested Select__select" :value="$props.modelValue" :required="$props.required">
+      <option v-if="$props.placeholder" :disabled="$props.required" value="" selected>
+        {{ $props.placeholder }}
+      </option>
 
-    <option v-for="option in normalizedOptions" :key="option.value" :disabled="option.disabled" :value="option.value">
-      {{ option.label }}
-    </option>
-  </select>
+      <option v-for="option in normalizedOptions" :key="option.value" :disabled="option.disabled" :value="option.value">
+        {{ option.label }}
+      </option>
+    </select>
+
+    <div class="vuiii-input__suffix-icon">
+      <Icon name="chevron-down" :size="$props.size" />
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -20,6 +21,7 @@ import { computed } from 'vue'
 
 import { Extractor, InputSize, Option } from '../types'
 import { normalizeOptions } from '../utils/normalizeOptions'
+import Icon from './Icon.vue'
 
 const props = withDefaults(
   defineProps<{
@@ -30,7 +32,7 @@ const props = withDefaults(
     optionDisabled?: Extractor
     placeholder?: string
     size?: InputSize
-    allowEmpty?: boolean
+    required?: boolean
   }>(),
   {
     size: 'normal',
@@ -53,3 +55,39 @@ const normalizedOptions = computed<Option[]>(() =>
   })
 )
 </script>
+
+<style lang="postcss">
+.Select.Select {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  padding-left: 0;
+  padding-right: 0;
+  line-height: 1;
+}
+
+.Select__select.Select__select {
+  width: 100%;
+  appearance: none;
+  text-overflow: ellipsis;
+  align-self: stretch;
+  padding-right: 0rem;
+
+  /* XXX: targets only Firerefox to fix the vertical text alignment */
+  @supports (-moz-appearance: none) {
+    line-height: 3;
+  }
+}
+
+/*
+.Select__suffix-icon {
+  display: flex;
+  width: calc(var(--padding) + var());
+  opacity: 0.5;
+  outline: none;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+*/
+</style>
