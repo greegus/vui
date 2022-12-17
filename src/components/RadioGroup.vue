@@ -1,33 +1,33 @@
 <template>
-  <div class="Radio">
+  <div class="RadioGroup">
     <label
       v-for="option in normalizedOptions"
       :key="option.value"
-      class="Radio__option"
-      :class="{ 'Radio__option--disabled': option.disabled }"
+      class="RadioGroup__option"
+      :class="{ 'RadioGroup__option--disabled': option.disabled }"
     >
       <input
         v-bind="$attrs"
         :value="option.value"
-        class="Radio__input"
+        class="RadioGroup__input"
         type="radio"
         :name="inputName"
         :disabled="option.disabled"
         @input="$emit('update:modelValue', option.value)"
       />
 
-      <div class="Radio__radio vuiii-input">
-        <div class="Radio__radioDot"></div>
+      <div class="RadioGroup__radio vuiii-input">
+        <div class="RadioGroup__radioDot"></div>
       </div>
 
       <div>
         <slot v-bind="{ option }">
-          <div class="Radio__label">
+          <div class="RadioGroup__label">
             {{ option.label }}
           </div>
         </slot>
 
-        <div v-if="option.description" class="Radio__description">
+        <div v-if="option.description" class="RadioGroup__description">
           {{ option.description }}
         </div>
       </div>
@@ -54,7 +54,7 @@ defineEmits<{
 
 const attrs = useAttrs()
 
-const inputName = (attrs.name as string) || 'Radio-input-' + generateId()
+const inputName = (attrs.name as string) || 'RadioGroup-input-' + generateId()
 
 const props = defineProps<{
   modelValue?: string | number | undefined
@@ -76,13 +76,13 @@ const normalizedOptions = computed<Option[]>(() =>
 </script>
 
 <style lang="postcss" scoped>
-.Radio {
+.RadioGroup {
   & > * + * {
     margin-top: 0.75rem;
   }
 }
 
-.Radio__option {
+.RadioGroup__option {
   display: flex;
   align-items: flex-start;
   vertical-align: top;
@@ -90,17 +90,17 @@ const normalizedOptions = computed<Option[]>(() =>
   gap: 0.65rem;
 }
 
-.Radio__option--disabled {
+.RadioGroup__option--disabled {
   opacity: 0.5;
   cursor: default;
 }
 
-.Radio__input {
+.RadioGroup__input {
   position: absolute;
   left: -99999px;
 }
 
-.Radio__radio {
+.RadioGroup__radio {
   --vuiii-input-transition: all 0.1s;
   --vuiii-input-padding: 0;
 
@@ -110,7 +110,7 @@ const normalizedOptions = computed<Option[]>(() =>
   min-height: 0;
   display: flex;
 
-  & .Radio__radioDot {
+  & .RadioGroup__radioDot {
     margin: auto;
     width: 0.65rem;
     aspect-ratio: 1 / 1;
@@ -126,7 +126,7 @@ const normalizedOptions = computed<Option[]>(() =>
     --vuiii-input-borderColor: var(--vuiii-color-primary);
     --vuiii-input-textColor: var(--vuiii-color-white);
 
-    & .Radio__radioDot {
+    & .RadioGroup__radioDot {
       scale: 100%;
       opacity: 1;
     }
@@ -140,11 +140,11 @@ const normalizedOptions = computed<Option[]>(() =>
   }
 }
 
-.Radio__label {
+.RadioGroup__label {
   line-height: 1.45;
 }
 
-.Radio__description {
+.RadioGroup__description {
   margin-top: 0.1rem;
   opacity: 0.35;
   font-size: var(--vuiii-fontSize--small);

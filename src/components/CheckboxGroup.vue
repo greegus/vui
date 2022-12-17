@@ -22,7 +22,7 @@ import Checkbox from './Checkbox.vue'
 type CheckedValues = Record<Option['value'], boolean>
 
 const props = defineProps<{
-  modelValue: Option['value'][]
+  modelValue?: Option['value'][]
   options: any[] | Record<string, any>
   optionLabel?: Extractor
   optionValue?: Extractor

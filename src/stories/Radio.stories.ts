@@ -1,29 +1,29 @@
 import { Meta, StoryFn } from '@storybook/vue3'
 
-import Radio from '../components/Radio.vue'
+import RadioGroup from '../components/RadioGroup.vue'
 import { options } from './options'
 
 export default {
-  title: 'Example/Radio',
-  component: Radio,
+  title: 'Example/RadioGroup',
+  component: RadioGroup,
   parameters: {
     docs: {
       description: {
-        component: 'Standard radio'
+        component: 'Standard radio group'
       }
     }
   }
-} as Meta<typeof Radio>
+} as Meta<typeof RadioGroup>
 
-const Template: StoryFn<typeof Radio> = (args) => ({
-  components: { Radio },
+const Template: StoryFn<typeof RadioGroup> = (args) => ({
+  components: { RadioGroup },
   setup: () => ({
     options
   }),
   template: `
     <div style="display: flex; flex-direction: column; gap: 1rem;">
         <div>
-            <Radio :options="options" label="Subscribe to newsletter" option-value="value" option-label="label" option-description="description" option-disabled="disabled" />
+            <RadioGroup :options="options" label="Subscribe to newsletter" option-value="value" option-label="label" option-description="description" option-disabled="disabled" />
         </div>
     </div>
   `
