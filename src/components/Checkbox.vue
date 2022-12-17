@@ -1,17 +1,20 @@
 <template>
   <label class="Checkbox" :class="{ 'Checkbox--disabled': $props.disabled }">
     <input
-      v-show="!$props.switch"
       :checked="$props.modelValue"
-      class="Checkbox__input vuiii-input"
+      class="Checkbox__input"
       :required="$props.required"
       :disabled="$props.disabled"
       type="checkbox"
-      @input="$emit('update:modelValue', ($event.target! as any).checked)"
+      @input="handleInput($event)"
     />
 
-    <div v-if="$props.switch" class="Checkbox__switch" :class="{ 'Checkbox__switch--active': $props.modelValue }">
+    <div v-if="$props.switch" class="Checkbox__switch">
       <div class="Checkbox__switchDot"></div>
+    </div>
+
+    <div v-else class="Checkbox__checkbox vuiii-input">
+      <Icon name="check" class="Checkbox__checkboxIcon" />
     </div>
 
     <div v-if="$slots.default || $props.label" class="Checkbox__label">
@@ -33,7 +36,11 @@ export default {
 <script lang="ts" setup>
 import '../assets/css/input.css'
 
-defineProps<{
+import { ref } from 'vue'
+
+import Icon from './Icon.vue'
+
+const props = defineProps<{
   modelValue: boolean
   required?: boolean
   disabled?: boolean
@@ -41,9 +48,16 @@ defineProps<{
   label?: string
 }>()
 
-defineEmits<{
+const emit = defineEmits<{
   (e: 'update:modelValue', value: boolean): void
 }>()
+
+const isChecked = ref<boolean>(props.modelValue)
+
+const handleInput = (event: any) => {
+  isChecked.value = event.target.checked
+  emit('update:modelValue', isChecked.value)
+}
 </script>
 
 <style lang="postcss" scoped>
@@ -59,7 +73,38 @@ defineEmits<{
 }
 
 .Checkbox__input {
-  margin-top: 1px;
+  position: absolute;
+  left: -99999px;
+}
+
+.Checkbox__checkbox {
+  padding: 0;
+  width: auto;
+  min-height: 0;
+
+  & .Checkbox__checkboxIcon {
+    scale: 50%;
+    opacity: 0;
+    transition: scale 0.15s ease-out, opacity 0.15s ease-out;
+  }
+
+  @nest input:checked + & {
+    --vuiii-input-bgColor: var(--vuiii-color-primary);
+    --vuiii-input-borderColor: var(--vuiii-color-primary);
+    --vuiii-input-textColor: var(--vuiii-color-white);
+
+    & .Checkbox__checkboxIcon {
+      scale: 100%;
+      opacity: 1;
+    }
+  }
+
+  @nest input:focus:not(:checked) + & {
+    --borderColor: var(
+      --vuiii-input-borderColor--focus,
+      var(--vuiii-field-borderColor--focus, var(--vuiii-input-borderColor, var(--vuiii-color-gray--dark)))
+    );
+  }
 }
 
 .Checkbox__switch {
@@ -68,28 +113,37 @@ defineEmits<{
   width: 2.25rem;
   border-radius: 999px;
   transition: all 0.15s ease-out;
-  background: rgb(115, 115, 115) /* neutral.500 */;
+  background: var(--vuiii-input-borderColor, --vuiii-field-borderColor);
+  border: 1px solid var(--vuiii-input-borderColor, --vuiii-field-borderColor);
 
-  &--active {
-    background: var(--vuiii-color-primary);
+  & .Checkbox__switchDot {
+    width: 1.25rem;
+    aspect-ratio: 1 / 1;
+    background: var(--vuiii-color-white);
+    border-radius: 999px;
+    transition: all 0.15s ease-out;
   }
-}
 
-.Checkbox__switchDot {
-  width: 1.25rem;
-  aspect-ratio: 1 / 1;
-  background: white;
-  border-radius: 999px;
-  transition: all 0.15s ease-out;
-}
+  @nest input:checked + & {
+    background: var(--vuiii-color-primary);
+    border-color: var(--vuiii-color-primary);
 
-.Checkbox__switch--active .Checkbox__switchDot {
-  transform: translateX(0.75rem);
+    & .Checkbox__switchDot {
+      transform: translateX(1rem);
+    }
+  }
+
+  @nest input:focus:not(:checked) + & {
+    border-color: var(
+      --vuiii-input-borderColor--focus,
+      var(--vuiii-field-borderColor--focus, var(--vuiii-input-borderColor))
+    );
+  }
 }
 
 .Checkbox__label {
   margin-left: 0.5rem;
-  line-height: 1.375;
+  align-self: center;
 }
 
 .Checkbox__required {
