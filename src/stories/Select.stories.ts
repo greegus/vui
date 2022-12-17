@@ -74,17 +74,17 @@ const GalleryTeplate: StoryFn<typeof Select> = () => ({
   template: `
     <div style="display: flex; flex-direction: column; gap: 1rem;">
         <div style="display: flex; flex-direction: column; gap: .5rem;">
-            <Select placeholder="Select an option…" :options="options" option-value="value" option-label="label" />
+            <Select placeholder="Select an option…" :options="options" option-value="value" option-label="label" option-disabled="disabled" />
       </div>
 
         <div>
           <h3>Sizes</h3>
 
           <div style="display: flex; flex-direction: column; gap: .5rem;">
-              <Select :options="plainOptions" placeholder="Select an option…" :options="options" size="small" />
-              <Select :options="plainOptions" placeholder="Select an option…" :options="options" />
-              <Select :options="plainOptions" placeholder="Select an option…" :options="options" size="large" />
-              <Select :options="plainOptions" placeholder="Select an option…" :options="options" size="xlarge" />
+              <Select :options="plainOptions" placeholder="Select an option…" size="small" />
+              <Select :options="plainOptions" placeholder="Select an option…" />
+              <Select :options="plainOptions" placeholder="Select an option…" size="large" />
+              <Select :options="plainOptions" placeholder="Select an option…" size="xlarge" />
           </div>
         </div>
     </div>

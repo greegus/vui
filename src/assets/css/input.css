@@ -115,27 +115,12 @@
   &.vuiii-input--valid {
     --textColor: var(--vuiii-input-textColor--valid, var(--vuiii-color-success));
     --borderColor: var(--vuiii-input-borderColor--valid, var(--vuiii-color-success));
-
-    /* background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='%2356B981' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right calc(0.415em + 0.25rem) center;
-    background-size: calc(0.83em + 0.5rem) calc(0.83em + 0.5rem); */
   }
 
   &.vuiii-input--invalid {
     --textColor: var(--vuiii-input-textColor--invalid, var(--vuiii-color-danger));
     --borderColor: var(--vuiii-input-borderColor--invalid, var(--vuiii-color-danger));
     --ringColor: var(--vuiii-color-danger-shadow);
-
-    /* background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23dc3545' viewBox='-2 -2 7 7'%3E%3Cpath stroke='%23dc3545' d='M0 0l3 3m0-3L0 3'/%3E%3Ccircle r='.5'/%3E%3Ccircle cx='3' r='.5'/%3E%3Ccircle cy='3' r='.5'/%3E%3Ccircle cx='3' cy='3' r='.5'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right calc(0.415em + 0.25rem) center;
-    background-size: calc(0.83em + 0.5rem) calc(0.83em + 0.5rem); */
-
-    &:focus,
-    &:focus-within {
-      outline: none;
-    }
   }
 
   /* nested <input> inside class .vuiii-input */
@@ -189,16 +174,26 @@ input[type='number'].vuiii-input {
   }
 }
 
+/* textarea */
+
+textarea.vuiii-input {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  vertical-align: middle;
+  line-height: 1.25;
+  resize: vertical;
+}
+
 /* checkbox and radio */
 
-/* input[type='checkbox'].vuiii-input,
+input[type='checkbox'].vuiii-input,
 input[type='radio'].vuiii-input {
+  --height: var(--vuiii-icon-size);
+  --width: var(--vuiii-icon-size);
+  --padding: 0;
+
   appearance: none;
-  width: 1.25rem;
-  height: 1.25rem;
-  min-height: 0;
-  padding: 0;
-  background: white;
+  background: transparent;
   cursor: pointer;
   flex: none;
 
@@ -210,13 +205,12 @@ input[type='radio'].vuiii-input {
   }
 
   &:disabled {
+    opacity: 0.5;
     cursor: default;
   }
-} */
+}
 
-/* input[type='checkbox'].vuiii-input {
-  border-radius: 0.25rem;
-
+input[type='checkbox'].vuiii-input {
   &:checked {
     background-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path fill="white" d="M20.405 40.983L38.79 59.368 81.217 16.94l14.142 14.143L38.79 87.652 6.263 55.125l14.142-14.142z"/></svg>');
     background-size: 0.75rem;
@@ -230,14 +224,4 @@ input[type='radio'].vuiii-input {
     background-image: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 1 1"><circle r=".5" cx=".5" cy=".5" /></svg>');
     background-size: 0.5rem;
   }
-} */
-
-/* textarea */
-
-textarea.vuiii-input {
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
-  vertical-align: middle;
-  line-height: 1.25;
-  resize: vertical;
 }
