@@ -4,7 +4,8 @@
       <Checkbox
         :disabled="option.disabled"
         :model-value="checkedValues[option.value]"
-        :caption="option.label"
+        :label="option.label"
+        :description="option.description"
         @update:model-value="toggleCheckedValue(option.value, $event)"
       />
     </div>
@@ -43,7 +44,7 @@ const normalizedOptions = computed<Option[]>(() => {
 })
 
 const checkedValues = computed<Record<string, boolean>>(() => {
-  return props.modelValue.reduce(
+  return (props.modelValue || []).reduce(
     (result, value) => ({
       ...result,
       [value]: true
@@ -69,7 +70,7 @@ const toggleCheckedValue = (key: Option['value'], value: boolean) => {
 <style lang="postcss" scoped>
 .CheckboxGroup {
   & > * + * {
-    margin-top: 0.5rem;
+    margin-top: 0.75rem;
   }
 }
 </style>

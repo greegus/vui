@@ -24,6 +24,14 @@ const Template: StoryFn<typeof Checkbox> = (args) => ({
         </div>
 
         <div>
+            <Checkbox label="Subscribe to newsletter" disabled />
+        </div>
+
+        <div>
+            <Checkbox label="Subscribe to newsletter" description="Lorem ipsum dolor sid amed melonis quo." />
+        </div>
+
+        <div>
             <Checkbox required>
                 Agree with <a href="#">terms and conditions</a>
             </Checkbox>

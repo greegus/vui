@@ -25,11 +25,11 @@
           <div class="Radio__label">
             {{ option.label }}
           </div>
-
-          <div v-if="option.description" class="Radio__description">
-            {{ option.description }}
-          </div>
         </slot>
+
+        <div v-if="option.description" class="Radio__description">
+          {{ option.description }}
+        </div>
       </div>
     </label>
   </div>
@@ -87,7 +87,7 @@ const normalizedOptions = computed<Option[]>(() =>
   align-items: flex-start;
   vertical-align: top;
   cursor: pointer;
-  gap: 0.5rem;
+  gap: 0.65rem;
 }
 
 .Radio__option--disabled {

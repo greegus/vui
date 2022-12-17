@@ -17,12 +17,18 @@
       <Icon name="check" class="Checkbox__checkboxIcon" />
     </div>
 
-    <div v-if="$slots.default || $props.label" class="Checkbox__label">
-      <span v-if="$props.required" class="Checkbox__required">*</span>
+    <div>
+      <div v-if="$slots.default || $props.label" class="Checkbox__label">
+        <span v-if="$props.required" class="Checkbox__required">*</span>
 
-      <slot>
-        {{ $props.label }}
-      </slot>
+        <slot>
+          {{ $props.label }}
+        </slot>
+      </div>
+
+      <div v-if="$props.description" class="Checkbox__description">
+        {{ $props.description }}
+      </div>
     </div>
   </label>
 </template>
@@ -44,6 +50,7 @@ defineProps<{
   disabled?: boolean
   switch?: boolean
   label?: string
+  description?: string
 }>()
 
 defineEmits<{
@@ -54,13 +61,15 @@ defineEmits<{
 <style lang="postcss" scoped>
 .Checkbox {
   display: inline-flex;
-  align-items: flex-start;
+  align-items: center;
   vertical-align: top;
   cursor: pointer;
+  gap: 0.65rem;
+}
 
-  &--disabled {
-    opacity: 0.5;
-  }
+.Checkbox--disabled {
+  opacity: 0.5;
+  cursor: default;
 }
 
 .Checkbox__input {
@@ -72,6 +81,7 @@ defineEmits<{
   --vuiii-input-transition: all 0.1s;
   --vuiii-input-padding: 0;
 
+  align-self: flex-start;
   width: var(--vuiii-icon-size);
   aspect-ratio: 1 / 1;
   min-height: 0;
@@ -102,6 +112,7 @@ defineEmits<{
 }
 
 .Checkbox__switch {
+  align-self: flex-start;
   padding: 3px;
   margin-top: -1px;
   width: 2.25rem;
@@ -136,12 +147,17 @@ defineEmits<{
 }
 
 .Checkbox__label {
-  margin-left: 0.5rem;
-  align-self: center;
+  line-height: 1.45;
 }
 
 .Checkbox__required {
   line-height: 1;
   color: var(--vuiii-color-danger);
+}
+
+.Checkbox__description {
+  margin-top: 0.1rem;
+  opacity: 0.35;
+  font-size: var(--vuiii-fontSize--small);
 }
 </style>
