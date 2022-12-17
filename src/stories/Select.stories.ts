@@ -1,14 +1,7 @@
 import { Meta, StoryFn } from '@storybook/vue3'
 
 import Select from '../components/Select.vue'
-
-const options: { value: string; label: string; disabled?: boolean }[] = [
-  { value: 'first', label: 'First option' },
-  { value: 'second', label: 'Second option' },
-  { value: 'third', label: 'Third option', disabled: true }
-]
-
-const plainOptions: string[] = ['First option', 'Second option', 'Third option']
+import { options, plainOptions } from './options'
 
 export default {
   title: 'Example/Select',

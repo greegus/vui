@@ -4,22 +4,31 @@
       v-for="option in normalizedOptions"
       :key="option.value"
       class="Radio__option"
-      :class="{ 'Radio--disabled': option.disabled }"
+      :class="{ 'Radio__option--disabled': option.disabled }"
     >
       <input
         v-bind="$attrs"
         :value="option.value"
-        :checked="$props.modelValue === option.value"
-        class="Radio__input vuiii-input"
+        class="Radio__input"
         type="radio"
         :name="inputName"
         :disabled="option.disabled"
         @input="$emit('update:modelValue', option.value)"
       />
 
-      <div class="Radio__label">
-        <slot>
-          {{ option.label }}
+      <div class="Radio__radio vuiii-input">
+        <div class="Radio__radioDot"></div>
+      </div>
+
+      <div>
+        <slot v-bind="{ option }">
+          <div class="Radio__label">
+            {{ option.label }}
+          </div>
+
+          <div v-if="option.description" class="Radio__description">
+            {{ option.description }}
+          </div>
         </slot>
       </div>
     </label>
@@ -33,7 +42,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed, useAttrs } from 'vue'
 
 import { Extractor, Option } from '../types'
 import { generateId } from '../utils/generateId'
@@ -43,21 +52,25 @@ defineEmits<{
   (e: 'update:modelValue', value: string | number): void
 }>()
 
-const inputName = 'Radio-input-' + generateId()
+const attrs = useAttrs()
+
+const inputName = (attrs.name as string) || 'Radio-input-' + generateId()
 
 const props = defineProps<{
-  modelValue: string | number | undefined
+  modelValue?: string | number | undefined
   options: any[] | any
   optionLabel?: Extractor
   optionValue?: Extractor
   optionDisabled?: Extractor
+  optionDescription?: Extractor
 }>()
 
 const normalizedOptions = computed<Option[]>(() =>
   normalizeOptions(props.options, {
     value: props.optionValue,
     label: props.optionLabel,
-    disabled: props.optionDisabled
+    disabled: props.optionDisabled,
+    description: props.optionDescription
   })
 )
 </script>
@@ -65,7 +78,7 @@ const normalizedOptions = computed<Option[]>(() =>
 <style lang="postcss" scoped>
 .Radio {
   & > * + * {
-    margin-top: 0.5rem;
+    margin-top: 0.75rem;
   }
 }
 
@@ -74,14 +87,66 @@ const normalizedOptions = computed<Option[]>(() =>
   align-items: flex-start;
   vertical-align: top;
   cursor: pointer;
+  gap: 0.5rem;
+}
+
+.Radio__option--disabled {
+  opacity: 0.5;
+  cursor: default;
 }
 
 .Radio__input {
-  margin-top: 1px;
+  position: absolute;
+  left: -99999px;
+}
+
+.Radio__radio {
+  --vuiii-input-transition: all 0.1s;
+  --vuiii-input-padding: 0;
+
+  width: var(--vuiii-icon-size);
+  aspect-ratio: 1 / 1;
+  border-radius: 999px;
+  min-height: 0;
+  display: flex;
+
+  & .Radio__radioDot {
+    margin: auto;
+    width: 0.65rem;
+    aspect-ratio: 1 / 1;
+    background: var(--vuiii-color-white);
+    border-radius: 999px;
+    scale: 50%;
+    opacity: 0;
+    transition: scale 0.15s ease-out, opacity 0.15s ease-out;
+  }
+
+  @nest input:checked + & {
+    --vuiii-input-bgColor: var(--vuiii-color-primary);
+    --vuiii-input-borderColor: var(--vuiii-color-primary);
+    --vuiii-input-textColor: var(--vuiii-color-white);
+
+    & .Radio__radioDot {
+      scale: 100%;
+      opacity: 1;
+    }
+  }
+
+  @nest input:focus:not(:checked) + & {
+    --borderColor: var(
+      --vuiii-input-borderColor--focus,
+      var(--vuiii-field-borderColor--focus, var(--vuiii-input-borderColor, var(--vuiii-color-gray--dark)))
+    );
+  }
 }
 
 .Radio__label {
-  margin-left: 0.5rem;
-  line-height: 1.375;
+  line-height: 1.45;
+}
+
+.Radio__description {
+  margin-top: 0.1rem;
+  opacity: 0.35;
+  font-size: var(--vuiii-fontSize--small);
 }
 </style>

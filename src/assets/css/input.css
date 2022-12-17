@@ -191,7 +191,7 @@ input[type='number'].vuiii-input {
 
 /* checkbox and radio */
 
-input[type='checkbox'].vuiii-input,
+/* input[type='checkbox'].vuiii-input,
 input[type='radio'].vuiii-input {
   appearance: none;
   width: 1.25rem;
@@ -212,9 +212,9 @@ input[type='radio'].vuiii-input {
   &:disabled {
     cursor: default;
   }
-}
+} */
 
-input[type='checkbox'].vuiii-input {
+/* input[type='checkbox'].vuiii-input {
   border-radius: 0.25rem;
 
   &:checked {
@@ -230,7 +230,7 @@ input[type='radio'].vuiii-input {
     background-image: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 1 1"><circle r=".5" cx=".5" cy=".5" /></svg>');
     background-size: 0.5rem;
   }
-}
+} */
 
 /* textarea */
 

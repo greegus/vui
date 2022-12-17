@@ -6,7 +6,7 @@
       :required="$props.required"
       :disabled="$props.disabled"
       type="checkbox"
-      @input="handleInput($event)"
+      @input="$emit('update:modelValue', ($event.target as any).checked)"
     />
 
     <div v-if="$props.switch" class="Checkbox__switch">
@@ -36,28 +36,19 @@ export default {
 <script lang="ts" setup>
 import '../assets/css/input.css'
 
-import { ref } from 'vue'
-
 import Icon from './Icon.vue'
 
-const props = defineProps<{
-  modelValue: boolean
+defineProps<{
+  modelValue?: boolean
   required?: boolean
   disabled?: boolean
   switch?: boolean
   label?: string
 }>()
 
-const emit = defineEmits<{
+defineEmits<{
   (e: 'update:modelValue', value: boolean): void
 }>()
-
-const isChecked = ref<boolean>(props.modelValue)
-
-const handleInput = (event: any) => {
-  isChecked.value = event.target.checked
-  emit('update:modelValue', isChecked.value)
-}
 </script>
 
 <style lang="postcss" scoped>
@@ -78,8 +69,11 @@ const handleInput = (event: any) => {
 }
 
 .Checkbox__checkbox {
-  padding: 0;
-  width: auto;
+  --vuiii-input-transition: all 0.1s;
+  --vuiii-input-padding: 0;
+
+  width: var(--vuiii-icon-size);
+  aspect-ratio: 1 / 1;
   min-height: 0;
 
   & .Checkbox__checkboxIcon {
