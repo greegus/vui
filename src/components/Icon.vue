@@ -39,8 +39,4 @@ watch(
 .Icon--large {
   width: var(--vuiii-icon-size--large);
 }
-
-.Icon--xlarge {
-  width: var(--vuiii-icon-size--xlarge);
-}
 </style>

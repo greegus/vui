@@ -23,7 +23,7 @@ export default {
   argTypes: {
     size: {
       control: { type: 'select' },
-      options: ['small', 'normal', 'large', 'xlarge']
+      options: ['small', 'normal', 'large']
     },
     variant: {
       control: { type: 'select' },
@@ -85,7 +85,6 @@ const GalleryTeplate: StoryFn<typeof Button> = () => ({
         <Button size="small" variant="primary" label="Add to Cart" />
         <Button size="normal" variant="primary" label="Add to Cart" />
         <Button size="large" variant="primary" label="Add to Cart" />
-        <Button size="xlarge" variant="primary" label="Add to Cart" />
       </div>
     </div>
   `

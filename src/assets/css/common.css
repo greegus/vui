@@ -5,8 +5,8 @@
 
   --vuiii-fontSize: 1rem;
   --vuiii-fontSize--small: 0.875rem;
-  --vuiii-fontSize--large: 1.125rem;
-  --vuiii-fontSize--xlarge: 1.2rem;
+  /* --vuiii-fontSize--large: 1.125rem; */
+  --vuiii-fontSize--large: 1.2rem;
 
   /* colors */
   --vuiii-color-white: white;
@@ -57,15 +57,15 @@
   --vuiii-field-fontSize--small: 0.8125rem;
   --vuiii-field-borderRadius--small: 2px;
 
-  --vuiii-field-height--large: 3rem;
+  /* --vuiii-field-height--large: 3rem;
   --vuiii-field-padding--large: 1.4375rem;
   --vuiii-field-fontSize--large: 1rem;
-  --vuiii-field-borderRadius--large: 3px;
+  --vuiii-field-borderRadius--large: 3px; */
 
-  --vuiii-field-height--xlarge: 3.25rem;
-  --vuiii-field-padding--xlarge: 1.5625rem;
-  --vuiii-field-fontSize--xlarge: 1.125rem;
-  --vuiii-field-borderRadius--xlarge: 4px;
+  --vuiii-field-height--large: 3.25rem;
+  --vuiii-field-padding--large: 1.5625rem;
+  --vuiii-field-fontSize--large: 1.125rem;
+  --vuiii-field-borderRadius--large: 4px;
 
   /* Buttons */
   --vuiii-button-bgColor--primary: var(--vuiii-color-primary);
@@ -88,8 +88,8 @@
   /* Icons */
   --vuiii-icon-size: 1.3rem;
   --vuiii-icon-size--small: 1.1rem;
-  --vuiii-icon-size--large: 1.5rem;
-  --vuiii-icon-size--xlarge: 1.75rem;
+  /* --vuiii-icon-size--large: 1.5rem; */
+  --vuiii-icon-size--large: 1.75rem;
 }
 
 body {

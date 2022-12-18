@@ -102,26 +102,6 @@
     );
   }
 
-  &.vuiii-button--xlarge {
-    --gap: 1rem;
-    --height: var(
-      --vuiii-button-height--xlarge,
-      var(--vuiii-button-height, var(--vuiii-field-height--xlarge, var(--vuiii-field-height)))
-    );
-    --padding: var(
-      --vuiii-button-padding--xlarge,
-      var(--vuiii-button-padding, var(--vuiii-field-padding--xlarge, var(--vuiii-field-padding)))
-    );
-    --fontSize: var(
-      --vuiii-button-fontSize--xlarge,
-      var(--vuiii-button-fontSize, var(--vuiii-field-fontSize--xlarge, var(--vuiii-field-fontSize)))
-    );
-    --borderRadius: var(
-      --vuiii-button-borderRadius--xlarge,
-      var(--vuiii-button-borderRadius, var(--vuiii-field-borderRadius--xlarge, var(--vuiii-field-borderRadius)))
-    );
-  }
-
   /* Variants */
 
   &.vuiii-button--primary {

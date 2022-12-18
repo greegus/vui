@@ -23,7 +23,7 @@ export default {
     },
     size: {
       control: { type: 'select' },
-      options: ['small', 'normal', 'large', 'xlarge']
+      options: ['small', 'normal', 'large']
     },
     options: {
       control: { type: 'object' },
@@ -84,7 +84,6 @@ const GalleryTeplate: StoryFn<typeof Select> = () => ({
               <Select :options="plainOptions" placeholder="Select an option…" size="small" />
               <Select :options="plainOptions" placeholder="Select an option…" />
               <Select :options="plainOptions" placeholder="Select an option…" size="large" />
-              <Select :options="plainOptions" placeholder="Select an option…" size="xlarge" />
           </div>
         </div>
     </div>

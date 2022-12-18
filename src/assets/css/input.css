@@ -90,26 +90,6 @@
     --iconSize: var(--vuiii-icon-size--large);
   }
 
-  &.vuiii-input--xlarge {
-    --height: var(
-      --vuiii-input-height--xlarge,
-      var(--vuiii-input-height, var(--vuiii-field-height--xlarge, var(--vuiii-field-height)))
-    );
-    --padding: var(
-      --vuiii-input-padding--xlarge,
-      var(--vuiii-input-padding, var(--vuiii-field-padding--xlarge, var(--vuiii-field-padding)))
-    );
-    --fontSize: var(
-      --vuiii-input-fontSize--xlarge,
-      var(--vuiii-input-fontSize, var(--vuiii-field-fontSize--xlarge, var(--vuiii-field-fontSize)))
-    );
-    --borderRadius: var(
-      --vuiii-input-borderRadius--xlarge,
-      var(--vuiii-input-borderRadius, var(--vuiii-field-borderRadius--xlarge, var(--vuiii-field-borderRadius)))
-    );
-    --iconSize: var(--vuiii-icon-size--xlarge);
-  }
-
   /* validity */
 
   &.vuiii-input--valid {

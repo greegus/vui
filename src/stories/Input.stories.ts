@@ -24,7 +24,7 @@ export default {
     },
     size: {
       control: { type: 'select' },
-      options: ['small', 'normal', 'large', 'xlarge']
+      options: ['small', 'normal', 'large']
     },
     prefixIcon: {
       control: { type: 'select' },
@@ -88,14 +88,12 @@ const GalleryTeplate: StoryFn<typeof Input> = () => ({
                 <Input placeholder="First name" size="small" />
                 <Input placeholder="First name" />
                 <Input placeholder="First name" size="large" />
-                <Input placeholder="First name" size="xlarge" />
             </div>
 
             <div style="display: flex; flex-direction: column; gap: .5rem;">
                 <Input placeholder="Search" prefix-icon="search" suffix-icon="x" @suffix-icon-click="action('@suffix-icon-click')" size="small" />
                 <Input placeholder="Search" prefix-icon="search" suffix-icon="x" @suffix-icon-click="action('@suffix-icon-click')" />
                 <Input placeholder="Search" prefix-icon="search" suffix-icon="x" @suffix-icon-click="action('@suffix-icon-click')" size="large" />
-                <Input placeholder="Search" prefix-icon="search" suffix-icon="x" @suffix-icon-click="action('@suffix-icon-click')" size="xlarge" />
             </div>
           </div>
         </div>
