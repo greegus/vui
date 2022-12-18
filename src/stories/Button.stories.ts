@@ -40,16 +40,7 @@ export default {
   }
 } as Meta<typeof Button>
 
-// More on component templates: https://storybook.js.org/docs/vue/writing-stories/introduction#using-args
-const Template: StoryFn<typeof Button> = (args) => ({
-  components: { Button },
-  setup: () => ({ args }),
-  template: '<Button v-bind="args" />'
-})
-
-export const Playground = Template.bind({})
-
-const GalleryTeplate: StoryFn<typeof Button> = () => ({
+const DefaultTeplate: StoryFn<typeof Button> = () => ({
   components: { Button },
   template: `
     <div style="display: flex; flex-direction: column; gap: 1rem;">
@@ -90,6 +81,12 @@ const GalleryTeplate: StoryFn<typeof Button> = () => ({
   `
 })
 
-export const Gallery = GalleryTeplate.bind({})
+export const Default = DefaultTeplate.bind({})
 
-Gallery.storyName = 'Showcase of all buttons'
+const PlaygroundTemplate: StoryFn<typeof Button> = (args) => ({
+  components: { Button },
+  setup: () => ({ args }),
+  template: '<Button v-bind="args" />'
+})
+
+export const Playground = PlaygroundTemplate.bind({})

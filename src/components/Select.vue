@@ -10,7 +10,7 @@
       </option>
     </select>
 
-    <div class="vuiii-input__suffix-icon">
+    <div class="Select__dropdownIcon vuiii-input__suffix-icon">
       <Icon name="triangle-down" :size="$props.size" />
     </div>
   </div>
@@ -80,15 +80,11 @@ const normalizedOptions = computed<Option[]>(() =>
   }
 }
 
-/*
-.Select__suffix-icon {
-  display: flex;
-  width: calc(var(--padding) + var());
-  opacity: 0.5;
-  outline: none;
-  align-items: center;
-  justify-content: center;
+.Select__dropdownIcon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
   pointer-events: none;
 }
-*/
 </style>

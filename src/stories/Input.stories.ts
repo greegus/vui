@@ -50,15 +50,7 @@ export default {
   }
 } as Meta<typeof Input>
 
-const Template: StoryFn<typeof Input> = (args) => ({
-  components: { Input },
-  setup: () => ({ args }),
-  template: '<Input v-bind="args" />'
-})
-
-export const Playground = Template.bind({})
-
-const GalleryTeplate: StoryFn<typeof Input> = () => ({
+const DefaultTeplate: StoryFn<typeof Input> = () => ({
   components: { Input },
   setup: () => ({
     action
@@ -101,6 +93,12 @@ const GalleryTeplate: StoryFn<typeof Input> = () => ({
   `
 })
 
-export const Gallery = GalleryTeplate.bind({})
+export const Default = DefaultTeplate.bind({})
 
-Gallery.storyName = 'Showcase of input fields'
+const PlaygroundTemplate: StoryFn<typeof Input> = (args) => ({
+  components: { Input },
+  setup: () => ({ args }),
+  template: '<Input v-bind="args" />'
+})
+
+export const Playground = PlaygroundTemplate.bind({})

@@ -57,15 +57,7 @@ export default {
   }
 } as Meta<typeof Select>
 
-const Template: StoryFn<typeof Select> = (args) => ({
-  components: { Select },
-  setup: () => ({ args }),
-  template: '<Select v-bind="args" />'
-})
-
-export const Playground = Template.bind({})
-
-const GalleryTeplate: StoryFn<typeof Select> = () => ({
+const DefaultTeplate: StoryFn<typeof Select> = () => ({
   components: { Select },
   setup: () => ({
     options,
@@ -90,6 +82,12 @@ const GalleryTeplate: StoryFn<typeof Select> = () => ({
   `
 })
 
-export const Gallery = GalleryTeplate.bind({})
+export const Default = DefaultTeplate.bind({})
 
-Gallery.storyName = 'Showcase of input fields'
+const PlaygroundTemplate: StoryFn<typeof Select> = (args) => ({
+  components: { Select },
+  setup: () => ({ args }),
+  template: '<Select v-bind="args" />'
+})
+
+export const Playground = PlaygroundTemplate.bind({})
