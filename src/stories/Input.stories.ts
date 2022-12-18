@@ -71,7 +71,7 @@ const GalleryTeplate: StoryFn<typeof Input> = () => ({
             <Input placeholder="Search" prefix-icon="search" suffix-icon="x" @suffix-icon-click="action('@suffix-icon-click')" />
             <Input placeholder="username">
                 <template #prefix>
-                    <div style="display: flex; align-items:center; padding-left: 1rem; margin-right: -1rem">
+                    <div style="display: flex; align-items:center; padding-left: 1rem; margin-right: -1.35rem">
                         facebook.com/
                     </div>
                 </template>

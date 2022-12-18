@@ -61,10 +61,7 @@ defineProps<{
 }
 
 .FormGroup__label {
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.05rem;
-  text-transform: uppercase;
+  font-size: var(--vuiii-fontSize--small);
 }
 
 .FormGroup__required {

@@ -56,7 +56,7 @@ const setFieldValue = (name: string, value: unknown): void => {
 <style lang="postcss" scoped>
 .FormFields {
   & > * + * {
-    margin-top: 2rem;
+    margin-top: 1.5rem;
   }
 }
 </style>

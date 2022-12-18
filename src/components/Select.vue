@@ -11,7 +11,7 @@
     </select>
 
     <div class="vuiii-input__suffix-icon">
-      <Icon name="chevron-down" :size="$props.size" />
+      <Icon name="triangle-down" :size="$props.size" />
     </div>
   </div>
 </template>

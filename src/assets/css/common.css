@@ -44,7 +44,7 @@
   --vuiii-field-borderWidth: 1px;
   --vuiii-field-bgColor: var(--vuiii-color-white);
   --vuiii-field-borderColor: var(--vuiii-color-gray);
-  --vuiii-field-fontSize: var(--vuiii-fontSize--small);
+  --vuiii-field-fontSize: var(--vuiii-fontSize);
   --vuiii-field-ringColor: none;
   --vuiii-field-ringSize: 0;
 

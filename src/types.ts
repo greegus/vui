@@ -58,9 +58,3 @@ export type FormField = {
 }
 
 export type FormFieldsStructure<T extends any = any> = Record<keyof T | string, FormField>
-
-export type FormStructure<T = any> = {
-  title?: string
-  separator?: boolean
-  fields: FormFieldsStructure<T>
-}[]

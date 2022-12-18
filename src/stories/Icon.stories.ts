@@ -20,8 +20,11 @@ const Template: StoryFn<typeof Icon> = (args) => ({
   components: { Icon },
   setup: () => ({ icons }),
   template: `
-    <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
-      <Icon :name="icon" v-for="icon in icons" :key="icons" />
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      <div v-for="icon in icons" :key="icons" style="display: flex; gap: 0.5rem; align-items: center">
+        <Icon :name="icon" style="width: 32px" />
+        <div>{{ icon }}</div>
+      </div>
     </div>
   `
 })
