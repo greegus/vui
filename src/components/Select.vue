@@ -1,6 +1,11 @@
 <template>
   <div class="Select vuiii-input" :class="{ [`vuiii-input--${$props.size}`]: $props.size }">
-    <select class="vuiii-input__nested Select__select" :value="$props.modelValue" :required="$props.required">
+    <select
+      class="vuiii-input__nested Select__select"
+      :value="$props.modelValue"
+      :required="$props.required"
+      @input="$emit('update:modelValue', ($event.target as any).value)"
+    >
       <option v-if="$props.placeholder" :disabled="$props.required" value="" selected>
         {{ $props.placeholder }}
       </option>
