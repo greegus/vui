@@ -31,7 +31,7 @@
       }"
       :type="($attrs.type as string) || 'text'"
       :value="$props.modelValue"
-      @input="$emit('update:modelValue', retrieveTargetValue($event))"
+      @input="$emit('update:model-value', retrieveTargetValue($event))"
     />
 
     <slot v-if="hasSuffix" name="suffix">
@@ -71,7 +71,7 @@ const props = defineProps<{
 }>()
 
 defineEmits<{
-  (event: 'update:modelValue', value: number | string | Date | null): void
+  (event: 'update:model-value', value: number | string | Date | null): void
   (event: 'prefix-icon-click'): void
   (event: 'suffix-icon-click'): void
 }>()

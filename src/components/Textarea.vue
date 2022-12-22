@@ -4,7 +4,7 @@
     class="Textarea vuiii-input"
     :class="{ [`vuiii-input--${$props.size}`]: $props.size }"
     :value="$props.modelValue"
-    @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+    @input="$emit('update:model-value', ($event.target as HTMLInputElement).value)"
   />
 </template>
 
@@ -17,6 +17,6 @@ defineProps<{
 }>()
 
 defineEmits<{
-  (e: 'update:modelValue', value: string): void
+  (e: 'update:model-value', value: string): void
 }>()
 </script>

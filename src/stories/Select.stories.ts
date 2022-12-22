@@ -65,8 +65,8 @@ const DefaultTeplate: StoryFn<typeof Select> = () => ({
   }),
   template: `
     <div style="display: flex; flex-direction: column; gap: 1rem;">
-        <div style="display: flex; flex-direction: column; gap: .5rem;">
-            <Select placeholder="Select an option…" :options="options" option-value="value" option-label="label" option-disabled="disabled" />
+      <div style="display: flex; flex-direction: column; gap: .5rem;">
+          <Select placeholder="Select an option…" :options="options" option-value="value" option-label="label" option-disabled="disabled" required />
       </div>
 
         <div>

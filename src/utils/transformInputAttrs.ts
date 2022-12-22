@@ -3,7 +3,7 @@ import { defineComponent } from 'vue'
 import { retrieveInputValue } from './retrieveInputValue'
 
 export const transformInputAttrs = defineComponent({
-  emits: ['update:modelValue'],
+  emits: ['update:model-value'],
 
   computed: {
     normalizedAttrs(): any {
@@ -11,7 +11,7 @@ export const transformInputAttrs = defineComponent({
 
       return {
         ...attrs,
-        onInput: (e: KeyboardEvent) => this.$emit('update:modelValue', retrieveInputValue(e))
+        onInput: (e: KeyboardEvent) => this.$emit('update:model-value', retrieveInputValue(e))
       }
     }
   }

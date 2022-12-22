@@ -13,7 +13,7 @@
         type="radio"
         :name="inputName"
         :disabled="option.disabled"
-        @input="$emit('update:modelValue', option.value)"
+        @input="$emit('update:model-value', option.value)"
       />
 
       <div class="RadioGroup__radio vuiii-input">
@@ -49,7 +49,7 @@ import { generateId } from '../utils/generateId'
 import { normalizeOptions } from '../utils/normalizeOptions'
 
 defineEmits<{
-  (e: 'update:modelValue', value: string | number): void
+  (e: 'update:model-value', value: string | number): void
 }>()
 
 const attrs = useAttrs()

@@ -31,7 +31,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', value: Option['value'][]): void
+  (e: 'update:model-value', value: Option['value'][]): void
 }>()
 
 const normalizedOptions = computed<Option[]>(() => {
@@ -63,7 +63,7 @@ const toggleCheckedValue = (key: Option['value'], value: boolean) => {
     .filter(([_, isChecked]) => isChecked)
     .map(([value]) => value)
 
-  emit('update:modelValue', modelValue)
+  emit('update:model-value', modelValue)
 }
 </script>
 

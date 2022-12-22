@@ -36,7 +36,7 @@ const props = withDefaults(
 )
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', value: any): void
+  (e: 'update:model-value', value: any): void
 }>()
 
 const getFieldValue = (name: string): unknown => {
@@ -49,7 +49,7 @@ const setFieldValue = (name: string, value: unknown): void => {
   const setter = props.fields[name].value?.setter || ((value, modelValue) => ({ ...modelValue, [name]: value }))
   const modelValue = setter(value, props.modelValue)
 
-  emit('update:modelValue', modelValue)
+  emit('update:model-value', modelValue)
 }
 </script>
 

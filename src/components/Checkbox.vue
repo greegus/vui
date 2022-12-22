@@ -6,7 +6,7 @@
       :required="$props.required"
       :disabled="$props.disabled"
       type="checkbox"
-      @input="$emit('update:modelValue', ($event.target as any).checked)"
+      @input="$emit('update:model-value', ($event.target as any).checked)"
     />
 
     <div v-if="$props.switch" class="Checkbox__switch">
@@ -54,7 +54,7 @@ defineProps<{
 }>()
 
 defineEmits<{
-  (e: 'update:modelValue', value: boolean): void
+  (e: 'update:model-value', value: boolean): void
 }>()
 </script>
 

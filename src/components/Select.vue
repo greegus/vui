@@ -4,7 +4,8 @@
       class="vuiii-input__nested Select__select"
       :value="$props.modelValue"
       :required="$props.required"
-      @input="$emit('update:modelValue', ($event.target as any).value)"
+      v-bind="$attrs"
+      @input="$emit('update:model-value', ($event.target as HTMLSelectElement).value)"
     >
       <option v-if="$props.placeholder" :disabled="$props.required" value="" selected>
         {{ $props.placeholder }}
@@ -21,6 +22,12 @@
   </div>
 </template>
 
+<script lang="ts">
+export default {
+  inheritAttrs: false
+}
+</script>
+
 <script lang="ts" setup>
 import { computed } from 'vue'
 
@@ -30,7 +37,7 @@ import Icon from './Icon.vue'
 
 const props = withDefaults(
   defineProps<{
-    modelValue?: Option['value']
+    modelValue: Option['value']
     options: any[] | any
     optionLabel?: Extractor
     optionValue?: Extractor
@@ -40,7 +47,6 @@ const props = withDefaults(
     required?: boolean
   }>(),
   {
-    modelValue: undefined,
     size: 'normal',
     optionLabel: undefined,
     optionValue: undefined,
@@ -50,7 +56,7 @@ const props = withDefaults(
 )
 
 defineEmits<{
-  (e: 'update:modelValue', value: Option['value']): void
+  (e: 'update:model-value', value: Option['value']): void
 }>()
 
 const normalizedOptions = computed<Option[]>(() =>
