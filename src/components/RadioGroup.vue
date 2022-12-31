@@ -13,6 +13,7 @@
         type="radio"
         :name="inputName"
         :disabled="option.disabled"
+        :checked="option.value === props.modelValue"
         @input="$emit('update:model-value', option.value)"
       />
 

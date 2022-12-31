@@ -81,7 +81,9 @@ defineEmits<{
   --vuiii-input-transition: all 0.1s;
   --vuiii-input-padding: 0;
 
+  position: relative;
   align-self: flex-start;
+  flex-shrink: 0;
   width: var(--vuiii-icon-size);
   aspect-ratio: 1 / 1;
   min-height: 0;
@@ -89,6 +91,10 @@ defineEmits<{
   & .Checkbox__checkboxIcon {
     scale: 50%;
     opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
     transition: scale 0.15s ease-out, opacity 0.15s ease-out;
   }
 
@@ -113,6 +119,7 @@ defineEmits<{
 
 .Checkbox__switch {
   align-self: flex-start;
+  flex-shrink: 0;
   padding: 3px;
   margin-top: -1px;
   width: 2.25rem;
