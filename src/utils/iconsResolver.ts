@@ -1,13 +1,21 @@
-import { Component } from 'vue'
+import { Component, defineAsyncComponent } from 'vue'
 
 import { resolveGlobImport } from './resolveGlobImport'
 
 export type IconComponent = string | Component | undefined
 export type IconResolver = (name: string) => IconComponent
 
+const icons = import.meta.glob('../icons/*.vue', { as: 'component' })
+
 let customIconResolver: IconResolver
 
-const icons = import.meta.glob('../icons/*.vue', { eager: true, as: 'component' })
+function defaultIconResolver(name: string): IconComponent {
+  const key = Object.keys(icons).find((path) => path.endsWith(`/${name}.vue`))
+
+  if (key) {
+    return defineAsyncComponent(icons[key] as any)
+  }
+}
 
 export function registerCustomIconResolver(resolver: IconResolver) {
   customIconResolver = resolver
@@ -21,7 +29,11 @@ export function resolveIconComponent(name: string): IconComponent {
   }
 
   if (!component) {
-    component = resolveGlobImport(icons, `${name}.vue`)
+    component = defaultIconResolver(name)
+  }
+
+  if (!component) {
+    console.error('Unable to resovle icon component for name: ' + name)
   }
 
   return component
