@@ -6,13 +6,15 @@
       :label="field.label"
       :description="field.description"
       :hint="field.hint"
-      :required="field.required"
+      :required="resolveIfComputed(String(name), field.required)"
       :error="($props.errors?.[name] as any)"
     >
       <component
         :is="field.component"
         :model-value="getFieldValue(String(name))"
-        v-bind="field.props"
+        v-bind="resolveIfComputed(String(name), field.props)"
+        :required="resolveIfComputed(String(name), field.required)"
+        :disabled="resolveIfComputed(String(name), field.disabled)"
         @update:model-value="setFieldValue(String(name), $event)"
       />
     </FormGroup>
@@ -50,6 +52,14 @@ const setFieldValue = (name: string, value: unknown): void => {
   const modelValue = setter(value, props.modelValue)
 
   emit('update:model-value', modelValue)
+}
+
+const resolveIfComputed = <T = any>(name: string, property: any): T => {
+  if (typeof property === 'function') {
+    return (property as any)?.(props.modelValue[name])
+  }
+
+  return property as T
 }
 </script>
 

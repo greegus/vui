@@ -51,7 +51,8 @@ export type FormField = {
   label?: string
   description?: string
   hint?: string
-  required?: boolean
+  required?: boolean | ((value: any) => boolean)
+  disabled?: boolean | ((value: any) => boolean)
   component: string | Component | AsyncComponentLoader
   props?: Record<string, unknown>
   value?: FormFieldValue
