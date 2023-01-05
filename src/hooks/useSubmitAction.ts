@@ -8,10 +8,10 @@ import { ValidationError } from '../validations/validator'
 
 type ConfirmParams = Parameters<ReturnType<typeof useModal>['confirm']>[0]
 
-export function useSubmitAction<D = unknown, R = unknown>(
+export function useSubmitAction<D = any, R = any>(
   action: (data: D) => any | Promise<any>,
   options: {
-    validator?: (data: D) => boolean | Promise<ValidationResults<D> | boolean>
+    validator?: (data: D) => boolean | ValidationResults<D> | Promise<ValidationResults<D> | boolean>
     onValidationResults?: (errors?: ValidationErrors<D>) => void
     confirm?: ((data: D) => ConfirmParams) | ConfirmParams
     onSuccess?: (params: { result: R; data: D; router: Router; snackbar: Snackbar }) => void
