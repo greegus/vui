@@ -12,7 +12,7 @@
             :variant="button.variant"
             :prefix-icon="button.icon"
             autofocus
-            @click="$emit('close', button.value)"
+            @click="close(button.value)"
           >
             {{ button.label }}
           </Button>
@@ -22,38 +22,18 @@
   </ModalLayout>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from 'vue'
-
-import { ButtonOptions } from '../../modal'
+<script lang="ts" setup>
+import { ButtonOptions, useCloseModal } from '../../modal'
 import Button from '../Button.vue'
 import ModalLayout from './ModalLayout.vue'
 
-export default defineComponent({
-  components: {
-    ModalLayout,
-    Button
-  },
+defineProps<{
+  title?: string
+  message?: string
+  buttons?: ButtonOptions[]
+}>()
 
-  props: {
-    title: {
-      type: String,
-      default: ''
-    },
-
-    message: {
-      type: String,
-      default: ''
-    },
-
-    buttons: {
-      type: Array as PropType<ButtonOptions[]>,
-      default: () => []
-    }
-  },
-
-  emits: ['close']
-})
+const close = useCloseModal()
 </script>
 
 <style lang="postcss" scoped>

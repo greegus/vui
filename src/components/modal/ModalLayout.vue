@@ -4,7 +4,7 @@
     :class="{ hasHeader, hasFooter, isScrollable: scroll, isPlain: plain }"
     :style="computedStyle"
   >
-    <div v-if="!hideCloser" class="ModalLayout__close" @click="close()">
+    <div v-if="!$props.hideCloseButton" class="ModalLayout__close" @click="close()">
       <Icon name="x" class="ModalLayout__closeIcon" />
     </div>
 
@@ -26,62 +26,48 @@
   </div>
 </template>
 
-<script lang="ts">
-import { CSSProperties, defineComponent } from 'vue'
+<script lang="ts" setup>
+import { computed, CSSProperties, useSlots } from 'vue'
 
+import { useCloseModal } from '../../modal'
 import Icon from '../Icon.vue'
 
-export default defineComponent({
-  components: {
-    Icon
-  },
+const slots = useSlots()
+const close = useCloseModal()
 
-  props: {
-    title: {
-      type: String,
-      default: ''
-    },
+const props = withDefaults(
+  defineProps<{
+    title?: string
+    width?: number | string
+    hideCloseButton?: boolean
+    scroll?: boolean
+    plain?: boolean
+  }>(),
+  {
+    title: '',
+    width: 600
+  }
+)
 
-    width: {
-      type: [Number, String],
-      default: 600
-    },
+const hasHeader = computed<boolean>(() => {
+  return Boolean(slots.header || props.title)
+})
 
-    hideCloser: Boolean,
+const hasFooter = computed<boolean>(() => {
+  return Boolean(slots.footer)
+})
 
-    scroll: Boolean,
+const computedStyle = computed<Partial<CSSProperties>>(() => {
+  const maxWidth = props.width + (Number(props.width) ? 'px' : '')
 
-    plain: Boolean
-  },
-
-  computed: {
-    hasHeader(): boolean {
-      return Boolean(this.$slots.header || this.title)
-    },
-
-    hasFooter(): boolean {
-      return Boolean(this.$slots.footer)
-    },
-
-    computedStyle(): Partial<CSSProperties> {
-      const maxWidth = this.width + (Number(this.width) ? 'px' : '')
-
-      if (maxWidth && maxWidth !== 'auto') {
-        return {
-          width: '100%',
-          maxWidth
-        }
-      }
-
-      return {}
-    }
-  },
-
-  methods: {
-    close() {
-      window.dispatchEvent(new KeyboardEvent('keydown', { 'key': 'Escape' }))
+  if (maxWidth && maxWidth !== 'auto') {
+    return {
+      width: '100%',
+      maxWidth
     }
   }
+
+  return {}
 })
 </script>
 

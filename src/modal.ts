@@ -1,7 +1,5 @@
-import { Component, ComponentCustomProps, createApp, getCurrentInstance, h, Plugin, reactive } from 'vue'
+import { Component, ComponentCustomProps, computed, defineAsyncComponent, markRaw, ref } from 'vue'
 
-import ModalLayoutDialog from './components/modal/ModalLayoutDialog.vue'
-import ModalStack from './components/modal/ModalStack.vue'
 import { ButtonVariant } from './types'
 
 export type Modal = {
@@ -10,6 +8,7 @@ export type Modal = {
   props?: ComponentCustomProps
   resolve: (result: any) => void
   focusElement: HTMLElement | null
+  onBeforeClose?: (confirm: () => void) => void
 }
 
 export type Config = Partial<{
@@ -76,139 +75,133 @@ interface ModalInterface {
   confirm: OpenConfirmInterface
 }
 
-declare module '@vue/runtime-core' {
-  interface ComponentCustomProperties {
-    $modal: ModalInterface
-  }
-}
-
 const defaultConfig: Config = {
   cancelLabel: 'Cancel',
   confirmLabel: 'OK'
 }
 
-export const modal: Plugin = (app, config: Config = {}) => {
-  let iterator = 1
+const config = defaultConfig
 
-  config = { ...defaultConfig, ...config }
+const iteration = ref<number>(1)
 
-  const state = reactive({
-    modals: [] as Modal[]
+export const modals = ref<Modal[]>([])
+export const activeModal = computed(() => modals.value[modals.value.length - 1])
+
+const getId = (): number => {
+  return iteration.value++
+}
+
+export const openModal: OpenModalInterface = (component, props?) => {
+  const focusElement = document.activeElement as HTMLElement
+
+  focusElement.blur?.()
+
+  return new Promise((resolve) => {
+    const modal: Modal = {
+      id: getId(),
+      component: markRaw(component),
+      props,
+      resolve,
+      focusElement
+    }
+
+    modals.value.push(modal)
   })
+}
 
-  const closeModal = (modal: Modal, result: any) => {
-    state.modals = state.modals.filter(({ id }) => id !== modal.id)
-    modal.resolve(result)
-    modal.focusElement?.focus()
+export const openDialog: OpenDialogInterface = (options) => {
+  return openModal(
+    defineAsyncComponent(() => import('./components/modal/ModalLayoutDialog.vue')),
+    options
+  )
+}
+
+export const openAlert: OpenAlertInterface = (options) => {
+  if (typeof options === 'string') {
+    options = {
+      message: options
+    }
   }
 
-  const modalApp = createApp({
-    parent: app,
+  const { title, message, confirmVariant, confirmLabel = config.confirmLabel, confirmIcon } = options
 
-    data() {
-      return state
-    },
-
-    render() {
-      return h(ModalStack, {
-        modals: state.modals,
-        onCloseModal: ({ modal, result }: any) => closeModal(modal, result)
-      })
-    }
+  return openDialog({
+    title,
+    message,
+    buttons: [
+      {
+        variant: confirmVariant || 'primary',
+        label: confirmLabel || '',
+        icon: confirmIcon
+      }
+    ]
   })
+}
 
-  const placeholder = document.createElement('div')
-  document.body.appendChild(placeholder)
-  modalApp.mount(placeholder)
-
-  const openModal: OpenModalInterface = (component, props?) => {
-    const focusElement = document.activeElement as HTMLElement
-
-    focusElement.blur?.()
-
-    return new Promise((resolve) => {
-      state.modals.push({
-        id: iterator++,
-        component,
-        props,
-        resolve,
-        focusElement
-      })
-    })
-  }
-
-  const openDialog: OpenDialogInterface = (options) => {
-    return openModal(ModalLayoutDialog, options)
-  }
-
-  const openAlert: OpenAlertInterface = (options) => {
-    if (typeof options === 'string') {
-      options = {
-        message: options
-      }
+export const openConfirm: OpenConfirmInterface = (options) => {
+  if (typeof options === 'string') {
+    options = {
+      message: options
     }
-
-    const { title, message, confirmVariant, confirmLabel = config.confirmLabel, confirmIcon } = options
-
-    return openDialog({
-      title,
-      message,
-      buttons: [
-        {
-          variant: confirmVariant || 'primary',
-          label: confirmLabel || '',
-          icon: confirmIcon
-        }
-      ]
-    })
   }
 
-  const openConfirm: OpenConfirmInterface = (options) => {
-    if (typeof options === 'string') {
-      options = {
-        message: options
+  const {
+    title,
+    message,
+    cancelLabel = config.cancelLabel,
+    cancelVariant,
+    cancelIcon,
+    confirmLabel = config.confirmLabel,
+    confirmVariant,
+    confirmIcon
+  } = options
+
+  return openDialog({
+    title,
+    message,
+    buttons: [
+      {
+        variant: cancelVariant || 'secondary',
+        label: cancelLabel || '',
+        icon: cancelIcon,
+        value: false
+      },
+      {
+        variant: confirmVariant || 'primary',
+        label: confirmLabel || '',
+        icon: confirmIcon,
+        value: true
       }
-    }
+    ]
+  })
+}
 
-    const {
-      title,
-      message,
-      cancelLabel = config.cancelLabel,
-      cancelVariant,
-      cancelIcon,
-      confirmLabel = config.confirmLabel,
-      confirmVariant,
-      confirmIcon
-    } = options
+const executeCloseModal = (modal: Modal, result: any = undefined) => {
+  modals.value = modals.value.filter((m) => m.id !== modal.id)
+  modal.resolve(result)
+}
 
-    return openDialog({
-      title,
-      message,
-      buttons: [
-        {
-          variant: cancelVariant,
-          label: cancelLabel || '',
-          icon: cancelIcon,
-          value: false
-        },
-        {
-          variant: confirmVariant || 'primary',
-          label: confirmLabel || '',
-          icon: confirmIcon,
-          value: true
-        }
-      ]
-    })
+export const closeModal = (modal: Modal, result: any = undefined) => {
+  modal.onBeforeClose ? modal.onBeforeClose(() => executeCloseModal(modal, result)) : executeCloseModal(modal, result)
+}
+
+export const useCloseModal = (onBeforeClose?: (confirm: () => void) => void): ((result?: any) => void) => {
+  if (onBeforeClose) {
+    activeModal.value.onBeforeClose = onBeforeClose
   }
 
-  app.config.globalProperties.$modal = {
-    open: openModal,
-    dialog: openDialog,
-    alert: openAlert,
-    confirm: openConfirm
+  return (result?: any) => {
+    closeModal(activeModal.value, result)
   }
 }
 
+const context = {
+  open: openModal,
+  dialog: openDialog,
+  alert: openAlert,
+  confirm: openConfirm
+}
+
 export function useModal(): ModalInterface {
-  return getCurrentInstance()?.appContext.config.globalProperties.$modal!
+  return context
 }

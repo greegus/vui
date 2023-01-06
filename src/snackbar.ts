@@ -1,6 +1,4 @@
-import { createApp, getCurrentInstance, h, Plugin, reactive } from 'vue'
-
-import SnackbarStack from './components/snackbar/SnackbarStack.vue'
+import { ref } from 'vue'
 
 export type MessageType = 'success' | 'error'
 
@@ -19,62 +17,44 @@ export interface Snackbar {
   error: ShowMessage
 }
 
-declare module '@vue/runtime-core' {
-  interface ComponentCustomProperties {
-    $snackbar: Snackbar
-  }
-}
-
 const DEFAULT_MESSAGE_DURATION = 10_000
 const MAX_MESSAGES = 5
 
-export const snackbar: Plugin = (app) => {
-  let iterator = 1
+const iteration = ref<number>(1)
 
-  const state = reactive({
-    messages: [] as Message[]
-  })
+export const messages = ref<Message[]>([])
 
-  const removeMessage = (messageId: number) => {
-    state.messages = state.messages.filter(({ id }) => id !== messageId)
+const getId = (): number => {
+  return iteration.value++
+}
+
+export const removeMessage = (messageId: number) => {
+  messages.value = messages.value.filter(({ id }) => id !== messageId)
+}
+
+export const showMessage: ShowMessage = (text, type = 'success', duration = DEFAULT_MESSAGE_DURATION) => {
+  const message: Message = {
+    id: getId(),
+    text,
+    type
   }
 
-  const snackbarApp = createApp({
-    parent: app,
+  messages.value.push(message)
 
-    data() {
-      return state
-    },
-
-    render() {
-      return h(SnackbarStack, { messages: this.messages, onRemoveMessage: removeMessage })
-    }
-  })
-
-  const placeholder = document.createElement('div')
-  document.body.appendChild(placeholder)
-  snackbarApp.mount(placeholder)
-
-  const showMessage: ShowMessage = (text, type = 'success', duration = DEFAULT_MESSAGE_DURATION) => {
-    const id = iterator++
-
-    state.messages.push({ text, type, id })
-
-    if (state.messages.length > MAX_MESSAGES) {
-      state.messages.shift()
-    }
-
-    if (duration > 0) {
-      setTimeout(() => removeMessage(id), duration)
-    }
+  if (messages.value.length > MAX_MESSAGES) {
+    messages.value.shift()
   }
 
-  app.config.globalProperties.$snackbar = {
-    success: (text: string) => showMessage(text, 'success'),
-    error: (text: string) => showMessage(text, 'error', 0)
+  if (duration > 0) {
+    setTimeout(() => removeMessage(message.id), duration)
   }
 }
 
+const context = {
+  success: (text: string) => showMessage(text, 'success'),
+  error: (text: string) => showMessage(text, 'error', 0)
+}
+
 export function useSnackbar(): Snackbar {
-  return getCurrentInstance()?.appContext.config.globalProperties.$snackbar!
+  return context
 }

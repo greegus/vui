@@ -1,49 +1,32 @@
 <template>
-  <div class="Snackbar">
-    <transition-group name="Snackbar__transition">
-      <div v-for="(message, index) in messagesInReverse" :key="message.id" class="Snackbar__message">
-        <div class="Snackbar__messageWrapper" :style="{ transform: `translateY(-${100 * index}%)` }">
-          <div class="Snackbar__messageBlock" :class="`Snackbar__messageBlock--${message.type}`">
-            <div>
-              {{ message.text }}
-            </div>
+  <Teleport to="body">
+    <div class="Snackbar">
+      <TransitionGroup name="Snackbar__transition">
+        <div v-for="(message, index) in messagesInReverse" :key="message.id" class="Snackbar__message">
+          <div class="Snackbar__messageWrapper" :style="{ transform: `translateY(-${100 * index}%)` }">
+            <div class="Snackbar__messageBlock" :class="`Snackbar__messageBlock--${message.type}`">
+              <div>
+                {{ message.text }}
+              </div>
 
-            <div class="Snackbar__messageClose" @click="$emit('remove-message', message.id)">
-              <Icon class="Snackbar__messageCloseIcon" name="x" />
+              <div class="Snackbar__messageClose" @click="removeMessage(message.id)">
+                <Icon class="Snackbar__messageCloseIcon" name="x" />
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </transition-group>
-  </div>
+      </TransitionGroup>
+    </div>
+  </Teleport>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from 'vue'
+<script lang="ts" setup>
+import { computed } from 'vue'
 
-import { Message } from '../../snackbar'
+import { Message, messages, removeMessage } from '../../snackbar'
 import Icon from '../Icon.vue'
 
-export default defineComponent({
-  components: {
-    Icon
-  },
-
-  props: {
-    messages: {
-      type: Array as PropType<Message[]>,
-      default: () => []
-    }
-  },
-
-  emits: ['remove-message'],
-
-  computed: {
-    messagesInReverse(): Message[] {
-      return [...this.messages].reverse()
-    }
-  }
-})
+const messagesInReverse = computed<Message[]>(() => [...messages.value].reverse())
 </script>
 
 <style lang="postcss" scoped>

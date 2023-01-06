@@ -1,100 +1,45 @@
 <template>
-  <div class="ModalStack">
-    <transition name="ModalStack__backdrop">
-      <div v-if="modals.length" class="ModalStack__backdrop" />
-    </transition>
+  <Teleport to="body">
+    <div class="ModalStack">
+      <Transition name="ModalStack__backdrop">
+        <div v-if="modals.length" class="ModalStack__backdrop" />
+      </Transition>
 
-    <transition-group name="ModalStack__modal">
-      <div
-        v-for="modal in modals"
-        :key="modal.id"
-        class="ModalStack__modalWrapper"
-        @click="closeModalByBackdropClick($event, modal)"
-      >
-        <component
-          v-bind="modal.props"
-          :is="modal.component"
-          :ref="registerReference(modal.id)"
-          class="ModalStack__modal"
-          :class="{ isActive: activeModal?.id === modal.id }"
-          @close="closeModal(modal, $event)"
-        />
-      </div>
-    </transition-group>
-  </div>
+      <TransitionGroup name="ModalStack__modal">
+        <div
+          v-for="modal in modals"
+          :key="modal.id"
+          class="ModalStack__modalWrapper"
+          @click="closeModalByBackdropClick($event, modal)"
+        >
+          <component
+            v-bind="modal.props"
+            :is="modal.component"
+            :data-modal-id="modal.id"
+            class="ModalStack__modal"
+            :class="{ isActive: activeModal?.id === modal.id }"
+            @close="closeModal(modal, $event)"
+          />
+        </div>
+      </TransitionGroup>
+    </div>
+  </Teleport>
 </template>
 
-<script lang="ts">
-import { ComponentPublicInstance, computed, defineComponent, PropType, ref } from 'vue'
+<script lang="ts" setup>
+import { useOnKeyPress } from '../../hooks/useOnKeyPress'
+import type { Modal } from '../../modal'
+import { activeModal, closeModal, modals } from '../../modal'
 
-import { Modal } from '@/modal'
+const closeModalByBackdropClick = (e: MouseEvent, modal: Modal) => {
+  if (e.target === e.currentTarget) {
+    closeModal(modal)
+  }
+}
 
-export default defineComponent({
-  props: {
-    modals: {
-      type: Array as PropType<Modal[]>,
-      default: () => []
-    }
-  },
-
-  emits: ['closeModal'],
-
-  data() {
-    return {
-      modalInstances: {} as Record<number, ComponentPublicInstance>,
-      registerReference(modalId: number) {
-        return (instance: ComponentPublicInstance) => (this.modalInstances[modalId] = instance)
-      }
-    }
-  },
-
-  computed: {
-    activeModal() {
-      return this.modals.length ? this.modals[this.modals.length - 1] : null
-    }
-  },
-
-  mounted() {
-    window.addEventListener('keydown', this.closeActiveModalByEscapeKey)
-  },
-
-  beforeUnmount() {
-    window.removeEventListener('keydown', this.closeActiveModalByEscapeKey)
-  },
-
-  methods: {
-    closeModal(modal: Modal, result?: any) {
-      const close = () => {
-        this.$emit('closeModal', { modal, result })
-      }
-
-      const modalRootInstance = this.modalInstances[modal.id].$el as any
-
-      if (modalRootInstance.$attrs?.onBeforeClose) {
-        ;(modalRootInstance.$attrs.onBeforeClose as any)(close)
-      } else {
-        close()
-      }
-    },
-
-    closeActiveModal() {
-      if (this.activeModal) {
-        this.closeModal(this.activeModal)
-      }
-    },
-
-    closeActiveModalByEscapeKey(e: KeyboardEvent) {
-      if (this.activeModal && e.key === 'Escape' && !e.defaultPrevented) {
-        e.preventDefault()
-        this.closeActiveModal()
-      }
-    },
-
-    closeModalByBackdropClick(e: MouseEvent, modal: Modal) {
-      if (e.target === e.currentTarget) {
-        this.closeModal(modal)
-      }
-    }
+useOnKeyPress('Escape', () => {
+  if (modals.value.length) {
+    closeModal(activeModal.value)
   }
 })
 </script>
