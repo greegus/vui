@@ -25,7 +25,7 @@ export type ButtonOptions = {
 
 export type DialogOptions = {
   title?: string
-  message?: string
+  content?: string
   buttons?: ButtonOptions[]
 }
 
@@ -33,7 +33,7 @@ export type AlertOptions =
   | string
   | {
       title?: string
-      message?: string
+      content?: string
       confirmLabel?: string
       confirmVariant?: ButtonVariant
       confirmIcon?: string
@@ -43,7 +43,7 @@ export type ConfirmOptions =
   | string
   | {
       title?: string
-      message?: string
+      content?: string
       cancelLabel?: string
       cancelVariant?: ButtonVariant
       cancelIcon?: string
@@ -111,7 +111,7 @@ export const openModal: OpenModalInterface = (component, props?) => {
 
 export const openDialog: OpenDialogInterface = (options) => {
   return openModal(
-    defineAsyncComponent(() => import('./components/modal/ModalLayoutDialog.vue')),
+    defineAsyncComponent(() => import('./components/modal/ModalLayout.vue')),
     options
   )
 }
@@ -119,15 +119,15 @@ export const openDialog: OpenDialogInterface = (options) => {
 export const openAlert: OpenAlertInterface = (options) => {
   if (typeof options === 'string') {
     options = {
-      message: options
+      content: options
     }
   }
 
-  const { title, message, confirmVariant, confirmLabel = config.confirmLabel, confirmIcon } = options
+  const { title, content, confirmVariant, confirmLabel = config.confirmLabel, confirmIcon } = options
 
   return openDialog({
     title,
-    message,
+    content,
     buttons: [
       {
         variant: confirmVariant || 'primary',
@@ -141,13 +141,13 @@ export const openAlert: OpenAlertInterface = (options) => {
 export const openConfirm: OpenConfirmInterface = (options) => {
   if (typeof options === 'string') {
     options = {
-      message: options
+      content: options
     }
   }
 
   const {
     title,
-    message,
+    content,
     cancelLabel = config.cancelLabel,
     cancelVariant,
     cancelIcon,
@@ -158,7 +158,7 @@ export const openConfirm: OpenConfirmInterface = (options) => {
 
   return openDialog({
     title,
-    message,
+    content,
     buttons: [
       {
         variant: cancelVariant || 'secondary',
@@ -179,6 +179,10 @@ export const openConfirm: OpenConfirmInterface = (options) => {
 const executeCloseModal = (modal: Modal, result: any = undefined) => {
   modals.value = modals.value.filter((m) => m.id !== modal.id)
   modal.resolve(result)
+
+  if (modal.focusElement) {
+    modal.focusElement.focus?.()
+  }
 }
 
 export const closeModal = (modal: Modal, result: any = undefined) => {

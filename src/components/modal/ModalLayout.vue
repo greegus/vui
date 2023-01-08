@@ -1,7 +1,8 @@
 <template>
   <div
+    ref="root"
     class="ModalLayout"
-    :class="{ hasHeader, hasFooter, isScrollable: scroll, isPlain: plain }"
+    :class="{ hasHeader, hasFooter, isScrollable: $props.scroll, isPlain: $props.plain }"
     :style="computedStyle"
   >
     <div v-if="!$props.hideCloseButton" class="ModalLayout__close" @click="close()">
@@ -11,41 +12,65 @@
     <div v-if="hasHeader" class="ModalLayout__header">
       <slot name="header">
         <div class="ModalLayout__title">
-          {{ title }}
+          {{ $props.title }}
         </div>
       </slot>
     </div>
 
     <div class="ModalLayout__body">
-      <slot />
+      <slot>
+        <div class="ModalLayout__content">
+          {{ $props.content }}
+        </div>
+      </slot>
     </div>
 
     <div v-if="hasFooter" class="ModalLayout__footer">
-      <slot name="footer" />
+      <slot name="footer">
+        <div class="ModalLayout__buttons">
+          <span v-for="(button, $index) in $props.buttons" :key="$index" class="ModalLayout__buttonWrapper">
+            <Button
+              type="button"
+              :label="button.label"
+              :variant="button.variant"
+              :prefix-icon="button.icon"
+              @click="close(button.value)"
+            />
+          </span>
+        </div>
+      </slot>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, CSSProperties, useSlots } from 'vue'
+import { computed, CSSProperties, onMounted, ref, useSlots } from 'vue'
 
-import { useCloseModal } from '../../modal'
+import { ButtonOptions, useCloseModal } from '../../modal'
+import Button from '../Button.vue'
 import Icon from '../Icon.vue'
 
 const slots = useSlots()
+
 const close = useCloseModal()
+
+const root = ref<HTMLElement>()
 
 const props = withDefaults(
   defineProps<{
     title?: string
+    content?: string
     width?: number | string
     hideCloseButton?: boolean
     scroll?: boolean
     plain?: boolean
+    buttons?: ButtonOptions[]
   }>(),
   {
     title: '',
-    width: 600
+    content: '',
+    width: 600,
+    buttons: () => []
   }
 )
 
@@ -54,7 +79,7 @@ const hasHeader = computed<boolean>(() => {
 })
 
 const hasFooter = computed<boolean>(() => {
-  return Boolean(slots.footer)
+  return Boolean(slots.footer) || Boolean(props.buttons?.length)
 })
 
 const computedStyle = computed<Partial<CSSProperties>>(() => {
@@ -68,6 +93,28 @@ const computedStyle = computed<Partial<CSSProperties>>(() => {
   }
 
   return {}
+})
+
+onMounted(() => {
+  const inputs = root.value?.querySelectorAll('input')
+
+  if (inputs?.length) {
+    inputs[0].focus()
+    return
+  }
+
+  const buttons = root.value?.querySelectorAll('button')
+
+  if (buttons?.length) {
+    const primaryButton = Array.from(buttons).find((button) => button.classList.contains('vuiii-button--primary'))
+
+    if (primaryButton) {
+      primaryButton.focus()
+      return
+    }
+
+    buttons[0].focus()
+  }
 })
 </script>
 
@@ -137,6 +184,10 @@ const computedStyle = computed<Partial<CSSProperties>>(() => {
   border-radius: 4px;
 }
 
+.ModalLayout__content {
+  padding-right: 2rem;
+}
+
 .ModalLayout.hasHeader .ModalLayout__body {
   padding-top: 0;
   border-top-right-radius: 0;
@@ -178,5 +229,20 @@ const computedStyle = computed<Partial<CSSProperties>>(() => {
 
 .ModalLayout.isPlain .ModalLayout__footer {
   padding: 0;
+}
+
+.ModalLayout__buttons {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 1rem;
+
+  & > * + * {
+    margin-left: 0.5rem;
+  }
+}
+
+.ModalLayout__message--offset {
+  padding-right: 2.5rem;
 }
 </style>
