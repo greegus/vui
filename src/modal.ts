@@ -1,6 +1,6 @@
 import { Component, ComponentCustomProps, computed, defineAsyncComponent, markRaw, ref } from 'vue'
 
-import { ButtonVariant } from './types'
+import { ButtonVariant, ModalLayoutButton } from './types'
 
 export type Modal = {
   id: number
@@ -16,17 +16,10 @@ export type Config = Partial<{
   confirmLabel: string
 }>
 
-export type ButtonOptions = {
-  variant?: ButtonVariant
-  label: string
-  icon?: string
-  value?: any
-}
-
 export type DialogOptions = {
   title?: string
   content?: string
-  buttons?: ButtonOptions[]
+  buttons?: ModalLayoutButton[]
 }
 
 export type AlertOptions =

@@ -34,6 +34,8 @@
               :label="button.label"
               :variant="button.variant"
               :prefix-icon="button.icon"
+              :disabled="button.disabled"
+              :loading="button.loading"
               @click="close(button.value)"
             />
           </span>
@@ -46,7 +48,8 @@
 <script lang="ts" setup>
 import { computed, CSSProperties, onMounted, ref, useSlots } from 'vue'
 
-import { ButtonOptions, useCloseModal } from '../../modal'
+import { useCloseModal } from '../../modal'
+import { ModalLayoutButton } from '../../types'
 import Button from '../Button.vue'
 import Icon from '../Icon.vue'
 
@@ -64,7 +67,7 @@ const props = withDefaults(
     hideCloseButton?: boolean
     scroll?: boolean
     plain?: boolean
-    buttons?: ButtonOptions[]
+    buttons?: ModalLayoutButton[]
   }>(),
   {
     title: '',
@@ -162,7 +165,7 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
   width: 4rem;
-  height: 4.3rem;
+  height: 4rem;
 
   font-size: 1.85rem;
   opacity: 0.4;

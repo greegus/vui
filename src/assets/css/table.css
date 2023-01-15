@@ -36,3 +36,8 @@
     background-color: rgb(0 0 0 / 0.025);
   }
 }
+
+.vuiii-table__emptyMessage {
+  text-align: center;
+  padding: 1rem;
+}

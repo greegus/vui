@@ -1,5 +1,5 @@
 <template>
-  <table class="vuiii-table vuiii-table--hover">
+  <table class="vuiii-table" :class="{ 'vuiii-table--hover': $props.hightlightOnHover }">
     <thead>
       <tr>
         <th
@@ -14,7 +14,13 @@
     </thead>
 
     <tbody>
-      <tr v-for="(item, index) in items" :key="index" :class="resolveRowClass({ item, index })">
+      <tr
+        v-for="(item, index) in items"
+        :key="index"
+        :class="resolveRowClass({ item, index })"
+        @mouseenter="$emit('mouseenter-row', { item, index })"
+        @mouseleave="$emit('mouseleave-row', { item, index })"
+      >
         <td v-for="(column, key) in normalizedColumns" :key="key" :style="{ textAlign: column.align || 'left' }">
           <slot :name="key" v-bind="{ item }">
             <router-link v-if="column.href" class="vuiii-link" :to="column.href(item)">
@@ -24,6 +30,16 @@
             <template v-else>
               {{ formatValue(item, key) }}
             </template>
+          </slot>
+        </td>
+      </tr>
+
+      <tr v-if="!items?.length && ($props.emptyMessage || $slots.emptyMessage)">
+        <td :colspan="Object.keys(columns).length">
+          <slot name="emptyMessage">
+            <div class="vuiii-table__emptyMessage">
+              {{ $props.emptyMessage }}
+            </div>
           </slot>
         </td>
       </tr>
@@ -44,7 +60,14 @@ type NormalizedTableColumns<T = any> = Record<keyof T | string, ColumnOptions<T>
 const props = defineProps<{
   items: any[]
   columns: TableColumns
-  rowClass?: string | ((row: { item: any; index: number }) => string)
+  rowClass?: string | ((row: { item: any; index: number }) => any)
+  hightlightOnHover?: boolean
+  emptyMessage?: string
+}>()
+
+defineEmits<{
+  (event: 'mouseenter-row', payload: { item: any; index: number }): void
+  (event: 'mouseleave-row', payload: { item: any; index: number }): void
 }>()
 
 const normalizedColumns = computed<NormalizedTableColumns>(() => {

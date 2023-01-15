@@ -7,6 +7,15 @@ export type ButtonSize = InputSize
 
 export type ButtonVariant = 'default' | 'primary' | 'secondary' | 'danger'
 
+export type ModalLayoutButton = {
+  variant?: ButtonVariant
+  label: string
+  icon?: string
+  value?: any
+  disabled?: boolean
+  loading?: boolean
+}
+
 export type ColumnOptions<T = any> = {
   label?: string
   align?: 'left' | 'right' | 'center'
