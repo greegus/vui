@@ -14,7 +14,7 @@
     </thead>
 
     <tbody>
-      <tr v-for="(item, index) in items" :key="index" :class="resolveRowClass(item)">
+      <tr v-for="(item, index) in items" :key="index" :class="resolveRowClass({ item, index })">
         <td v-for="(column, key) in normalizedColumns" :key="key" :style="{ textAlign: column.align || 'left' }">
           <slot :name="key" v-bind="{ item }">
             <router-link v-if="column.href" class="vuiii-link" :to="column.href(item)">
@@ -44,7 +44,7 @@ type NormalizedTableColumns<T = any> = Record<keyof T | string, ColumnOptions<T>
 const props = defineProps<{
   items: any[]
   columns: TableColumns
-  rowClass?: string | ((item: any) => string)
+  rowClass?: string | ((row: { item: any; index: number }) => string)
 }>()
 
 const normalizedColumns = computed<NormalizedTableColumns>(() => {
@@ -69,7 +69,7 @@ const formatValue = (item: any, key: keyof NormalizedTableColumns): any => {
   return value
 }
 
-const resolveRowClass = (item: any): any => {
-  return typeof props.rowClass === 'function' ? props.rowClass(item) : props.rowClass
+const resolveRowClass = (row: { item: any; index: number }): any => {
+  return typeof props.rowClass === 'function' ? props.rowClass(row) : props.rowClass
 }
 </script>
