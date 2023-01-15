@@ -104,6 +104,11 @@ const retrieveTargetValue = (e: Event) => {
 }
 
 const attrsWithoutClass = useAttrsWithoutClass()
+
+defineExpose({
+  focus: () => input.value.focus(),
+  select: () => input.value.select()
+})
 </script>
 
 <style lang="postcss">
