@@ -238,7 +238,6 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  margin-top: 1rem;
 
   & > * + * {
     margin-left: 0.5rem;

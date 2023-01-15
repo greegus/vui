@@ -18,6 +18,7 @@
         v-for="(item, index) in items"
         :key="index"
         :class="resolveRowClass({ item, index })"
+        @click="$emit('click-row', { item, index })"
         @mouseenter="$emit('mouseenter-row', { item, index })"
         @mouseleave="$emit('mouseleave-row', { item, index })"
       >
@@ -66,6 +67,7 @@ const props = defineProps<{
 }>()
 
 defineEmits<{
+  (event: 'click-row', payload: { item: any; index: number }): void
   (event: 'mouseenter-row', payload: { item: any; index: number }): void
   (event: 'mouseleave-row', payload: { item: any; index: number }): void
 }>()
