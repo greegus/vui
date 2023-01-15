@@ -1,10 +1,10 @@
 <template>
-  <div class="Select vuiii-input" :class="{ [`vuiii-input--${$props.size}`]: $props.size }">
+  <div class="Select vuiii-input" :class="[$attrs.class, { [`vuiii-input--${$props.size}`]: $props.size }]">
     <select
       class="vuiii-input__nested Select__select"
       :value="$props.modelValue"
       :required="$props.required"
-      v-bind="$attrs"
+      v-bind="attrsWithoutClass"
       @input="$emit('update:model-value', ($event.target as HTMLSelectElement).value)"
     >
       <option v-if="$props.placeholder" :disabled="$props.required" value="" selected>
@@ -33,6 +33,7 @@ import { computed } from 'vue'
 
 import { Extractor, InputSize, Option } from '../types'
 import { normalizeOptions } from '../utils/normalizeOptions'
+import { useAttrsWithoutClass } from '../utils/useAttrsWithoutClass'
 import Icon from './Icon.vue'
 
 const props = withDefaults(
@@ -66,6 +67,8 @@ const normalizedOptions = computed<Option[]>(() =>
     disabled: props.optionDisabled
   })
 )
+
+const attrsWithoutClass = useAttrsWithoutClass()
 </script>
 
 <style lang="postcss">

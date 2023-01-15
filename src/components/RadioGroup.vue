@@ -1,5 +1,5 @@
 <template>
-  <div class="RadioGroup">
+  <div class="RadioGroup" :class="$attrs.class">
     <label
       v-for="option in normalizedOptions"
       :key="option.value"
@@ -7,7 +7,7 @@
       :class="{ 'RadioGroup__option--disabled': option.disabled }"
     >
       <input
-        v-bind="$attrs"
+        v-bind="attrsWithoutClass"
         :value="option.value"
         class="RadioGroup__input"
         type="radio"
@@ -48,6 +48,7 @@ import { computed, useAttrs } from 'vue'
 import { Extractor, Option } from '../types'
 import { generateId } from '../utils/generateId'
 import { normalizeOptions } from '../utils/normalizeOptions'
+import { useAttrsWithoutClass } from '../utils/useAttrsWithoutClass'
 
 defineEmits<{
   (e: 'update:model-value', value: string | number): void
@@ -74,6 +75,8 @@ const normalizedOptions = computed<Option[]>(() =>
     description: props.optionDescription
   })
 )
+
+const attrsWithoutClass = useAttrsWithoutClass()
 </script>
 
 <style lang="postcss" scoped>

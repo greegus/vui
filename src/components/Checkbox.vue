@@ -1,11 +1,12 @@
 <template>
-  <label class="Checkbox" :class="{ 'Checkbox--disabled': $props.disabled }">
+  <label class="Checkbox" :class="[$attrs.class, { 'Checkbox--disabled': $props.disabled }]">
     <input
       :checked="$props.modelValue"
       class="Checkbox__input"
       :required="$props.required"
       :disabled="$props.disabled"
       type="checkbox"
+      v-bind="attrsWithoutClass"
       @input="$emit('update:model-value', ($event.target as any).checked)"
     />
 
@@ -42,6 +43,7 @@ export default {
 <script lang="ts" setup>
 import '../assets/css/input.css'
 
+import { useAttrsWithoutClass } from '../utils/useAttrsWithoutClass'
 import Icon from './Icon.vue'
 
 defineProps<{
@@ -56,6 +58,8 @@ defineProps<{
 defineEmits<{
   (e: 'update:model-value', value: boolean): void
 }>()
+
+const attrsWithoutClass = useAttrsWithoutClass()
 </script>
 
 <style lang="postcss" scoped>

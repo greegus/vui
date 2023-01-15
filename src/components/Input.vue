@@ -1,11 +1,14 @@
 <template>
   <div
     class="Input vuiii-input"
-    :class="{
-      'vuiii-input--invalid': $props.invalid,
-      'vuiii-input--disabled': $attrs.disabled,
-      [`vuiii-input--${$props.size}`]: $props.size
-    }"
+    :class="[
+      $attrs.class,
+      {
+        'vuiii-input--invalid': $props.invalid,
+        'vuiii-input--disabled': $attrs.disabled,
+        [`vuiii-input--${$props.size}`]: $props.size
+      }
+    ]"
     @click="input.focus()"
   >
     <slot v-if="hasPrefix" name="prefix">
@@ -23,7 +26,7 @@
     <input
       ref="input"
       :aria-label="($attrs.placeholder as string) || 'input'"
-      v-bind="$attrs"
+      v-bind="attrsWithoutClass"
       class="vuiii-input__nested Input__input"
       :class="{
         'Input__input--withPrefixIcon': $props.prefixIcon,
@@ -60,6 +63,7 @@ import '../assets/css/input.css'
 import { computed, ref, useAttrs, useSlots } from 'vue'
 
 import { InputSize } from '../types'
+import { useAttrsWithoutClass } from '../utils/useAttrsWithoutClass'
 import Icon from './Icon.vue'
 
 const props = defineProps<{
@@ -98,6 +102,8 @@ const retrieveTargetValue = (e: Event) => {
 
   return target.value
 }
+
+const attrsWithoutClass = useAttrsWithoutClass()
 </script>
 
 <style lang="postcss">
