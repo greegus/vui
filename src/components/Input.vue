@@ -11,7 +11,7 @@
     ]"
     @click="input.focus()"
   >
-    <slot v-if="hasPrefix" name="prefix">
+    <slot v-if="slots.prefix || props.prefixIcon" name="prefix">
       <component
         :is="isPrefixIconClickable ? 'button' : 'div'"
         class="vuiii-input__prefix-icon"
@@ -19,7 +19,7 @@
         tabindex="-1"
         @click.prevent="$emit('prefix-icon-click')"
       >
-        <Icon :name="$props.prefixIcon || ''" :size="$props.size" />
+        <Icon v-if="$props.prefixIcon" :name="$props.prefixIcon || ''" :size="$props.size" />
       </component>
     </slot>
 
@@ -29,6 +29,7 @@
       v-bind="attrsWithoutClass"
       class="vuiii-input__nested Input__input"
       :class="{
+        inputClass,
         'Input__input--withPrefixIcon': $props.prefixIcon,
         'Input__input--withSuffixIcon': $props.suffixIcon
       }"
@@ -37,7 +38,7 @@
       @input="$emit('update:model-value', retrieveTargetValue($event))"
     />
 
-    <slot v-if="hasSuffix" name="suffix">
+    <slot v-if="slots.suffix || props.suffixIcon" name="suffix">
       <component
         :is="isSuffixIconClickable ? 'button' : 'div'"
         class="vuiii-input__suffix-icon"
@@ -45,7 +46,7 @@
         tabindex="-1"
         @click.prevent="$emit('suffix-icon-click')"
       >
-        <Icon :name="$props.suffixIcon || ''" :size="$props.size" />
+        <Icon v-if="$props.suffixIcon" :name="$props.suffixIcon || ''" :size="$props.size" />
       </component>
     </slot>
   </div>
@@ -60,7 +61,7 @@ export default {
 <script lang="ts" setup>
 import '../assets/css/input.css'
 
-import { computed, ref, useAttrs, useSlots } from 'vue'
+import { computed, ref, useAttrs, useSlots, watch } from 'vue'
 
 import { InputSize } from '../types'
 import { useAttrsWithoutClass } from '../utils/useAttrsWithoutClass'
@@ -72,6 +73,7 @@ const props = defineProps<{
   suffixIcon?: string
   size?: InputSize
   invalid?: boolean
+  inputClass?: any
 }>()
 
 defineEmits<{
@@ -84,8 +86,6 @@ const attrs = useAttrs()
 const slots = useSlots()
 const input = ref()
 
-const hasPrefix = computed<boolean>(() => Boolean(slots.prefix || props.prefixIcon))
-const hasSuffix = computed<boolean>(() => Boolean(slots.suffix || props.suffixIcon))
 const isPrefixIconClickable = computed<boolean>(() => Boolean(attrs.onPrefixIconClick))
 const isSuffixIconClickable = computed<boolean>(() => Boolean(attrs.onSuffixIconClick))
 
@@ -147,6 +147,7 @@ defineExpose({
   outline: none;
   align-items: center;
   justify-content: center;
+  flex: none;
 }
 */
 

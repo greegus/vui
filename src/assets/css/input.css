@@ -132,6 +132,7 @@
     outline: none;
     align-items: center;
     justify-content: center;
+    flex: none;
   }
 
   & .vuiii-input__prefix-icon {
