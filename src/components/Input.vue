@@ -106,6 +106,7 @@ const retrieveTargetValue = (e: Event) => {
 const attrsWithoutClass = useAttrsWithoutClass()
 
 defineExpose({
+  input,
   focus: () => input.value.focus(),
   select: () => input.value.select()
 })
