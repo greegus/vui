@@ -23,6 +23,7 @@ export type ColumnOptions<T = any> = {
   value?: (item: T) => unknown
   format?: (...params: any[]) => unknown
   href?: (item: T) => RouteLocationRaw
+  cellClass?: string | ((cell: { item: T; value: any }) => string)
 }
 
 export type TableColumns<T = any> = Record<keyof T | string, string | ColumnOptions<T>>

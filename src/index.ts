@@ -27,6 +27,7 @@ export type {
   ButtonSize,
   ButtonVariant,
   FormFieldsStructure,
+  ModalLayoutButton,
   TableColumns,
   ValidationErrors,
   ValidationResults
