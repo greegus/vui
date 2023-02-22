@@ -1,10 +1,10 @@
 <template>
   <div class="Select vuiii-input" :class="[$attrs.class, { [`vuiii-input--${$props.size}`]: $props.size }]">
     <select
+      v-bind="attrsWithoutClass"
       class="vuiii-input__nested Select__select"
       :value="$props.modelValue"
       :required="$props.required"
-      v-bind="attrsWithoutClass"
       @input="$emit('update:model-value', ($event.target as HTMLSelectElement).value)"
     >
       <option v-if="$props.placeholder" :disabled="$props.required" value="" selected>
@@ -86,7 +86,10 @@ const attrsWithoutClass = useAttrsWithoutClass()
   appearance: none;
   text-overflow: ellipsis;
   align-self: stretch;
-  padding-right: 0rem;
+  padding-right: calc(var(--padding) + var(--vuiii-icon-size) + 0.5rem);
+
+  /* XXX: deal with vertical cropping of the label */
+  line-height: 1.5;
 
   /* XXX: targets only Firerefox to fix the vertical text alignment */
   @supports (-moz-appearance: none) {
