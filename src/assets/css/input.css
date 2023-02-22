@@ -120,6 +120,10 @@
     &::placeholder {
       color: var(--vuiii-input-placeholderColor);
     }
+
+    &:focus {
+      outline: none
+    }
   }
 
   /* prefix and suffix icons */
