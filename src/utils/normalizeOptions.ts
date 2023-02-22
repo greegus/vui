@@ -46,8 +46,8 @@ export function normalizeOptions(
   if (typeof items === 'object' && items !== null) {
     return Object.entries(items || {}).reduce((options, [value, label]) => {
       return options.concat({
+        ...normalizeOption(label, extractors),
         value,
-        label,
         data: value
       })
     }, [] as Option[])
