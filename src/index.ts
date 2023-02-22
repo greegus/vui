@@ -28,9 +28,11 @@ export type {
   ButtonVariant,
   FormFieldsStructure,
   ModalLayoutButton,
+  Option,
   TableColumns,
   ValidationErrors,
   ValidationResults
 } from './types'
 export { registerCustomIconResolver } from './utils/iconsResolver'
+export { normalizeOptions } from './utils/normalizeOptions'
 export { ValidationError } from './validations/validator'
