@@ -1,5 +1,5 @@
 <template>
-  <table class="vuiii-table" :class="{ 'vuiii-table--hover': $props.hightlightOnHover }">
+  <table class="vuiii-table" :class="{ 'vuiii-table--hover': $props.hightlightOnHover && items?.length }">
     <thead>
       <tr>
         <th
