@@ -47,7 +47,7 @@ useOnKeyPress('Escape', () => {
 <style lang="postcss" scoped>
 .ModalStack {
   position: fixed;
-  z-index: 1050;
+  z-index: var(--vuiii-zIndex-modal);
 }
 
 .ModalStack__backdrop {

@@ -85,6 +85,13 @@
   --vuiii-icon-size--small: 1.1rem;
   /* --vuiii-icon-size--large: 1.5rem; */
   --vuiii-icon-size--large: 1.75rem;
+
+  /* Z-index */
+  --vuiii-zIndex-modal: 1000;
+  --vuiii-zIndex-dropdown: 1010;
+  --vuiii-zIndex-tooltip: 1020;
+  --vuiii-zIndex-snackbar: 1030;
+  --vuiii-zIndex-header: 10;
 }
 
 body {

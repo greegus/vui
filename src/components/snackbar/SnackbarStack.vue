@@ -34,7 +34,7 @@ const messagesInReverse = computed<Message[]>(() => [...messages.value].reverse(
   position: fixed;
   bottom: 0;
   right: 0;
-  z-index: 10;
+  z-index: var(--vuiii-zIndex-snackbar);
   margin: 2rem;
 }
 
