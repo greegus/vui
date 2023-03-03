@@ -106,7 +106,8 @@ const tableRows = computed<TableRows>(() => {
           ...result,
           [key]: {
             value: formattedValue,
-            cellClass
+            cellClass,
+            item
           }
         }
       }, {} as any)
