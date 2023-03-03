@@ -10,6 +10,7 @@ export const useLoadData = <D = unknown, P = unknown>(
     onError?: ({ error, params, router }: { error: Error; params: P; router: Router }) => boolean | void
     successMessage?: ((data: D, params: P) => string) | string
     errorMessage?: ((error: Error, params: P) => string) | string
+    initialValue?: D
     immediate?: boolean
   } = {}
 ): {
@@ -26,7 +27,8 @@ export const useLoadData = <D = unknown, P = unknown>(
     onError: ({ router, error, data }) => options.onError?.({ error, params: data, router }),
     successMessage: options.successMessage,
     errorMessage: options.errorMessage,
-    immediate: options.immediate
+    immediate: options.immediate,
+    initialResultValue: options.initialValue
   })
 
   return {

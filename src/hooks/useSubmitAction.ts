@@ -19,6 +19,7 @@ export function useSubmitAction<D = any, R = any>(
     redirectOnSuccess?: RouteLocationRaw | ((result: R, data: D) => RouteLocationRaw) | undefined
     successMessage?: ((result: R, data: D) => string) | string
     errorMessage?: ((error: Error, data: D) => string) | string
+    initialResultValue?: R
     immediate?: boolean
   } = {}
 ): {
@@ -32,7 +33,7 @@ export function useSubmitAction<D = any, R = any>(
   const router = useRouter()
 
   const isSubmitting = ref<boolean>(false)
-  const result = ref<R>() as Ref<R>
+  const result = ref<R>(options.initialResultValue as R) as Ref<R>
   const errors = ref<ValidationErrors<D>>(Object.freeze({})) as Ref<ValidationErrors<D>>
 
   const submit = async (data?: D): Promise<R | undefined> => {
