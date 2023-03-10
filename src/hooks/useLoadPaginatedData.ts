@@ -16,6 +16,7 @@ export function useLoadPaginatedData<Item = unknown>(
   items: Ref<Item[]>
   pagination: Ref<Pagination | undefined>
   isLoading: Ref<boolean>
+  hasLoaded: Ref<boolean>
   loadPage: (page?: number) => Promise<PaginatedData<Item>>
   loadNextPage: () => Promise<PaginatedData<Item> | undefined>
   loadPreviousPage: () => Promise<PaginatedData<Item> | undefined>
@@ -26,7 +27,7 @@ export function useLoadPaginatedData<Item = unknown>(
 
   const { immediate, initialValue: _initialValue, ...transferedOptions } = options
 
-  const { isLoading, load } = useLoadData<PaginatedData<Item>, Parameters<PaginatedDataSource<Item>>[0]>(
+  const { isLoading, hasLoaded, load } = useLoadData<PaginatedData<Item>, Parameters<PaginatedDataSource<Item>>[0]>(
     source,
     transferedOptions
   )
@@ -84,6 +85,7 @@ export function useLoadPaginatedData<Item = unknown>(
 
   return {
     isLoading,
+    hasLoaded,
     items,
     pagination,
     loadPage,

@@ -16,10 +16,12 @@ export const useLoadData = <LoadedData = unknown, Parameters extends {} = any>(
 ): {
   load: (params: Parameters) => Promise<LoadedData>
   isLoading: Ref<boolean>
+  hasLoaded: Ref<boolean>
   data: Ref<LoadedData>
 } => {
   const {
     isSubmitting: isLoading,
+    hasSubbmitted: hasLoaded,
     submit: load,
     result: data
   } = useSubmitAction<Parameters, LoadedData>(source, {
@@ -34,6 +36,7 @@ export const useLoadData = <LoadedData = unknown, Parameters extends {} = any>(
   return {
     load,
     isLoading,
+    hasLoaded,
     data
   }
 }

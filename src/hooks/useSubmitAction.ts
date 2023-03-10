@@ -27,6 +27,7 @@ export function useSubmitAction<SubmittedData = unknown, Result = unknown>(
 ): {
   submit: (data: SubmittedData) => Promise<Result>
   isSubmitting: Ref<boolean>
+  hasSubbmitted: Ref<boolean>
   result: Ref<Result>
   errors: Ref<ValidationErrors<SubmittedData>>
 } {
@@ -35,6 +36,7 @@ export function useSubmitAction<SubmittedData = unknown, Result = unknown>(
   const router = useRouter()
 
   const isSubmitting = ref<boolean>(false)
+  const hasSubbmitted = ref<boolean>(false)
   const result = ref<Result>(options.initialResultValue as Result) as Ref<Result>
   const errors = ref<ValidationErrors<SubmittedData>>(Object.freeze({})) as Ref<ValidationErrors<SubmittedData>>
 
@@ -93,6 +95,7 @@ export function useSubmitAction<SubmittedData = unknown, Result = unknown>(
       throw error
     }
 
+    hasSubbmitted.value = true
     isSubmitting.value = false
 
     if (options.successMessage && snackbar) {
@@ -124,6 +127,7 @@ export function useSubmitAction<SubmittedData = unknown, Result = unknown>(
     submit,
     errors,
     result,
-    isSubmitting
+    isSubmitting,
+    hasSubbmitted
   }
 }
