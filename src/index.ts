@@ -16,6 +16,7 @@ export { default as SnackbarStack } from './components/snackbar/SnackbarStack.vu
 export { default as Table } from './components/Table.vue'
 export { default as Textarea } from './components/Textarea.vue'
 export { useLoadData } from './hooks/useLoadData'
+export { useLoadPaginatedData } from './hooks/useLoadPaginatedData'
 export { useOnClickOutside } from './hooks/useOnClickOutside'
 export { useOnKeyPress } from './hooks/useOnKeyPress'
 export { usePageFromRouteQuery, useRouteQuery } from './hooks/useRouteQuery'
@@ -29,6 +30,9 @@ export type {
   FormFieldsStructure,
   ModalLayoutButton,
   Option,
+  PaginatedData,
+  PaginatedDataSource,
+  Pagination,
   TableColumns,
   ValidationErrors,
   ValidationResults

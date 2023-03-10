@@ -8,42 +8,44 @@ import { ValidationError } from '../validations/validator'
 
 type ConfirmParams = Parameters<ReturnType<typeof useModal>['confirm']>[0]
 
-export function useSubmitAction<D = any, R = any>(
-  action: (data: D) => any | Promise<any>,
+export function useSubmitAction<SubmittedData = unknown, Result = unknown>(
+  action: (data: SubmittedData) => Result | Promise<Result>,
   options: {
-    validator?: (data: D) => boolean | ValidationResults<D> | Promise<ValidationResults<D> | boolean>
-    onValidationResults?: (errors?: ValidationErrors<D>) => void
-    confirm?: ((data: D) => ConfirmParams) | ConfirmParams
-    onSuccess?: (params: { result: R; data: D; router: Router; snackbar: Snackbar }) => void
-    onError?: (params: { error: Error; data: D; router: Router; snackbar: Snackbar }) => boolean | void
-    redirectOnSuccess?: RouteLocationRaw | ((result: R, data: D) => RouteLocationRaw) | undefined
-    successMessage?: ((result: R, data: D) => string) | string
-    errorMessage?: ((error: Error, data: D) => string) | string
-    initialResultValue?: R
+    validator?: (
+      data: SubmittedData
+    ) => boolean | ValidationResults<SubmittedData> | Promise<ValidationResults<SubmittedData> | boolean>
+    onValidationResults?: (errors?: ValidationErrors<SubmittedData>) => void
+    confirm?: ((data: SubmittedData) => ConfirmParams) | ConfirmParams
+    onSuccess?: (params: { result: Result; data: SubmittedData; router: Router; snackbar: Snackbar }) => void
+    onError?: (params: { error: Error; data: SubmittedData; router: Router; snackbar: Snackbar }) => boolean | void
+    redirectOnSuccess?: RouteLocationRaw | ((result: Result, data: SubmittedData) => RouteLocationRaw) | undefined
+    successMessage?: ((result: Result, data: SubmittedData) => string) | string
+    errorMessage?: ((error: Error, data: SubmittedData) => string) | string
+    initialResultValue?: Result | undefined
     immediate?: boolean
   } = {}
 ): {
-  submit: (data?: D) => Promise<any>
+  submit: (data: SubmittedData) => Promise<Result>
   isSubmitting: Ref<boolean>
-  result: Ref<R>
-  errors: Ref<ValidationErrors<D>>
+  result: Ref<Result>
+  errors: Ref<ValidationErrors<SubmittedData>>
 } {
   const snackbar = useSnackbar()
   const modal = useModal()
   const router = useRouter()
 
   const isSubmitting = ref<boolean>(false)
-  const result = ref<R>(options.initialResultValue as R) as Ref<R>
-  const errors = ref<ValidationErrors<D>>(Object.freeze({})) as Ref<ValidationErrors<D>>
+  const result = ref<Result>(options.initialResultValue as Result) as Ref<Result>
+  const errors = ref<ValidationErrors<SubmittedData>>(Object.freeze({})) as Ref<ValidationErrors<SubmittedData>>
 
-  const submit = async (data?: D): Promise<R | undefined> => {
+  const submit = async (data?: SubmittedData): Promise<Result> => {
     if (options.confirm && modal) {
       const confirmed = await modal.confirm(
         typeof options.confirm === 'function' ? options.confirm(data!) : options.confirm
       )
 
       if (!confirmed) {
-        return
+        return undefined as any
       }
     }
 
@@ -84,7 +86,7 @@ export function useSubmitAction<D = any, R = any>(
         const hasErrorBeenResolved = options.onError({ error: error as Error, data: data!, router, snackbar })
 
         if (hasErrorBeenResolved) {
-          return
+          return undefined as any
         }
       }
 

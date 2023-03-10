@@ -3,26 +3,26 @@ import { Router } from 'vue-router'
 
 import { useSubmitAction } from './useSubmitAction'
 
-export const useLoadData = <D = unknown, P = unknown>(
-  source: (params?: P) => D | Promise<D>,
+export const useLoadData = <LoadedData = unknown, Parameters extends {} = any>(
+  source: (params: Parameters) => Promise<LoadedData> | LoadedData,
   options: {
-    onSuccess?: ({ data, params, router }: { data: D; params: P; router: Router }) => void
-    onError?: ({ error, params, router }: { error: Error; params: P; router: Router }) => boolean | void
-    successMessage?: ((data: D, params: P) => string) | string
-    errorMessage?: ((error: Error, params: P) => string) | string
-    initialValue?: D
+    onSuccess?: ({ data, params, router }: { data: LoadedData; params: Parameters; router: Router }) => void
+    onError?: ({ error, params, router }: { error: Error; params: Parameters; router: Router }) => boolean | void
+    successMessage?: ((data: LoadedData, params: Parameters) => string) | string
+    errorMessage?: ((error: Error, params: Parameters) => string) | string
+    initialValue?: LoadedData | undefined
     immediate?: boolean
   } = {}
 ): {
-  load: (params?: P) => Promise<D>
+  load: (params: Parameters) => Promise<LoadedData>
   isLoading: Ref<boolean>
-  data: Ref<D>
+  data: Ref<LoadedData>
 } => {
   const {
     isSubmitting: isLoading,
     submit: load,
     result: data
-  } = useSubmitAction<P, D>(source, {
+  } = useSubmitAction<Parameters, LoadedData>(source, {
     onSuccess: ({ router, data, result }) => options.onSuccess?.({ data: result, params: data, router }),
     onError: ({ router, error, data }) => options.onError?.({ error, params: data, router }),
     successMessage: options.successMessage,

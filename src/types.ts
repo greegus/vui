@@ -69,3 +69,22 @@ export type FormField = {
 }
 
 export type FormFieldsStructure<T extends any = any> = Record<keyof T | string, FormField>
+
+// Pagination
+
+export type Pagination = {
+  currentPage: number
+  hasNextPage?: boolean
+  hasPreviousPage?: boolean
+  totalItems: number
+  itemsPerPage: number
+}
+
+export type PaginatedData<Item = unknown> = {
+  items: Item[]
+  pagination: Pagination
+}
+
+export interface PaginatedDataSource<Item> {
+  (args: { page: number; itemsPerPage: number }): Promise<PaginatedData<Item>>
+}
