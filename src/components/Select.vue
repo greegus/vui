@@ -38,7 +38,7 @@ import Icon from './Icon.vue'
 
 const props = withDefaults(
   defineProps<{
-    modelValue: Option['value']
+    modelValue?: Option['value']
     options: any[] | any
     optionLabel?: Extractor
     optionValue?: Extractor
@@ -48,6 +48,7 @@ const props = withDefaults(
     required?: boolean
   }>(),
   {
+    modelValue: undefined,
     size: 'normal',
     optionLabel: undefined,
     optionValue: undefined,

@@ -21,6 +21,7 @@ export { useOnClickOutside } from './hooks/useOnClickOutside'
 export { useOnKeyPress } from './hooks/useOnKeyPress'
 export { usePageFromRouteQuery, useRouteQuery } from './hooks/useRouteQuery'
 export { useSubmitAction } from './hooks/useSubmitAction'
+export { useValidator } from './hooks/useValidator'
 export { useCloseModal, useModal } from './modal'
 export { useSnackbar } from './snackbar'
 export type {
@@ -35,7 +36,8 @@ export type {
   Pagination,
   TableColumns,
   ValidationErrors,
-  ValidationResults
+  ValidationResults,
+  ValidationRules
 } from './types'
 export { registerCustomIconResolver } from './utils/iconsResolver'
 export { normalizeOptions } from './utils/normalizeOptions'

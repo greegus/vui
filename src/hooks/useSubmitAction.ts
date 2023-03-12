@@ -2,34 +2,46 @@ import { onMounted, Ref, ref } from 'vue'
 import { RouteLocationRaw, Router, useRouter } from 'vue-router'
 
 import { useModal } from '../modal'
-import { Snackbar, useSnackbar } from '../snackbar'
-import { ValidationErrors, ValidationResults } from '../types'
-import { ValidationError } from '../validations/validator'
+import { useSnackbar } from '../snackbar'
 
-type ConfirmParams = Parameters<ReturnType<typeof useModal>['confirm']>[0]
-
-export function useSubmitAction<SubmittedData = unknown, Result = unknown>(
-  action: (data: SubmittedData) => Result | Promise<Result>,
+export function useSubmitAction<ActionParams extends any[] = any[], ActionResult = unknown | Promise<unknown>>(
+  action: (...data: ActionParams) => ActionResult,
   options: {
-    validator?: (
-      data: SubmittedData
-    ) => boolean | ValidationResults<SubmittedData> | Promise<ValidationResults<SubmittedData> | boolean>
-    onValidationResults?: (errors?: ValidationErrors<SubmittedData>) => void
-    confirm?: ((data: SubmittedData) => ConfirmParams) | ConfirmParams
-    onSuccess?: (params: { result: Result; data: SubmittedData; router: Router; snackbar: Snackbar }) => void
-    onError?: (params: { error: Error; data: SubmittedData; router: Router; snackbar: Snackbar }) => boolean | void
-    redirectOnSuccess?: RouteLocationRaw | ((result: Result, data: SubmittedData) => RouteLocationRaw) | undefined
-    successMessage?: ((result: Result, data: SubmittedData) => string) | string
-    errorMessage?: ((error: Error, data: SubmittedData) => string) | string
-    initialResultValue?: Result | undefined
+    onBeforeSubmit?: (params?: {
+      data: ActionParams
+      modal: ReturnType<typeof useModal>
+      snackbar: ReturnType<typeof useSnackbar>
+    }) => boolean | Promise<boolean>
+    onSuccess?: (params: {
+      data: Parameters<typeof action>
+      result: Awaited<ReturnType<typeof action>>
+      router: Router
+      modal: ReturnType<typeof useModal>
+      snackbar: ReturnType<typeof useSnackbar>
+    }) => void
+    onError?: (params: {
+      error: Error
+      data: Parameters<typeof action>
+      router: Router
+      modal: ReturnType<typeof useModal>
+      snackbar: ReturnType<typeof useSnackbar>
+    }) => boolean | void
+    redirectOnSuccess?:
+      | RouteLocationRaw
+      | ((params: { result: Awaited<ReturnType<typeof action>>; data: Parameters<typeof action> }) => RouteLocationRaw)
+      | undefined
+    successMessage?:
+      | ((params: { result: Awaited<ReturnType<typeof action>>; data: Parameters<typeof action> }) => string)
+      | string
+    errorMessage?: ((params: { error: Error; data: Parameters<typeof action> }) => string) | string
+    initialResultValue?: Awaited<ReturnType<typeof action>> | undefined
     immediate?: boolean
   } = {}
 ): {
-  submit: (data: SubmittedData) => Promise<Result>
+  submit: (...data: Parameters<typeof action>) => Promise<ReturnType<typeof action> | undefined>
   isSubmitting: Ref<boolean>
   hasSubbmitted: Ref<boolean>
-  result: Ref<Result>
-  errors: Ref<ValidationErrors<SubmittedData>>
+  result: Ref<Awaited<ReturnType<typeof action>>>
 } {
   const snackbar = useSnackbar()
   const modal = useModal()
@@ -37,47 +49,29 @@ export function useSubmitAction<SubmittedData = unknown, Result = unknown>(
 
   const isSubmitting = ref<boolean>(false)
   const hasSubbmitted = ref<boolean>(false)
-  const result = ref<Result>(options.initialResultValue as Result) as Ref<Result>
-  const errors = ref<ValidationErrors<SubmittedData>>(Object.freeze({})) as Ref<ValidationErrors<SubmittedData>>
+  const result = ref<Awaited<ReturnType<typeof action>>>(
+    options.initialResultValue as Awaited<ReturnType<typeof action>>
+  ) as Ref<Awaited<ReturnType<typeof action>>>
 
-  const submit = async (data?: SubmittedData): Promise<Result> => {
-    if (options.confirm && modal) {
-      const confirmed = await modal.confirm(
-        typeof options.confirm === 'function' ? options.confirm(data!) : options.confirm
-      )
-
-      if (!confirmed) {
-        return undefined as any
-      }
-    }
-
+  const submit = async (...data: Parameters<typeof action>): Promise<ReturnType<typeof action> | undefined> => {
     try {
       isSubmitting.value = true
 
-      if (options.validator) {
-        const validationResult = await options.validator(data!)
+      if (options.onBeforeSubmit) {
+        const onBeforeSubmitResult = await options.onBeforeSubmit({ data, modal, snackbar })
 
-        options.onValidationResults?.(validationResult)
-
-        if (!validationResult) {
-          throw new ValidationError()
-        }
-
-        if (typeof validationResult === 'object') {
-          errors.value = validationResult?.errors || {}
-
-          if (!validationResult?.isValid) {
-            throw new ValidationError()
-          }
+        if (!onBeforeSubmitResult) {
+          isSubmitting.value = false
+          return undefined
         }
       }
 
-      result.value = await action(data!)
+      result.value = await action(...data)
     } catch (error) {
       if (options.errorMessage && snackbar) {
         snackbar.error(
           typeof options.errorMessage === 'function'
-            ? options.errorMessage(error as Error, data!)
+            ? options.errorMessage({ error: error as Error, data })
             : options.errorMessage || (error as Error).message
         )
       }
@@ -85,10 +79,10 @@ export function useSubmitAction<SubmittedData = unknown, Result = unknown>(
       isSubmitting.value = false
 
       if (options.onError) {
-        const hasErrorBeenResolved = options.onError({ error: error as Error, data: data!, router, snackbar })
+        const hasErrorBeenResolved = options.onError({ error: error as Error, data, router, snackbar, modal })
 
         if (hasErrorBeenResolved) {
-          return undefined as any
+          return undefined
         }
       }
 
@@ -101,17 +95,17 @@ export function useSubmitAction<SubmittedData = unknown, Result = unknown>(
     if (options.successMessage && snackbar) {
       snackbar.success(
         typeof options.successMessage === 'function'
-          ? options.successMessage(result.value!, data!)
+          ? options.successMessage({ result: result.value!, data })
           : options.successMessage
       )
     }
 
-    options.onSuccess?.({ result: result.value!, data: data!, router, snackbar })
+    options.onSuccess?.({ result: result.value!, data, router, snackbar, modal })
 
     if (options.redirectOnSuccess) {
       router.push(
         typeof options.redirectOnSuccess === 'function'
-          ? options.redirectOnSuccess(result.value!, data!)
+          ? options.redirectOnSuccess({ result: result.value, data })
           : options.redirectOnSuccess
       )
     }
@@ -125,7 +119,6 @@ export function useSubmitAction<SubmittedData = unknown, Result = unknown>(
 
   return {
     submit,
-    errors,
     result,
     isSubmitting,
     hasSubbmitted

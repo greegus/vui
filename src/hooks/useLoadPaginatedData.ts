@@ -1,4 +1,4 @@
-import { type Ref, ref } from 'vue'
+import { type Ref, onMounted, ref } from 'vue'
 
 import type { PaginatedData, PaginatedDataSource, Pagination } from '../types'
 import { useLoadData } from './useLoadData'
@@ -7,7 +7,7 @@ const DEFAULT_ITEMS_PER_PAGE = 25
 
 export function useLoadPaginatedData<Item = unknown>(
   source: PaginatedDataSource<Item>,
-  options: Parameters<typeof useLoadData<PaginatedData<Item>, Parameters<PaginatedDataSource<Item>>[0]>>[1] & {
+  options: Parameters<typeof useLoadData>[1] & {
     startingPage?: number
     itemsPerPage?: number
     append?: boolean
@@ -27,10 +27,7 @@ export function useLoadPaginatedData<Item = unknown>(
 
   const { immediate, initialValue: _initialValue, ...transferedOptions } = options
 
-  const { isLoading, hasLoaded, load } = useLoadData<PaginatedData<Item>, Parameters<PaginatedDataSource<Item>>[0]>(
-    source,
-    transferedOptions
-  )
+  const { isLoading, hasLoaded, load } = useLoadData(source, transferedOptions)
 
   const loadPage = async (page: number = 1): Promise<PaginatedData<Item>> => {
     const results = await load({ page, itemsPerPage: options.itemsPerPage || DEFAULT_ITEMS_PER_PAGE })
@@ -81,6 +78,10 @@ export function useLoadPaginatedData<Item = unknown>(
     pagination.value = results.pagination
 
     return results
+  }
+
+  if (immediate) {
+    onMounted(loadPage)
   }
 
   return {

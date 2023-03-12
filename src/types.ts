@@ -43,15 +43,6 @@ export type Tabs = Record<string, string>
 
 export type BreadcrumbItems = Record<string, RouteLocationRaw>
 
-export declare type ValidationErrors<T = any> = {
-  [key in keyof T]?: any
-}
-
-export declare type ValidationResults<T = any> = {
-  isValid: boolean
-  errors: ValidationErrors<T>
-}
-
 export type FormFieldValue = {
   getter: (modelValue: any) => unknown
   setter: (value: unknown, modelValue: any) => void
@@ -78,6 +69,7 @@ export type Pagination = {
   hasPreviousPage?: boolean
   totalItems: number
   itemsPerPage: number
+  totalPages: number
 }
 
 export type PaginatedData<Item = unknown> = {
@@ -86,5 +78,13 @@ export type PaginatedData<Item = unknown> = {
 }
 
 export interface PaginatedDataSource<Item> {
-  (args: { page: number; itemsPerPage: number }): Promise<PaginatedData<Item>>
+  (params: { page: number; itemsPerPage: number }): Promise<PaginatedData<Item>>
 }
+
+// Validation
+
+export type ValidationRules = any
+
+export type ValidationErrors<Data extends {} = any> = Partial<Record<keyof Data, string>>
+
+export type ValidationResults<Data extends {} = any> = { isValid: boolean; errors: ValidationErrors<Data> }
