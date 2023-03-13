@@ -1,21 +1,23 @@
 import { computed, Ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
-export type QueryParams = Record<string, string | string[]>
-
-export function useRouteQuery(
-  onChange: (params: QueryParams) => void,
+export function useRouteQuery<QueryParams extends Record<string, unknown> = Record<string, string>>(
   options: {
-    filter?: string[]
-    parse?: Record<string, (value: string | string[]) => any>
-    serialize?: Record<string, (value: any) => string | string[]>
+    onChange?: (params: QueryParams) => void
+    filter?: (keyof QueryParams)[]
+    parse?: Record<keyof QueryParams, (value: string) => any>
+    serialize?: Record<keyof QueryParams, (value: QueryParams[keyof QueryParams]) => string>
     immediate?: boolean
   } = {}
-): { params: Ref<QueryParams>; setQuery: (params: QueryParams) => void } {
+): {
+  queryParams: Ref<QueryParams>
+  setQuery: (params: Partial<QueryParams>) => void
+  setQueryParam: (key: keyof QueryParams, value: unknown) => void
+} {
   const route = useRoute()
   const router = useRouter()
 
-  const params = computed<QueryParams>(() => {
+  const queryParams = computed<QueryParams>(() => {
     let params = route.query as QueryParams
 
     if (options.filter?.length) {
@@ -24,47 +26,60 @@ export function useRouteQuery(
       ) as QueryParams
     }
 
-    if (options.parse) {
-      params = Object.fromEntries(
-        Object.entries(params).map(([key, value]) => [key, options.parse?.[key] ? options.parse[key](value) : value])
-      ) as QueryParams
-    }
+    params = Object.fromEntries(
+      Object.entries(params).map(([key, value]) => [
+        key,
+        options.parse?.[key] ? options.parse[key](value as string) : value
+      ])
+    ) as QueryParams
 
     return params
   })
 
-  const setQuery = (params: QueryParams) => {
-    if (options.serialize) {
-      params = Object.fromEntries(
-        Object.entries(params).map(([key, value]) => [
-          key,
-          options.serialize?.[key] ? options.serialize[key](value) : value
-        ])
-      ) as QueryParams
-    }
+  const setQuery = (params: Partial<QueryParams>) => {
+    const valueIsNotEmpty = (value: any) =>
+      value !== '' && value !== undefined && value !== null && (Array.isArray(value) ? value.length > 0 : true)
 
-    return router.push({ query: params })
+    const serializedParams = Object.fromEntries(
+      Object.entries(params)
+        .filter(([_key, value]) => valueIsNotEmpty(value))
+        .map(([key, value]) => [key, options.serialize?.[key] ? options.serialize[key](value) : String(value)])
+    ) as Record<string, string>
+
+    return router.push({ query: serializedParams })
   }
 
-  watch(params, () => onChange(params.value), { immediate: options.immediate })
+  const setQueryParam = (key: keyof QueryParams, value: any) => {
+    const params = { ...(route.query as QueryParams), [key]: value }
+    return setQuery(params as QueryParams)
+  }
 
-  return { params, setQuery }
+  watch(queryParams, () => options.onChange?.(queryParams.value), { immediate: options.immediate })
+
+  return {
+    queryParams,
+    setQuery,
+    setQueryParam
+  }
 }
 
 export function usePageFromRouteQuery(
-  onChange: (page: number) => void,
-  options: { immediate?: boolean } = {}
+  options: {
+    onChange?: (page: number) => void
+    immediate?: boolean
+  } = {}
 ): {
   page: Ref<number>
   setPage: (page: number) => void
 } {
-  const { params, setQuery } = useRouteQuery((query) => onChange(query.page as any), {
+  const { queryParams, setQuery } = useRouteQuery({
+    onChange: (params) => options.onChange?.(params.page as any),
     filter: ['page'],
     parse: { page: (page) => Number(page) || 1 },
     immediate: options.immediate
   })
 
-  const page = computed<number>(() => params.value.page as any)
+  const page = computed<number>(() => queryParams.value.page as any)
 
   const setPage = (page: number) => setQuery({ page: String(page) })
 
