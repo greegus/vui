@@ -7,7 +7,7 @@ import { useSnackbar } from '../snackbar'
 export function useSubmitAction<ActionParams extends any[] = any[], ActionResult = unknown | Promise<unknown>>(
   action: (...data: ActionParams) => ActionResult,
   options: {
-    onBeforeSubmit?: (params?: {
+    onBeforeSubmit?: (params: {
       data: ActionParams
       modal: ReturnType<typeof useModal>
       snackbar: ReturnType<typeof useSnackbar>
