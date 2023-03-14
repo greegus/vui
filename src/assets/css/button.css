@@ -219,24 +219,10 @@
 
 }
 
-/* Increase specificity of the icon to ovveride default sizing */
-.vuiii-button__icon,
-.vuiii-button__icon.vuiii-button__icon {
-  width: 1.25rem;
-
-  @nest .vuiii-button--small & {
-    width: 0.75rem;
-  }
-
-  @nest .vuiii-button--large & {
-    width: 1.35rem;
-  }
+.vuiii-button__icon.vuiii-button__icon--prefix {
+  margin-left: -0.2rem;
 }
 
-.vuiii-button__icon--prefix {
-  margin-left: -0.125rem;
-}
-
-.vuiii-button__icon--suffix {
-  margin-right: -0.125rem;
+.vuiii-button__icon.vuiii-button__icon--suffix {
+  margin-right: -0.2rem;
 }

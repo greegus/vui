@@ -77,6 +77,18 @@ const DefaultTeplate: StoryFn<typeof Button> = () => ({
         <Button size="normal" variant="primary" label="Add to Cart" />
         <Button size="large" variant="primary" label="Add to Cart" />
       </div>
+
+      <div style="display: flex; gap: .5rem;">
+        <Button loading size="small" variant="primary" label="Add to Cart" />
+        <Button loading size="normal" variant="primary" label="Add to Cart" />
+        <Button loading size="large" variant="primary" label="Add to Cart" />
+      </div>
+
+      <div style="display: flex; gap: .5rem;">
+        <Button prefix-icon="plus" size="small" variant="primary" label="Add to Cart" />
+        <Button prefix-icon="plus" size="normal" variant="primary" label="Add to Cart" />
+        <Button prefix-icon="plus" size="large" variant="primary" label="Add to Cart" />
+      </div>
     </div>
   `
 })

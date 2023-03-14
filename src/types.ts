@@ -3,8 +3,6 @@ import { RouteLocationRaw } from 'vue-router'
 
 export type InputSize = 'small' | 'normal' | 'large'
 
-export type ButtonSize = InputSize
-
 export type ButtonVariant = 'default' | 'primary' | 'secondary' | 'danger'
 
 export type ModalLayoutButton = {

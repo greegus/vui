@@ -15,20 +15,24 @@
   >
     <slot name="prefix">
       <Icon
-        v-if="$props.prefixIcon && !$props.loading"
+        v-if="$props.prefixIcon || $props.loading"
         class="vuiii-button__icon vuiii-button__icon--prefix"
-        :name="$props.prefixIcon"
+        :name="$props.loading ? 'spinner' : $props.prefixIcon!"
+        :size="$props.size"
       />
     </slot>
-
-    <Icon v-if="$props.loading" class="vuiii-button__icon vuiii-button__icon--prefix" name="spinner" />
 
     <span v-if="$slots.default || $props.label">
       <slot>{{ $props.label }}</slot>
     </span>
 
     <slot name="suffix">
-      <Icon v-if="$props.suffixIcon" class="vuiii-button__icon vuiii-button__icon--suffix" :name="$props.suffixIcon" />
+      <Icon
+        v-if="$props.suffixIcon"
+        class="vuiii-button__icon vuiii-button__icon--suffix"
+        :name="$props.suffixIcon"
+        :size="$props.size"
+      />
     </slot>
   </component>
 </template>
@@ -38,11 +42,11 @@ import '../assets/css/button.css'
 
 import { computed, useAttrs } from 'vue'
 
-import { ButtonSize, ButtonVariant } from '../types'
+import { ButtonVariant, InputSize } from '../types'
 import Icon from './Icon.vue'
 
 defineProps<{
-  size?: ButtonSize
+  size?: InputSize
   variant?: ButtonVariant
   prefixIcon?: string
   suffixIcon?: string

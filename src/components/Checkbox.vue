@@ -1,5 +1,14 @@
 <template>
-  <label class="Checkbox" :class="[$attrs.class, { 'Checkbox--disabled': $props.disabled }]">
+  <label
+    class="Checkbox"
+    :class="[
+      $attrs.class,
+      {
+        [`Checkbox--size:${$props.size}`]: $props.size,
+        'Checkbox--disabled': $props.disabled
+      }
+    ]"
+  >
     <input
       :checked="$props.modelValue"
       class="Checkbox__input"
@@ -15,7 +24,7 @@
     </div>
 
     <div v-else class="Checkbox__checkbox vuiii-input">
-      <Icon name="check" class="Checkbox__checkboxIcon" />
+      <Icon name="check" class="Checkbox__checkboxIcon" :size="$props.size" />
     </div>
 
     <div>
@@ -43,6 +52,8 @@ export default {
 <script lang="ts" setup>
 import '../assets/css/input.css'
 
+import { InputSize } from '@/types'
+
 import { useAttrsWithoutClass } from '../utils/useAttrsWithoutClass'
 import Icon from './Icon.vue'
 
@@ -53,6 +64,7 @@ defineProps<{
   switch?: boolean
   label?: string
   description?: string
+  size?: InputSize
 }>()
 
 defineEmits<{
@@ -69,6 +81,19 @@ const attrsWithoutClass = useAttrsWithoutClass()
   vertical-align: top;
   cursor: pointer;
   gap: 0.65rem;
+
+  --checkboxIconSize: var(--vuiii-icon-size);
+  --checkbox-labelFontSize: inherit;
+
+  &.Checkbox--size\:small {
+    --checkboxIconSize: var(--vuiii-icon-size--small);
+    --checkbox-labelFontSize: var(--vuiii-fontSize--small);
+  }
+
+  &.Checkbox--size\:large {
+    --checkboxIconSize: var(--vuiii-icon-size--large);
+    --checkbox-labelFontSize: var(--vuiii-fontSize--large);
+  }
 }
 
 .Checkbox--disabled {
@@ -88,11 +113,12 @@ const attrsWithoutClass = useAttrsWithoutClass()
   position: relative;
   align-self: flex-start;
   flex-shrink: 0;
-  width: var(--vuiii-icon-size);
+  width: var(--checkboxIconSize);
   aspect-ratio: 1 / 1;
   min-height: 0;
 
   & .Checkbox__checkboxIcon {
+    width: 100%;
     scale: 50%;
     opacity: 0;
     position: absolute;
@@ -124,16 +150,16 @@ const attrsWithoutClass = useAttrsWithoutClass()
 .Checkbox__switch {
   align-self: flex-start;
   flex-shrink: 0;
-  padding: 3px;
+  padding: 2px 3px;
   margin-top: -1px;
-  width: 2.25rem;
+  width: calc(var(--checkboxIconSize) * 1.4);
   border-radius: 999px;
   transition: all 0.15s ease-out;
   background: var(--vuiii-input-borderColor, --vuiii-field-borderColor);
   border: 1px solid var(--vuiii-input-borderColor, --vuiii-field-borderColor);
 
   & .Checkbox__switchDot {
-    width: 1.25rem;
+    width: calc(var(--checkboxIconSize) * 0.8);
     aspect-ratio: 1 / 1;
     background: var(--vuiii-color-white);
     border-radius: 999px;
@@ -145,7 +171,7 @@ const attrsWithoutClass = useAttrsWithoutClass()
     border-color: var(--vuiii-color-primary);
 
     & .Checkbox__switchDot {
-      transform: translateX(1rem);
+      transform: translateX(calc(var(--checkboxIconSize) * 0.65));
     }
   }
 
@@ -159,6 +185,7 @@ const attrsWithoutClass = useAttrsWithoutClass()
 
 .Checkbox__label {
   line-height: 1.45;
+  font-size: var(--checkbox-labelFontSize);
 }
 
 .Checkbox__required {

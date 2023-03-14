@@ -26,9 +26,9 @@ export { useCloseModal, useModal } from './modal'
 export { useSnackbar } from './snackbar'
 export type {
   BreadcrumbItems,
-  ButtonSize,
   ButtonVariant,
   FormFieldsStructure,
+  InputSize,
   ModalLayoutButton,
   Option,
   PaginatedData,
