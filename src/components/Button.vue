@@ -8,6 +8,7 @@
       'vuiii-button--disabled': $props.loading || $attrs.disabled,
       'vuiii-button--loading': $props.loading,
       'vuiii-button--active': $props.active,
+      'vuiii-button--outlined': $props.outlined && $props.variant,
       'vuiii-button--block': $props.block
     }"
     v-bind="$attrs"
@@ -54,6 +55,7 @@ defineProps<{
   block?: boolean
   loading?: boolean
   active?: boolean
+  outlined?: boolean
 }>()
 
 const attrs = useAttrs()

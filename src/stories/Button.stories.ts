@@ -49,6 +49,7 @@ const DefaultTeplate: StoryFn<typeof Button> = () => ({
         <Button variant="primary" label="Add to Cart" />
         <Button variant="secondary" label="Add to Cart" />
         <Button variant="danger" label="Add to Cart" />
+        <Button variant="success" label="Add to Cart" />
       </div>
 
       <div style="display: flex; gap: .5rem;">
@@ -56,6 +57,7 @@ const DefaultTeplate: StoryFn<typeof Button> = () => ({
         <Button disabled variant="primary" label="Add to Cart" />
         <Button disabled variant="secondary" label="Add to Cart" />
         <Button disabled variant="danger" label="Add to Cart" />
+        <Button disabled variant="success" label="Add to Cart" />
       </div>
 
       <div style="display: flex; gap: .5rem;">
@@ -63,6 +65,15 @@ const DefaultTeplate: StoryFn<typeof Button> = () => ({
         <Button active variant="primary" label="Add to Cart" />
         <Button active variant="secondary" label="Add to Cart" />
         <Button active variant="danger" label="Add to Cart" />
+        <Button active variant="success" label="Add to Cart" />
+      </div>
+
+      <div style="display: flex; gap: .5rem;">
+        <Button outlined label="Add to Cart" />
+        <Button outlined variant="primary" label="Add to Cart" />
+        <Button outlined variant="secondary" label="Add to Cart" />
+        <Button outlined variant="danger" label="Add to Cart" />
+        <Button outlined variant="success" label="Add to Cart" />
       </div>
 
       <div style="display: flex; gap: .5rem;">
@@ -70,6 +81,7 @@ const DefaultTeplate: StoryFn<typeof Button> = () => ({
         <Button loading variant="primary" label="Add to Cart" />
         <Button loading variant="secondary" label="Add to Cart" />
         <Button loading variant="danger" label="Add to Cart" />
+        <Button loading variant="success" label="Add to Cart" />
       </div>
 
       <div style="display: flex; gap: .5rem;">

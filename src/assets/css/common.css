@@ -1,14 +1,20 @@
 :root {
+  /* ---------- */
   /* Typography */
+  /* ---------- */
+
   --vuiii-typeface-body: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --vuiii-typeface-display: var(--vuiii-typeface-body);
 
   --vuiii-fontSize: 1rem;
   --vuiii-fontSize--small: 0.875rem;
-  /* --vuiii-fontSize--large: 1.125rem; */
   --vuiii-fontSize--large: 1.2rem;
 
-  /* colors */
+
+  /* ------ */
+  /* Colors */
+  /* ------ */
+
   --vuiii-color-white: white;
   --vuiii-color-black: black;
   --vuiii-color-gray: rgb(212 212 216); /* neutral.300 */
@@ -23,9 +29,9 @@
   --vuiii-color-primary-shadow: rgb(67 56 202/0.2); /* indigo.700 */
   --vuiii-color-primary--darker: rgb(67 56 202); /* indigo.700 */
 
-  --vuii-color-secondary: rgb(212 212 216); /* neutral.300 */
-  --vuii-color-secondary-shadow: rgb(192 192 192/0.25);
-  --vuii-color-secondary--darker: rgb(192 192 192);
+  /* --vuiii-color-secondary: rgb(212 212 216); neutral.300 */
+  /* --vuiii-color-secondary-shadow: rgb(192 192 192/0.15); */
+  /* --vuiii-color-secondary--darker: rgb(192 192 192); */
 
   --vuiii-color-danger: rgb(225 29 72); /* rose.600 */
   --vuiii-color-danger-shadow: rgb(225 29 72/0.2); /* rose.600 */
@@ -37,7 +43,11 @@
 
   --vuiii-shadow: 0 1px 3px 0 rgb(0 0 0/0.1), 0 1px 2px -1px rgb(0 0 0/0.1);
 
-  /* Field */
+
+  /* ------ */
+  /* Fields */
+  /* ------ */
+
   --vuiii-field-height: 2.5rem;
   --vuiii-field-padding: 1.35rem;
   --vuiii-field-borderRadius: 3px;
@@ -45,8 +55,10 @@
   --vuiii-field-bgColor: var(--vuiii-color-white);
   --vuiii-field-borderColor: var(--vuiii-color-gray);
   --vuiii-field-fontSize: var(--vuiii-fontSize);
-  --vuiii-field-ringColor: none;
-  --vuiii-field-ringSize: 0;
+  --vuiii-field-ringColor: rgb(192 192 192/0.15);
+  --vuiii-field-ringSize: 3px;
+  --vuiii-field-ringSize--small: 2px;
+  --vuiii-field-ringSize--large: 4px;
 
   --vuiii-field-borderColor--active: var(--vuiii-color-gray--dark);
   --vuiii-field-borderColor--focus: var(--vuiii-color-gray--dark);
@@ -62,31 +74,99 @@
   --vuiii-field-fontSize--large: 1.125rem;
   --vuiii-field-borderRadius--large: 4px;
 
+  --vuiii-field-transition: all 0.05s ease-in-out;
+
+  /* ––––––– */
   /* Buttons */
+  /* ––––––– */
+
+  --vuiii-button-ringColor: rgb(192 192 192/0.25);
+  --vuiii-button-ringSize: var(--vuiii-field-ringSize);
+  --vuiii-button-ringSize-small: var(--vuiii-field-ringSize--small);
+  --vuiii-button-ringSize-large: var(--vuiii-field-ringSize--large);
+
+  /* Default button */
+
+  --vuiii-button-bgColor: transparent;
+  --vuiii-button-borderColor: var(--vuiii-button-bgColor);
+  --vuiii-button-borderColor--focus: var(--vuiii-button-borderColor);
+  --vuiii-button-textColor: var(--vuiii-color-primary);
+  --vuiii-button-ringColor: rgb(0 0 0/0.05);
+
+  --vuiii-button-bgColor--hover: transparent;
+  --vuiii-button-borderColor--hover: var(--vuiii-button-bgColor--hover);
+  --vuiii-button-textColor--hover: var(--vuiii-color-primary--darker);
+
+  --vuiii-button-textColor--focus: var(--vuiii-color-primary--darker);
+
+  /* Primary button variant */
+
   --vuiii-button-bgColor--primary: var(--vuiii-color-primary);
-  --vuiii-button-textColor--primary: var(--vuiii-color-white);
-  --vuiii-button-borderColor--primary: var(--vuiii-color-primary);
-  --vuiii-button-borderWidth--primary: 1px;
+  --vuiii-button-borderColor--primary: var(--vuiii-button-bgColor--primary);
+  --vuiii-button-textColor--primary: white;
+  --vuiii-button-ringColor--primary: var(--vuiii-color-primary-shadow);
 
-  --vuiii-button-bgColor--secondary: transparent;
-  --vuiii-button-textColor--secondary: var(--vuiii-color-black);
-  --vuiii-button-borderColor--secondary: var(--vuiii-color-black);
-  --vuiii-button-borderWidth--secondary: 1px;
+  --vuiii-button-bgColor--primary--hover: var(--vuiii-color-primary--darker);
 
+  /* Secondary button variant */
+
+  --vuiii-button-bgColor--secondary: var(--vuiii-color-gray--light);
+  --vuiii-button-borderColor--secondary: var(--vuiii-button-bgColor--secondary);
+  --vuiii-button-textColor--secondary: var(--vuiii-color-gray--darkest);
+  --vuiii-button-ringColor--secondary: rgb(0 0 0/0.05);
+
+  --vuiii-button-bgColor--secondary--hover: var(--vuiii-color-gray);
+  --vuiii-button-textColor--secondary--hover: var(--vuiii-color-black);
+
+  --vuiii-button-bgColor--secondary--outlined: var(--vuiii-color-gray--dark);
+  --vuiii-button-textColor--secondary--outlined: var(--vuiii-color-gray--dark);
+
+  --vuiii-button-bgColor--secondary--outlined--hover: var(--vuiii-color-gray--darker);
+  --vuiii-button-textColor--secondary--outlined--hover: var(--vuiii-color-gray--darker);
+
+  /* Danger button variant */
+
+  --vuiii-button-bgColor--danger: var(--vuiii-color-danger);
+  --vuiii-button-textColor--danger: white;
+  --vuiii-button-borderColor--danger: var(--vuiii-color-danger);
+  --vuiii-button-ringColor--danger: var(--vuiii-color-danger-shadow);
+
+  --vuiii-button-bgColor--danger--hover: var(--vuiii-color-danger--darker);
+
+  /* Success button variant */
+
+  --vuiii-button-bgColor--success: var(--vuiii-color-success);
+  --vuiii-button-textColor--success: #ffffff;
+  --vuiii-button-borderColor--success: var(--vuiii-color-success);
+  --vuiii-button-ringColor--success: var(--vuiii-color-success-shadow);
+
+  --vuiii-button-bgColor--success--hover: var(--vuiii-color-success--darker);
+
+
+  /* ------ */
   /* Inputs */
+  /* ------ */
+
   --vuiii-input-textColor: inherit;
   --vuiii-input-borderColor: var(--vuiii-color-gray);
   --vuiii-input-borderColor--focus: var(--vuiii-color-gray--dark);
   --vuiii-input-bgColor: var(--vuiii-color-white);
   --vuiii-input-placeholderColor: var(--vuiii-color-gray--dark);
 
+
+  /* ----- */
   /* Icons */
+  /* ----- */
+
   --vuiii-icon-size: 1.3rem;
   --vuiii-icon-size--small: 1.1rem;
-  /* --vuiii-icon-size--large: 1.5rem; */
   --vuiii-icon-size--large: 1.75rem;
 
+
+  /* ------- */
   /* Z-index */
+  /* ------- */
+
   --vuiii-zIndex-modal: 1000;
   --vuiii-zIndex-dropdown: 1010;
   --vuiii-zIndex-tooltip: 1020;

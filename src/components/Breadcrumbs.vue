@@ -38,7 +38,7 @@ withDefaults(
   display: flex;
   align-items: center;
   font-size: 0.85rem;
-  gap: 0.5rem;
+  gap: 0.25rem;
 }
 
 .Breadcrumbs__link {

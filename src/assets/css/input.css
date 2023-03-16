@@ -69,7 +69,7 @@
 
     &:focus,
     &:focus-within {
-      --ringSize: var(--vuiii-field-ringSize--small, var(--vuiii-field-ringSize));
+      --ringSize: var(--vuiii-field-ringSize--small);
     }
   }
 
