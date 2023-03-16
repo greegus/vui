@@ -7,15 +7,16 @@ export function useRouteQuery<QueryParams extends Record<string, unknown> = Reco
   parse?: Record<keyof QueryParams, (value: string) => any>
   serialize?: Record<keyof QueryParams, (value: QueryParams[keyof QueryParams]) => string>
   immediate?: boolean
-  router: ReturnType<typeof useRouter>
-  route: ReturnType<typeof useRoute>
 }): {
   queryParams: Ref<QueryParams>
   setQuery: (params: Partial<QueryParams>) => void
   setQueryParam: (key: keyof QueryParams, value: unknown) => void
 } {
+  const router = useRouter()
+  const route = useRoute()
+
   const queryParams = computed<QueryParams>(() => {
-    let params = options.route.query as QueryParams
+    let params = route.query as QueryParams
 
     if (options.filter?.length) {
       params = Object.fromEntries(
@@ -43,11 +44,11 @@ export function useRouteQuery<QueryParams extends Record<string, unknown> = Reco
         .map(([key, value]) => [key, options.serialize?.[key] ? options.serialize[key](value) : String(value)])
     ) as Record<string, string>
 
-    return options.router.push({ query: serializedParams })
+    return router.push({ query: serializedParams })
   }
 
   const setQueryParam = (key: keyof QueryParams, value: any) => {
-    const params = { ...(options.route.query as QueryParams), [key]: value }
+    const params = { ...(route.query as QueryParams), [key]: value }
     return setQuery(params as QueryParams)
   }
 
@@ -60,12 +61,7 @@ export function useRouteQuery<QueryParams extends Record<string, unknown> = Reco
   }
 }
 
-export function usePageFromRouteQuery(options: {
-  onChange?: (page: number) => void
-  immediate?: boolean
-  router: ReturnType<typeof useRouter>
-  route: ReturnType<typeof useRoute>
-}): {
+export function usePageFromRouteQuery(options: { onChange?: (page: number) => void; immediate?: boolean }): {
   page: Ref<number>
   setPage: (page: number) => void
 } {
@@ -73,9 +69,7 @@ export function usePageFromRouteQuery(options: {
     onChange: (params) => options.onChange?.(params.page as any),
     filter: ['page'],
     parse: { page: (page) => Number(page) || 1 },
-    immediate: options.immediate,
-    router: options.router,
-    route: options.route
+    immediate: options.immediate
   })
 
   const page = computed<number>(() => queryParams.value.page as any)

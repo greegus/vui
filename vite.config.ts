@@ -12,13 +12,7 @@ export default defineConfig({
     },
 
     rollupOptions: {
-      external: ['vue', 'vue-router'],
-      output: {
-        globals: {
-          'vue': 'Vue',
-          'vue-router': 'VueRouter'
-        }
-      }
+      external: ['vue', 'vue-router']
     }
   }
 })
