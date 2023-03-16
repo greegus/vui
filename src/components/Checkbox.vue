@@ -82,16 +82,16 @@ const attrsWithoutClass = useAttrsWithoutClass()
   cursor: pointer;
   gap: 0.65rem;
 
-  --checkboxIconSize: var(--vuiii-icon-size);
+  --checkbox-iconSize: var(--vuiii-icon-size);
   --checkbox-labelFontSize: inherit;
 
   &.Checkbox--size\:small {
-    --checkboxIconSize: var(--vuiii-icon-size--small);
+    --checkbox-iconSize: var(--vuiii-icon-size--small);
     --checkbox-labelFontSize: var(--vuiii-fontSize--small);
   }
 
   &.Checkbox--size\:large {
-    --checkboxIconSize: var(--vuiii-icon-size--large);
+    --checkbox-iconSize: var(--vuiii-icon-size--large);
     --checkbox-labelFontSize: var(--vuiii-fontSize--large);
   }
 }
@@ -113,7 +113,7 @@ const attrsWithoutClass = useAttrsWithoutClass()
   position: relative;
   align-self: flex-start;
   flex-shrink: 0;
-  width: var(--checkboxIconSize);
+  width: var(--checkbox-iconSize);
   aspect-ratio: 1 / 1;
   min-height: 0;
 
@@ -152,14 +152,14 @@ const attrsWithoutClass = useAttrsWithoutClass()
   flex-shrink: 0;
   padding: 2px 3px;
   margin-top: -1px;
-  width: calc(var(--checkboxIconSize) * 1.4);
+  width: calc(var(--checkbox-iconSize) * 1.4);
   border-radius: 999px;
   transition: all 0.15s ease-out;
   background: var(--vuiii-input-borderColor, --vuiii-field-borderColor);
   border: 1px solid var(--vuiii-input-borderColor, --vuiii-field-borderColor);
 
   & .Checkbox__switchDot {
-    width: calc(var(--checkboxIconSize) * 0.8);
+    width: calc(var(--checkbox-iconSize) * 0.8);
     aspect-ratio: 1 / 1;
     background: var(--vuiii-color-white);
     border-radius: 999px;
@@ -171,7 +171,7 @@ const attrsWithoutClass = useAttrsWithoutClass()
     border-color: var(--vuiii-color-primary);
 
     & .Checkbox__switchDot {
-      transform: translateX(calc(var(--checkboxIconSize) * 0.65));
+      transform: translateX(calc(var(--checkbox-iconSize) * 0.65));
     }
   }
 
