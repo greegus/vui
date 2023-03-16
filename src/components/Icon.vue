@@ -5,7 +5,7 @@
 <script lang="ts" setup>
 import { shallowRef, watch } from 'vue'
 
-import { InputSize } from '@/types'
+import type { InputSize } from '@/types'
 
 import { IconComponent, resolveIconComponent } from '../utils/iconsResolver'
 

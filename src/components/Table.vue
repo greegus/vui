@@ -59,7 +59,7 @@ import '../assets/css/typography.css'
 
 import { computed } from 'vue'
 
-import { ColumnOptions, TableColumns } from '@/types'
+import type { ColumnOptions, TableColumns } from '@/types'
 
 type NormalizedTableColumns<T = any> = Record<keyof T | string, ColumnOptions<T>>
 

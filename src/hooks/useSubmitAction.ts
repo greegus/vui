@@ -1,5 +1,5 @@
 import { onMounted, Ref, ref } from 'vue'
-import { RouteLocationRaw, Router, useRouter } from 'vue-router'
+import { type RouteLocationRaw, Router, useRouter } from 'vue-router'
 
 import { useModal } from '../modal'
 import { useSnackbar } from '../snackbar'

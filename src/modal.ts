@@ -1,6 +1,6 @@
 import { Component, ComponentCustomProps, computed, defineAsyncComponent, markRaw, ref } from 'vue'
 
-import { ButtonVariant, ModalLayoutButton } from './types'
+import type { ButtonVariant, ModalLayoutButton } from './types'
 
 export type Modal = {
   id: number

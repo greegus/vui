@@ -45,7 +45,7 @@ export default {
 <script lang="ts" setup>
 import { computed, useAttrs } from 'vue'
 
-import { Extractor, Option } from '../types'
+import type { Extractor, Option } from '../types'
 import { generateId } from '../utils/generateId'
 import { normalizeOptions } from '../utils/normalizeOptions'
 import { useAttrsWithoutClass } from '../utils/useAttrsWithoutClass'

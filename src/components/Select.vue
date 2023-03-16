@@ -31,7 +31,7 @@ export default {
 <script lang="ts" setup>
 import { computed } from 'vue'
 
-import { Extractor, InputSize, Option } from '../types'
+import type { Extractor, InputSize, Option } from '../types'
 import { normalizeOptions } from '../utils/normalizeOptions'
 import { useAttrsWithoutClass } from '../utils/useAttrsWithoutClass'
 import Icon from './Icon.vue'

@@ -1,4 +1,4 @@
-import { Extractor, Option } from '../types'
+import type { Extractor, Option } from '../types'
 
 export function retrieveValue(item: any, extractor?: Extractor): any {
   if (typeof extractor === 'function') {

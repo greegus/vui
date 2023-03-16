@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts" setup>
-import { FormFieldsStructure } from '@/types'
+import type { FormFieldsStructure } from '@/types'
 
 import FormGroup from './FormGroup.vue'
 

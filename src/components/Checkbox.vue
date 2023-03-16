@@ -52,7 +52,7 @@ export default {
 <script lang="ts" setup>
 import '../assets/css/input.css'
 
-import { InputSize } from '@/types'
+import type { InputSize } from '@/types'
 
 import { useAttrsWithoutClass } from '../utils/useAttrsWithoutClass'
 import Icon from './Icon.vue'

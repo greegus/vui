@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts" setup>
-import { BreadcrumbItems } from '@/types'
+import type { BreadcrumbItems } from '@/types'
 
 import Icon from './Icon.vue'
 

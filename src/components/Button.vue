@@ -42,7 +42,7 @@ import '../assets/css/button.css'
 
 import { computed, useAttrs } from 'vue'
 
-import { ButtonVariant, InputSize } from '../types'
+import type { ButtonVariant, InputSize } from '../types'
 import Icon from './Icon.vue'
 
 defineProps<{

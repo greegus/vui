@@ -1,5 +1,5 @@
 import { AsyncComponentLoader, Component } from 'vue'
-import { RouteLocationRaw } from 'vue-router'
+import { type RouteLocationRaw } from 'vue-router'
 
 export type InputSize = 'small' | 'normal' | 'large'
 

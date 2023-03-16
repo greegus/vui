@@ -15,7 +15,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 
-import { Extractor, Option } from '../types'
+import type { Extractor, Option } from '../types'
 import { normalizeOptions } from '../utils/normalizeOptions'
 import Checkbox from './Checkbox.vue'
 
