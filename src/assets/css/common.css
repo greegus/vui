@@ -18,16 +18,17 @@
   --vuiii-color-white: white;
   --vuiii-color-black: black;
   --vuiii-color-gray: rgb(212 212 216); /* neutral.300 */
-  --vuiii-color-gray--light: rgb(229, 229, 229); /* neutral.200 */
-  --vuiii-color-gray--lighter: rgb(245, 245, 245); /* neutral.100 */
-  --vuiii-color-gray--lightest: rgb(250, 250, 250); /* neutral.50 */
-  --vuiii-color-gray--dark: rgb(163, 163, 163); /* neutral.400 */
-  --vuiii-color-gray--darker: rgb(115, 115, 115); /* neutral.500 */
-  --vuiii-color-gray--darkest: rgb(82, 82, 82); /* neutral.600 */
+  --vuiii-color-gray--light: rgb(229 229 229); /* neutral.200 */
+  --vuiii-color-gray--lighter: rgb(245 245 245); /* neutral.100 */
+  --vuiii-color-gray--lightest: rgb(250 250 250); /* neutral.50 */
+  --vuiii-color-gray--dark: rgb(163 163 163); /* neutral.400 */
+  --vuiii-color-gray--darker: rgb(115 115 115); /* neutral.500 */
+  --vuiii-color-gray--darkest: rgb(82 82 82); /* neutral.600 */
 
   --vuiii-color-primary: rgb(79 70 229); /* indigo.600 */
   --vuiii-color-primary-shadow: rgb(67 56 202/0.2); /* indigo.700 */
   --vuiii-color-primary--darker: rgb(67 56 202); /* indigo.700 */
+  --vuiii-color-primary--darkest: rgb(55 48 163); /* indigo.800 */
 
   /* --vuiii-color-secondary: rgb(212 212 216); neutral.300 */
   /* --vuiii-color-secondary-shadow: rgb(192 192 192/0.15); */
@@ -108,6 +109,8 @@
 
   --vuiii-button-bgColor--primary--hover: var(--vuiii-color-primary--darker);
 
+  --vuiii-button-textColor--primary--outlined--hover: var(--vuiii-color-primary--darkest);
+
   /* Secondary button variant */
 
   --vuiii-button-bgColor--secondary: var(--vuiii-color-gray--light);
@@ -118,11 +121,10 @@
   --vuiii-button-bgColor--secondary--hover: var(--vuiii-color-gray);
   --vuiii-button-textColor--secondary--hover: var(--vuiii-color-black);
 
-  --vuiii-button-bgColor--secondary--outlined: var(--vuiii-color-gray--dark);
-  --vuiii-button-textColor--secondary--outlined: var(--vuiii-color-gray--dark);
+  --vuiii-button-bgColor--secondary--outlined: var(--vuiii-color-gray--darker);
+  --vuiii-button-textColor--secondary--outlined: var(--vuiii-color-gray--darker);
 
-  --vuiii-button-bgColor--secondary--outlined--hover: var(--vuiii-color-gray--darker);
-  --vuiii-button-textColor--secondary--outlined--hover: var(--vuiii-color-gray--darker);
+  --vuiii-button-textColor--secondary--outlined--hover: var(--vuiii-color-gray--darkest);
 
   /* Danger button variant */
 
