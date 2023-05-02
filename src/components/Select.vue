@@ -11,9 +11,19 @@
         {{ $props.placeholder }}
       </option>
 
-      <option v-for="option in normalizedOptions" :key="option.value" :disabled="option.disabled" :value="option.value">
-        {{ option.label }}
-      </option>
+      <template v-if="groups">
+        <optgroup v-for="(group, index) in groups" :key="index" :label="group.label">
+          <option v-for="option in group.options" :key="option.value" :disabled="option.disabled" :value="option.value">
+            {{ option.label }}
+          </option>
+        </optgroup>
+      </template>
+
+      <template v-else>
+        <option v-for="option in options" :key="option.value" :disabled="option.disabled" :value="option.value">
+          {{ option.label }}
+        </option>
+      </template>
     </select>
 
     <div class="Select__dropdownIcon vuiii-input__suffix-icon">
@@ -32,7 +42,7 @@ export default {
 import { computed } from 'vue'
 
 import type { Extractor, InputSize, Option } from '../types'
-import { normalizeOptions } from '../utils/normalizeOptions'
+import { normalizeGroups, normalizeOptions } from '../utils/normalizeOptions'
 import { useAttrsWithoutClass } from '../utils/useAttrsWithoutClass'
 import Icon from './Icon.vue'
 
@@ -43,6 +53,8 @@ const props = withDefaults(
     optionLabel?: Extractor
     optionValue?: Extractor
     optionDisabled?: Extractor
+    groupLabel?: Extractor
+    groupOptions?: Extractor
     placeholder?: string
     size?: InputSize
     required?: boolean
@@ -53,6 +65,8 @@ const props = withDefaults(
     optionLabel: undefined,
     optionValue: undefined,
     optionDisabled: undefined,
+    groupLabel: undefined,
+    groupOptions: undefined,
     placeholder: undefined
   }
 )
@@ -61,13 +75,31 @@ defineEmits<{
   (e: 'update:model-value', value: Option['value']): void
 }>()
 
-const normalizedOptions = computed<Option[]>(() =>
-  normalizeOptions(props.options, {
+const groups = computed(() => {
+  if (!props.groupOptions) {
+    return
+  }
+
+  return normalizeGroups(props.options, {
+    groupLabel: props.groupLabel,
+    groupOptions: props.groupOptions,
     value: props.optionValue,
     label: props.optionLabel,
     disabled: props.optionDisabled
   })
-)
+})
+
+const options = computed(() => {
+  if (groups.value) {
+    return
+  }
+
+  return normalizeOptions(props.options, {
+    value: props.optionValue,
+    label: props.optionLabel,
+    disabled: props.optionDisabled
+  })
+})
 
 const attrsWithoutClass = useAttrsWithoutClass()
 </script>

@@ -10,7 +10,7 @@ export const useLoadData = <SourceParams extends any[] = any[], RetrievedData = 
       data: Awaited<ReturnType<typeof source>>
       params: Parameters<typeof source>
       router: Router
-    }) => void
+    }) => unknown
     onError?: (params: { error: Error; params: Parameters<typeof source>; router: Router }) => boolean | void
     successMessage?:
       | ((params: { data: Awaited<ReturnType<typeof source>>; params: Parameters<typeof source> }) => string)

@@ -37,6 +37,11 @@ export type Option<T = any> = {
   index?: number
 }
 
+export type OptionGroup<T = any> = {
+  label: string
+  options: Option<T>[]
+}
+
 export type Tabs = Record<string, string>
 
 export type BreadcrumbItems = Record<string, RouteLocationRaw>

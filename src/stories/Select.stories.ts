@@ -1,7 +1,7 @@
 import { Meta, StoryFn } from '@storybook/vue3'
 
 import Select from '../components/Select.vue'
-import { options, plainOptions } from './options'
+import { groupedOptions, options, plainOptions } from './options'
 
 export default {
   title: 'Example/Select',
@@ -61,7 +61,8 @@ const DefaultTeplate: StoryFn<typeof Select> = () => ({
   components: { Select },
   setup: () => ({
     options,
-    plainOptions
+    plainOptions,
+    groupedOptions
   }),
   template: `
     <div style="display: flex; flex-direction: column; gap: 1rem;">
@@ -77,6 +78,12 @@ const DefaultTeplate: StoryFn<typeof Select> = () => ({
               <Select :options="plainOptions" placeholder="Select an option…" />
               <Select :options="plainOptions" placeholder="Select an option…" size="large" />
           </div>
+        </div>
+
+        <div>
+          <h3>Groups</h3>
+
+          <Select :options="groupedOptions" placeholder="Select an option…" group-options="options" group-label="label" />
         </div>
     </div>
   `

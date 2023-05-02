@@ -1,4 +1,4 @@
-import type { Extractor, Option } from '../types'
+import type { Extractor, Option, OptionGroup } from '../types'
 
 export function retrieveValue(item: any, extractor?: Extractor): any {
   if (typeof extractor === 'function') {
@@ -51,6 +51,34 @@ export function normalizeOptions(
         data: value
       })
     }, [] as Option[])
+  }
+
+  return []
+}
+
+export function normalizeGroups(
+  items: any[] | { [label: string]: any[] },
+  extractors: {
+    groupLabel?: Extractor
+    groupOptions?: Extractor
+    value?: Extractor
+    label?: Extractor
+    disabled?: Extractor
+    description?: Extractor
+  } = {}
+): OptionGroup[] {
+  if (Array.isArray(items)) {
+    return items.map((group) => ({
+      label: retrieveValue(group, extractors.groupLabel),
+      options: normalizeOptions(retrieveValue(group, extractors.groupOptions), extractors)
+    }))
+  }
+
+  if (typeof items === 'object' && items !== null) {
+    return Object.entries(items || {}).reduce(
+      (groups, [label, options]) => groups.concat({ label, options: normalizeOptions(options, extractors) }),
+      [] as OptionGroup[]
+    )
   }
 
   return []

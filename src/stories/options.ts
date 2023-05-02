@@ -6,3 +6,18 @@ export const options: { value: string; label: string; disabled?: boolean; descri
 ]
 
 export const plainOptions: string[] = ['First option', 'Second option', 'Third option']
+
+export const groupedOptions: { label: string; options: string[] }[] = [
+  {
+    label: 'Group 1',
+    options: plainOptions
+  },
+  {
+    label: 'Group 2',
+    options: plainOptions
+  },
+  {
+    label: 'Group 3',
+    options: plainOptions
+  }
+]
