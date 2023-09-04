@@ -82,6 +82,11 @@ defineEmits<{
   'suffix-icon-click': []
 }>()
 
+defineSlots<{
+  prefix: void
+  suffix: void
+}>()
+
 const attrs = useAttrs()
 const slots = useSlots()
 const input = ref()

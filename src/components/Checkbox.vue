@@ -70,6 +70,10 @@ defineEmits<{
   'update:model-value': [value: boolean]
 }>()
 
+defineSlots<{
+  default: void
+}>()
+
 const attrsWithoutClass = useAttrsWithoutClass()
 </script>
 

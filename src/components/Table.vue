@@ -28,7 +28,7 @@
           :class="row.cells[key as any].cellClass"
           :align="column.align || 'left'"
         >
-          <slot :name="key" v-bind="{ item: row.item, value: row.cells[key as any].value, index }">
+          <slot :name="`column:${String(key)}`" v-bind="{ item: row.item, value: row.cells[key as any].value, index }">
             <router-link v-if="column.href" class="vuiii-link" :to="column.href(row.cells[key as any].item)">
               {{ row.cells[key as any].value }}
             </router-link>
@@ -82,6 +82,14 @@ defineEmits<{
   'mouseenter-row': [payload: { item: any; index: number }]
   'mouseleave-row': [payload: { item: any; index: number }]
 }>()
+
+defineSlots<
+  {
+    [K in `column:${string}`]: { item: any; value: any; index: number }
+  } & {
+    emptyMessage: void
+  }
+>()
 
 const normalizedColumns = computed<NormalizedTableColumns>(() => {
   return Object.entries(props.columns).reduce(

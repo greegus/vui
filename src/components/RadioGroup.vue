@@ -54,6 +54,10 @@ defineEmits<{
   'update:model-value': [value: string | number]
 }>()
 
+defineSlots<{
+  default: { option: Option }
+}>()
+
 const attrs = useAttrs()
 
 const inputName = (attrs.name as string) || 'RadioGroup-input-' + generateId()

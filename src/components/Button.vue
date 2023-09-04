@@ -58,6 +58,12 @@ defineProps<{
   outlined?: boolean
 }>()
 
+defineSlots<{
+  prefix: void
+  default: void
+  suffix: void
+}>()
+
 const attrs = useAttrs()
 
 const component = computed<string>(() => {

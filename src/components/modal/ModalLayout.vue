@@ -77,6 +77,12 @@ const props = withDefaults(
   }
 )
 
+defineSlots<{
+  header: void
+  default: void
+  footer: void
+}>()
+
 const hasHeader = computed<boolean>(() => {
   return Boolean(slots.header || props.title)
 })

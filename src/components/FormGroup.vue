@@ -37,6 +37,12 @@ defineProps<{
   description?: string
   hint?: string
 }>()
+
+defineSlots<{
+  default: void
+  description: void
+  hint: void
+}>()
 </script>
 
 <style lang="postcss" scoped>
