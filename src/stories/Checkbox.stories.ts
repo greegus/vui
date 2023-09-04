@@ -14,7 +14,7 @@ export default {
   }
 } as Meta<typeof Checkbox>
 
-const Template: StoryFn<typeof Checkbox> = (args) => ({
+const Template: StoryFn<typeof Checkbox> = () => ({
   components: { Checkbox },
   setup: () => ({}),
   template: `

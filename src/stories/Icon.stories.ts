@@ -17,7 +17,7 @@ export default {
   }
 } as Meta<typeof Icon>
 
-const Template: StoryFn<typeof Icon> = (args) => ({
+const Template: StoryFn<typeof Icon> = () => ({
   components: { Icon },
   setup: () => ({ icons }),
   template: `

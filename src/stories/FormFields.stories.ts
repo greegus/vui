@@ -28,7 +28,7 @@ export default {
   }
 } as Meta<typeof FormFields>
 
-const Template: StoryFn<typeof FormFields> = (args) => ({
+const Template: StoryFn<typeof FormFields> = () => ({
   components: { FormFields },
   setup: () => {
     const fields: FormFieldsStructure<FormData> = {

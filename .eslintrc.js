@@ -13,6 +13,7 @@ module.exports = {
   ],
   plugins: ['simple-import-sort'],
   rules: {
+    '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
     'import/order': 'off',
     'sort-imports': 'off',
     'simple-import-sort/exports': 'error',

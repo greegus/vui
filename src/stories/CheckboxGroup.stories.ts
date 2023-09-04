@@ -16,7 +16,7 @@ export default {
   }
 } as Meta<typeof CheckboxGroup>
 
-const Template: StoryFn<typeof CheckboxGroup> = (args) => ({
+const Template: StoryFn<typeof CheckboxGroup> = () => ({
   components: { CheckboxGroup },
   setup: () => ({
     options

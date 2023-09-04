@@ -16,7 +16,7 @@ export default {
   }
 } as Meta<typeof RadioGroup>
 
-const Template: StoryFn<typeof RadioGroup> = (args) => ({
+const Template: StoryFn<typeof RadioGroup> = () => ({
   components: { RadioGroup },
   setup: () => ({
     options
