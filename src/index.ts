@@ -27,6 +27,7 @@ export { useSnackbar } from '@/snackbar'
 export type {
   BreadcrumbItems,
   ButtonVariant,
+  Extractor,
   FormFieldsStructure,
   InputSize,
   ModalLayoutButton,
