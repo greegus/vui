@@ -15,9 +15,9 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 
-import type { Extractor, Option } from '../types'
-import { normalizeOptions } from '../utils/normalizeOptions'
-import Checkbox from './Checkbox.vue'
+import Checkbox from '@/components/Checkbox.vue'
+import type { Extractor, Option } from '@/types'
+import { normalizeOptions } from '@/utils/normalizeOptions'
 
 type CheckedValues = Record<Option['value'], boolean>
 

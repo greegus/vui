@@ -1,6 +1,7 @@
 import { Meta, StoryFn } from '@storybook/vue3'
 
-import Button from '../components/Button.vue'
+import Button from '@/components/Button.vue'
+
 import { icons } from './icons'
 
 // More on default export: https://storybook.js.org/docs/vue/writing-stories/introduction#default-export
@@ -105,7 +106,9 @@ const DefaultTeplate: StoryFn<typeof Button> = () => ({
   `
 })
 
-export const Default = DefaultTeplate.bind({})
+export const Default = {
+  render: DefaultTeplate
+}
 
 const PlaygroundTemplate: StoryFn<typeof Button> = (args) => ({
   components: { Button },
@@ -113,4 +116,6 @@ const PlaygroundTemplate: StoryFn<typeof Button> = (args) => ({
   template: '<Button v-bind="args" />'
 })
 
-export const Playground = PlaygroundTemplate.bind({})
+export const Playground = {
+  render: PlaygroundTemplate
+}

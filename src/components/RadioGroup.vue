@@ -45,10 +45,10 @@ export default {
 <script lang="ts" setup>
 import { computed, useAttrs } from 'vue'
 
-import type { Extractor, Option } from '../types'
-import { generateId } from '../utils/generateId'
-import { normalizeOptions } from '../utils/normalizeOptions'
-import { useAttrsWithoutClass } from '../utils/useAttrsWithoutClass'
+import type { Extractor, Option } from '@/types'
+import { generateId } from '@/utils/generateId'
+import { normalizeOptions } from '@/utils/normalizeOptions'
+import { useAttrsWithoutClass } from '@/utils/useAttrsWithoutClass'
 
 defineEmits<{
   (e: 'update:model-value', value: string | number): void

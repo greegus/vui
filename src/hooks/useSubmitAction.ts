@@ -1,8 +1,8 @@
-import { onMounted, Ref, ref } from 'vue'
-import { type RouteLocationRaw, Router, useRouter } from 'vue-router'
+import { onMounted, type Ref, ref } from 'vue'
+import { type RouteLocationRaw, type Router, useRouter } from 'vue-router'
 
-import { useModal } from '../modal'
-import { useSnackbar } from '../snackbar'
+import { useModal } from '@/modal'
+import { useSnackbar } from '@/snackbar'
 
 export function useSubmitAction<ActionParams extends any[] = any[], ActionResult = unknown | Promise<unknown>>(
   action: (...data: ActionParams) => ActionResult,

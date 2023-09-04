@@ -25,16 +25,16 @@
         <td
           v-for="(column, key) in normalizedColumns"
           :key="key"
-          :class="row.cells[key].cellClass"
+          :class="row.cells[key as any].cellClass"
           :align="column.align || 'left'"
         >
-          <slot :name="key" v-bind="{ item: row.item, value: row.cells[key].value, index }">
-            <router-link v-if="column.href" class="vuiii-link" :to="column.href(row.cells[key].item)">
-              {{ row.cells[key].value }}
+          <slot :name="key" v-bind="{ item: row.item, value: row.cells[key as any].value, index }">
+            <router-link v-if="column.href" class="vuiii-link" :to="column.href(row.cells[key as any].item)">
+              {{ row.cells[key as any].value }}
             </router-link>
 
             <template v-else>
-              {{ row.cells[key].value }}
+              {{ row.cells[key as any].value }}
             </template>
           </slot>
         </td>
@@ -54,8 +54,8 @@
 </template>
 
 <script lang="ts" setup>
-import '../assets/css/table.css'
-import '../assets/css/typography.css'
+import '@/assets/css/table.css'
+import '@/assets/css/typography.css'
 
 import { computed } from 'vue'
 

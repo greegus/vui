@@ -1,6 +1,7 @@
 import { Meta, StoryFn } from '@storybook/vue3'
 
-import Select from '../components/Select.vue'
+import Select from '@/components/Select.vue'
+
 import { groupedOptions, options, plainOptions } from './options'
 
 export default {
@@ -89,7 +90,9 @@ const DefaultTeplate: StoryFn<typeof Select> = () => ({
   `
 })
 
-export const Default = DefaultTeplate.bind({})
+export const Default = {
+  render: DefaultTeplate
+}
 
 const PlaygroundTemplate: StoryFn<typeof Select> = (args) => ({
   components: { Select },
@@ -97,4 +100,6 @@ const PlaygroundTemplate: StoryFn<typeof Select> = (args) => ({
   template: '<Select v-bind="args" />'
 })
 
-export const Playground = PlaygroundTemplate.bind({})
+export const Playground = {
+  render: PlaygroundTemplate
+}

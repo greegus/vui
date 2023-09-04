@@ -1,5 +1,15 @@
-import { computed, Ref, watch } from 'vue'
+import { type Ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+
+const valueIsNotEmpty = (value: any) => {
+  console.log(
+    'value not empty',
+    value,
+    value !== '' && value !== undefined && value !== null && (Array.isArray(value) ? value.length > 0 : true)
+  )
+
+  return value !== '' && value !== undefined && value !== null && (Array.isArray(value) ? value.length > 0 : true)
+}
 
 export function useRouteQuery<QueryParams extends Record<string, unknown> = Record<string, string>>(options: {
   onChange?: (params: QueryParams) => void
@@ -35,9 +45,6 @@ export function useRouteQuery<QueryParams extends Record<string, unknown> = Reco
   })
 
   const setQuery = (params: Partial<QueryParams>) => {
-    const valueIsNotEmpty = (value: any) =>
-      value !== '' && value !== undefined && value !== null && (Array.isArray(value) ? value.length > 0 : true)
-
     const serializedParams = Object.fromEntries(
       Object.entries(params)
         .filter(([_key, value]) => valueIsNotEmpty(value))

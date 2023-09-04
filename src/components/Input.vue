@@ -59,13 +59,13 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import '../assets/css/input.css'
+import '@/assets/css/input.css'
 
 import { computed, ref, useAttrs, useSlots, watch } from 'vue'
 
-import type { InputSize } from '../types'
-import { useAttrsWithoutClass } from '../utils/useAttrsWithoutClass'
-import Icon from './Icon.vue'
+import Icon from '@/components/Icon.vue'
+import type { InputSize } from '@/types'
+import { useAttrsWithoutClass } from '@/utils/useAttrsWithoutClass'
 
 const props = defineProps<{
   modelValue?: number | string | Date | null

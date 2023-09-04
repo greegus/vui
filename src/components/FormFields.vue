@@ -7,7 +7,7 @@
       :description="field.description"
       :hint="field.hint"
       :required="resolveIfComputed(String(name), field.required)"
-      :error="($props.errors?.[name] as any)"
+      :error="($props.errors?.[name as any] as any)"
     >
       <component
         :is="field.component"
@@ -22,9 +22,8 @@
 </template>
 
 <script lang="ts" setup>
+import FormGroup from '@/components/FormGroup.vue'
 import type { FormFieldsStructure } from '@/types'
-
-import FormGroup from './FormGroup.vue'
 
 const props = withDefaults(
   defineProps<{

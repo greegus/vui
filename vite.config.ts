@@ -14,5 +14,11 @@ export default defineConfig({
     rollupOptions: {
       external: ['vue', 'vue-router']
     }
+  },
+
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, 'src')
+    }
   }
 })

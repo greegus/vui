@@ -23,8 +23,8 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 
-import { Message, messages, removeMessage } from '../../snackbar'
-import Icon from '../Icon.vue'
+import Icon from '@/components/Icon.vue'
+import { type Message, messages, removeMessage } from '@/snackbar'
 
 const messagesInReverse = computed<Message[]>(() => [...messages.value].reverse())
 </script>

@@ -1,7 +1,8 @@
 import { action } from '@storybook/addon-actions'
 import { Meta, StoryFn } from '@storybook/vue3'
 
-import Input from '../components/Input.vue'
+import Input from '@/components/Input.vue'
+
 import { icons } from './icons'
 
 export default {
@@ -93,7 +94,9 @@ const DefaultTeplate: StoryFn<typeof Input> = () => ({
   `
 })
 
-export const Default = DefaultTeplate.bind({})
+export const Default = {
+  render: DefaultTeplate
+}
 
 const PlaygroundTemplate: StoryFn<typeof Input> = (args) => ({
   components: { Input },
@@ -101,4 +104,6 @@ const PlaygroundTemplate: StoryFn<typeof Input> = (args) => ({
   template: '<Input v-bind="args" />'
 })
 
-export const Playground = PlaygroundTemplate.bind({})
+export const Playground = {
+  render: PlaygroundTemplate
+}

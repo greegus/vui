@@ -1,7 +1,7 @@
-import { Ref } from 'vue'
-import { Router } from 'vue-router'
+import type { Ref } from 'vue'
+import type { Router } from 'vue-router'
 
-import { useSubmitAction } from './useSubmitAction'
+import { useSubmitAction } from '@/hooks/useSubmitAction'
 
 export const useLoadData = <SourceParams extends any[] = any[], RetrievedData = unknown | Promise<unknown>>(
   source: (...params: SourceParams) => RetrievedData,

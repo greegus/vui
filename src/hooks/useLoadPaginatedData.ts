@@ -1,7 +1,7 @@
 import { type Ref, onMounted, ref } from 'vue'
 
-import type { PaginatedData, PaginatedDataSource, Pagination } from '../types'
-import { useLoadData } from './useLoadData'
+import { useLoadData } from '@/hooks/useLoadData'
+import type { PaginatedData, PaginatedDataSource, Pagination } from '@/types'
 
 const DEFAULT_ITEMS_PER_PAGE = 25
 

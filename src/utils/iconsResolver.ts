@@ -1,7 +1,5 @@
 import { Component, defineAsyncComponent } from 'vue'
 
-import { resolveGlobImport } from './resolveGlobImport'
-
 export type IconComponent = string | Component | undefined
 export type IconResolver = (name: string) => IconComponent
 

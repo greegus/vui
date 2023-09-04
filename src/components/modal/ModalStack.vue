@@ -27,9 +27,9 @@
 </template>
 
 <script lang="ts" setup>
-import { useOnKeyPress } from '../../hooks/useOnKeyPress'
-import type { Modal } from '../../modal'
-import { activeModal, closeModal, modals } from '../../modal'
+import { useOnKeyPress } from '@/hooks/useOnKeyPress'
+import type { Modal } from '@/modal'
+import { activeModal, closeModal, modals } from '@/modal'
 
 const closeModalByBackdropClick = (e: MouseEvent, modal: Modal) => {
   if (e.target === e.currentTarget) {

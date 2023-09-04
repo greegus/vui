@@ -41,10 +41,10 @@ export default {
 <script lang="ts" setup>
 import { computed } from 'vue'
 
-import type { Extractor, InputSize, Option } from '../types'
-import { normalizeGroups, normalizeOptions } from '../utils/normalizeOptions'
-import { useAttrsWithoutClass } from '../utils/useAttrsWithoutClass'
-import Icon from './Icon.vue'
+import Icon from '@/components/Icon.vue'
+import type { Extractor, InputSize, Option } from '@/types'
+import { normalizeGroups, normalizeOptions } from '@/utils/normalizeOptions'
+import { useAttrsWithoutClass } from '@/utils/useAttrsWithoutClass'
 
 const props = withDefaults(
   defineProps<{

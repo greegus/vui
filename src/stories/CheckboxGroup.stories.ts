@@ -1,6 +1,7 @@
 import { Meta, StoryFn } from '@storybook/vue3'
 
-import CheckboxGroup from '../components/CheckboxGroup.vue'
+import CheckboxGroup from '@/components/CheckboxGroup.vue'
+
 import { options } from './options'
 
 export default {
@@ -29,4 +30,6 @@ const Template: StoryFn<typeof CheckboxGroup> = (args) => ({
   `
 })
 
-export const Default = Template.bind({})
+export const Default = {
+  render: Template
+}

@@ -12,7 +12,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 
-import type { InputSize } from '../types'
+import type { InputSize } from '@/types'
 
 defineProps<{
   modelValue?: string

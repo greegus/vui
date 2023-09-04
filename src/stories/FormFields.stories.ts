@@ -1,8 +1,8 @@
 import { Meta, StoryFn } from '@storybook/vue3'
 
 import { Checkbox, Input, RadioGroup, Select } from '..'
-import FormFields from '../components/FormFields.vue'
-import type { FormFieldsStructure } from '../types'
+import FormFields from '@/components/FormFields.vue'
+import type { FormFieldsStructure } from '@/types'
 
 type FormData = {
   firstName: string
@@ -57,4 +57,6 @@ const Template: StoryFn<typeof FormFields> = (args) => ({
 `
 })
 
-export const Default = Template.bind({})
+export const Default = {
+  render: Template
+}

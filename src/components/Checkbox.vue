@@ -50,12 +50,11 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import '../assets/css/input.css'
+import '@/assets/css/input.css'
 
+import Icon from '@/components/Icon.vue'
 import type { InputSize } from '@/types'
-
-import { useAttrsWithoutClass } from '../utils/useAttrsWithoutClass'
-import Icon from './Icon.vue'
+import { useAttrsWithoutClass } from '@/utils/useAttrsWithoutClass'
 
 defineProps<{
   modelValue?: boolean

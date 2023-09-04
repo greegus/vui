@@ -1,6 +1,7 @@
 import { Meta, StoryFn } from '@storybook/vue3'
 
-import RadioGroup from '../components/RadioGroup.vue'
+import RadioGroup from '@/components/RadioGroup.vue'
+
 import { options } from './options'
 
 export default {
@@ -29,4 +30,6 @@ const Template: StoryFn<typeof RadioGroup> = (args) => ({
   `
 })
 
-export const Default = Template.bind({})
+export const Default = {
+  render: Template
+}
