@@ -1,7 +1,10 @@
 import { Meta, StoryFn } from '@storybook/vue3'
 
-import { Checkbox, Input, RadioGroup, Select } from '..'
+import Checkbox from '@/components/Checkbox.vue'
 import FormFields from '@/components/FormFields.vue'
+import Input from '@/components/Input.vue'
+import RadioGroup from '@/components/RadioGroup.vue'
+import Select from '@/components/Select.vue'
 import type { FormFieldsStructure } from '@/types'
 
 type FormData = {
