@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useOnKeyPress } from '@/hooks/useOnKeyPress'
+import { useOnKeyPress } from '@/composables/useOnKeyPress'
 import type { Modal } from '@/modal'
 import { activeModal, closeModal, modals } from '@/modal'
 
@@ -122,3 +122,4 @@ useOnKeyPress('Escape', () => {
   pointer-events: none;
 }
 </style>
+@/composables/useOnKeyPress
