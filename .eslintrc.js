@@ -1,14 +1,17 @@
+/* eslint-env node */
+require('@rushstack/eslint-patch/modern-module-resolution')
+
 module.exports = {
-  env: {
-    browser: true,
-    es6: true
-  },
   parserOptions: {
-    parser: '@typescript-eslint/parser',
-    sourceType: 'module'
+    ecmaVersion: 'latest'
   },
-  extends: ['plugin:vue/vue3-recommended', 'plugin:prettier/recommended', 'prettier', 'plugin:storybook/recommended'],
-  plugins: ['vue', 'prettier', 'simple-import-sort'],
+  extends: [
+    'plugin:vue/vue3-essential',
+    'eslint:recommended',
+    '@vue/eslint-config-typescript',
+    '@vue/eslint-config-prettier/skip-formatting'
+  ],
+  plugins: ['simple-import-sort'],
   rules: {
     'import/order': 'off',
     'sort-imports': 'off',
