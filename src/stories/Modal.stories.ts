@@ -46,7 +46,7 @@ const SimpleModal = defineComponent({
     const close = useCloseModal()
 
     const openAnotherSimpleModal = async () => {
-      const result = await modal.open(AnotherSimpleModal)
+      await modal.open(AnotherSimpleModal)
     }
 
     return { close, openAnotherSimpleModal }
@@ -92,15 +92,15 @@ const Template: StoryFn<typeof ModalStack> = () => ({
     const modal = useModal()
 
     const openSimpleModal = async () => {
-      const result = await modal.open(SimpleModal)
+      await modal.open(SimpleModal)
     }
 
     const openSimpleModalWithBeforeClose = async () => {
-      const result = await modal.open(SimpleModalWithBeforeClose)
+      await modal.open(SimpleModalWithBeforeClose)
     }
 
     const openConfirmationModal = async () => {
-      const result = await modal.confirm('Are you sure?')
+      await modal.confirm('Are you sure?')
     }
 
     const openAlert = () => {

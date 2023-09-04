@@ -51,7 +51,7 @@ import { normalizeOptions } from '@/utils/normalizeOptions'
 import { useAttrsWithoutClass } from '@/utils/useAttrsWithoutClass'
 
 defineEmits<{
-  (e: 'update:model-value', value: string | number): void
+  'update:model-value': [value: string | number]
 }>()
 
 const attrs = useAttrs()

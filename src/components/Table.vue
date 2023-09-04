@@ -78,9 +78,9 @@ const props = defineProps<{
 }>()
 
 defineEmits<{
-  (event: 'click-row', payload: { item: any; index: number }): void
-  (event: 'mouseenter-row', payload: { item: any; index: number }): void
-  (event: 'mouseleave-row', payload: { item: any; index: number }): void
+  'click-row': [payload: { item: any; index: number }]
+  'mouseenter-row': [payload: { item: any; index: number }]
+  'mouseleave-row': [payload: { item: any; index: number }]
 }>()
 
 const normalizedColumns = computed<NormalizedTableColumns>(() => {

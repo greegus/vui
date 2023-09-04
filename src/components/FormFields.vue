@@ -37,7 +37,7 @@ const props = withDefaults(
 )
 
 const emit = defineEmits<{
-  (e: 'update:model-value', value: any): void
+  'update:model-value': [value: any]
 }>()
 
 const getFieldValue = (name: string): unknown => {

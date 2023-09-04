@@ -31,7 +31,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'update:model-value', value: Option['value'][]): void
+  'update:model-value': [value: Option['value'][]]
 }>()
 
 const normalizedOptions = computed<Option[]>(() => {

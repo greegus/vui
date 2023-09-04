@@ -61,7 +61,7 @@ export default {
 <script lang="ts" setup>
 import '@/assets/css/input.css'
 
-import { computed, ref, useAttrs, useSlots, watch } from 'vue'
+import { computed, ref, useAttrs, useSlots } from 'vue'
 
 import Icon from '@/components/Icon.vue'
 import type { InputSize } from '@/types'
@@ -77,9 +77,9 @@ const props = defineProps<{
 }>()
 
 defineEmits<{
-  (event: 'update:model-value', value: number | string | Date | null): void
-  (event: 'prefix-icon-click'): void
-  (event: 'suffix-icon-click'): void
+  'update:model-value': [value: number | string | Date | null]
+  'prefix-icon-click': []
+  'suffix-icon-click': []
 }>()
 
 const attrs = useAttrs()

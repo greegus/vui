@@ -20,7 +20,7 @@ defineProps<{
 }>()
 
 defineEmits<{
-  (e: 'update:model-value', value: string): void
+  'update:model-value': [value: string]
 }>()
 
 const textarea = ref()

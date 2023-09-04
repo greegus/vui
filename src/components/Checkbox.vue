@@ -67,7 +67,7 @@ defineProps<{
 }>()
 
 defineEmits<{
-  (e: 'update:model-value', value: boolean): void
+  'update:model-value': [value: boolean]
 }>()
 
 const attrsWithoutClass = useAttrsWithoutClass()

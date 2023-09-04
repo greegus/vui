@@ -72,7 +72,7 @@ const props = withDefaults(
 )
 
 defineEmits<{
-  (e: 'update:model-value', value: Option['value']): void
+  'update:model-value': [value: Option['value']]
 }>()
 
 const groups = computed(() => {

@@ -1,1 +1,0 @@
-import { VButton } from '../dist'
