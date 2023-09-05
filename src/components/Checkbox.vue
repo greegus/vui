@@ -1,46 +1,63 @@
 <template>
-  <label
+  <FormGroup
     class="Checkbox"
-    :class="[
-      $attrs.class,
-      {
-        [`Checkbox--size:${$props.size}`]: $props.size,
-        'Checkbox--disabled': $props.disabled
-      }
-    ]"
+    :class="$attrs.class"
+    :label="$props.label"
+    :required="$props.required"
+    :invalid="$props.invalid"
+    :error-message="$props.errorMessage"
+    :description="$props.description"
+    :hint="$props.hint"
   >
-    <input
-      :checked="$props.modelValue"
-      class="Checkbox__input"
-      :required="$props.required"
-      :disabled="$props.disabled"
-      type="checkbox"
-      v-bind="attrsWithoutClass"
-      @input="$emit('update:model-value', ($event.target as any).checked)"
-    />
+    <template v-if="$slots.description">
+      <slot name="description" />
+    </template>
 
-    <div v-if="$props.switch" class="Checkbox__switch">
-      <div class="Checkbox__switchDot"></div>
-    </div>
+    <template v-if="$slots.hint">
+      <slot name="hint" />
+    </template>
 
-    <div v-else class="Checkbox__checkbox vuiii-input">
-      <Icon name="check" class="Checkbox__checkboxIcon" :size="$props.size" />
-    </div>
+    <label
+      class="Checkbox__wrapper"
+      :class="{
+        'Checkbox--disabled': $props.disabled,
+        [`Checkbox--size:${$props.size}`]: $props.size
+      }"
+    >
+      <input
+        :checked="$props.modelValue"
+        class="Checkbox__input"
+        :required="$props.required"
+        :disabled="$props.disabled"
+        :readonly="$props.readonly"
+        type="checkbox"
+        v-bind="attrsWithoutClass"
+        @input="$emit('update:model-value', ($event.target as any).checked)"
+      />
 
-    <div>
-      <div v-if="$slots.default || $props.label" class="Checkbox__label">
-        <span v-if="$props.required" class="Checkbox__required">*</span>
-
-        <slot>
-          {{ $props.label }}
-        </slot>
+      <div v-if="$props.switch" class="Checkbox__switch">
+        <div class="Checkbox__switchDot"></div>
       </div>
 
-      <div v-if="$props.description" class="Checkbox__description">
-        {{ $props.description }}
+      <div v-else class="Checkbox__checkbox vuiii-input">
+        <Icon name="check" class="Checkbox__checkboxIcon" :size="$props.size" />
       </div>
-    </div>
-  </label>
+
+      <div>
+        <div v-if="$slots.default || $props.label" class="Checkbox__label">
+          <span v-if="$props.required" class="Checkbox__required">*</span>
+
+          <slot>
+            {{ $props.label }}
+          </slot>
+        </div>
+
+        <div v-if="$props.description" class="Checkbox__description">
+          {{ $props.description }}
+        </div>
+      </div>
+    </label>
+  </FormGroup>
 </template>
 
 <script lang="ts">
@@ -52,33 +69,39 @@ export default {
 <script lang="ts" setup>
 import '@/assets/css/input.css'
 
+import FormGroup, { type FormGroupProps, FormGroupSlots } from '@/components/FormGroup.vue'
 import Icon from '@/components/Icon.vue'
 import type { InputSize } from '@/types'
 import { useAttrsWithoutClass } from '@/utils/useAttrsWithoutClass'
 
-defineProps<{
-  modelValue?: boolean
-  required?: boolean
-  disabled?: boolean
-  switch?: boolean
-  label?: string
-  description?: string
-  size?: InputSize
-}>()
+defineProps<
+  FormGroupProps & {
+    modelValue?: boolean
+    required?: boolean
+    disabled?: boolean
+    readonly?: boolean
+    switch?: boolean
+    label?: string
+    description?: string
+    size?: InputSize
+  }
+>()
 
 defineEmits<{
   'update:model-value': [value: boolean]
 }>()
 
-defineSlots<{
-  default: void
-}>()
+defineSlots<
+  FormGroupSlots & {
+    default: void
+  }
+>()
 
 const attrsWithoutClass = useAttrsWithoutClass()
 </script>
 
 <style lang="postcss" scoped>
-.Checkbox {
+.Checkbox__wrapper {
   display: inline-flex;
   align-items: center;
   vertical-align: top;
@@ -128,7 +151,9 @@ const attrsWithoutClass = useAttrsWithoutClass()
     top: 50%;
     left: 50%;
     translate: -50% -50%;
-    transition: scale 0.15s ease-out, opacity 0.15s ease-out;
+    transition:
+      scale 0.15s ease-out,
+      opacity 0.15s ease-out;
   }
 
   @nest input:checked + & {

@@ -1,39 +1,61 @@
 <template>
-  <div class="RadioGroup" :class="$attrs.class">
-    <label
-      v-for="option in normalizedOptions"
-      :key="option.value"
-      class="RadioGroup__option"
-      :class="{ 'RadioGroup__option--disabled': option.disabled }"
-    >
-      <input
-        v-bind="attrsWithoutClass"
-        :value="option.value"
-        class="RadioGroup__input"
-        type="radio"
-        :name="inputName"
-        :disabled="option.disabled"
-        :checked="option.value === props.modelValue"
-        @input="$emit('update:model-value', option.value)"
-      />
+  <FormGroup
+    class="RadioGroup"
+    :class="$attrs.class"
+    :label="$props.label"
+    :required="$props.required"
+    :invalid="$props.invalid"
+    :error-message="$props.errorMessage"
+    :description="$props.description"
+    :hint="$props.hint"
+  >
+    <template v-if="$slots.description">
+      <slot name="description" />
+    </template>
 
-      <div class="RadioGroup__radio vuiii-input">
-        <div class="RadioGroup__radioDot"></div>
-      </div>
+    <template v-if="$slots.hint">
+      <slot name="hint" />
+    </template>
 
-      <div>
-        <slot v-bind="{ option }">
-          <div class="RadioGroup__label">
-            {{ option.label }}
-          </div>
-        </slot>
+    <div class="RadioGroup__wrapper" :class="$attrs.class">
+      <label
+        v-for="option in normalizedOptions"
+        :key="option.value"
+        class="RadioGroup__option"
+        :class="{
+          'RadioGroup__option--disabled': $props.disabled || option.disabled,
+        }"
+      >
+        <input
+          v-bind="attrsWithoutClass"
+          :value="option.value"
+          class="RadioGroup__input"
+          type="radio"
+          :name="inputName"
+          :disabled="$props.disabled || option.disabled"
+          :readonly="$props.readonly"
+          :checked="option.value === props.modelValue"
+          @input="$emit('update:model-value', option.value)"
+        />
 
-        <div v-if="option.description" class="RadioGroup__description">
-          {{ option.description }}
+        <div class="RadioGroup__radio vuiii-input" >
+          <div class="RadioGroup__radioDot"></div>
         </div>
-      </div>
-    </label>
-  </div>
+
+        <div>
+          <slot v-bind="{ option }">
+            <div class="RadioGroup__label">
+              {{ option.label }}
+            </div>
+          </slot>
+
+          <div v-if="option.description" class="RadioGroup__description">
+            {{ option.description }}
+          </div>
+        </div>
+      </label>
+    </div>
+  </FormGroup>
 </template>
 
 <script lang="ts">
@@ -45,31 +67,38 @@ export default {
 <script lang="ts" setup>
 import { computed, useAttrs } from 'vue'
 
+import FormGroup, { type FormGroupProps, type FormGroupSlots } from '@/components/FormGroup.vue'
 import type { Extractor, Option } from '@/types'
 import { generateId } from '@/utils/generateId'
 import { normalizeOptions } from '@/utils/normalizeOptions'
 import { useAttrsWithoutClass } from '@/utils/useAttrsWithoutClass'
 
+const props = defineProps<
+  FormGroupProps & {
+    modelValue?: string | number | undefined
+    options: any[] | any
+    optionLabel?: Extractor
+    optionValue?: Extractor
+    optionDisabled?: Extractor
+    optionDescription?: Extractor
+    disabled?: boolean
+    readonly?: boolean
+  }
+>()
+
 defineEmits<{
   'update:model-value': [value: string | number]
 }>()
 
-defineSlots<{
-  default: { option: Option }
-}>()
+defineSlots<
+  FormGroupSlots & {
+    default: { option: Option }
+  }
+>()
 
 const attrs = useAttrs()
 
 const inputName = (attrs.name as string) || 'RadioGroup-input-' + generateId()
-
-const props = defineProps<{
-  modelValue?: string | number | undefined
-  options: any[] | any
-  optionLabel?: Extractor
-  optionValue?: Extractor
-  optionDisabled?: Extractor
-  optionDescription?: Extractor
-}>()
 
 const normalizedOptions = computed<Option[]>(() =>
   normalizeOptions(props.options, {
@@ -84,7 +113,7 @@ const attrsWithoutClass = useAttrsWithoutClass()
 </script>
 
 <style lang="postcss" scoped>
-.RadioGroup {
+.RadioGroup__wrapper {
   & > * + * {
     margin-top: 0.75rem;
   }
@@ -126,7 +155,9 @@ const attrsWithoutClass = useAttrsWithoutClass()
     border-radius: 999px;
     scale: 50%;
     opacity: 0;
-    transition: scale 0.15s ease-out, opacity 0.15s ease-out;
+    transition:
+      scale 0.15s ease-out,
+      opacity 0.15s ease-out;
   }
 
   @nest input:checked + & {

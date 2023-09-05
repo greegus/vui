@@ -1,5 +1,5 @@
 <template>
-  <div class="FormGroup" :class="{ 'FormGroup--invalid': $props.error }">
+  <div class="FormGroup" :class="{ 'FormGroup--invalid': $props.invalid }">
     <div v-if="$props.label" class="FormGroup__header">
       <label class="FormGroup__label" :for="$props.for">
         {{ $props.label }}
@@ -22,27 +22,31 @@
       </slot>
     </div>
 
-    <div v-if="$props.error && typeof $props.error === 'string'" class="FormGroup__error">
-      {{ $props.error }}
+    <div v-if="$props.invalid && $props.errorMessage" class="FormGroup__error">
+      {{ $props.errorMessage }}
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-defineProps<{
+export type FormGroupProps = {
   label?: string
-  for?: string
   required?: boolean
-  error?: string | boolean
+  invalid?: boolean
+  errorMessage?: string
   description?: string
   hint?: string
-}>()
+}
 
-defineSlots<{
+export type FormGroupSlots = {
   default: void
   description: void
   hint: void
-}>()
+}
+
+defineProps<FormGroupProps & { for?: string }>()
+
+defineSlots<FormGroupSlots>()
 </script>
 
 <style lang="postcss" scoped>

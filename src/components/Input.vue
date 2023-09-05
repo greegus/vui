@@ -1,55 +1,74 @@
 <template>
-  <div
-    class="Input vuiii-input"
-    :class="[
-      $attrs.class,
-      {
-        'vuiii-input--invalid': $props.invalid,
-        'vuiii-input--disabled': $attrs.disabled,
-        [`vuiii-input--${$props.size}`]: $props.size
-      }
-    ]"
-    @click="input.focus()"
+  <FormGroup
+    class="Input"
+    :class="$attrs.class"
+    :label="$props.label"
+    :required="$props.required"
+    :invalid="$props.invalid"
+    :error-message="$props.errorMessage"
+    :description="$props.description"
+    :hint="$props.hint"
   >
-    <slot v-if="slots.prefix || props.prefixIcon" name="prefix">
-      <component
-        :is="isPrefixIconClickable ? 'button' : 'div'"
-        class="vuiii-input__prefix-icon"
-        :class="{ 'Input__icon': isPrefixIconClickable }"
-        tabindex="-1"
-        @click.prevent="$emit('prefix-icon-click')"
-      >
-        <Icon v-if="$props.prefixIcon" :name="$props.prefixIcon || ''" :size="$props.size" />
-      </component>
-    </slot>
+    <template v-if="$slots.description">
+      <slot name="description" />
+    </template>
 
-    <input
-      ref="input"
-      :aria-label="($attrs.placeholder as string) || 'input'"
-      v-bind="attrsWithoutClass"
-      class="vuiii-input__nested Input__input"
+    <template v-if="$slots.hint">
+      <slot name="hint" />
+    </template>
+
+    <div
+      class="Input__wrapper vuiii-input"
       :class="{
-        inputClass,
-        'Input__input--withPrefixIcon': $props.prefixIcon,
-        'Input__input--withSuffixIcon': $props.suffixIcon
+        'vuiii-input--invalid': $props.invalid,
+        'vuiii-input--disabled': $props.disabled,
+        [`vuiii-input--${$props.size}`]: $props.size
       }"
-      :type="($attrs.type as string) || 'text'"
-      :value="$props.modelValue"
-      @input="$emit('update:model-value', retrieveTargetValue($event))"
-    />
+      @click="inputElement.focus()"
+    >
+      <slot v-if="slots.prefix || props.prefixIcon" name="prefix">
+        <component
+          :is="isPrefixIconClickable ? 'button' : 'div'"
+          class="vuiii-input__prefix-icon"
+          :class="{ 'Input__icon': isPrefixIconClickable }"
+          tabindex="-1"
+          @click.prevent="$emit('prefix-icon-click')"
+        >
+          <Icon v-if="$props.prefixIcon" :name="$props.prefixIcon || ''" :size="$props.size" />
+        </component>
+      </slot>
 
-    <slot v-if="slots.suffix || props.suffixIcon" name="suffix">
-      <component
-        :is="isSuffixIconClickable ? 'button' : 'div'"
-        class="vuiii-input__suffix-icon"
-        :class="{ 'Input__icon': isSuffixIconClickable }"
-        tabindex="-1"
-        @click.prevent="$emit('suffix-icon-click')"
-      >
-        <Icon v-if="$props.suffixIcon" :name="$props.suffixIcon || ''" :size="$props.size" />
-      </component>
-    </slot>
-  </div>
+      <input
+        ref="inputElement"
+        :aria-label="($attrs.placeholder as string) || 'input'"
+        v-bind="attrsWithoutClass"
+        class="vuiii-input__nested Input__input"
+        :class="{
+          inputClass,
+          'Input__input--withPrefixIcon': $props.prefixIcon,
+          'Input__input--withSuffixIcon': $props.suffixIcon
+        }"
+        :type="($attrs.type as string) || 'text'"
+        :value="$props.modelValue"
+        :required="$props.required"
+        :disabled="$props.disabled"
+        :readonly="$props.readonly"
+        @input="$emit('update:model-value', retrieveTargetValue($event))"
+      />
+
+      <slot v-if="slots.suffix || props.suffixIcon" name="suffix">
+        <component
+          :is="isSuffixIconClickable ? 'button' : 'div'"
+          class="vuiii-input__suffix-icon"
+          :class="{ 'Input__icon': isSuffixIconClickable }"
+          tabindex="-1"
+          @click.prevent="$emit('suffix-icon-click')"
+        >
+          <Icon v-if="$props.suffixIcon" :name="$props.suffixIcon || ''" :size="$props.size" />
+        </component>
+      </slot>
+    </div>
+  </FormGroup>
 </template>
 
 <script lang="ts">
@@ -61,20 +80,26 @@ export default {
 <script lang="ts" setup>
 import '@/assets/css/input.css'
 
-import { computed, ref, useAttrs, useSlots } from 'vue'
+import { computed, shallowRef, useAttrs, useSlots } from 'vue'
 
+import FormGroup, { type FormGroupProps, type FormGroupSlots } from '@/components/FormGroup.vue'
 import Icon from '@/components/Icon.vue'
 import type { InputSize } from '@/types'
 import { useAttrsWithoutClass } from '@/utils/useAttrsWithoutClass'
 
-const props = defineProps<{
-  modelValue?: number | string | Date | null
-  prefixIcon?: string
-  suffixIcon?: string
-  size?: InputSize
-  invalid?: boolean
-  inputClass?: any
-}>()
+const props = defineProps<
+  FormGroupProps & {
+    modelValue?: number | string | Date | null
+    prefixIcon?: string
+    suffixIcon?: string
+    size?: InputSize
+    invalid?: boolean
+    disabled?: boolean
+    required?: boolean
+    readonly?: boolean
+    inputClass?: any
+  }
+>()
 
 defineEmits<{
   'update:model-value': [value: number | string | Date | null]
@@ -82,14 +107,16 @@ defineEmits<{
   'suffix-icon-click': []
 }>()
 
-defineSlots<{
-  prefix: void
-  suffix: void
-}>()
+defineSlots<
+  FormGroupSlots & {
+    prefix: void
+    suffix: void
+  }
+>()
 
 const attrs = useAttrs()
 const slots = useSlots()
-const input = ref()
+const inputElement = shallowRef()
 
 const isPrefixIconClickable = computed<boolean>(() => Boolean(attrs.onPrefixIconClick))
 const isSuffixIconClickable = computed<boolean>(() => Boolean(attrs.onSuffixIconClick))
@@ -111,14 +138,14 @@ const retrieveTargetValue = (e: Event) => {
 const attrsWithoutClass = useAttrsWithoutClass()
 
 defineExpose({
-  input,
-  focus: () => input.value.focus(),
-  select: () => input.value.select()
+  inputElement,
+  focus: () => inputElement.value.focus(),
+  select: () => inputElement.value.select()
 })
 </script>
 
 <style lang="postcss">
-.Input.Input {
+.Input__wrapper.Input__wrapper {
   position: relative;
   display: flex;
   align-items: stretch;

@@ -1,38 +1,65 @@
 <template>
-  <div class="CheckboxGroup">
-    <div v-for="option in normalizedOptions" :key="option.value">
-      <Checkbox
-        :disabled="option.disabled"
-        :model-value="checkedValues[option.value]"
-        :label="option.label"
-        :description="option.description"
-        @update:model-value="toggleCheckedValue(option.value, $event)"
-      />
+  <FormGroup
+    class="CheckboxGroup"
+    :class="$attrs.class"
+    :label="$props.label"
+    :required="$props.required"
+    :invalid="$props.invalid"
+    :error-message="$props.errorMessage"
+    :description="$props.description"
+    :hint="$props.hint"
+  >
+    <template v-if="$slots.description">
+      <slot name="description" />
+    </template>
+
+    <template v-if="$slots.hint">
+      <slot name="hint" />
+    </template>
+
+    <div class="CheckboxGroup__wrapper">
+      <div v-for="option in normalizedOptions" :key="option.value">
+        <Checkbox
+          :model-value="checkedValues[option.value]"
+          :disabled="$props.disabled || option.disabled"
+          :readonly="$props.readonly"
+          :label="option.label"
+          :description="option.description"
+          @update:model-value="toggleCheckedValue(option.value, $event)"
+        />
+      </div>
     </div>
-  </div>
+  </FormGroup>
 </template>
 
 <script lang="ts" setup>
 import { computed } from 'vue'
 
 import Checkbox from '@/components/Checkbox.vue'
+import FormGroup, { type FormGroupProps, type FormGroupSlots } from '@/components/FormGroup.vue'
 import type { Extractor, Option } from '@/types'
 import { normalizeOptions } from '@/utils/normalizeOptions'
 
 type CheckedValues = Record<Option['value'], boolean>
 
-const props = defineProps<{
-  modelValue?: Option['value'][]
-  options: any[] | Record<string, any>
-  optionLabel?: Extractor
-  optionValue?: Extractor
-  optionDisabled?: Extractor
-  optionDescription?: Extractor
-}>()
+const props = defineProps<
+  FormGroupProps & {
+    modelValue?: Option['value'][]
+    options: any[] | Record<string, any>
+    optionLabel?: Extractor
+    optionValue?: Extractor
+    optionDisabled?: Extractor
+    optionDescription?: Extractor
+    disabled?: boolean
+    readonly?: boolean
+  }
+>()
 
 const emit = defineEmits<{
   'update:model-value': [value: Option['value'][]]
 }>()
+
+defineSlots<FormGroupSlots>()
 
 const normalizedOptions = computed<Option[]>(() => {
   return normalizeOptions(props.options, {
@@ -68,7 +95,7 @@ const toggleCheckedValue = (key: Option['value'], value: boolean) => {
 </script>
 
 <style lang="postcss" scoped>
-.CheckboxGroup {
+.CheckboxGroup__wrapper {
   & > * + * {
     margin-top: 0.75rem;
   }
