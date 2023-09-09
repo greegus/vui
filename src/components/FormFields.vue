@@ -24,8 +24,8 @@
 </template>
 
 <script lang="ts" setup>
-import FormGroup from '@/components/FormGroup.vue'
-import type { FormFieldsStructure, ValidationFieldResults } from '@/types'
+import type { FormFieldsStructure, ValidationFieldResults } from '../types'
+import FormGroup from './FormGroup.vue'
 
 const props = withDefaults(
   defineProps<{

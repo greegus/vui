@@ -2,9 +2,9 @@
 
 import { Meta, StoryFn } from '@storybook/vue3'
 
-import Button from '@/components/Button.vue'
-import SnackbarStack from '@/components/snackbar/SnackbarStack.vue'
-import { useSnackbar } from '@/snackbar'
+import Button from '../components/Button.vue'
+import SnackbarStack from '../components/snackbar/SnackbarStack.vue'
+import { useSnackbar } from '../snackbar'
 
 export default {
   title: 'Example/Snackbar',

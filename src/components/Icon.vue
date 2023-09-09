@@ -5,8 +5,8 @@
 <script lang="ts" setup>
 import { shallowRef, watch } from 'vue'
 
-import type { InputSize } from '@/types'
-import { type IconComponent, resolveIconComponent } from '@/utils/iconsResolver'
+import type { InputSize } from '../types'
+import { type IconComponent, resolveIconComponent } from '../utils/iconsResolver'
 
 const props = defineProps<{
   name: string

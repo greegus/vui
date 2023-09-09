@@ -50,11 +50,11 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import '@/assets/css/input.css'
+import '../assets/css/input.css'
 
-import Icon from '@/components/Icon.vue'
-import type { InputSize } from '@/types'
-import { useAttrsWithoutClass } from '@/utils/useAttrsWithoutClass'
+import type { InputSize } from '../types'
+import { useAttrsWithoutClass } from '../utils/useAttrsWithoutClass'
+import Icon from './Icon.vue'
 
 defineProps<{
   modelValue?: boolean
@@ -128,7 +128,9 @@ const attrsWithoutClass = useAttrsWithoutClass()
     top: 50%;
     left: 50%;
     translate: -50% -50%;
-    transition: scale 0.15s ease-out, opacity 0.15s ease-out;
+    transition:
+      scale 0.15s ease-out,
+      opacity 0.15s ease-out;
   }
 
   @nest input:checked + & {

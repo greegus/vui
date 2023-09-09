@@ -1,6 +1,6 @@
 import { type Ref, ref } from 'vue'
 
-import type { ValidationFieldResults, ValidationResults } from '@/types'
+import type { ValidationFieldResults, ValidationResults } from '../types'
 
 export function useValidator<Data extends {} = any>(
   validator: (data: Partial<Data>) => ValidationResults<Data> | Promise<ValidationResults<Data>>

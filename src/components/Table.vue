@@ -57,12 +57,12 @@
 </template>
 
 <script lang="ts" generic="T extends {} = any" setup>
-import '@/assets/css/table.css'
-import '@/assets/css/typography.css'
+import '../assets/css/table.css'
+import '../assets/css/typography.css'
 
 import { computed } from 'vue'
 
-import type { TableColumn } from '@/types'
+import type { TableColumn } from '../types'
 
 type TableCell = {
   column: TableColumn<T>

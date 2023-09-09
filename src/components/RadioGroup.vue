@@ -4,7 +4,7 @@
       v-for="option in normalizedOptions"
       :key="option.value"
       class="RadioGroup__option"
-      :class="{ 'RadioGroup__option--disabled': option.disabled }"
+      :class="{ 'RadioGroup__option--disabled': $props.disabled || option.disabled }"
     >
       <input
         v-bind="attrsWithoutClass"
@@ -12,7 +12,8 @@
         class="RadioGroup__input"
         type="radio"
         :name="inputName"
-        :disabled="option.disabled"
+        :disabled="$props.disabled || option.disabled"
+        :readonly="$props.readonly"
         :checked="option.value === props.modelValue"
         @input="$emit('update:model-value', option.value)"
       />
@@ -45,10 +46,10 @@ export default {
 <script lang="ts" setup>
 import { computed, useAttrs } from 'vue'
 
-import type { Extractor, Option } from '@/types'
-import { generateId } from '@/utils/generateId'
-import { normalizeOptions } from '@/utils/normalizeOptions'
-import { useAttrsWithoutClass } from '@/utils/useAttrsWithoutClass'
+import type { Extractor, Option } from '../types'
+import { generateId } from '../utils/generateId'
+import { normalizeOptions } from '../utils/normalizeOptions'
+import { useAttrsWithoutClass } from '../utils/useAttrsWithoutClass'
 
 defineEmits<{
   'update:model-value': [value: string | number]
@@ -69,6 +70,8 @@ const props = defineProps<{
   optionValue?: Extractor
   optionDisabled?: Extractor
   optionDescription?: Extractor
+  disabled?: boolean
+  readonly?: boolean
 }>()
 
 const normalizedOptions = computed<Option[]>(() =>
@@ -126,7 +129,9 @@ const attrsWithoutClass = useAttrsWithoutClass()
     border-radius: 999px;
     scale: 50%;
     opacity: 0;
-    transition: scale 0.15s ease-out, opacity 0.15s ease-out;
+    transition:
+      scale 0.15s ease-out,
+      opacity 0.15s ease-out;
   }
 
   @nest input:checked + & {
