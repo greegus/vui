@@ -28,7 +28,10 @@
           :class="cell.cellClass"
           :align="cell.column.align || 'left'"
         >
-          <slot :name="`column:${cell.column.name}`" v-bind="{ item: row.item, value: cell.value, index }">
+          <slot
+            :name="`column:${cell.column.name}`"
+            v-bind="{ item: row.item, value: cell.value, index, column: cell.column }"
+          >
             <router-link v-if="cell.column.href" class="vuiii-link" :to="cell.column.href(cell.item)">
               {{ cell.value }}
             </router-link>
@@ -53,7 +56,7 @@
   </table>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" generic="T extends {} = any" setup>
 import '@/assets/css/table.css'
 import '@/assets/css/typography.css'
 
@@ -62,44 +65,49 @@ import { computed } from 'vue'
 import type { TableColumn } from '@/types'
 
 type TableCell = {
-  column: TableColumn
+  column: TableColumn<T>
+  item: T
   value: any
   cellClass?: string
-  item: any
 }
 
 type TableRow = {
-  item: any
+  item: T
   rowClass?: string
   cells: TableCell[]
 }
 
 const props = defineProps<{
-  items: any[]
-  columns: (TableColumn | string)[]
-  rowClass?: string | ((row: { item: any; index: number }) => any)
+  items: T[]
+  columns: TableColumn<T>[]
+  rowClass?: string | ((row: { item: T; index: number }) => any)
   hightlightOnHover?: boolean
   emptyMessage?: string
 }>()
 
 defineEmits<{
-  'click-row': [payload: { item: any; index: number }]
-  'mouseenter-row': [payload: { item: any; index: number }]
-  'mouseleave-row': [payload: { item: any; index: number }]
+  'click-row': [payload: { item: T; index: number }]
+  'mouseenter-row': [payload: { item: T; index: number }]
+  'mouseleave-row': [payload: { item: T; index: number }]
 }>()
 
 defineSlots<
   {
-    [K in `column:${string}`]: { item: any; value: any; index: number }
+    [K in `column:${(typeof props.columns)[number]['name']}`]: (props: {
+      column: TableColumn<T>
+      item: T
+      value: any
+      index: number
+    }) => any
   } & {
     emptyMessage: void
   }
 >()
 
-const normalizedColumns = computed<TableColumn[]>(() => {
+const normalizedColumns = computed<TableColumn<T>[]>(() => {
   return props.columns.reduce(
-    (result, column) => [...result, typeof column === 'string' ? { name: column } : column],
-    [] as TableColumn[]
+    (result, column) => [...result, typeof column === 'string' ? ({ name: column } as TableColumn<T>) : column],
+    [] as TableColumn<T>[]
   )
 })
 
@@ -108,7 +116,7 @@ const hasHeader = computed(() => {
 })
 
 const tableRows = computed<TableRow[]>(() => {
-  const generateCell = (column: TableColumn, item: any): TableCell => {
+  const generateCell = (column: TableColumn<T>, item: any): TableCell => {
     const value = typeof column.value === 'function' ? column.value(item) : item[column.name]
     const formattedValue = typeof column.format === 'function' ? column.format(value) : value
     const cellClass = typeof column.cellClass === 'function' ? column.cellClass({ item, value }) : column.cellClass

@@ -15,12 +15,12 @@ export type ModalLayoutButton = {
 }
 
 export type TableColumn<T extends {} = any> = {
-  name: string
+  name: (keyof T & string) | (string & {})
   label?: string
   align?: 'left' | 'right' | 'center'
   width?: string
   value?: (item: T) => unknown
-  format?: (...params: any[]) => unknown
+  format?: (item: T) => unknown
   href?: (item: T) => RouteLocationRaw
   cellClass?: string | ((cell: { item: T; value: any }) => string)
 }
