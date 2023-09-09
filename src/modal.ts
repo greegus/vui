@@ -1,5 +1,6 @@
 import { type Component, type ComponentCustomProps, computed, defineAsyncComponent, markRaw, ref } from 'vue'
 
+import ModalLayout from '@/components/modal/ModalLayout.vue'
 import type { ButtonVariant, ModalLayoutButton } from '@/types'
 
 export type Modal = {
@@ -103,10 +104,7 @@ export const openModal: OpenModalInterface = (component, props?) => {
 }
 
 export const openDialog: OpenDialogInterface = (options) => {
-  return openModal(
-    defineAsyncComponent(() => import('./components/modal/ModalLayout.vue')),
-    options
-  )
+  return openModal(ModalLayout, options)
 }
 
 export const openAlert: OpenAlertInterface = (options) => {
