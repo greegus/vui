@@ -14,7 +14,8 @@ export type ModalLayoutButton = {
   loading?: boolean
 }
 
-export type ColumnOptions<T = any> = {
+export type TableColumn<T extends {} = any> = {
+  name: string
   label?: string
   align?: 'left' | 'right' | 'center'
   width?: string
@@ -23,8 +24,6 @@ export type ColumnOptions<T = any> = {
   href?: (item: T) => RouteLocationRaw
   cellClass?: string | ((cell: { item: T; value: any }) => string)
 }
-
-export type TableColumns<T = any> = Record<keyof T | string, string | ColumnOptions<T>>
 
 export type Extractor = string | number | ((item: any) => string | number)
 

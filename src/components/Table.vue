@@ -1,6 +1,6 @@
 <template>
   <table class="vuiii-table" :class="{ 'vuiii-table--hover': $props.hightlightOnHover && items?.length }">
-    <thead>
+    <thead v-if="hasHeader">
       <tr>
         <th
           v-for="(column, key) in normalizedColumns"
@@ -23,18 +23,18 @@
         @mouseleave="$emit('mouseleave-row', { index, item: row.item })"
       >
         <td
-          v-for="(column, key) in normalizedColumns"
-          :key="key"
-          :class="row.cells[key as any].cellClass"
-          :align="column.align || 'left'"
+          v-for="cell in row.cells"
+          :key="cell.column.name"
+          :class="cell.cellClass"
+          :align="cell.column.align || 'left'"
         >
-          <slot :name="`column:${String(key)}`" v-bind="{ item: row.item, value: row.cells[key as any].value, index }">
-            <router-link v-if="column.href" class="vuiii-link" :to="column.href(row.cells[key as any].item)">
-              {{ row.cells[key as any].value }}
+          <slot :name="`column:${cell.column.name}`" v-bind="{ item: row.item, value: cell.value, index }">
+            <router-link v-if="cell.column.href" class="vuiii-link" :to="cell.column.href(cell.item)">
+              {{ cell.value }}
             </router-link>
 
             <template v-else>
-              {{ row.cells[key as any].value }}
+              {{ cell.value }}
             </template>
           </slot>
         </td>
@@ -59,19 +59,24 @@ import '@/assets/css/typography.css'
 
 import { computed } from 'vue'
 
-import type { ColumnOptions, TableColumns } from '@/types'
+import type { TableColumn } from '@/types'
 
-type NormalizedTableColumns<T = any> = Record<keyof T | string, ColumnOptions<T>>
+type TableCell = {
+  column: TableColumn
+  value: any
+  cellClass?: string
+  item: any
+}
 
-type TableRows = {
+type TableRow = {
   item: any
   rowClass?: string
-  cells: Record<string, { value: any; cellClass?: string }>[]
-}[]
+  cells: TableCell[]
+}
 
 const props = defineProps<{
   items: any[]
-  columns: TableColumns
+  columns: (TableColumn | string)[]
   rowClass?: string | ((row: { item: any; index: number }) => any)
   hightlightOnHover?: boolean
   emptyMessage?: string
@@ -91,36 +96,44 @@ defineSlots<
   }
 >()
 
-const normalizedColumns = computed<NormalizedTableColumns>(() => {
-  return Object.entries(props.columns).reduce(
-    (result, [key, options]) => ({
-      ...result,
-      [key]: typeof options === 'string' ? { label: options } : options
-    }),
-    {}
+const normalizedColumns = computed<TableColumn[]>(() => {
+  return props.columns.reduce(
+    (result, column) => [...result, typeof column === 'string' ? { name: column } : column],
+    [] as TableColumn[]
   )
 })
 
-const tableRows = computed<TableRows>(() => {
+const hasHeader = computed(() => {
+  return normalizedColumns.value.some((column) => column.label)
+})
+
+const tableRows = computed<TableRow[]>(() => {
+  const generateCell = (column: TableColumn, item: any): TableCell => {
+    const value = typeof column.value === 'function' ? column.value(item) : item[column.name]
+    const formattedValue = typeof column.format === 'function' ? column.format(value) : value
+    const cellClass = typeof column.cellClass === 'function' ? column.cellClass({ item, value }) : column.cellClass
+
+    return {
+      column,
+      value: formattedValue,
+      cellClass,
+      item
+    }
+  }
+
   return (
     props.items?.map((item, index) => {
       const rowClass = typeof props.rowClass === 'function' ? props.rowClass({ item, index }) : props.rowClass
-      const cells = Object.entries(normalizedColumns.value).reduce((result, [key, column]) => {
-        const value = typeof column.value === 'function' ? column.value(item) : item[key]
-        const formattedValue = typeof column.format === 'function' ? column.format(value) : value
-        const cellClass = typeof column.cellClass === 'function' ? column.cellClass({ item, value }) : column.cellClass
 
-        return {
-          ...result,
-          [key]: {
-            value: formattedValue,
-            cellClass,
-            item
-          }
-        }
-      }, {} as any)
+      const cells = normalizedColumns.value.reduce((result, column) => {
+        return [...result, generateCell(column, item)]
+      }, [] as TableCell[])
 
-      return { rowClass, cells, item }
+      return {
+        item,
+        rowClass,
+        cells
+      } as TableRow
     }) || []
   )
 })
