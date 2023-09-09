@@ -1,7 +1,6 @@
 import { Meta, StoryFn } from '@storybook/vue3'
 
-import Icon from '@/components/Icon.vue'
-
+import Icon from '../components/Icon.vue'
 import { icons } from './icons'
 
 // More on default export: https://storybook.js.org/docs/vue/writing-stories/introduction#default-export

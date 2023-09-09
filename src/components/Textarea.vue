@@ -39,9 +39,9 @@
 <script lang="ts" setup>
 import { shallowRef } from 'vue'
 
-import FormGroup, { type FormGroupProps, type FormGroupSlots } from '@/components/FormGroup.vue'
-import type { InputSize } from '@/types'
-import { useAttrsWithoutClass } from '@/utils/useAttrsWithoutClass'
+import type { InputSize } from '../types'
+import { useAttrsWithoutClass } from '../utils/useAttrsWithoutClass'
+import FormGroup, { type FormGroupProps, type FormGroupSlots } from './FormGroup.vue'
 
 defineProps<
   FormGroupProps & {

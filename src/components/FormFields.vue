@@ -7,7 +7,7 @@
       :description="field.description"
       :hint="field.hint"
       :required="resolveIfComputed(String(name), field.required)"
-      :error="($props.errors?.[name as any] as any)"
+      :error="$props.errors?.[name as any] as any"
     >
       <component
         :is="field.component"
@@ -22,8 +22,8 @@
 </template>
 
 <script lang="ts" setup>
-import FormGroup from '@/components/FormGroup.vue'
-import type { FormFieldsStructure } from '@/types'
+import type { FormFieldsStructure } from '../types'
+import FormGroup from './FormGroup.vue'
 
 const props = withDefaults(
   defineProps<{
@@ -53,7 +53,7 @@ const setFieldValue = (name: string, value: unknown): void => {
   emit('update:model-value', modelValue)
 }
 
-const resolveIfComputed = <T = any>(name: string, property: any): T => {
+const resolveIfComputed = <T = any,>(name: string, property: any): T => {
   if (typeof property === 'function') {
     return (property as any)?.(props.modelValue[name])
   }

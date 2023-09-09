@@ -3,10 +3,10 @@
 import { Meta, StoryFn } from '@storybook/vue3'
 import { defineComponent } from 'vue'
 
-import Button from '@/components/Button.vue'
-import ModalLayout from '@/components/modal/ModalLayout.vue'
-import ModalStack from '@/components/modal/ModalStack.vue'
-import { useCloseModal, useModal } from '@/modal'
+import Button from '../components/Button.vue'
+import ModalLayout from '../components/modal/ModalLayout.vue'
+import ModalStack from '../components/modal/ModalStack.vue'
+import { useCloseModal, useModal } from '../modal'
 
 export default {
   title: 'Example/Modals',

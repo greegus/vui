@@ -23,7 +23,7 @@
         :key="option.value"
         class="RadioGroup__option"
         :class="{
-          'RadioGroup__option--disabled': $props.disabled || option.disabled,
+          'RadioGroup__option--disabled': $props.disabled || option.disabled
         }"
       >
         <input
@@ -38,7 +38,7 @@
           @input="$emit('update:model-value', option.value)"
         />
 
-        <div class="RadioGroup__radio vuiii-input" >
+        <div class="RadioGroup__radio vuiii-input">
           <div class="RadioGroup__radioDot"></div>
         </div>
 
@@ -67,11 +67,11 @@ export default {
 <script lang="ts" setup>
 import { computed, useAttrs } from 'vue'
 
-import FormGroup, { type FormGroupProps, type FormGroupSlots } from '@/components/FormGroup.vue'
-import type { Extractor, Option } from '@/types'
-import { generateId } from '@/utils/generateId'
-import { normalizeOptions } from '@/utils/normalizeOptions'
-import { useAttrsWithoutClass } from '@/utils/useAttrsWithoutClass'
+import type { Extractor, Option } from '../types'
+import { generateId } from '../utils/generateId'
+import { normalizeOptions } from '../utils/normalizeOptions'
+import { useAttrsWithoutClass } from '../utils/useAttrsWithoutClass'
+import FormGroup, { type FormGroupProps, type FormGroupSlots } from './FormGroup.vue'
 
 const props = defineProps<
   FormGroupProps & {

@@ -1,8 +1,7 @@
 import { action } from '@storybook/addon-actions'
 import { Meta, StoryFn } from '@storybook/vue3'
 
-import Input from '@/components/Input.vue'
-
+import Input from '../components/Input.vue'
 import { icons } from './icons'
 
 export default {

@@ -39,12 +39,12 @@
 </template>
 
 <script lang="ts" setup>
-import '@/assets/css/button.css'
+import '../assets/css/button.css'
 
 import { computed, useAttrs } from 'vue'
 
-import Icon from '@/components/Icon.vue'
-import type { ButtonVariant, InputSize } from '@/types'
+import type { ButtonVariant, InputSize } from '../types'
+import Icon from './Icon.vue'
 
 defineProps<{
   size?: InputSize

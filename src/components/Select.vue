@@ -75,11 +75,11 @@ export default {
 <script lang="ts" setup>
 import { computed, shallowRef } from 'vue'
 
-import FormGroup, { type FormGroupProps, type FormGroupSlots } from '@/components/FormGroup.vue'
-import Icon from '@/components/Icon.vue'
-import type { Extractor, InputSize, Option } from '@/types'
-import { normalizeGroups, normalizeOptions } from '@/utils/normalizeOptions'
-import { useAttrsWithoutClass } from '@/utils/useAttrsWithoutClass'
+import type { Extractor, InputSize, Option } from '../types'
+import { normalizeGroups, normalizeOptions } from '../utils/normalizeOptions'
+import { useAttrsWithoutClass } from '../utils/useAttrsWithoutClass'
+import FormGroup, { type FormGroupProps, type FormGroupSlots } from './FormGroup.vue'
+import Icon from './Icon.vue'
 
 const props = withDefaults(
   defineProps<

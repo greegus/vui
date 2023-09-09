@@ -35,10 +35,10 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 
-import Checkbox from '@/components/Checkbox.vue'
-import FormGroup, { type FormGroupProps, type FormGroupSlots } from '@/components/FormGroup.vue'
-import type { Extractor, Option } from '@/types'
-import { normalizeOptions } from '@/utils/normalizeOptions'
+import type { Extractor, Option } from '../types'
+import { normalizeOptions } from '../utils/normalizeOptions'
+import Checkbox from './Checkbox.vue'
+import FormGroup, { type FormGroupProps, type FormGroupSlots } from './FormGroup.vue'
 
 type CheckedValues = Record<Option['value'], boolean>
 

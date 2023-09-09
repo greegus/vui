@@ -67,12 +67,12 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import '@/assets/css/input.css'
+import '../assets/css/input.css'
 
-import FormGroup, { type FormGroupProps, FormGroupSlots } from '@/components/FormGroup.vue'
-import Icon from '@/components/Icon.vue'
-import type { InputSize } from '@/types'
-import { useAttrsWithoutClass } from '@/utils/useAttrsWithoutClass'
+import type { InputSize } from '../types'
+import { useAttrsWithoutClass } from '../utils/useAttrsWithoutClass'
+import FormGroup, { type FormGroupProps, FormGroupSlots } from './FormGroup.vue'
+import Icon from './Icon.vue'
 
 defineProps<
   FormGroupProps & {

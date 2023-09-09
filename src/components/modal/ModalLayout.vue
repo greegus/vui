@@ -48,10 +48,10 @@
 <script lang="ts" setup>
 import { type CSSProperties, computed, onMounted, ref, useSlots } from 'vue'
 
-import Button from '@/components/Button.vue'
-import Icon from '@/components/Icon.vue'
-import { useCloseModal } from '@/modal'
-import type { ModalLayoutButton } from '@/types'
+import { useCloseModal } from '../../modal'
+import type { ModalLayoutButton } from '../../types'
+import Button from '../Button.vue'
+import Icon from '../Icon.vue'
 
 const slots = useSlots()
 

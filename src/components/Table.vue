@@ -54,12 +54,12 @@
 </template>
 
 <script lang="ts" setup>
-import '@/assets/css/table.css'
-import '@/assets/css/typography.css'
+import '../assets/css/table.css'
+import '../assets/css/typography.css'
 
 import { computed } from 'vue'
 
-import type { TableColumn } from '@/types'
+import type { TableColumn } from '../types'
 
 type TableCell = {
   column: TableColumn
