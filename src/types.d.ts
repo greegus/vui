@@ -20,7 +20,7 @@ export type TableColumn<T extends {} = any> = {
   align?: 'left' | 'right' | 'center'
   width?: string
   value?: (item: T) => unknown
-  format?: (item: T) => unknown
+  format?: (value: any) => unknown
   href?: (item: T) => RouteLocationRaw
   cellClass?: string | ((cell: { item: T; value: any }) => string)
 }

@@ -4,44 +4,44 @@ import { type RouteLocationRaw, type Router, useRouter } from 'vue-router'
 import { useModal } from '@/modal'
 import { useSnackbar } from '@/snackbar'
 
-export function useSubmitAction<ActionParams extends any[] = any[], ActionResult = unknown | Promise<unknown>>(
-  action: (...data: ActionParams) => ActionResult,
+export function useSubmitAction<D = unknown, S extends (...args: any[]) => D = (...args: any[]) => D>(
+  action: S,
   options: {
     onBeforeSubmit?: (params: {
-      data: ActionParams
+      params: Parameters<typeof action>
       modal: ReturnType<typeof useModal>
       snackbar: ReturnType<typeof useSnackbar>
     }) => boolean | Promise<boolean>
     onSuccess?: (params: {
-      data: Parameters<typeof action>
-      result: Awaited<ReturnType<typeof action>>
+      params: Parameters<typeof action>
+      result: Awaited<ReturnType<S>>
       router: Router
       modal: ReturnType<typeof useModal>
       snackbar: ReturnType<typeof useSnackbar>
     }) => void
     onError?: (params: {
       error: Error
-      data: Parameters<typeof action>
+      params: Parameters<typeof action>
       router: Router
       modal: ReturnType<typeof useModal>
       snackbar: ReturnType<typeof useSnackbar>
     }) => boolean | void
     redirectOnSuccess?:
       | RouteLocationRaw
-      | ((params: { result: Awaited<ReturnType<typeof action>>; data: Parameters<typeof action> }) => RouteLocationRaw)
+      | ((params: { result: Awaited<ReturnType<S>>; params: Parameters<typeof action> }) => RouteLocationRaw)
       | undefined
     successMessage?:
-      | ((params: { result: Awaited<ReturnType<typeof action>>; data: Parameters<typeof action> }) => string)
+      | ((params: { result: Awaited<ReturnType<S>>; params: Parameters<typeof action> }) => string)
       | string
-    errorMessage?: ((params: { error: Error; data: Parameters<typeof action> }) => string) | string
-    initialResultValue?: Awaited<ReturnType<typeof action>> | undefined
+    errorMessage?: ((params: { error: Error; params: Parameters<typeof action> }) => string) | string
+    initialResultValue?: Awaited<ReturnType<S>>
     immediate?: boolean
   } = {}
 ): {
-  submit: (...data: Parameters<typeof action>) => Promise<ReturnType<typeof action> | undefined>
+  submit: (...params: Parameters<typeof action>) => Promise<ReturnType<S> | undefined>
   isSubmitting: Ref<boolean>
   hasSubbmitted: Ref<boolean>
-  result: Ref<Awaited<ReturnType<typeof action>>>
+  result: Ref<Awaited<ReturnType<S>>>
 } {
   const snackbar = useSnackbar()
   const modal = useModal()
@@ -49,16 +49,16 @@ export function useSubmitAction<ActionParams extends any[] = any[], ActionResult
 
   const isSubmitting = ref<boolean>(false)
   const hasSubbmitted = ref<boolean>(false)
-  const result = ref<Awaited<ReturnType<typeof action>>>(
-    options.initialResultValue as Awaited<ReturnType<typeof action>>
-  ) as Ref<Awaited<ReturnType<typeof action>>>
+  const result = ref<Awaited<ReturnType<S>>>(options.initialResultValue as Awaited<ReturnType<S>>) as Ref<
+    Awaited<ReturnType<S>>
+  >
 
-  const submit = async (...data: Parameters<typeof action>): Promise<ReturnType<typeof action> | undefined> => {
+  const submit = async (...params: Parameters<typeof action>): Promise<ReturnType<S> | undefined> => {
     try {
       isSubmitting.value = true
 
       if (options.onBeforeSubmit) {
-        const onBeforeSubmitResult = await options.onBeforeSubmit({ data, modal, snackbar })
+        const onBeforeSubmitResult = await options.onBeforeSubmit({ params, modal, snackbar })
 
         if (!onBeforeSubmitResult) {
           isSubmitting.value = false
@@ -66,12 +66,12 @@ export function useSubmitAction<ActionParams extends any[] = any[], ActionResult
         }
       }
 
-      result.value = await action(...data)
+      result.value = (await action(...params)) as Awaited<ReturnType<S>>
     } catch (error) {
       if (options.errorMessage && snackbar) {
         snackbar.error(
           typeof options.errorMessage === 'function'
-            ? options.errorMessage({ error: error as Error, data })
+            ? options.errorMessage({ error: error as Error, params })
             : options.errorMessage || (error as Error).message
         )
       }
@@ -79,7 +79,7 @@ export function useSubmitAction<ActionParams extends any[] = any[], ActionResult
       isSubmitting.value = false
 
       if (options.onError) {
-        const hasErrorBeenResolved = options.onError({ error: error as Error, data, router, snackbar, modal })
+        const hasErrorBeenResolved = options.onError({ error: error as Error, params, router, snackbar, modal })
 
         if (hasErrorBeenResolved) {
           return undefined
@@ -95,17 +95,17 @@ export function useSubmitAction<ActionParams extends any[] = any[], ActionResult
     if (options.successMessage && snackbar) {
       snackbar.success(
         typeof options.successMessage === 'function'
-          ? options.successMessage({ result: result.value!, data })
+          ? options.successMessage({ result: result.value!, params })
           : options.successMessage
       )
     }
 
-    options.onSuccess?.({ result: result.value!, data, router, snackbar, modal })
+    options.onSuccess?.({ result: result.value!, params, router, snackbar, modal })
 
     if (options.redirectOnSuccess) {
       router.push(
         typeof options.redirectOnSuccess === 'function'
-          ? options.redirectOnSuccess({ result: result.value, data })
+          ? options.redirectOnSuccess({ result: result.value, params })
           : options.redirectOnSuccess
       )
     }
