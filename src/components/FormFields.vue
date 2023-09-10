@@ -7,7 +7,7 @@
       :description="field.description"
       :hint="field.hint"
       :required="resolveIfComputed(String(name), field.required)"
-      :error="$props.errors?.[name as any] as any"
+      :error-message="$props.errors?.[name as any] as any"
     >
       <component
         :is="field.component"

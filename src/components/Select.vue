@@ -1,69 +1,45 @@
 <template>
-  <FormGroup
-    class="Select"
-    :class="$attrs.class"
-    :label="$props.label"
-    :required="$props.required"
-    :invalid="$props.invalid"
-    :error-message="$props.errorMessage"
-    :description="$props.description"
-    :hint="$props.hint"
-  >
-    <template v-if="$slots.description">
-      <slot name="description" />
-    </template>
-
-    <template v-if="$slots.hint">
-      <slot name="hint" />
-    </template>
-
-    <div
-      class="Select__wrapper vuiii-input"
-      :class="{
+  <div
+    class="Select vuiii-input"
+    :class="[
+      $attrs.class,
+      {
         'vuiii-input--invalid': $props.invalid,
-        'vuiii-input--disabled': $props.disabled,
+        'vuiii-input--disabled': $attrs.disabled,
         [`vuiii-input--${$props.size}`]: $props.size
-      }"
+      }
+    ]"
+  >
+    <select
+      v-bind="attrsWithoutClass"
+      class="vuiii-input__nested Select__select"
+      :value="$props.modelValue"
+      :required="$props.required"
+      @input="$emit('update:model-value', ($event.target as HTMLSelectElement).value)"
     >
-      <select
-        v-bind="attrsWithoutClass"
-        class="vuiii-input__nested Select__select"
-        :class="$props.selectClass"
-        :value="$props.modelValue"
-        :required="$props.required"
-        :disabled="$props.disabled"
-        :readonly="$props.readonly"
-        @input="$emit('update:model-value', ($event.target as HTMLSelectElement).value)"
-      >
-        <option v-if="$props.placeholder" :disabled="$props.required" value="" selected>
-          {{ $props.placeholder }}
-        </option>
+      <option v-if="$props.placeholder" :disabled="$props.required" value="" selected>
+        {{ $props.placeholder }}
+      </option>
 
-        <template v-if="groups">
-          <optgroup v-for="(group, index) in groups" :key="index" :label="group.label">
-            <option
-              v-for="option in group.options"
-              :key="option.value"
-              :disabled="option.disabled"
-              :value="option.value"
-            >
-              {{ option.label }}
-            </option>
-          </optgroup>
-        </template>
-
-        <template v-else>
-          <option v-for="option in options" :key="option.value" :disabled="option.disabled" :value="option.value">
+      <template v-if="groups">
+        <optgroup v-for="(group, index) in groups" :key="index" :label="group.label">
+          <option v-for="option in group.options" :key="option.value" :disabled="option.disabled" :value="option.value">
             {{ option.label }}
           </option>
-        </template>
-      </select>
+        </optgroup>
+      </template>
 
-      <div class="Select__dropdownIcon vuiii-input__suffix-icon">
-        <Icon name="triangle-down" :size="$props.size" />
-      </div>
+      <template v-else>
+        <option v-for="option in options" :key="option.value" :disabled="option.disabled" :value="option.value">
+          {{ option.label }}
+        </option>
+      </template>
+    </select>
+
+    <div class="Select__dropdownIcon vuiii-input__suffix-icon">
+      <Icon name="triangle-down" :size="$props.size" />
     </div>
-  </FormGroup>
+  </div>
 </template>
 
 <script lang="ts">
@@ -73,32 +49,27 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { computed, shallowRef } from 'vue'
+import { computed } from 'vue'
 
 import type { Extractor, InputSize, Option } from '../types'
 import { normalizeGroups, normalizeOptions } from '../utils/normalizeOptions'
 import { useAttrsWithoutClass } from '../utils/useAttrsWithoutClass'
-import FormGroup, { type FormGroupProps, type FormGroupSlots } from './FormGroup.vue'
 import Icon from './Icon.vue'
 
 const props = withDefaults(
-  defineProps<
-    FormGroupProps & {
-      modelValue?: Option['value']
-      options: any[] | any
-      optionLabel?: Extractor
-      optionValue?: Extractor
-      optionDisabled?: Extractor
-      groupLabel?: Extractor
-      groupOptions?: Extractor
-      placeholder?: string
-      size?: InputSize
-      required?: boolean
-      disabled?: boolean
-      readonly?: boolean
-      selectClass?: any
-    }
-  >(),
+  defineProps<{
+    modelValue?: Option['value']
+    options: any[] | any
+    optionLabel?: Extractor
+    optionValue?: Extractor
+    optionDisabled?: Extractor
+    groupLabel?: Extractor
+    groupOptions?: Extractor
+    placeholder?: string
+    size?: InputSize
+    invalid?: boolean
+    required?: boolean
+  }>(),
   {
     modelValue: undefined,
     size: 'normal',
@@ -114,10 +85,6 @@ const props = withDefaults(
 defineEmits<{
   'update:model-value': [value: Option['value']]
 }>()
-
-defineSlots<FormGroupSlots>()
-
-const selectElement = shallowRef()
 
 const groups = computed(() => {
   if (!props.groupOptions) {
@@ -146,15 +113,10 @@ const options = computed(() => {
 })
 
 const attrsWithoutClass = useAttrsWithoutClass()
-
-defineExpose({
-  selectElement,
-  focus: () => selectElement.value.focus()
-})
 </script>
 
 <style lang="postcss">
-.Select__wrapper.Select__wrapper {
+.Select.Select {
   position: relative;
   display: flex;
   align-items: stretch;

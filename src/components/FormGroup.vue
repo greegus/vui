@@ -22,31 +22,28 @@
       </slot>
     </div>
 
-    <div v-if="$props.invalid && $props.errorMessage" class="FormGroup__error">
+    <div v-if="$props.errorMessage" class="FormGroup__error">
       {{ $props.errorMessage }}
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-export type FormGroupProps = {
+defineProps<{
   label?: string
+  for?: string
   required?: boolean
   invalid?: boolean
-  errorMessage?: string
+  errorMessage?: string | boolean
   description?: string
   hint?: string
-}
+}>()
 
-export type FormGroupSlots = {
+defineSlots<{
   default: void
   description: void
   hint: void
-}
-
-defineProps<FormGroupProps & { for?: string }>()
-
-defineSlots<FormGroupSlots>()
+}>()
 </script>
 
 <style lang="postcss" scoped>

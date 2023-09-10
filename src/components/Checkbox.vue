@@ -1,63 +1,46 @@
 <template>
-  <FormGroup
+  <label
     class="Checkbox"
-    :class="$attrs.class"
-    :label="$props.label"
-    :required="$props.required"
-    :invalid="$props.invalid"
-    :error-message="$props.errorMessage"
-    :description="$props.description"
-    :hint="$props.hint"
+    :class="[
+      $attrs.class,
+      {
+        [`Checkbox--size:${$props.size}`]: $props.size,
+        'Checkbox--disabled': $props.disabled
+      }
+    ]"
   >
-    <template v-if="$slots.description">
-      <slot name="description" />
-    </template>
+    <input
+      :checked="$props.modelValue"
+      class="Checkbox__input"
+      :required="$props.required"
+      :disabled="$props.disabled"
+      type="checkbox"
+      v-bind="attrsWithoutClass"
+      @input="$emit('update:model-value', ($event.target as any).checked)"
+    />
 
-    <template v-if="$slots.hint">
-      <slot name="hint" />
-    </template>
+    <div v-if="$props.switch" class="Checkbox__switch">
+      <div class="Checkbox__switchDot"></div>
+    </div>
 
-    <label
-      class="Checkbox__wrapper"
-      :class="{
-        'Checkbox--disabled': $props.disabled,
-        [`Checkbox--size:${$props.size}`]: $props.size
-      }"
-    >
-      <input
-        :checked="$props.modelValue"
-        class="Checkbox__input"
-        :required="$props.required"
-        :disabled="$props.disabled"
-        :readonly="$props.readonly"
-        type="checkbox"
-        v-bind="attrsWithoutClass"
-        @input="$emit('update:model-value', ($event.target as any).checked)"
-      />
+    <div v-else class="Checkbox__checkbox vuiii-input">
+      <Icon name="check" class="Checkbox__checkboxIcon" :size="$props.size" />
+    </div>
 
-      <div v-if="$props.switch" class="Checkbox__switch">
-        <div class="Checkbox__switchDot"></div>
+    <div>
+      <div v-if="$slots.default || $props.label" class="Checkbox__label">
+        <span v-if="$props.required" class="Checkbox__required">*</span>
+
+        <slot>
+          {{ $props.label }}
+        </slot>
       </div>
 
-      <div v-else class="Checkbox__checkbox vuiii-input">
-        <Icon name="check" class="Checkbox__checkboxIcon" :size="$props.size" />
+      <div v-if="$props.description" class="Checkbox__description">
+        {{ $props.description }}
       </div>
-
-      <div>
-        <div v-if="$slots.default || $props.label" class="Checkbox__label">
-          <span v-if="$props.required" class="Checkbox__required">*</span>
-
-          <slot>
-            {{ $props.label }}
-          </slot>
-        </div>
-
-        <div v-if="$props.description" class="Checkbox__description">
-          {{ $props.description }}
-        </div>
-      </div>
-    </label>
-  </FormGroup>
+    </div>
+  </label>
 </template>
 
 <script lang="ts">
@@ -71,37 +54,32 @@ import '../assets/css/input.css'
 
 import type { InputSize } from '../types'
 import { useAttrsWithoutClass } from '../utils/useAttrsWithoutClass'
-import FormGroup, { type FormGroupProps, FormGroupSlots } from './FormGroup.vue'
 import Icon from './Icon.vue'
 
-defineProps<
-  FormGroupProps & {
-    modelValue?: boolean
-    required?: boolean
-    disabled?: boolean
-    readonly?: boolean
-    switch?: boolean
-    label?: string
-    description?: string
-    size?: InputSize
-  }
->()
+defineProps<{
+  modelValue?: boolean
+  required?: boolean
+  invalid?: boolean
+  disabled?: boolean
+  switch?: boolean
+  label?: string
+  description?: string
+  size?: InputSize
+}>()
 
 defineEmits<{
   'update:model-value': [value: boolean]
 }>()
 
-defineSlots<
-  FormGroupSlots & {
-    default: void
-  }
->()
+defineSlots<{
+  default: void
+}>()
 
 const attrsWithoutClass = useAttrsWithoutClass()
 </script>
 
 <style lang="postcss" scoped>
-.Checkbox__wrapper {
+.Checkbox {
   display: inline-flex;
   align-items: center;
   vertical-align: top;
