@@ -17,6 +17,7 @@ export function useRouteQuery<QueryParams extends Record<string, unknown> = Reco
   parse?: Record<keyof QueryParams, (value: string) => any>
   serialize?: Record<keyof QueryParams, (value: QueryParams[keyof QueryParams]) => string>
   immediate?: boolean
+  defaults?: Partial<QueryParams>
 }): {
   queryParams: Ref<QueryParams>
   setQuery: (params: Partial<QueryParams>) => void
@@ -40,6 +41,14 @@ export function useRouteQuery<QueryParams extends Record<string, unknown> = Reco
         decodeURIComponent(options.parse?.[key] ? options.parse[key](value as string) : value)
       ])
     ) as QueryParams
+
+    if (options.defaults) {
+      Object.entries(options.defaults).forEach(([key, value]) => {
+        if (params[key] === undefined) {
+          params[key as keyof QueryParams] = value
+        }
+      })
+    }
 
     return params
   })
