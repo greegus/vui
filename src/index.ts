@@ -36,7 +36,6 @@ export type {
   PaginatedDataSource,
   Pagination,
   TableColumn,
-  ValidationErrors,
   ValidationResults,
   ValidationRules
 } from './types'

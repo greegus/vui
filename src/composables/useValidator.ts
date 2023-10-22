@@ -1,30 +1,38 @@
 import { type Ref, ref } from 'vue'
 
-import type { ValidationErrors, ValidationResults } from '@/types'
+import type { ValidationFieldResults, ValidationResults } from '@/types'
 
 export function useValidator<Data extends {} = any>(
   validator: (data: Partial<Data>) => ValidationResults<Data> | Promise<ValidationResults<Data>>
 ): {
   isValid: Ref<boolean>
-  errors: Ref<ValidationErrors<Data>>
+  isValidating: Ref<boolean>
+  validationResults: Ref<Partial<ValidationFieldResults<Data>>>
   validate: (data: Partial<Data>) => Promise<boolean>
 } {
   const isValid = ref()
 
-  const errors = ref<ValidationErrors<Data>>({}) as Ref<ValidationErrors<Data>>
+  const isValidating = ref(false)
+
+  const validationResults = ref<Partial<ValidationFieldResults<Data>>>({}) as Ref<Partial<ValidationFieldResults<Data>>>
 
   const validate = async (data: Partial<Data>): Promise<boolean> => {
-    const { isValid: _isValid, errors: _errors } = await validator(data)
+    isValidating.value = true
+    validationResults.value = {}
 
-    isValid.value = _isValid
-    errors.value = _errors
+    const results = await validator(data)
+
+    isValidating.value = false
+    isValid.value = results.isValid
+    validationResults.value = results.validationResults
 
     return isValid.value
   }
 
   return {
     isValid,
-    errors,
+    isValidating,
+    validationResults,
     validate
   }
 }
