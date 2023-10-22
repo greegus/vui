@@ -7,7 +7,8 @@
       :description="field.description"
       :hint="field.hint"
       :required="resolveIfComputed(String(name), field.required)"
-      :error-message="$props.errors?.[name as any] as any"
+      :invalid="$props.validationResults?.[String(name)]?.invalid"
+      :error-message="$props.validationResults?.[String(name)]?.errorMessage"
     >
       <component
         :is="field.component"
@@ -15,6 +16,7 @@
         v-bind="resolveIfComputed(String(name), field.props)"
         :required="resolveIfComputed(String(name), field.required)"
         :disabled="resolveIfComputed(String(name), field.disabled)"
+        :invalid="$props.validationResults?.[String(name)]?.invalid"
         @update:model-value="setFieldValue(String(name), $event)"
       />
     </FormGroup>
@@ -22,17 +24,17 @@
 </template>
 
 <script lang="ts" setup>
-import type { FormFieldsStructure } from '../types'
+import type { FormFieldsStructure, ValidationFieldResults } from '../types'
 import FormGroup from './FormGroup.vue'
 
 const props = withDefaults(
   defineProps<{
     fields: FormFieldsStructure
     modelValue: any
-    errors?: Record<string, any>
+    validationResults?: ValidationFieldResults
   }>(),
   {
-    errors: () => ({})
+    validationResults: () => ({})
   }
 )
 
