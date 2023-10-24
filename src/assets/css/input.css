@@ -95,12 +95,13 @@
   &.vuiii-input--valid {
     --textColor: var(--vuiii-input-textColor--valid, var(--vuiii-color-success));
     --borderColor: var(--vuiii-input-borderColor--valid, var(--vuiii-color-success));
+    --ringColor: var(--vuiii-input-ringColor--valid, color-mix(in srgb, var(--vuiii-color-success) 10%, transparent));
   }
 
   &.vuiii-input--invalid {
     --textColor: var(--vuiii-input-textColor--invalid, var(--vuiii-color-danger));
     --borderColor: var(--vuiii-input-borderColor--invalid, var(--vuiii-color-danger));
-    --ringColor: var(--vuiii-color-danger-shadow);
+    --ringColor: var(--vuiii-input-ringColor--invalid, color-mix(in srgb, var(--vuiii-color-danger) 10%, transparent));
   }
 
   /* nested <input> inside class .vuiii-input */
