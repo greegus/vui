@@ -43,7 +43,10 @@ export type OptionGroup<T = any> = {
 
 export type Tabs = Record<string, string>
 
-export type BreadcrumbItems = Record<string, RouteLocationRaw>
+export type BreadcrumbItems = {
+  label: string
+  link: string | RouteLocationRaw
+}[]
 
 export type FormFieldValue = {
   getter: (modelValue: any) => unknown

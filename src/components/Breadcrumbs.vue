@@ -1,8 +1,8 @@
 <template>
   <div class="Breadcrumbs">
-    <div v-for="(location, label, index) in breadcrumbs" :key="index" class="Breadcrumbs__breadcrumb">
-      <router-link :to="location" class="Breadcrumbs__link">
-        {{ label }}
+    <div v-for="(item, index) in breadcrumbs" :key="index" class="Breadcrumbs__breadcrumb">
+      <router-link :to="item.link" class="Breadcrumbs__link">
+        {{ item.label }}
       </router-link>
 
       <Icon name="chevron-right" class="Breadcrumbs__arrow" />
@@ -19,7 +19,7 @@ withDefaults(
     breadcrumbs: BreadcrumbItems
   }>(),
   {
-    breadcrumbs: () => ({})
+    breadcrumbs: () => []
   }
 )
 </script>
