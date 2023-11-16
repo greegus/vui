@@ -28,11 +28,13 @@
       :aria-label="($attrs.placeholder as string) || 'input'"
       v-bind="attrsWithoutClass"
       class="vuiii-input__nested Input__input"
-      :class="{
+      :class="[
         inputClass,
-        'Input__input--withPrefixIcon': $props.prefixIcon,
-        'Input__input--withSuffixIcon': $props.suffixIcon
-      }"
+        {
+          'Input__input--withPrefixIcon': $props.prefixIcon,
+          'Input__input--withSuffixIcon': $props.suffixIcon
+        }
+      ]"
       :type="($attrs.type as string) || 'text'"
       :value="$props.modelValue"
       @input="$emit('update:model-value', retrieveTargetValue($event))"

@@ -90,15 +90,18 @@ export interface PaginatedDataSource<Item> {
 
 export type ValidationRules<Data extends {} = any> = Record<(keyof Data & string) | (string & {}), any>
 
-export type ValidationFieldResults<Data extends {} = any> = Record<
-  keyof ValidationRules<Data>,
-  {
-    errorMessage: string
-    invalid: boolean
-  }
+export type ValidatedProps<Data extends {} = any> = Partial<
+  Record<
+    keyof ValidationRules<Data>,
+    {
+      errorMessage: string
+      invalid: boolean
+      validators: any[]
+    }
+  >
 >
 
 export type ValidationResults<Data extends {} = any> = {
   isValid: boolean
-  validationResults: ValidationFieldResults<Data>
+  props: ValidatedProps<Data>
 }

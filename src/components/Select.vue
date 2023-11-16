@@ -3,6 +3,7 @@
     <select
       v-bind="attrsWithoutClass"
       class="vuiii-input__nested Select__select"
+      :class="inputClass"
       :value="$props.modelValue"
       :required="$props.required"
       @input="$emit('update:model-value', ($event.target as HTMLSelectElement).value)"
@@ -58,6 +59,7 @@ const props = withDefaults(
     placeholder?: string
     size?: InputSize
     required?: boolean
+    inputClass?: any
   }>(),
   {
     modelValue: undefined,
