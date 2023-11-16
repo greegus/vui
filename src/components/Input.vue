@@ -119,8 +119,8 @@ defineExpose({
 })
 </script>
 
-<style lang="postcss">
-.Input.Input {
+<style lang="postcss" scoped>
+.Input {
   position: relative;
   display: flex;
   align-items: stretch;
@@ -130,7 +130,7 @@ defineExpose({
   line-height: 1;
 }
 
-.Input__input.Input__input {
+.Input__input {
   width: 100%;
   flex: auto;
   align-self: stretch;

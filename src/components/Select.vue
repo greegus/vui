@@ -106,8 +106,8 @@ const options = computed(() => {
 const attrsWithoutClass = useAttrsWithoutClass()
 </script>
 
-<style lang="postcss">
-.Select.Select {
+<style lang="postcss" scoped>
+.Select {
   position: relative;
   display: flex;
   align-items: stretch;
@@ -116,7 +116,7 @@ const attrsWithoutClass = useAttrsWithoutClass()
   line-height: 1;
 }
 
-.Select__select.Select__select {
+.Select__select {
   width: 100%;
   appearance: none;
   text-overflow: ellipsis;
