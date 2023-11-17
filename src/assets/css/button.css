@@ -32,7 +32,9 @@
   outline: none;
   user-select: none;
   border-radius: var(--borderRadius);
-  box-shadow: 0 0 0 var(--ringSize) var(--ringColor), var(--shadow);
+  box-shadow:
+    0 0 0 var(--ringSize) var(--ringColor),
+    var(--shadow);
   transition: var(--transition);
   position: relative;
   background-color: var(--bgColor);
@@ -45,7 +47,7 @@
   --borderColor--focus: var(--vuiii-button-borderColor--focus, var(--vuiii-button-borderColor));
   --textColor--focus: var(--vuiii-button-textColor--focus, var(--vuiii-button-textColor));
 
-  &:focus:not(:disabled):not(.vuiii-button--disabled) {
+  &:focus-visible:not(:disabled):not(.vuiii-button--disabled) {
     --bgColor: var(--bgColor--focus);
     --borderColor: var(--borderColor--focus);
     --textColor: var(--textColor--focus);
@@ -145,10 +147,7 @@
         --vuiii-button-textColor--primary--outlined--hover,
         var(--vuiii-button-bgColor--primary--hover)
       );
-      --borderColor--hover: var(
-        --vuiii-button-bgColor--primary--outlined--hover,
-        var(--textColor--hover)
-      );
+      --borderColor--hover: var(--vuiii-button-bgColor--primary--outlined--hover, var(--textColor--hover));
     }
   }
 
@@ -177,10 +176,7 @@
         --vuiii-button-textColor--secondary--outlined--hover,
         var(--vuiii-button-bgColor--secondary--hover)
       );
-      --borderColor--hover: var(
-        --vuiii-button-bgColor--secondary--outlined--hover,
-        var(--textColor--hover)
-      );
+      --borderColor--hover: var(--vuiii-button-bgColor--secondary--outlined--hover, var(--textColor--hover));
     }
   }
 
@@ -209,10 +205,7 @@
         --vuiii-button-textColor--danger--outlined--hover,
         var(--vuiii-button-bgColor--danger--hover)
       );
-      --borderColor--hover: var(
-        --vuiii-button-bgColor--danger--outlined--hover,
-        var(--textColor--hover)
-      );
+      --borderColor--hover: var(--vuiii-button-bgColor--danger--outlined--hover, var(--textColor--hover));
     }
   }
 
@@ -241,10 +234,7 @@
         --vuiii-button-textColor--success--outlined--hover,
         var(--vuiii-button-bgColor--success--hover)
       );
-      --borderColor--hover: var(
-        --vuiii-button-bgColor--success--outlined--hover,
-        var(--textColor--hover)
-      );
+      --borderColor--hover: var(--vuiii-button-bgColor--success--outlined--hover, var(--textColor--hover));
     }
   }
 
