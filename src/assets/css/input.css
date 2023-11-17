@@ -25,7 +25,9 @@
   min-height: var(--height);
   font-size: var(--fontSize);
   transition: var(--transition);
-  box-shadow: 0 0 0 var(--ringSize) var(--ringColor), var(--shadow);
+  box-shadow:
+    0 0 0 var(--ringSize) var(--ringColor),
+    var(--shadow);
   text-align: left;
 
   &::placeholder {
@@ -123,7 +125,7 @@
     }
 
     &:focus {
-      outline: none
+      outline: none;
     }
   }
 
@@ -162,7 +164,8 @@ input[type='number'].vuiii-input {
 
 /* textarea */
 
-textarea.vuiii-input {
+textarea.vuiii-input,
+.vuiii-input textarea.vuiii-input__nested {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
   vertical-align: middle;
