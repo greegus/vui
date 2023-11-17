@@ -29,6 +29,7 @@ export type {
   ButtonVariant,
   Extractor,
   FormFieldsStructure,
+  IconSize,
   InputSize,
   ModalLayoutButton,
   Option,

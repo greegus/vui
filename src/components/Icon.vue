@@ -5,12 +5,12 @@
 <script lang="ts" setup>
 import { shallowRef, watch } from 'vue'
 
-import type { InputSize } from '../types'
+import type { IconSize } from '../types'
 import { type IconComponent, resolveIconComponent } from '../utils/iconsResolver'
 
 const props = defineProps<{
   name: string
-  size?: InputSize
+  size?: IconSize
 }>()
 
 const component = shallowRef<IconComponent>(undefined)
