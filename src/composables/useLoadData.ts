@@ -6,9 +6,9 @@ import { useSubmitAction } from '../composables/useSubmitAction'
 export const useLoadData = <D = unknown, S extends (...args: any[]) => D = (...args: any[]) => D>(
   source: S,
   options: {
-    onSuccess?: (params: { data: D | Promise<D>; params: Parameters<S>; router: Router }) => unknown
+    onSuccess?: (params: { data: Awaited<ReturnType<S>>; params: Parameters<S>; router: Router }) => unknown
     onError?: (params: { error: Error; params: Parameters<S>; router: Router }) => boolean | void
-    successMessage?: ((params: { data: D | Promise<D>; params: Parameters<S> }) => string) | string
+    successMessage?: ((params: { data: Awaited<ReturnType<S>> | Promise<D>; params: Parameters<S> }) => string) | string
     errorMessage?: ((params: { error: Error; params: Parameters<S> }) => string) | string
     initialValue?: Awaited<ReturnType<S>>
     immediate?: boolean
