@@ -133,7 +133,7 @@ const attrsWithoutClass = useAttrsWithoutClass()
 
   & .RadioGroup__radioDot {
     margin: auto;
-    width: 0.65rem;
+    width: 60%;
     aspect-ratio: 1 / 1;
     background: var(--vuiii-color-white);
     border-radius: 999px;
