@@ -144,7 +144,7 @@ const attrsWithoutClass = useAttrsWithoutClass()
     }
   }
 
-  @nest input:focus:not(:checked) + & {
+  @nest input:focus-visible:not(:checked) + & {
     --borderColor: var(
       --vuiii-input-borderColor--focus,
       var(--vuiii-field-borderColor--focus, var(--vuiii-input-borderColor, var(--vuiii-color-gray--dark)))
@@ -153,19 +153,20 @@ const attrsWithoutClass = useAttrsWithoutClass()
 }
 
 .Checkbox__switch {
+  --ratio: 1.6;
+
   align-self: flex-start;
   flex-shrink: 0;
-  padding: 2px 3px;
-  margin-top: -1px;
-  width: calc(var(--checkbox-iconSize) * 1.4);
+  padding: 1px;
+  width: calc(var(--checkbox-iconSize) * var(--ratio));
   border-radius: 999px;
   transition: all 0.15s ease-out;
   background: var(--vuiii-input-borderColor, --vuiii-field-borderColor);
   border: 1px solid var(--vuiii-input-borderColor, --vuiii-field-borderColor);
 
   & .Checkbox__switchDot {
-    width: calc(var(--checkbox-iconSize) * 0.8);
-    aspect-ratio: 1 / 1;
+    width: calc(var(--checkbox-iconSize) - 4px);
+    aspect-ratio: 1;
     background: var(--vuiii-color-white);
     border-radius: 999px;
     transition: all 0.15s ease-out;
@@ -176,11 +177,11 @@ const attrsWithoutClass = useAttrsWithoutClass()
     border-color: var(--vuiii-color-primary);
 
     & .Checkbox__switchDot {
-      transform: translateX(calc(var(--checkbox-iconSize) * 0.65));
+      transform: translateX(calc(100% * (var(--ratio) - 1) + 2px));
     }
   }
 
-  @nest input:focus:not(:checked) + & {
+  @nest input:focus-visible:not(:checked) + & {
     border-color: var(
       --vuiii-input-borderColor--focus,
       var(--vuiii-field-borderColor--focus, var(--vuiii-input-borderColor))
