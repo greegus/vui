@@ -1,5 +1,5 @@
 <template>
-  <div class="RadioGroup" :class="$attrs.class">
+  <div class="RadioGroup" :class="[$attrs.class, { 'RadioGroup--inline': inline }]">
     <label
       v-for="option in normalizedOptions"
       :key="option.value"
@@ -72,6 +72,7 @@ const props = defineProps<{
   optionDescription?: Extractor
   disabled?: boolean
   readonly?: boolean
+  inline?: boolean
 }>()
 
 const normalizedOptions = computed<Option[]>(() =>
@@ -90,6 +91,15 @@ const attrsWithoutClass = useAttrsWithoutClass()
 .RadioGroup {
   & > * + * {
     margin-top: 0.75rem;
+  }
+}
+
+.RadioGroup--inline {
+  display: flex;
+
+  & > * + * {
+    margin-top: 0rem;
+    margin-left: 1.5rem;
   }
 }
 
