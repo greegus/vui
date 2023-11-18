@@ -21,14 +21,14 @@ export { useOnClickOutside } from './composables/useOnClickOutside'
 export { useOnKeyPress } from './composables/useOnKeyPress'
 export { usePageFromRouteQuery, useRouteQuery } from './composables/useRouteQuery'
 export { useSubmitAction } from './composables/useSubmitAction'
-export { useValidator } from './composables/useValidator'
+export { useValidation } from './composables/useValidation'
 export { useCloseModal, useModal } from './modal'
 export { useSnackbar } from './snackbar'
 export type {
   BreadcrumbItems,
   ButtonVariant,
   Extractor,
-  FormFieldsStructure,
+  FormField,
   IconSize,
   InputSize,
   ModalLayoutButton,

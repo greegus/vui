@@ -55,7 +55,8 @@ export type FormFieldValue = {
   setter: (value: unknown, modelValue: any) => void
 }
 
-export type FormField = {
+export type FormField<Data extends {} = any> = {
+  name: keyof Data
   label?: string
   description?: string
   hint?: string
@@ -65,8 +66,6 @@ export type FormField = {
   props?: Record<string, unknown>
   value?: FormFieldValue
 }
-
-export type FormFieldsStructure<T extends any = any> = Record<keyof T, FormField>
 
 // Pagination
 
@@ -103,7 +102,19 @@ export type ValidatedProps<Data extends {} = any> = Partial<
   >
 >
 
+export type ValidationErrorMessages<Data extends {} = any> = Partial<
+  Record<(keyof ValidationRules<Data> & string) | (string & {}), string>
+>
+
 export type ValidationResults<Data extends {} = any> = {
   isValid: boolean
-  props: ValidatedProps<Data>
+  isInvalid: boolean
+  errorMessages: ValidationErrorMessages<Data>
+}
+
+export type ValidationItemResult = {
+  errorMessage: string
+  isValid: boolean
+  isInvalid: boolean
+  validators: any[]
 }

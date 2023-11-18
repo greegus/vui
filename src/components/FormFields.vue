@@ -1,61 +1,80 @@
 <template>
   <div class="FormFields">
     <FormGroup
-      v-for="(field, name) in $props.fields"
-      :key="name"
+      v-for="(field, index) in normalizedFields"
+      :key="field.name"
       :label="field.label"
       :description="field.description"
       :hint="field.hint"
-      :required="resolveIfComputed(String(name), field.required)"
-      :invalid="$props.validationResults?.[String(name)]?.invalid"
-      :error-message="$props.validationResults?.[String(name)]?.errorMessage"
+      :required="field.required"
+      :invalid="field.invalid"
+      :error-message="field.errorMessage"
     >
-      <component
-        :is="field.component"
-        :model-value="getFieldValue(String(name))"
-        v-bind="resolveIfComputed(String(name), field.props)"
-        :required="resolveIfComputed(String(name), field.required)"
-        :disabled="resolveIfComputed(String(name), field.disabled)"
-        :invalid="$props.validationResults?.[String(name)]?.invalid"
-        @update:model-value="setFieldValue(String(name), $event)"
-      />
+      <slot :name="`field:${String(field.name)}`" v-bind="{ ...field, index }">
+        <component
+          :is="field.component"
+          :model-value="field.value"
+          :required="field.required"
+          :disabled="field.disabled"
+          :invalid="field.invalid"
+          @update:model-value="setFieldValue(field.name, $event)"
+        />
+      </slot>
     </FormGroup>
   </div>
 </template>
 
-<script lang="ts" setup>
-import type { FormFieldsStructure, ValidationFieldResults } from '../types'
+<script lang="ts" setup generic="Data extends {}">
+import { computed } from 'vue'
+
+import type { FormField, ValidationItemResult } from '../types'
 import FormGroup from './FormGroup.vue'
 
 const props = withDefaults(
   defineProps<{
-    fields: FormFieldsStructure
+    fields: FormField<Data>[]
     modelValue: any
-    validationResults?: ValidationFieldResults
+    validationResults?: Partial<Record<keyof Data, ValidationItemResult>>
   }>(),
   {
     validationResults: () => ({})
   }
 )
 
+const normalizedFields = computed(() => {
+  return props.fields.map((field) => ({
+    ...field,
+    value: getFieldValue(field.name),
+    required: Boolean(resolveIfComputed(field.name, field.required)),
+    disabled: Boolean(resolveIfComputed(field.name, field.disabled)),
+    invalid: props.validationResults?.[field.name]?.isInvalid,
+    errorMessage: props.validationResults?.[field.name]?.errorMessage
+  }))
+})
+
+const fieldsByName = computed(() => {
+  return new Map<keyof Data, FormField<Data>>(props.fields.map((field) => [field.name, field]))
+})
+
 const emit = defineEmits<{
   'update:model-value': [value: any]
 }>()
 
-const getFieldValue = (name: string): unknown => {
-  const getter = props.fields[name].value?.getter || ((modelValue) => modelValue[name])
+const getFieldValue = (name: keyof Data): unknown => {
+  const getter = fieldsByName.value.get(name)!.value?.getter || ((modelValue) => modelValue[name])
 
   return getter(props.modelValue)
 }
 
-const setFieldValue = (name: string, value: unknown): void => {
-  const setter = props.fields[name].value?.setter || ((value, modelValue) => ({ ...modelValue, [name]: value }))
+const setFieldValue = (name: keyof Data, value: unknown): void => {
+  const setter =
+    fieldsByName.value.get(name)!.value?.setter || ((value, modelValue) => ({ ...modelValue, [name]: value }))
   const modelValue = setter(value, props.modelValue)
 
   emit('update:model-value', modelValue)
 }
 
-const resolveIfComputed = <T = any,>(name: string, property: any): T => {
+const resolveIfComputed = <T = any,>(name: keyof T, property: any): T => {
   if (typeof property === 'function') {
     return (property as any)?.(props.modelValue[name])
   }

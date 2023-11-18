@@ -5,7 +5,7 @@ import FormFields from '../components/FormFields.vue'
 import Input from '../components/Input.vue'
 import RadioGroup from '../components/RadioGroup.vue'
 import Select from '../components/Select.vue'
-import type { FormFieldsStructure } from '../types'
+import type { FormField } from '../types'
 
 type FormData = {
   firstName: string
@@ -31,12 +31,28 @@ export default {
 const Template: StoryFn<typeof FormFields> = () => ({
   components: { FormFields },
   setup: () => {
-    const fields: FormFieldsStructure<FormData> = {
-      firstName: { component: Input, label: 'First Name', props: { required: true, placeholder: 'First name' } },
-      lastName: { component: Input, label: 'Last Name', props: { required: true, placeholder: 'Last name' } },
-      email: { component: Input, label: 'Email', props: { required: true, placeholder: 'Email', type: 'email' } },
-      gender: { component: RadioGroup, label: 'Gender', props: { required: true, options: ['male', 'female'] } },
-      position: {
+    const fields: FormField<FormData>[] = [
+      {
+        name: 'firstName',
+        component: Input,
+        label: 'First Name',
+        props: { required: true, placeholder: 'First name' }
+      },
+      { name: 'lastName', component: Input, label: 'Last Name', props: { required: true, placeholder: 'Last name' } },
+      {
+        name: 'email',
+        component: Input,
+        label: 'Email',
+        props: { required: true, placeholder: 'Email', type: 'email' }
+      },
+      {
+        name: 'gender',
+        component: RadioGroup,
+        label: 'Gender',
+        props: { required: true, options: ['male', 'female'] }
+      },
+      {
+        name: 'position',
         component: Select,
         label: 'Position',
         props: {
@@ -45,8 +61,8 @@ const Template: StoryFn<typeof FormFields> = () => ({
           options: ['developer', 'manager', 'customer support']
         }
       },
-      acceptTerms: { component: Checkbox, props: { label: 'Accept Terms' } }
-    }
+      { name: 'acceptTerms', component: Checkbox, props: { label: 'Accept Terms' } }
+    ]
 
     const formData: Partial<FormData> = {}
 

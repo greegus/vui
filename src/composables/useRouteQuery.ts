@@ -2,12 +2,6 @@ import { type Ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 const valueIsNotEmpty = (value: any) => {
-  console.log(
-    'value not empty',
-    value,
-    value !== '' && value !== undefined && value !== null && (Array.isArray(value) ? value.length > 0 : true)
-  )
-
   return value !== '' && value !== undefined && value !== null && (Array.isArray(value) ? value.length > 0 : true)
 }
 
