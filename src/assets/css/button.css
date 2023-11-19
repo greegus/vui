@@ -251,6 +251,12 @@
   &.vuiii-button--block {
     width: 100%;
   }
+
+  /* Pill */
+
+  &.vuiii-button--pill {
+    --borderRadius: 9999px;
+  }
 }
 
 .vuiii-button__icon.vuiii-button__icon--prefix {

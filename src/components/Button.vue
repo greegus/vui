@@ -9,7 +9,8 @@
       'vuiii-button--loading': $props.loading,
       'vuiii-button--active': $props.active,
       'vuiii-button--outlined': $props.outlined && $props.variant,
-      'vuiii-button--block': $props.block
+      'vuiii-button--block': $props.block,
+      'vuiii-button--pill': $props.pill
     }"
     v-bind="$attrs"
     :type="$attrs.type || (component === 'button' ? 'button' : undefined)"
@@ -56,6 +57,7 @@ defineProps<{
   loading?: boolean
   active?: boolean
   outlined?: boolean
+  pill?: boolean
 }>()
 
 defineSlots<{

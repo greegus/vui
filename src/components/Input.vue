@@ -6,6 +6,7 @@
       {
         'vuiii-input--invalid': $props.invalid,
         'vuiii-input--disabled': $attrs.disabled,
+        'Input--pill': $props.pill,
         [`vuiii-input--${$props.size}`]: $props.size
       }
     ]"
@@ -76,6 +77,7 @@ const props = defineProps<{
   size?: InputSize
   invalid?: boolean
   inputClass?: any
+  pill?: boolean
 }>()
 
 defineEmits<{
@@ -130,34 +132,15 @@ defineExpose({
   line-height: 1;
 }
 
+.Input--pill {
+  --borderRadius: 9999px;
+}
+
 .Input__input {
   width: 100%;
   flex: auto;
   align-self: stretch;
 }
-
-/*
-.Input__input.Input__input--withPrefixIcon {
-  padding-left: 0rem;
-  margin-left: calc(var(--padding) / -2.5);
-}
-
-.Input__input.Input__input--withSuffixIcon {
-  padding-right: 0rem;
-  margin-right: calc(var(--padding) / -2.5);
-}
-
-.Input__prefix,
-.Input__suffix {
-  display: flex;
-  width: calc(var(--padding) * 3);
-  opacity: 0.5;
-  outline: none;
-  align-items: center;
-  justify-content: center;
-  flex: none;
-}
-*/
 
 .Input__icon {
   cursor: pointer;

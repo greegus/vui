@@ -3,7 +3,7 @@
 .vuiii-input {
   --textColor: var(--vuiii-input-textColor, inherit);
   --bgColor: var(--vuiii-input-bgColor, white);
-  --borderRadus: var(--vuiii-input-borderRadius, var(--vuiii-field-borderRadius));
+  --borderRadius: var(--vuiii-input-borderRadius, var(--vuiii-field-borderRadius));
   --borderWidth: var(--vuiii-input-borderWidth, var(--vuiii-field-borderWidth));
   --borderColor: var(--vuiii-input-borderColor, var(--vuiii-color-gray));
   --height: var(--vuiii-input-height, var(--vuiii-field-height));
@@ -19,7 +19,7 @@
   color: var(--textColor);
   background-color: var(--bgColor);
   border: var(--borderWidth) solid var(--borderColor);
-  border-radius: var(--borderRadus);
+  border-radius: var(--borderRadius);
   padding-left: var(--padding);
   padding-right: var(--padding);
   min-height: var(--height);
@@ -113,7 +113,7 @@
     line-height: 1;
     background: transparent;
     border: none;
-    border-radius: var(--borderRadus);
+    border-radius: var(--borderRadius);
     min-height: calc(var(--height) - 2px);
     outline: none;
     cursor: inherit;

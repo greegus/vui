@@ -1,6 +1,7 @@
 import { action } from '@storybook/addon-actions'
 import { Meta, StoryFn } from '@storybook/vue3'
 
+import Button from '../components/Button.vue'
 import Input from '../components/Input.vue'
 import { icons } from './icons'
 
@@ -51,7 +52,7 @@ export default {
 } as Meta<typeof Input>
 
 const DefaultTeplate: StoryFn<typeof Input> = () => ({
-  components: { Input },
+  components: { Input, Button },
   setup: () => ({
     action
   }),
@@ -87,6 +88,15 @@ const DefaultTeplate: StoryFn<typeof Input> = () => ({
                 <Input placeholder="Search" prefix-icon="search" suffix-icon="x" @suffix-icon-click="action('@suffix-icon-click')" />
                 <Input placeholder="Search" prefix-icon="search" suffix-icon="x" @suffix-icon-click="action('@suffix-icon-click')" size="large" />
             </div>
+          </div>
+        </div>
+
+        <div>
+          <h3>Pill version</h3>
+
+          <div style="display: flex; align-items: center; gap: 1rem">
+            <Input pill prefix-icon="mail" placeholder="Your email" />
+            <Button pill variant="primary">Subscribe</Button>
           </div>
         </div>
     </div>

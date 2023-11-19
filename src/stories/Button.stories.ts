@@ -36,6 +36,12 @@ export default {
     suffixIcon: {
       control: { type: 'select' },
       options: icons
+    },
+    block: {
+      control: { type: 'boolean' }
+    },
+    pill: {
+      control: { type: 'boolean' }
     }
   }
 } as Meta<typeof Button>
@@ -100,6 +106,12 @@ const DefaultTeplate: StoryFn<typeof Button> = () => ({
         <Button prefix-icon="plus" size="small" variant="primary" label="Add to Cart" />
         <Button prefix-icon="plus" size="normal" variant="primary" label="Add to Cart" />
         <Button prefix-icon="plus" size="large" variant="primary" label="Add to Cart" />
+      </div>
+
+      <div style="display: flex; gap: .5rem;">
+        <Button pill size="small" variant="primary" label="Pill button" />
+        <Button pill size="normal" variant="primary" label="Pill button" />
+        <Button pill size="large" variant="primary" label="Pill button" />
       </div>
     </div>
   `
