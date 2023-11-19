@@ -26,7 +26,7 @@
   "jsdelivr": "./dist/vuiii.umd.js",
   "types": "./dist/index.d.ts",
   "peerDependencies": {
-    "vue": "^3.3.6",
+    "vue": "^3.3.8",
     "vue-router": "^4.2.0"
   },
   "devDependencies": {
