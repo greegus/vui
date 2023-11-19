@@ -14,6 +14,7 @@
         <component
           :is="field.component"
           :model-value="field.value"
+          v-bind="resolveIfComputed(field.name, field.props)"
           :required="field.required"
           :disabled="field.disabled"
           :invalid="field.invalid"
