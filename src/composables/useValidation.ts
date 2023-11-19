@@ -1,38 +1,49 @@
-import { type Ref, ref } from 'vue'
+import { type ComputedRef, computed, ref } from 'vue'
 
-import type { ValidationErrorMessages, ValidationResults } from '../types'
+import type { ValidationResults } from '../types'
 
-export function useValidation<Data extends {} = any>(
-  validation: (data: Partial<Data>) => ValidationResults<Data> | Promise<ValidationResults<Data>>
+export function useValidation<Data extends {} = any, Rules extends Data = any>(
+  validation: (data: Partial<Data>) => ValidationResults<Rules> | Promise<ValidationResults<Rules>>
 ): {
-  isValid: Ref<boolean>
-  isValidating: Ref<boolean>
-  errorMessages: Ref<ValidationErrorMessages<Data>>
+  isValid: ComputedRef<boolean>
+  isInvalid: ComputedRef<boolean>
+  isValidating: ComputedRef<boolean>
+  errorMessages: ComputedRef<ValidationResults<Rules>['errorMessages']>
+  validatedFields: ComputedRef<ValidationResults<Rules>['validatedFields']>
   validate: (data: Partial<Data>) => Promise<boolean>
 } {
-  const isValid = ref()
+  const results = ref<ValidationResults>()
 
   const isValidating = ref(false)
 
-  const errorMessages = ref({}) as Ref<ValidationErrorMessages<Data>>
-
   const validate = async (data: Partial<Data>): Promise<boolean> => {
     isValidating.value = true
-    errorMessages.value = {}
 
-    const results = await validation(data)
+    results.value = await validation(data)
 
-    isValid.value = results.isValid
-    errorMessages.value = results.errorMessages
     isValidating.value = false
 
     return isValid.value
   }
 
+  const isValid = computed<boolean>(() => results.value?.isValid ?? false)
+
+  const isInvalid = computed<boolean>(() => !isValid.value)
+
+  const errorMessages = computed<ValidationResults<Rules>['errorMessages']>(() =>
+    results.value && !isValidating.value ? results.value.errorMessages : {}
+  )
+
+  const validatedFields = computed<ValidationResults<Rules>['validatedFields']>(
+    () => results.value?.validatedFields ?? {}
+  )
+
   return {
+    isValidating: computed(() => isValidating.value),
     isValid,
-    isValidating,
+    isInvalid,
     errorMessages,
+    validatedFields,
     validate
   }
 }

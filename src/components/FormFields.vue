@@ -27,19 +27,14 @@
 <script lang="ts" setup generic="Data extends {}">
 import { computed } from 'vue'
 
-import type { FormField, ValidationItemResult } from '../types'
+import type { FormField, KeyOfOrString, ValidationFieldResults } from '../types'
 import FormGroup from './FormGroup.vue'
 
-const props = withDefaults(
-  defineProps<{
-    fields: FormField<Data>[]
-    modelValue: any
-    validationResults?: Partial<Record<keyof Data, ValidationItemResult>>
-  }>(),
-  {
-    validationResults: () => ({})
-  }
-)
+const props = defineProps<{
+  fields: FormField<Data>[]
+  modelValue: any
+  validationResults?: Partial<Record<keyof Data, ValidationFieldResults>>
+}>()
 
 const normalizedFields = computed(() => {
   return props.fields.map((field) => ({
@@ -53,20 +48,20 @@ const normalizedFields = computed(() => {
 })
 
 const fieldsByName = computed(() => {
-  return new Map<keyof Data, FormField<Data>>(props.fields.map((field) => [field.name, field]))
+  return new Map<FormField<Data>['name'], FormField<Data>>(props.fields.map((field) => [field.name, field]))
 })
 
 const emit = defineEmits<{
   'update:model-value': [value: any]
 }>()
 
-const getFieldValue = (name: keyof Data): unknown => {
+const getFieldValue = (name: FormField<Data>['name']): unknown => {
   const getter = fieldsByName.value.get(name)!.value?.getter || ((modelValue) => modelValue[name])
 
   return getter(props.modelValue)
 }
 
-const setFieldValue = (name: keyof Data, value: unknown): void => {
+const setFieldValue = (name: FormField<Data>['name'], value: unknown): void => {
   const setter =
     fieldsByName.value.get(name)!.value?.setter || ((value, modelValue) => ({ ...modelValue, [name]: value }))
   const modelValue = setter(value, props.modelValue)
@@ -74,7 +69,7 @@ const setFieldValue = (name: keyof Data, value: unknown): void => {
   emit('update:model-value', modelValue)
 }
 
-const resolveIfComputed = <T = any,>(name: keyof T, property: any): T => {
+const resolveIfComputed = <T = any,>(name: KeyOfOrString<T>, property: any): T => {
   if (typeof property === 'function') {
     return (property as any)?.(props.modelValue[name])
   }

@@ -37,8 +37,7 @@ export type {
   PaginatedDataSource,
   Pagination,
   TableColumn,
-  ValidationResults,
-  ValidationRules
+  ValidationResults
 } from './types'
 export { registerCustomIconResolver } from './utils/iconsResolver'
 export { normalizeOptions } from './utils/normalizeOptions'

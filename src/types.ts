@@ -1,6 +1,8 @@
 import type { AsyncComponentLoader, Component } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
 
+export type KeyOfOrString<T> = (keyof T & string) | (string & {})
+
 export type InputSize = 'small' | 'normal' | 'large'
 
 export type IconSize = InputSize
@@ -17,7 +19,7 @@ export type ModalLayoutButton = {
 }
 
 export type TableColumn<T extends {} = any> = {
-  name: (keyof T & string) | (string & {})
+  name: KeyOfOrString<T>
   label?: string
   align?: 'left' | 'right' | 'center'
   width?: string
@@ -56,7 +58,7 @@ export type FormFieldValue = {
 }
 
 export type FormField<Data extends {} = any> = {
-  name: keyof Data
+  name: KeyOfOrString<Data>
   label?: string
   description?: string
   hint?: string
@@ -88,33 +90,16 @@ export interface PaginatedDataSource<Item> {
 }
 
 // Validation
-
-export type ValidationRules<Data extends {} = any> = Record<(keyof Data & string) | (string & {}), any>
-
-export type ValidatedProps<Data extends {} = any> = Partial<
-  Record<
-    keyof ValidationRules<Data>,
-    {
-      errorMessage: string
-      invalid: boolean
-      validators: any[]
-    }
-  >
->
-
-export type ValidationErrorMessages<Data extends {} = any> = Partial<
-  Record<(keyof ValidationRules<Data> & string) | (string & {}), string>
->
-
-export type ValidationResults<Data extends {} = any> = {
+export type ValidationResults<Rules extends {} = any> = {
   isValid: boolean
   isInvalid: boolean
-  errorMessages: ValidationErrorMessages<Data>
+  errorMessages: Partial<Record<keyof Rules, string>>
+  validatedFields: Record<keyof Rules, ValidationFieldResults>
 }
 
-export type ValidationItemResult = {
+export type ValidationFieldResults = {
+  isValid?: boolean
+  isInvalid?: boolean
   errorMessage: string
-  isValid: boolean
-  isInvalid: boolean
-  validators: any[]
+  validators?: any[]
 }
