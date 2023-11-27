@@ -16,6 +16,7 @@
   --ringColor: var(--vuiii-button-ringColor);
   --gap: 0.5rem;
   --ringSize: 0;
+  --iconColor: var(--vuiii-button-iconColor, inherit);
 
   appearance: none;
   display: inline-flex;
@@ -257,6 +258,10 @@
   &.vuiii-button--pill {
     --borderRadius: 9999px;
   }
+}
+
+.vuiii-button__icon {
+  color: var(--iconColor);
 }
 
 .vuiii-button__icon.vuiii-button__icon--prefix {
