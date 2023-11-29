@@ -67,7 +67,9 @@ defineSlots<{
 }
 
 .FormGroup__label {
-  font-size: var(--vuiii-fontSize--small);
+  font-size: var(--vuiii-label-fontSize);
+  font-weight: var(--vuiii-label-fontWeight);
+  text-transform: var(--vuiii-label-textTransform);
 }
 
 .FormGroup__required {

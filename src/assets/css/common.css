@@ -7,9 +7,9 @@
   --vuiii-typeface-display: var(--vuiii-typeface-body);
 
   --vuiii-fontSize: 1rem;
+  --vuiii-fontSize--tiny: 0.75rem;
   --vuiii-fontSize--small: 0.875rem;
   --vuiii-fontSize--large: 1.2rem;
-
 
   /* ------ */
   /* Colors */
@@ -42,7 +42,6 @@
 
   --vuiii-shadow: 0 1px 3px 0 rgb(0 0 0/0.1), 0 1px 2px -1px rgb(0 0 0/0.1);
 
-
   /* ------ */
   /* Fields */
   /* ------ */
@@ -74,6 +73,13 @@
   --vuiii-field-borderRadius--large: 4px;
 
   --vuiii-field-transition: all 0.05s ease-in-out;
+
+  /* ------ */
+  /* Labels */
+  /* ------ */
+  --vuiii-label-fontSize: var(--vuiii-fontSize);
+  --vuiii-label-fontWeight: 600;
+  --vuiii-label-textTransform: none;
 
   /* ––––––– */
   /* Buttons */
@@ -141,7 +147,6 @@
 
   --vuiii-button-bgColor--success--hover: var(--vuiii-color-success--darker);
 
-
   /* ------ */
   /* Inputs */
   /* ------ */
@@ -152,7 +157,6 @@
   --vuiii-input-bgColor: var(--vuiii-color-white);
   --vuiii-input-placeholderColor: var(--vuiii-color-gray--dark);
 
-
   /* ----- */
   /* Icons */
   /* ----- */
@@ -161,6 +165,25 @@
   --vuiii-icon-size--small: 1.1rem;
   --vuiii-icon-size--large: 1.75rem;
 
+  /* ----- */
+  /* Table */
+  /* ----- */
+  --vuiii-table-fontSize: var(--vuiii-fontSize);
+  --vuiii-table-separatorColor: var(--vuiii-color-gray--light);
+  --vuiii-table-separatorWidth: 1px;
+
+  --vuiii-table-headBgColor: transparent;
+  --vuiii-table-headTextColor: var(--vuiii-color-gray--dark);
+  --vuiii-table-headSeparatorColor: var(--vuiii-table-separatorColor);
+  --vuiii-table-headSeparatorWidth: var(--vuiii-table-separatorWidth);
+  --vuiii-table-headFontSize: var(--vuiii-label-fontSize);
+  --vuiii-table-headFontWeight: var(--vuiii-label-fontWeight);
+  --vuiii-table-headTextTransform: var(--vuiii-label-textTransform);
+
+  --vuiii-table-rowBgColor: transparent;
+  --vuiii-table-rowBgColor--hover: color-mix(in srgb, var(--vuiii-color-primary) 10%, transparent);
+  --vuiii-table-rowSeparatorColor: var(--vuiii-table-separatorColor);
+  --vuiii-table-rowSeparatorWidth: var(--vuiii-table-separatorWidth);
 
   /* ------- */
   /* Z-index */
