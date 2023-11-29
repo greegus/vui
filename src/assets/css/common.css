@@ -152,10 +152,25 @@
   /* ------ */
 
   --vuiii-input-textColor: inherit;
-  --vuiii-input-borderColor: var(--vuiii-color-gray);
-  --vuiii-input-borderColor--focus: var(--vuiii-color-gray--dark);
+  --vuiii-input-borderColor: var(--vuiii-field-borderColor);
+  --vuiii-input-borderColor--focus: color-mix(in srgb, var(--vuiii-input-borderColor) 80%, black);
   --vuiii-input-bgColor: var(--vuiii-color-white);
-  --vuiii-input-placeholderColor: var(--vuiii-color-gray--dark);
+  --vuiii-input-placeholderColor: color-mix(in srgb, currentColor 50%, transparent);
+  --vuiii-input-ringColor: var(--vuiii-field-ringColor);
+  --vuiii-input-borderRadius: var(--vuiii-field-borderRadius);
+  --vuiii-input-borderWidth: var(--vuiii-field-borderWidth);
+  --vuiii-input-height: var(--vuiii-field-height);
+  --vuiii-input-padding: var(--vuiii-field-padding);
+  --vuiii-input-fontSize: var(--vuiii-field-fontSize);
+  --vuiii-input-transition: var(--vuiii-field-transition);
+  --vuiii-input-iconColor: color-mix(in srgb, currentColor 50%, transparent);
+
+  /* ------ */
+  /* Checkboxes and radios */
+  /* ------ */
+  --vuiii-checkbox-bgColor--checked: var(--vuiii-color-primary);
+  --vuiii-checkbox-borderColor--checked: var(--vuiii-checkbox-bgColor--checked);
+  --vuiii-checkbox-iconColor--checked: var(--vuiii-color-white);
 
   /* ----- */
   /* Icons */

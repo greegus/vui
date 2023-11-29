@@ -112,7 +112,9 @@ const attrsWithoutClass = useAttrsWithoutClass()
 .Checkbox__checkbox {
   --vuiii-input-transition: all 0.1s;
   --vuiii-input-padding: 0;
+  --vuiii-input-textColor: var(--vuiii-checkbox-iconColor--checked);
 
+  border-radius: min(0.25rem, var(--vuiii-input-borderRadius, 0));
   position: relative;
   align-self: flex-start;
   flex-shrink: 0;
@@ -134,9 +136,8 @@ const attrsWithoutClass = useAttrsWithoutClass()
   }
 
   input:checked + & {
-    --vuiii-input-bgColor: var(--vuiii-color-primary);
-    --vuiii-input-borderColor: var(--vuiii-color-primary);
-    --vuiii-input-textColor: var(--vuiii-color-white);
+    --vuiii-input-bgColor: var(--vuiii-checkbox-bgColor--checked);
+    --vuiii-input-borderColor: var(--vuiii-checkbox-borderColor--checked);
 
     & .Checkbox__checkboxIcon {
       scale: 100%;
@@ -145,10 +146,7 @@ const attrsWithoutClass = useAttrsWithoutClass()
   }
 
   input:focus-visible:not(:checked) + & {
-    --borderColor: var(
-      --vuiii-input-borderColor--focus,
-      var(--vuiii-field-borderColor--focus, var(--vuiii-input-borderColor, var(--vuiii-color-gray--dark)))
-    );
+    --borderColor: var(--vuiii-input-borderColor--focus);
   }
 }
 
@@ -173,8 +171,8 @@ const attrsWithoutClass = useAttrsWithoutClass()
   }
 
   input:checked + & {
-    background: var(--vuiii-color-primary);
-    border-color: var(--vuiii-color-primary);
+    background: var(--vuiii-checkbox-bgColor--checked);
+    border-color: var(--vuiii-checkbox-borderColor--checked);
 
     & .Checkbox__switchDot {
       transform: translateX(calc(100% * (var(--ratio) - 1) + 2px));
@@ -182,10 +180,7 @@ const attrsWithoutClass = useAttrsWithoutClass()
   }
 
   input:focus-visible:not(:checked) + & {
-    border-color: var(
-      --vuiii-input-borderColor--focus,
-      var(--vuiii-field-borderColor--focus, var(--vuiii-input-borderColor))
-    );
+    border-color: var(--vuiii-input-borderColor--focus);
   }
 }
 

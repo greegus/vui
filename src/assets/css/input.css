@@ -1,31 +1,29 @@
 @import './common.css';
 
 .vuiii-input {
-  --textColor: var(--vuiii-input-textColor, inherit);
-  --bgColor: var(--vuiii-input-bgColor, white);
-  --borderRadius: var(--vuiii-input-borderRadius, var(--vuiii-field-borderRadius));
-  --borderWidth: var(--vuiii-input-borderWidth, var(--vuiii-field-borderWidth));
-  --borderColor: var(--vuiii-input-borderColor, var(--vuiii-color-gray));
-  --height: var(--vuiii-input-height, var(--vuiii-field-height));
-  --padding: var(--vuiii-input-padding, var(--vuiii-field-padding));
-  --fontSize: var(--vuiii-input-fontSize, var(--vuiii-field-fontSize));
-  --transition: var(--vuiii-input-transition, var(--vuiii-field-transition));
+  --textColor: var(--vuiii-input-textColor);
+  --bgColor: var(--vuiii-input-bgColor);
+  --borderRadius: var(--vuiii-input-borderRadius);
+  --borderColor: var(--vuiii-input-borderColor);
+  --height: var(--vuiii-input-height);
+  --padding: var(--vuiii-input-padding);
+  --fontSize: var(--vuiii-input-fontSize);
   --shadow: var(--vuiii-input-shadow, 0 0);
-  --ringColor: var(--vuiii-input-ringColor, var(--vuiii-field-ringColor));
+  --ringColor: var(--vuiii-input-ringColor);
   --ringSize: 0;
-  --iconColor: var(--vuiii-input-iconColor, color-mix(in srgb, currentColor 50%, transparent));
+  --iconColor: var(--vuiii-input-iconColor);
   --iconSize: var(--vuiii-icon-size);
 
   width: 100%;
   color: var(--textColor);
   background-color: var(--bgColor);
-  border: var(--borderWidth) solid var(--borderColor);
+  border: var(--vuiii-input-borderWidth) solid var(--borderColor);
   border-radius: var(--borderRadius);
   padding-left: var(--padding);
   padding-right: var(--padding);
   min-height: var(--height);
   font-size: var(--fontSize);
-  transition: var(--transition);
+  transition: var(--vuiii-input-transition);
   box-shadow:
     0 0 0 var(--ringSize) var(--ringColor),
     var(--shadow);

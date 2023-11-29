@@ -135,7 +135,7 @@ const attrsWithoutClass = useAttrsWithoutClass()
     margin: auto;
     width: 60%;
     aspect-ratio: 1 / 1;
-    background: var(--vuiii-color-white);
+    background: var(--vuiii-checkbox-iconColor--checked);
     border-radius: 999px;
     scale: 50%;
     opacity: 0;
@@ -145,9 +145,8 @@ const attrsWithoutClass = useAttrsWithoutClass()
   }
 
   input:checked + & {
-    --vuiii-input-bgColor: var(--vuiii-color-primary);
-    --vuiii-input-borderColor: var(--vuiii-color-primary);
-    --vuiii-input-textColor: var(--vuiii-color-white);
+    --vuiii-input-bgColor: var(--vuiii-checkbox-bgColor--checked);
+    --vuiii-input-borderColor: var(--vuiii-checkbox-borderColor--checked);
 
     & .RadioGroup__radioDot {
       scale: 100%;
@@ -156,10 +155,7 @@ const attrsWithoutClass = useAttrsWithoutClass()
   }
 
   input:focus:not(:checked) + & {
-    --borderColor: var(
-      --vuiii-input-borderColor--focus,
-      var(--vuiii-field-borderColor--focus, var(--vuiii-input-borderColor, var(--vuiii-color-gray--dark)))
-    );
+    --borderColor: var(--vuiii-input-borderColor--focus);
   }
 }
 
