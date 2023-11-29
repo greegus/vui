@@ -1,8 +1,10 @@
 <template>
   <div class="FormGroup" :class="{ 'FormGroup--invalid': $props.error }">
-    <div v-if="$props.label" class="FormGroup__header">
+    <div v-if="$props.label || $slots.label" class="FormGroup__header">
       <label class="FormGroup__label" :for="$props.for">
-        {{ $props.label }}
+        <slot name="label">
+          {{ $props.label }}
+        </slot>
       </label>
 
       <div v-if="$props.required" class="FormGroup__required">*</div>
@@ -40,6 +42,7 @@ defineProps<{
 
 defineSlots<{
   default: void
+  label: void
   description: void
   hint: void
 }>()
