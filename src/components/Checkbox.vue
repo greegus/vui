@@ -133,7 +133,7 @@ const attrsWithoutClass = useAttrsWithoutClass()
       opacity 0.15s ease-out;
   }
 
-  @nest input:checked + & {
+  input:checked + & {
     --vuiii-input-bgColor: var(--vuiii-color-primary);
     --vuiii-input-borderColor: var(--vuiii-color-primary);
     --vuiii-input-textColor: var(--vuiii-color-white);
@@ -144,7 +144,7 @@ const attrsWithoutClass = useAttrsWithoutClass()
     }
   }
 
-  @nest input:focus-visible:not(:checked) + & {
+  input:focus-visible:not(:checked) + & {
     --borderColor: var(
       --vuiii-input-borderColor--focus,
       var(--vuiii-field-borderColor--focus, var(--vuiii-input-borderColor, var(--vuiii-color-gray--dark)))
@@ -172,7 +172,7 @@ const attrsWithoutClass = useAttrsWithoutClass()
     transition: all 0.15s ease-out;
   }
 
-  @nest input:checked + & {
+  input:checked + & {
     background: var(--vuiii-color-primary);
     border-color: var(--vuiii-color-primary);
 
@@ -181,7 +181,7 @@ const attrsWithoutClass = useAttrsWithoutClass()
     }
   }
 
-  @nest input:focus-visible:not(:checked) + & {
+  input:focus-visible:not(:checked) + & {
     border-color: var(
       --vuiii-input-borderColor--focus,
       var(--vuiii-field-borderColor--focus, var(--vuiii-input-borderColor))

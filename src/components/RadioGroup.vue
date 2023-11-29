@@ -144,7 +144,7 @@ const attrsWithoutClass = useAttrsWithoutClass()
       opacity 0.15s ease-out;
   }
 
-  @nest input:checked + & {
+  input:checked + & {
     --vuiii-input-bgColor: var(--vuiii-color-primary);
     --vuiii-input-borderColor: var(--vuiii-color-primary);
     --vuiii-input-textColor: var(--vuiii-color-white);
@@ -155,7 +155,7 @@ const attrsWithoutClass = useAttrsWithoutClass()
     }
   }
 
-  @nest input:focus:not(:checked) + & {
+  input:focus:not(:checked) + & {
     --borderColor: var(
       --vuiii-input-borderColor--focus,
       var(--vuiii-field-borderColor--focus, var(--vuiii-input-borderColor, var(--vuiii-color-gray--dark)))
