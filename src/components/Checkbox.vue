@@ -4,7 +4,7 @@
     :class="[
       $attrs.class,
       {
-        [`Checkbox--size:${$props.size}`]: $props.size,
+        [`Checkbox--size-${$props.size}`]: $props.size,
         'Checkbox--disabled': $props.disabled
       }
     ]"
@@ -79,21 +79,21 @@ const attrsWithoutClass = useAttrsWithoutClass()
 
 <style lang="postcss" scoped>
 .Checkbox {
+  --checkbox-iconSize: var(--vuiii-icon-size);
+  --checkbox-labelFontSize: var(--vuiii-fontSize);
+
   display: inline-flex;
   align-items: center;
   vertical-align: top;
   cursor: pointer;
   gap: 0.65rem;
 
-  --checkbox-iconSize: var(--vuiii-icon-size);
-  --checkbox-labelFontSize: inherit;
-
-  &.Checkbox--size\:small {
+  &.Checkbox--size-small {
     --checkbox-iconSize: var(--vuiii-icon-size--small);
     --checkbox-labelFontSize: var(--vuiii-fontSize--small);
   }
 
-  &.Checkbox--size\:large {
+  &.Checkbox--size-large {
     --checkbox-iconSize: var(--vuiii-icon-size--large);
     --checkbox-labelFontSize: var(--vuiii-fontSize--large);
   }

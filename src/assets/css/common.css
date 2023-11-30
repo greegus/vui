@@ -7,9 +7,9 @@
   --vuiii-typeface-display: var(--vuiii-typeface-body);
 
   --vuiii-fontSize: 1rem;
-  --vuiii-fontSize--tiny: 0.75rem;
-  --vuiii-fontSize--small: 0.875rem;
-  --vuiii-fontSize--large: 1.2rem;
+  --vuiii-fontSize--tiny: calc(var(--vuiii-fontSize) * 0.75);
+  --vuiii-fontSize--small: calc(var(--vuiii-fontSize) * 0.875);
+  --vuiii-fontSize--large: calc(var(--vuiii-fontSize) * 1.25);
 
   /* ------ */
   /* Colors */
@@ -46,31 +46,22 @@
   /* Fields */
   /* ------ */
 
-  --vuiii-field-height: 2.5rem;
-  --vuiii-field-padding: 1.35rem;
-  --vuiii-field-borderRadius: 3px;
+  --vuiii-field-height: 2.5em;
+  --vuiii-field-padding: 1.35em;
+  --vuiii-field-borderRadius: 0.25em;
   --vuiii-field-borderWidth: 1px;
   --vuiii-field-bgColor: var(--vuiii-color-white);
   --vuiii-field-borderColor: var(--vuiii-color-gray);
-  --vuiii-field-fontSize: var(--vuiii-fontSize);
   --vuiii-field-ringColor: color-mix(in srgb, var(--vuiii-color-gray--dark) 10%, transparent);
-  --vuiii-field-ringSize: 3px;
-  --vuiii-field-ringSize--small: 2px;
-  --vuiii-field-ringSize--large: 4px;
+  --vuiii-field-ringSize: 0.25em;
+
+  --vuiii-field-fontSize: var(--vuiii-fontSize);
+  --vuiii-field-fontSize--small: var(--vuiii-fontSize--small);
+  --vuiii-field-fontSize--large: var(--vuiii-fontSize--large);
 
   --vuiii-field-borderColor--active: var(--vuiii-color-gray--dark);
   --vuiii-field-borderColor--focus: var(--vuiii-color-gray--dark);
   --vuiii-field-borderColor--invalid: var(--vuiii-color-danger);
-
-  --vuiii-field-height--small: 2rem;
-  --vuiii-field-padding--small: 1.1875rem;
-  --vuiii-field-fontSize--small: 0.8125rem;
-  --vuiii-field-borderRadius--small: 2px;
-
-  --vuiii-field-height--large: 3.25rem;
-  --vuiii-field-padding--large: 1.5625rem;
-  --vuiii-field-fontSize--large: 1.125rem;
-  --vuiii-field-borderRadius--large: 4px;
 
   --vuiii-field-transition: all 0.05s ease-in-out;
 
