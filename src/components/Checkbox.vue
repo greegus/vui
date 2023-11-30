@@ -175,7 +175,7 @@ const attrsWithoutClass = useAttrsWithoutClass()
     border-color: var(--vuiii-checkbox-borderColor--checked);
 
     & .Checkbox__switchDot {
-      transform: translateX(calc(100% * (var(--ratio) - 1) + 2px));
+      transform: translateX(calc(var(--checkbox-iconSize) * var(--ratio) - var(--checkbox-iconSize) + 4px));
     }
   }
 
