@@ -22,7 +22,7 @@
         <div class="RadioGroup__radioDot"></div>
       </div>
 
-      <div>
+      <div v-if="option.label || option.description || $slots.default">
         <slot v-bind="{ option }">
           <div class="RadioGroup__label">
             {{ option.label }}
@@ -130,6 +130,7 @@ const attrsWithoutClass = useAttrsWithoutClass()
   border-radius: 999px;
   min-height: 0;
   display: flex;
+  flex: 0 0 auto;
 
   & .RadioGroup__radioDot {
     margin: auto;
