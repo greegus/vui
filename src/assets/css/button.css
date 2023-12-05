@@ -79,18 +79,9 @@
 
   &.vuiii-button--small {
     --gap: 0.5rem;
-    --height: var(
-      --vuiii-button-height--small,
-      var(--vuiii-button-height, var(--vuiii-field-height--small, var(--vuiii-field-height)))
-    );
-    --padding: var(
-      --vuiii-button-padding--small,
-      var(--vuiii-button-padding, var(--vuiii-field-padding--small, var(--vuiii-field-padding)))
-    );
-    --fontSize: var(
-      --vuiii-button-fontSize--small,
-      var(--vuiii-button-fontSize, var(--vuiii-field-fontSize--small, var(--vuiii-field-fontSize)))
-    );
+    --fontSize: var(--vuiii-button-fontSize--small, var(--vuiii-field-fontSize--small));
+    --height: var(--vuiii-button-height--small, var(--vuiii-field-height--small, var(--vuiii-field-height)));
+    --padding: var(--vuiii-button-padding--small, var(--vuiii-field-padding));
 
     &:focus:not(:disabled) {
       --ringSize: var(--vuiii-button-ringSize--small, var(--vuiii-button-ringSize));
@@ -99,18 +90,9 @@
 
   &.vuiii-button--large {
     --gap: 0.75rem;
-    --height: var(
-      --vuiii-button-height--large,
-      var(--vuiii-button-height, var(--vuiii-field-height--large, var(--vuiii-field-height)))
-    );
-    --padding: var(
-      --vuiii-button-padding--large,
-      var(--vuiii-button-padding, var(--vuiii-field-padding--large, var(--vuiii-field-padding)))
-    );
-    --fontSize: var(
-      --vuiii-button-fontSize--large,
-      var(--vuiii-button-fontSize, var(--vuiii-field-fontSize--large, var(--vuiii-field-fontSize)))
-    );
+    --fontSize: var(--vuiii-button-fontSize--large, var(--vuiii-field-fontSize--large));
+    --height: var(--vuiii-button-height--large, var(--vuiii-field-height--large, var(--vuiii-field-height)));
+    --padding: var(--vuiii-button-padding--large, var(--vuiii-field-padding));
   }
 
   /* Variants */
