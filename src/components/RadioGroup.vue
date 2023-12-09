@@ -56,7 +56,7 @@ defineEmits<{
 }>()
 
 defineSlots<{
-  default: { option: Option }
+  default: (props: { option: Option }) => any
 }>()
 
 const attrs = useAttrs()

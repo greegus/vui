@@ -33,6 +33,21 @@
   }
 }
 
+.vuiii-table__cell {
+  &--left {
+    text-align: left;
+  }
+
+  &--right {
+    text-align: right;
+  }
+
+  &--options {
+    text-align: right;
+    width: 1%;
+  }
+}
+
 .vuiii-table__emptyMessage {
   text-align: center;
   padding: 1rem;

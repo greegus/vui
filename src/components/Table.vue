@@ -10,6 +10,8 @@
         >
           {{ column.label }}
         </th>
+
+        <th v-if="$slots.tools"></th>
       </tr>
     </thead>
 
@@ -25,8 +27,8 @@
         <td
           v-for="cell in row.cells"
           :key="cell.column.name"
-          :class="cell.cellClass"
-          :align="cell.column.align || 'left'"
+          class="w-table__cell"
+          :class="[`w-table__cell--${cell.column.align || 'left'}`, cell.cellClass]"
         >
           <slot
             :name="`column:${cell.column.name}`"
@@ -40,6 +42,10 @@
               {{ cell.value }}
             </template>
           </slot>
+        </td>
+
+        <td v-if="$slots.tools" class="w-table__cell w-table__cell--options">
+          <slot name="rowOptions" v-bind="{ item: row.item, index }" />
         </td>
       </tr>
 
@@ -56,7 +62,7 @@
   </table>
 </template>
 
-<script lang="ts" generic="T extends {} = any" setup>
+<script lang="ts" generic="T extends object" setup>
 import '../assets/css/table.css'
 import '../assets/css/typography.css'
 
@@ -93,14 +99,15 @@ defineEmits<{
 
 defineSlots<
   {
+    rowOptions: (props: { item: T; index: number }) => any
+    emptyMessage: void
+  } & {
     [K in `column:${(typeof props.columns)[number]['name']}`]: (props: {
       column: TableColumn<T>
       item: T
       value: any
       index: number
     }) => any
-  } & {
-    emptyMessage: void
   }
 >()
 

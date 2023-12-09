@@ -18,7 +18,7 @@ export type ModalLayoutButton = {
   loading?: boolean
 }
 
-export type TableColumn<T extends {} = any> = {
+export type TableColumn<T extends object = any> = {
   name: KeyOfOrString<T>
   label?: string
   align?: 'left' | 'right' | 'center'
