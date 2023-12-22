@@ -27,8 +27,8 @@
         <td
           v-for="cell in row.cells"
           :key="cell.column.name"
-          class="w-table__cell"
-          :class="[`w-table__cell--${cell.column.align || 'left'}`, cell.cellClass]"
+          :style="{ textAlign: cell.column.align || 'left' }"
+          :class="cell.cellClass"
         >
           <slot
             :name="`column:${cell.column.name}`"
@@ -44,7 +44,7 @@
           </slot>
         </td>
 
-        <td v-if="$slots.tools" class="w-table__cell w-table__cell--options">
+        <td v-if="$slots.rowOptions" class="vuiii-table__rowOptions">
           <slot name="rowOptions" v-bind="{ item: row.item, index }" />
         </td>
       </tr>
