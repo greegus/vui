@@ -3,7 +3,7 @@ import { Meta, StoryFn } from '@storybook/vue3'
 
 import Button from '../components/Button.vue'
 import Input from '../components/Input.vue'
-import { icons } from './icons'
+import { icons } from './assets/icons'
 
 export default {
   title: 'Example/Input',

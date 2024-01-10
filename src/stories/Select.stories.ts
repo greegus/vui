@@ -1,7 +1,7 @@
 import { Meta, StoryFn } from '@storybook/vue3'
 
 import Select from '../components/Select.vue'
-import { groupedOptions, options, plainOptions } from './options'
+import { groupedOptions, options, plainOptions } from './assets/options'
 
 export default {
   title: 'Example/Select',
