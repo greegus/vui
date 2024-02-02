@@ -27,7 +27,7 @@
       <Icon name="check" class="Checkbox__checkboxIcon" :size="$props.size" />
     </div>
 
-    <div>
+    <div v-if="$slots.default || $props.label || $props.description">
       <div v-if="$slots.default || $props.label" class="Checkbox__label">
         <span v-if="$props.required" class="Checkbox__required">*</span>
 
