@@ -7,6 +7,7 @@
           :key="key"
           :style="{ textAlign: column.align || 'left' }"
           :width="column.width"
+          class="vuiii-table__label"
         >
           {{ column.label }}
         </th>
@@ -35,11 +36,11 @@
             v-bind="{ item: row.item, value: cell.value, index, column: cell.column }"
           >
             <router-link v-if="cell.column.href" class="vuiii-link" :to="cell.column.href(cell.item)">
-              {{ cell.value }}
+              {{ cell.formattedValue }}
             </router-link>
 
             <template v-else>
-              {{ cell.value }}
+              {{ cell.formattedValue }}
             </template>
           </slot>
         </td>
@@ -74,6 +75,7 @@ type TableCell = {
   column: TableColumn<T>
   item: T
   value: any
+  formattedValue: string
   cellClass?: string
 }
 
@@ -125,12 +127,13 @@ const hasHeader = computed(() => {
 const tableRows = computed<TableRow[]>(() => {
   const generateCell = (column: TableColumn<T>, item: any): TableCell => {
     const value = typeof column.value === 'function' ? column.value(item) : item[column.name]
-    const formattedValue = typeof column.format === 'function' ? column.format(value) : value
+    const formattedValue = typeof column.formatter === 'function' ? column.formatter(value) : value
     const cellClass = typeof column.cellClass === 'function' ? column.cellClass({ item, value }) : column.cellClass
 
     return {
       column,
-      value: formattedValue,
+      value,
+      formattedValue,
       cellClass,
       item
     }

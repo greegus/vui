@@ -24,7 +24,7 @@ export type TableColumn<T extends object = any> = {
   align?: 'left' | 'right' | 'center'
   width?: string
   value?: (item: T) => unknown
-  format?: (value: any) => unknown
+  formatter?: (value: any) => unknown
   href?: (item: T) => RouteLocationRaw
   cellClass?: string | ((cell: { item: T; value: any }) => string)
 }
