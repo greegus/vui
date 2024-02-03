@@ -1,5 +1,5 @@
 <template>
-  <table class="vuiii-table" :class="{ 'vuiii-table--hover': $props.hightlightOnHover && items?.length }">
+  <table class="vuiii-table" :class="{ 'vuiii-table--hover': $props.highlightOnHover && items?.length }">
     <thead v-if="hasHeader">
       <tr>
         <th
@@ -21,7 +21,7 @@
         v-for="(row, index) in tableRows"
         :key="index"
         :class="row.rowClass"
-        @click="$emit('click-row', { index, item: row.item })"
+        @click="handleRowClick($event, { index, item: row.item })"
         @mouseenter="$emit('mouseenter-row', { index, item: row.item })"
         @mouseleave="$emit('mouseleave-row', { index, item: row.item })"
       >
@@ -45,16 +45,16 @@
           </slot>
         </td>
 
-        <td v-if="$slots.rowOptions" class="vuiii-table__rowOptions">
+        <td v-if="$slots.rowOptions" class="vuiii-table__rowOptions" @click="$event.preventDefault()">
           <slot name="rowOptions" v-bind="{ item: row.item, index }" />
         </td>
       </tr>
 
-      <tr v-if="!items?.length && ($props.emptyMessage || $slots.emptyMessage)">
+      <tr v-if="!items?.length && ($props.noDataMessage || $slots.noDataMessage)">
         <td :colspan="Object.keys(columns).length">
-          <slot name="emptyMessage">
-            <div class="vuiii-table__emptyMessage">
-              {{ $props.emptyMessage }}
+          <slot name="noDataMessage">
+            <div class="vuiii-table__noDataMessage">
+              {{ $props.noDataMessage }}
             </div>
           </slot>
         </td>
@@ -89,11 +89,11 @@ const props = defineProps<{
   items: T[]
   columns: TableColumn<T>[]
   rowClass?: string | ((row: { item: T; index: number }) => any)
-  hightlightOnHover?: boolean
-  emptyMessage?: string
+  highlightOnHover?: boolean
+  noDataMessage?: string
 }>()
 
-defineEmits<{
+const emit = defineEmits<{
   'click-row': [payload: { item: T; index: number }]
   'mouseenter-row': [payload: { item: T; index: number }]
   'mouseleave-row': [payload: { item: T; index: number }]
@@ -102,7 +102,7 @@ defineEmits<{
 defineSlots<
   {
     rowOptions: (props: { item: T; index: number }) => any
-    emptyMessage: void
+    noDataMessage: void
   } & {
     [K in `column:${(typeof props.columns)[number]['name']}`]: (props: {
       column: TableColumn<T>
@@ -155,4 +155,10 @@ const tableRows = computed<TableRow[]>(() => {
     }) || []
   )
 })
+
+function handleRowClick(event: MouseEvent, { index, item }: { index: number; item: T }) {
+  if (!event.defaultPrevented) {
+    emit('click-row', { index, item })
+  }
+}
 </script>
