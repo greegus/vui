@@ -1,7 +1,7 @@
 import { Meta, StoryFn } from '@storybook/vue3'
 
 import CheckboxGroup from '../components/CheckboxGroup.vue'
-import { options } from './options'
+import { options } from './assets/options'
 
 export default {
   title: 'Example/CheckboxGroup',

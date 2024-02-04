@@ -1,5 +1,5 @@
 <template>
-  <table class="vuiii-table" :class="{ 'vuiii-table--hover': $props.hightlightOnHover && items?.length }">
+  <table class="vuiii-table" :class="{ 'vuiii-table--hover': $props.highlightOnHover && items?.length }">
     <thead v-if="hasHeader">
       <tr>
         <th
@@ -8,7 +8,24 @@
           :style="{ textAlign: column.align || 'left' }"
           :width="column.width"
         >
-          {{ column.label }}
+          <div
+            v-if="column.sortable"
+            class="vuiii-table__label vuiii-table__label--sortable"
+            :class="{ 'vuiii-table__label vuiii-table__label--activeSort': sortColumnName === column.name }"
+            @click.prevent="setSortBy(column.name)"
+            role="button"
+            tabindex="0"
+          >
+            {{ column.label }}
+
+            <div class="vuiii-table__sortIcon">
+              <Icon name="caret-sort" size="small" />
+            </div>
+          </div>
+
+          <div class="vuiii-table__label" v-else>
+            {{ column.label }}
+          </div>
         </th>
 
         <th v-if="$slots.tools"></th>
@@ -20,7 +37,7 @@
         v-for="(row, index) in tableRows"
         :key="index"
         :class="row.rowClass"
-        @click="$emit('click-row', { index, item: row.item })"
+        @click="handleRowClick($event, { index, item: row.item })"
         @mouseenter="$emit('mouseenter-row', { index, item: row.item })"
         @mouseleave="$emit('mouseleave-row', { index, item: row.item })"
       >
@@ -35,25 +52,25 @@
             v-bind="{ item: row.item, value: cell.value, index, column: cell.column }"
           >
             <router-link v-if="cell.column.href" class="vuiii-link" :to="cell.column.href(cell.item)">
-              {{ cell.value }}
+              {{ cell.formattedValue }}
             </router-link>
 
             <template v-else>
-              {{ cell.value }}
+              {{ cell.formattedValue }}
             </template>
           </slot>
         </td>
 
-        <td v-if="$slots.rowOptions" class="vuiii-table__rowOptions">
+        <td v-if="$slots.rowOptions" class="vuiii-table__rowOptions" @click="$event.preventDefault()">
           <slot name="rowOptions" v-bind="{ item: row.item, index }" />
         </td>
       </tr>
 
-      <tr v-if="!items?.length && ($props.emptyMessage || $slots.emptyMessage)">
+      <tr v-if="!items?.length && ($props.noDataMessage || $slots.noDataMessage)">
         <td :colspan="Object.keys(columns).length">
-          <slot name="emptyMessage">
-            <div class="vuiii-table__emptyMessage">
-              {{ $props.emptyMessage }}
+          <slot name="noDataMessage">
+            <div class="vuiii-table__noDataMessage">
+              {{ $props.noDataMessage }}
             </div>
           </slot>
         </td>
@@ -68,12 +85,14 @@ import '../assets/css/typography.css'
 
 import { computed } from 'vue'
 
+import { Icon } from '..'
 import type { TableColumn } from '../types'
 
 type TableCell = {
   column: TableColumn<T>
   item: T
   value: any
+  formattedValue: string
   cellClass?: string
 }
 
@@ -83,24 +102,35 @@ type TableRow = {
   cells: TableCell[]
 }
 
+const sortColumnName = defineModel<TableColumn<T>['name'] | undefined>('sortColumnName', {
+  default: undefined,
+  local: true
+})
+
+const sortDirection = defineModel<'asc' | 'desc'>('sortDirection', {
+  default: 'asc',
+  local: true
+})
+
 const props = defineProps<{
   items: T[]
   columns: TableColumn<T>[]
   rowClass?: string | ((row: { item: T; index: number }) => any)
-  hightlightOnHover?: boolean
-  emptyMessage?: string
+  highlightOnHover?: boolean
+  noDataMessage?: string
 }>()
 
-defineEmits<{
+const emit = defineEmits<{
   'click-row': [payload: { item: T; index: number }]
   'mouseenter-row': [payload: { item: T; index: number }]
   'mouseleave-row': [payload: { item: T; index: number }]
+  'sort': [payload: { sortColumnName: string; sortDirection: 'asc' | 'desc' }]
 }>()
 
 defineSlots<
   {
     rowOptions: (props: { item: T; index: number }) => any
-    emptyMessage: void
+    noDataMessage: void
   } & {
     [K in `column:${(typeof props.columns)[number]['name']}`]: (props: {
       column: TableColumn<T>
@@ -122,21 +152,30 @@ const hasHeader = computed(() => {
   return normalizedColumns.value.some((column) => column.label)
 })
 
+function defaultSorted(a: any, b: any) {
+  if (typeof a === 'string' && typeof b === 'string') {
+    return a.localeCompare(b)
+  }
+
+  return a - b
+}
+
 const tableRows = computed<TableRow[]>(() => {
   const generateCell = (column: TableColumn<T>, item: any): TableCell => {
     const value = typeof column.value === 'function' ? column.value(item) : item[column.name]
-    const formattedValue = typeof column.format === 'function' ? column.format(value) : value
+    const formattedValue = typeof column.formatter === 'function' ? column.formatter(value) : value
     const cellClass = typeof column.cellClass === 'function' ? column.cellClass({ item, value }) : column.cellClass
 
     return {
       column,
-      value: formattedValue,
+      value,
+      formattedValue,
       cellClass,
       item
     }
   }
 
-  return (
+  const rows =
     props.items?.map((item, index) => {
       const rowClass = typeof props.rowClass === 'function' ? props.rowClass({ item, index }) : props.rowClass
 
@@ -150,6 +189,34 @@ const tableRows = computed<TableRow[]>(() => {
         cells
       } as TableRow
     }) || []
-  )
+
+  if (sortColumnName.value) {
+    const index = normalizedColumns.value.findIndex((column) => column.name === sortColumnName.value)
+    const sorter = normalizedColumns.value[index]?.sorter ?? defaultSorted
+
+    rows.sort(
+      (a: TableRow, b: TableRow) =>
+        sorter(a.cells[index].value, b.cells[index].value) * (sortDirection.value === 'asc' ? 1 : -1)
+    )
+  }
+
+  return rows
 })
+
+function handleRowClick(event: MouseEvent, { index, item }: { index: number; item: T }) {
+  if (!event.defaultPrevented) {
+    emit('click-row', { index, item })
+  }
+}
+
+function setSortBy(columnName: string) {
+  if (sortColumnName.value === columnName) {
+    sortDirection.value = sortDirection.value === 'asc' ? 'desc' : 'asc'
+  } else {
+    sortColumnName.value = columnName
+    sortDirection.value = 'asc'
+  }
+
+  emit('sort', { sortColumnName: sortColumnName.value, sortDirection: sortDirection.value })
+}
 </script>

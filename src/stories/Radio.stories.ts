@@ -1,7 +1,7 @@
 import { Meta, StoryFn } from '@storybook/vue3'
 
 import RadioGroup from '../components/RadioGroup.vue'
-import { options } from './options'
+import { options } from './assets/options'
 
 export default {
   title: 'Example/RadioGroup',

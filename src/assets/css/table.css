@@ -1,6 +1,7 @@
 .vuiii-table {
   min-width: 100%;
   font-size: var(--vuiii-table-fontSize);
+  border-collapse: collapse;
 
   & thead {
     & tr {
@@ -33,12 +34,35 @@
   }
 }
 
+.vuiii-table__label {
+  line-height: 0;
+}
+
+.vuiii-table__label--sortable {
+  cursor: pointer;
+}
+
+.vuiii-table__sortIcon {
+  display: inline-block;
+  text-align: top;
+  opacity: 0.3;
+}
+
+.vuiii-table__label--activeSort .vuiii-table__sortIcon {
+  opacity: 1;
+}
+
 .vuiii-table__rowOptions {
   text-align: right;
+  white-space: nowrap;
+  padding-top: 0;
+  padding-bottom: 0;
   width: 1%;
 }
 
-.vuiii-table__emptyMessage {
+.vuiii-table__noDataMessage {
   text-align: center;
+  opacity: 0.5;
+  font-style: italic;
   padding: 1rem;
 }
