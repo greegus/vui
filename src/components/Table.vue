@@ -7,9 +7,25 @@
           :key="key"
           :style="{ textAlign: column.align || 'left' }"
           :width="column.width"
-          class="vuiii-table__label"
         >
-          {{ column.label }}
+          <div
+            v-if="column.sortable"
+            class="vuiii-table__label vuiii-table__label--sortable"
+            :class="{ 'vuiii-table__label vuiii-table__label--activeSort': sortColumnName === column.name }"
+            @click.prevent="setSortBy(column.name)"
+            role="button"
+            tabindex="0"
+          >
+            {{ column.label }}
+
+            <div class="vuiii-table__sortIcon">
+              <Icon name="caret-sort" size="small" />
+            </div>
+          </div>
+
+          <div class="vuiii-table__label" v-else>
+            {{ column.label }}
+          </div>
         </th>
 
         <th v-if="$slots.tools"></th>
@@ -69,6 +85,7 @@ import '../assets/css/typography.css'
 
 import { computed } from 'vue'
 
+import { Icon } from '..'
 import type { TableColumn } from '../types'
 
 type TableCell = {
@@ -85,6 +102,16 @@ type TableRow = {
   cells: TableCell[]
 }
 
+const sortColumnName = defineModel<TableColumn<T>['name'] | undefined>('sortColumnName', {
+  default: undefined,
+  local: true
+})
+
+const sortDirection = defineModel<'asc' | 'desc'>('sortDirection', {
+  default: 'asc',
+  local: true
+})
+
 const props = defineProps<{
   items: T[]
   columns: TableColumn<T>[]
@@ -97,6 +124,7 @@ const emit = defineEmits<{
   'click-row': [payload: { item: T; index: number }]
   'mouseenter-row': [payload: { item: T; index: number }]
   'mouseleave-row': [payload: { item: T; index: number }]
+  'sort': [payload: { sortColumnName: string; sortDirection: 'asc' | 'desc' }]
 }>()
 
 defineSlots<
@@ -124,6 +152,14 @@ const hasHeader = computed(() => {
   return normalizedColumns.value.some((column) => column.label)
 })
 
+function defaultSorted(a: any, b: any) {
+  if (typeof a === 'string' && typeof b === 'string') {
+    return a.localeCompare(b)
+  }
+
+  return a - b
+}
+
 const tableRows = computed<TableRow[]>(() => {
   const generateCell = (column: TableColumn<T>, item: any): TableCell => {
     const value = typeof column.value === 'function' ? column.value(item) : item[column.name]
@@ -139,7 +175,7 @@ const tableRows = computed<TableRow[]>(() => {
     }
   }
 
-  return (
+  const rows =
     props.items?.map((item, index) => {
       const rowClass = typeof props.rowClass === 'function' ? props.rowClass({ item, index }) : props.rowClass
 
@@ -153,12 +189,34 @@ const tableRows = computed<TableRow[]>(() => {
         cells
       } as TableRow
     }) || []
-  )
+
+  if (sortColumnName.value) {
+    const index = normalizedColumns.value.findIndex((column) => column.name === sortColumnName.value)
+    const sorter = normalizedColumns.value[index]?.sorter ?? defaultSorted
+
+    rows.sort(
+      (a: TableRow, b: TableRow) =>
+        sorter(a.cells[index].value, b.cells[index].value) * (sortDirection.value === 'asc' ? 1 : -1)
+    )
+  }
+
+  return rows
 })
 
 function handleRowClick(event: MouseEvent, { index, item }: { index: number; item: T }) {
   if (!event.defaultPrevented) {
     emit('click-row', { index, item })
   }
+}
+
+function setSortBy(columnName: string) {
+  if (sortColumnName.value === columnName) {
+    sortDirection.value = sortDirection.value === 'asc' ? 'desc' : 'asc'
+  } else {
+    sortColumnName.value = columnName
+    sortDirection.value = 'asc'
+  }
+
+  emit('sort', { sortColumnName: sortColumnName.value, sortDirection: sortDirection.value })
 }
 </script>

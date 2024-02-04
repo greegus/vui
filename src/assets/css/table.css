@@ -34,6 +34,24 @@
   }
 }
 
+.vuiii-table__label {
+  line-height: 0;
+}
+
+.vuiii-table__label--sortable {
+  cursor: pointer;
+}
+
+.vuiii-table__sortIcon {
+  display: inline-block;
+  text-align: top;
+  opacity: 0.3;
+}
+
+.vuiii-table__label--activeSort .vuiii-table__sortIcon {
+  opacity: 1;
+}
+
 .vuiii-table__rowOptions {
   text-align: right;
   white-space: nowrap;
