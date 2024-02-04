@@ -26,7 +26,7 @@
   "jsdelivr": "./dist/vuiii.umd.js",
   "types": "./dist/index.d.ts",
   "peerDependencies": {
-    "vue": "^3.3.8",
+    "vue": "^3.4.0",
     "vue-router": "^4.2.0"
   },
   "devDependencies": {
@@ -60,8 +60,8 @@
     "storybook": "^7.4.0",
     "typescript": "^4.9.5",
     "vite": "^4.4.9",
-    "vue-loader": "^17.2.2",
-    "vue-router": "^4.2.4",
-    "vue-tsc": "^1.8.22"
+    "vue-loader": "^17.4.2",
+    "vue-router": "^4.2.5",
+    "vue-tsc": "^1.8.27"
   }
 }
