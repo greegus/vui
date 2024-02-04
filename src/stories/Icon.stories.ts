@@ -1,4 +1,4 @@
-import { Meta, StoryFn } from '@storybook/vue3'
+import { type Meta, type StoryFn } from '@storybook/vue3'
 
 import Icon from '../components/Icon.vue'
 import { icons } from './assets/icons'

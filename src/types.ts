@@ -1,7 +1,8 @@
 import type { AsyncComponentLoader, Component } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
 
-export type KeyOfOrString<T> = (keyof T & string) | (string & {})
+// export type KeyOfOrString<T> = (keyof T & string) | (string & {})
+export type KeyOfOrString<T> = (keyof T & string) | string
 
 export type InputSize = 'small' | 'normal' | 'large'
 
@@ -18,7 +19,7 @@ export type ModalLayoutButton = {
   loading?: boolean
 }
 
-export type TableColumn<T extends object = any> = {
+export type TableColumn<T = any> = {
   name: KeyOfOrString<T>
   label?: string
   align?: 'left' | 'right' | 'center'

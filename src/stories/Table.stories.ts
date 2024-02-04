@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from '@storybook/vue3'
+import { type Meta, type StoryObj } from '@storybook/vue3'
 import { ref } from 'vue'
 
 import Button from '../components/Button.vue'
@@ -68,9 +68,9 @@ sortableTableColumns[0] = { ...sortableTableColumns[0], sortable: true, sorter: 
 sortableTableColumns[1] = { ...sortableTableColumns[1], sortable: true }
 sortableTableColumns[4] = { ...sortableTableColumns[4], sortable: true }
 
-const meta: Meta<typeof Table> = {
+const meta: Meta<typeof Table<TableItem>> = {
   title: 'Components/Table',
-  component: Table as any,
+  component: Table,
   argTypes: {
     noDataMessage: {
       control: 'text',
@@ -87,7 +87,7 @@ const meta: Meta<typeof Table> = {
 
 export default meta
 
-type Story = StoryObj<typeof Table<TableItem>>
+type Story = StoryObj<(typeof Table<TableItem>)>
 
 export const Default: Story = {}
 

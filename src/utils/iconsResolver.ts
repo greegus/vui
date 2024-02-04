@@ -1,4 +1,4 @@
-import { Component, defineAsyncComponent } from 'vue'
+import { type Component, defineAsyncComponent } from 'vue'
 
 export type IconComponent = string | Component | undefined
 export type IconResolver = (name: string) => IconComponent

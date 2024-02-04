@@ -1,6 +1,6 @@
 /* eslint vue/one-component-per-file: 0 */
 
-import { Meta, StoryFn } from '@storybook/vue3'
+import { type Meta, type StoryFn } from '@storybook/vue3'
 
 import Button from '../components/Button.vue'
 import SnackbarStack from '../components/snackbar/SnackbarStack.vue'

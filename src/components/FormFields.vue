@@ -34,7 +34,7 @@ import FormGroup from './FormGroup.vue'
 const props = defineProps<{
   fields: FormField<Data>[]
   modelValue: any
-  validationResults?: Partial<Record<keyof Data, ValidationFieldResults>>
+  validationResults?: Partial<Record<KeyOfOrString<Data>, ValidationFieldResults>>
 }>()
 
 const normalizedFields = computed(() => {

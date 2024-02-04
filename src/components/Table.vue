@@ -102,14 +102,12 @@ type TableRow = {
   cells: TableCell[]
 }
 
-const sortColumnName = defineModel<TableColumn<T>['name'] | undefined>('sortColumnName', {
-  default: undefined,
-  local: true
+const sortColumnName = defineModel<TableColumn<T>['name'] | null>('sortColumnName', {
+  default: null,
 })
 
 const sortDirection = defineModel<'asc' | 'desc'>('sortDirection', {
   default: 'asc',
-  local: true
 })
 
 const props = defineProps<{
@@ -129,15 +127,15 @@ const emit = defineEmits<{
 
 defineSlots<
   {
-    rowOptions: (props: { item: T; index: number }) => any
-    noDataMessage: void
-  } & {
     [K in `column:${(typeof props.columns)[number]['name']}`]: (props: {
       column: TableColumn<T>
       item: T
       value: any
       index: number
     }) => any
+  } & {
+    rowOptions: (props: { item: T; index: number }) => any,
+    noDataMessage: () => any
   }
 >()
 

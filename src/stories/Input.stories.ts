@@ -1,5 +1,5 @@
 import { action } from '@storybook/addon-actions'
-import { Meta, StoryFn } from '@storybook/vue3'
+import { type Meta, type StoryFn } from '@storybook/vue3'
 
 import Button from '../components/Button.vue'
 import Input from '../components/Input.vue'

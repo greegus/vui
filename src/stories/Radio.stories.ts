@@ -1,4 +1,4 @@
-import { Meta, StoryFn } from '@storybook/vue3'
+import { type Meta, type StoryFn } from '@storybook/vue3'
 
 import RadioGroup from '../components/RadioGroup.vue'
 import { options } from './assets/options'
