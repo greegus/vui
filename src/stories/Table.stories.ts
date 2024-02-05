@@ -70,7 +70,7 @@ sortableTableColumns[4] = { ...sortableTableColumns[4], sortable: true }
 
 const meta: Meta<typeof Table<TableItem>> = {
   title: 'Components/Table',
-  component: Table,
+  component: Table as any,
   argTypes: {
     noDataMessage: {
       control: 'text',
