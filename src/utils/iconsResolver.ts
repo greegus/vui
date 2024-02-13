@@ -31,7 +31,7 @@ export function resolveIconComponent(name: string): IconComponent {
   }
 
   if (!component) {
-    console.error('Unable to resovle icon component for name: ' + name)
+    console.error('Unable to resolve icon component for name: ' + name)
   }
 
   return component
