@@ -18,6 +18,9 @@
   --vuiii-color-white: white;
   --vuiii-color-black: black;
 
+  --vuiii-color-light: var(--vuiii-color-white);
+  --vuiii-color-dark: var(--vuiii-color-black);
+
   --vuiii-color-gray: rgb(212 212 216); /* neutral.300 */
   --vuiii-color-gray--light: rgb(229 229 229); /* neutral.200 */
   --vuiii-color-gray--lighter: rgb(245 245 245); /* neutral.100 */
