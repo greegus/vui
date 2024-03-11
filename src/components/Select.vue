@@ -1,5 +1,14 @@
 <template>
-  <div class="Select vuiii-input" :class="[$attrs.class, { [`vuiii-input--${$props.size}`]: $props.size }]">
+  <div
+    class="Select vuiii-input"
+    :class="[
+      $attrs.class,
+      {
+        [`vuiii-input--${$props.size}`]: $props.size,
+        'Select--pill': $props.pill
+      }
+    ]"
+  >
     <select
       v-bind="attrsWithoutClass"
       class="vuiii-input__nested Select__select"
@@ -60,6 +69,7 @@ const props = withDefaults(
     size?: InputSize
     required?: boolean
     inputClass?: any
+    pill?: boolean
   }>(),
   {
     modelValue: undefined,
@@ -114,6 +124,10 @@ const attrsWithoutClass = useAttrsWithoutClass()
   padding-left: 0;
   padding-right: 0;
   line-height: 1;
+}
+
+.Select--pill {
+  --borderRadius: 9999px;
 }
 
 .Select__select {
