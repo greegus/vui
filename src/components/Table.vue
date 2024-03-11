@@ -51,7 +51,12 @@
             :name="`column:${cell.column.name}`"
             v-bind="{ item: row.item, value: cell.value, index, column: cell.column }"
           >
-            <router-link v-if="cell.column.href" class="vuiii-link" :to="cell.column.href(cell.item)">
+            <router-link
+              v-if="cell.column.href"
+              class="vuiii-link"
+              :to="cell.column.href(cell.item)"
+              :target="cell.column.target"
+            >
               {{ cell.formattedValue }}
             </router-link>
 
@@ -103,11 +108,11 @@ type TableRow = {
 }
 
 const sortColumnName = defineModel<TableColumn<T>['name'] | null>('sortColumnName', {
-  default: null,
+  default: null
 })
 
 const sortDirection = defineModel<'asc' | 'desc'>('sortDirection', {
-  default: 'asc',
+  default: 'asc'
 })
 
 const props = defineProps<{
@@ -134,7 +139,7 @@ defineSlots<
       index: number
     }) => any
   } & {
-    rowOptions: (props: { item: T; index: number }) => any,
+    rowOptions: (props: { item: T; index: number }) => any
     noDataMessage: () => any
   }
 >()

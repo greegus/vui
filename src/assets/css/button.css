@@ -4,7 +4,6 @@
   --bgColor: var(--vuiii-button-bgColor);
   --borderColor: var(--vuiii-button-borderColor);
   --textColor: var(--vuiii-button-textColor);
-
   --height: var(--vuiii-button-height, var(--vuiii-field-height));
   --padding: var(--vuiii-button-padding, var(--vuiii-field-padding));
   --borderRadius: var(--vuiii-button-borderRadius, var(--vuiii-field-borderRadius));
