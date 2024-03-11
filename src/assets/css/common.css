@@ -190,7 +190,7 @@
   --vuiii-table-headTextTransform: var(--vuiii-label-textTransform);
 
   --vuiii-table-rowBgColor: transparent;
-  --vuiii-table-rowBgColor--hover: color-mix(in srgb, var(--vuiii-color-primary) 5%, transparent);
+  --vuiii-table-rowBgColor--hover: color-mix(in srgb, var(--vuiii-color-dark) 4%, transparent);
   --vuiii-table-rowSeparatorColor: var(--vuiii-table-separatorColor);
   --vuiii-table-rowSeparatorWidth: var(--vuiii-table-separatorWidth);
 
