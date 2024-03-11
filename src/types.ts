@@ -1,7 +1,9 @@
 import type { AsyncComponentLoader, Component } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
 
-export type KeyOfOrString<T> = (keyof T & string) | (string & {})
+export type ObjectKeyOrAnyString<T> = (keyof T & string) | (string & {})
+
+export type ConstOrAnyString<T extends string> = T | (string & {})
 
 export type InputSize = 'small' | 'normal' | 'large'
 
@@ -19,13 +21,14 @@ export type ModalLayoutButton = {
 }
 
 export type TableColumn<T = any> = {
-  name: KeyOfOrString<T>
+  name: ObjectKeyOrAnyString<T>
   label?: string
   align?: 'left' | 'right' | 'center'
   width?: string
   value?: (item: T) => unknown
   formatter?: (value: any) => unknown
   href?: (item: T) => RouteLocationRaw
+  target?: ConstOrAnyString<'_blank'>
   cellClass?: string | ((cell: { item: T; value: any }) => string)
   sortable?: boolean
   sorter?: (a: any, b: any) => number
@@ -60,7 +63,7 @@ export type FormFieldValue = {
 }
 
 export type FormField<Data extends {} = any> = {
-  name: KeyOfOrString<Data>
+  name: ObjectKeyOrAnyString<Data>
   label?: string
   description?: string
   hint?: string

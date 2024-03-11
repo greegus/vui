@@ -28,13 +28,13 @@
 <script lang="ts" setup generic="Data extends {}">
 import { computed } from 'vue'
 
-import type { FormField, KeyOfOrString, ValidationFieldResults } from '../types'
+import type { FormField, ObjectKeyOrAnyString, ValidationFieldResults } from '../types'
 import FormGroup from './FormGroup.vue'
 
 const props = defineProps<{
   fields: FormField<Data>[]
   modelValue: any
-  validationResults?: Partial<Record<KeyOfOrString<Data>, ValidationFieldResults>>
+  validationResults?: Partial<Record<ObjectKeyOrAnyString<Data>, ValidationFieldResults>>
 }>()
 
 const normalizedFields = computed(() => {
@@ -70,7 +70,7 @@ const setFieldValue = (name: FormField<Data>['name'], value: unknown): void => {
   emit('update:model-value', modelValue)
 }
 
-const resolveIfComputed = <T = any,>(name: KeyOfOrString<T>, property: any): T => {
+const resolveIfComputed = <T = any,>(name: ObjectKeyOrAnyString<T>, property: any): T => {
   if (typeof property === 'function') {
     return (property as any)?.(props.modelValue[name])
   }
