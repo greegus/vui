@@ -48,9 +48,10 @@
   --textColor--focus: var(--vuiii-button-textColor--focus, var(--vuiii-button-textColor));
 
   &:focus-visible:not(:disabled):not(.vuiii-button--disabled) {
-    --bgColor: var(--bgColor--focus);
-    --borderColor: var(--borderColor--focus);
-    --textColor: var(--textColor--focus);
+    color: var(--textColor--focus);
+    border-color: var(--borderColor--focus);
+    background-color: var(--bgColor--focus);
+
     --ringSize: var(--vuiii-button-ringSize, var(--vuiii-field-ringSize));
   }
 
@@ -61,9 +62,9 @@
   --textColor--hover: var(--vuiii-button-textColor--hover, var(--vuiii-button-textColor));
 
   &:hover:not(:disabled):not(.vuiii-button--disabled) {
-    --bgColor: var(--bgColor--hover);
-    --borderColor: var(--borderColor--hover);
-    --textColor: var(--textColor--hover);
+    color: var(--textColor--hover);
+    border-color: var(--borderColor--hover);
+    background-color: var(--bgColor--hover);
   }
 
   /* Disabled state */
@@ -102,20 +103,23 @@
     --borderColor: var(--vuiii-button-borderColor--primary);
     --ringColor: var(--vuiii-button-ringColor--primary);
 
-    --bgColor--focus: var(--vuiii-button-bgColor--primary--focus, var(--vuiii-button-bgColor--primary));
-    --textColor--focus: var(--vuiii-button-textColor--primary--focus, var(--vuiii-button-textColor--primary));
-    --borderColor--focus: var(--vuiii-button-borderColor--primary--focus, var(--bgColor--focus));
+    --bgColor--focus: var(--vuiii-button-bgColor--primary--focus, var(--bgColor));
+    --textColor--focus: var(--vuiii-button-textColor--primary--focus, var(--textColor));
+    --borderColor--focus: var(--vuiii-button-borderColor--primary--focus, var(--borderColor));
 
-    --bgColor--hover: var(--vuiii-button-bgColor--primary--hover, var(--vuiii-button-bgColor--primary));
-    --textColor--hover: var(--vuiii-button-textColor--primary--hover, var(--vuiii-button-textColor--primary));
-    --borderColor--hover: var(--vuiii-button-borderColor--primary--hover, var(--bgColor--hover));
+    --bgColor--hover: var(--vuiii-button-bgColor--primary--hover, var(--bgColor));
+    --textColor--hover: var(--vuiii-button-textColor--primary--hover, var(--textColor));
+    --borderColor--hover: var(--vuiii-button-borderColor--primary--hover, var(--borderColor));
 
     &.vuiii-button--outlined {
       --textColor: var(--vuiii-button-textColor--primary--outlined, var(--vuiii-button-bgColor--primary));
-      --borderColor: var(--vuiii-button-borderColor--primary--outlined, var(--textColor));
+      --borderColor: var(--vuiii-button-borderColor--primary--outlined, var(--vuiii-button-bgColor--primary));
 
-      --textColor--focus: var(--vuiii-button-textColor--primary--outlined, var(--vuiii-button-bgColor--primary));
-      --borderColor--focus: var(--vuiii-button-borderColor--primary--outlined, var(--textColor--focus));
+      --textColor--focus: var(--vuiii-button-textColor--primary--outlined--focus, var(--vuiii-button-bgColor--primary));
+      --borderColor--focus: var(
+        --vuiii-button-borderColor--primary--outlined--focus,
+        var(--vuiii-button-bgColor--primary)
+      );
 
       --textColor--hover: var(
         --vuiii-button-textColor--primary--outlined--hover,
@@ -131,20 +135,23 @@
     --textColor: var(--vuiii-button-textColor--secondary);
     --ringColor: var(--vuiii-button-ringColor--secondary);
 
-    --bgColor--focus: var(--vuiii-button-bgColor--secondary--focus, var(--vuiii-button-bgColor--secondary));
-    --textColor--focus: var(--vuiii-button-textColor--secondary--focus, var(--vuiii-button-textColor--secondary));
-    --borderColor--focus: var(--vuiii-button-borderColor--secondary--focus, var(--bgColor--focus));
+    --bgColor--focus: var(--vuiii-button-bgColor--secondary--focus, var(--bgColor));
+    --textColor--focus: var(--vuiii-button-textColor--secondary--focus, var(--textColor));
+    --borderColor--focus: var(--vuiii-button-borderColor--secondary--focus, var(--borderColor));
 
-    --bgColor--hover: var(--vuiii-button-bgColor--secondary--hover, var(--vuiii-button-bgColor--secondary));
-    --textColor--hover: var(--vuiii-button-textColor--secondary--hover, var(--vuiii-button-textColor--secondary));
-    --borderColor--hover: var(--vuiii-button-borderColor--secondary--hover, var(--bgColor--hover));
+    --bgColor--hover: var(--vuiii-button-bgColor--secondary--hover, var(--bgColor));
+    --textColor--hover: var(--vuiii-button-textColor--secondary--hover, var(--textColor));
+    --borderColor--hover: var(--vuiii-button-borderColor--secondary--hover, var(--borderColor));
 
     &.vuiii-button--outlined {
       --textColor: var(--vuiii-button-textColor--secondary--outlined, var(--vuiii-button-bgColor--secondary));
-      --borderColor: var(--vuiii-button-borderColor--secondary--outlined, var(--textColor));
+      --borderColor: var(--vuiii-button-borderColor--secondary--outlined, var(--vuiii-button-bgColor--secondary));
 
       --textColor--focus: var(--vuiii-button-textColor--secondary--outlined, var(--vuiii-button-bgColor--secondary));
-      --borderColor--focus: var(--vuiii-button-borderColor--secondary--outlined, var(--textColor--focus));
+      --borderColor--focus: var(
+        --vuiii-button-borderColor--secondary--outlined,
+        var(--vuiii-button-bgColor--secondary)
+      );
 
       --textColor--hover: var(
         --vuiii-button-textColor--secondary--outlined--hover,
@@ -160,20 +167,20 @@
     --borderColor: var(--vuiii-button-borderColor--danger);
     --ringColor: var(--vuiii-button-ringColor--danger);
 
-    --bgColor--focus: var(--vuiii-button-bgColor--danger--focus, var(--vuiii-button-bgColor--danger));
-    --textColor--focus: var(--vuiii-button-textColor--danger--focus, var(--vuiii-button-textColor--danger));
-    --borderColor--focus: var(--vuiii-button-borderColor--danger--focus, var(--bgColor--focus));
+    --bgColor--focus: var(--vuiii-button-bgColor--danger--focus, var(--bgColor));
+    --textColor--focus: var(--vuiii-button-textColor--danger--focus, var(--textColor));
+    --borderColor--focus: var(--vuiii-button-borderColor--danger--focus, var(--borderColor));
 
-    --bgColor--hover: var(--vuiii-button-bgColor--danger--hover, var(--vuiii-button-bgColor--danger));
-    --textColor--hover: var(--vuiii-button-textColor--danger--hover, var(--vuiii-button-textColor--danger));
-    --borderColor--hover: var(--vuiii-button-borderColor--danger--hover, var(--bgColor--hover));
+    --bgColor--hover: var(--vuiii-button-bgColor--danger--hover, var(--bgColor));
+    --textColor--hover: var(--vuiii-button-textColor--danger--hover, var(--textColor));
+    --borderColor--hover: var(--vuiii-button-borderColor--danger--hover, var(--borderColor));
 
     &.vuiii-button--outlined {
       --textColor: var(--vuiii-button-textColor--danger--outlined, var(--vuiii-button-bgColor--danger));
-      --borderColor: var(--vuiii-button-borderColor--danger--outlined, var(--textColor));
+      --borderColor: var(--vuiii-button-borderColor--danger--outlined, var(--vuiii-button-bgColor--danger));
 
       --textColor--focus: var(--vuiii-button-textColor--danger--outlined, var(--vuiii-button-bgColor--danger));
-      --borderColor--focus: var(--vuiii-button-borderColor--danger--outlined, var(--textColor--focus));
+      --borderColor--focus: var(--vuiii-button-borderColor--danger--outlined, var(--vuiii-button-bgColor--danger));
 
       --textColor--hover: var(
         --vuiii-button-textColor--danger--outlined--hover,
@@ -189,20 +196,20 @@
     --borderColor: var(--vuiii-button-borderColor--success);
     --ringColor: var(--vuiii-button-ringColor--success);
 
-    --bgColor--focus: var(--vuiii-button-bgColor--success--focus, var(--vuiii-button-bgColor--success));
-    --textColor--focus: var(--vuiii-button-textColor--success--focus, var(--vuiii-button-textColor--success));
-    --borderColor--focus: var(--vuiii-button-borderColor--success--focus, var(--bgColor--focus));
+    --bgColor--focus: var(--vuiii-button-bgColor--success--focus, var(--bgColor));
+    --textColor--focus: var(--vuiii-button-textColor--success--focus, var(--textColor));
+    --borderColor--focus: var(--vuiii-button-borderColor--success--focus, var(--borderColor));
 
-    --bgColor--hover: var(--vuiii-button-bgColor--success--hover, var(--vuiii-button-bgColor--success));
-    --textColor--hover: var(--vuiii-button-textColor--success--hover, var(--vuiii-button-textColor--success));
-    --borderColor--hover: var(--vuiii-button-borderColor--success--hover, var(--bgColor--hover));
+    --bgColor--hover: var(--vuiii-button-bgColor--success--hover, var(--bgColor));
+    --textColor--hover: var(--vuiii-button-textColor--success--hover, var(--textColor));
+    --borderColor--hover: var(--vuiii-button-borderColor--success--hover, var(--borderColor));
 
     &.vuiii-button--outlined {
       --textColor: var(--vuiii-button-textColor--success--outlined, var(--vuiii-button-bgColor--success));
-      --borderColor: var(--vuiii-button-borderColor--success--outlined, var(--textColor));
+      --borderColor: var(--vuiii-button-borderColor--success--outlined, var(--vuiii-button-bgColor--success));
 
       --textColor--focus: var(--vuiii-button-textColor--success--outlined, var(--vuiii-button-bgColor--success));
-      --borderColor--focus: var(--vuiii-button-borderColor--success--outlined, var(--textColor--focus));
+      --borderColor--focus: var(--vuiii-button-borderColor--success--outlined, var(--vuiii-button-bgColor--success));
 
       --textColor--hover: var(
         --vuiii-button-textColor--success--outlined--hover,
