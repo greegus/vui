@@ -37,9 +37,10 @@ const closeModalByBackdropClick = (e: MouseEvent, modal: Modal) => {
   }
 }
 
-useOnKeyPress('Escape', () => {
-  if (modals.value.length) {
+useOnKeyPress('Escape', (e) => {
+  if (modals.value.length && !e.defaultPrevented) {
     closeModal(activeModal.value)
+    e.preventDefault()
   }
 })
 </script>
