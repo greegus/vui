@@ -40,6 +40,8 @@
   background-color: var(--bgColor);
   border: var(--borderWidth) solid var(--borderColor);
   color: var(--textColor);
+  inline-size: fit-content;
+  touch-action: manipulation;
 
   /* Focus state */
 
