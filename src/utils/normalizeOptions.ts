@@ -1,4 +1,6 @@
-import type { Extractor, Option, OptionGroup } from '../types'
+import type { Extractor, Option, OptionGroup, ValueParser } from '../types'
+
+type Stringifier = (value: any) => string
 
 export function retrieveValue(item: any, extractor?: Extractor): any {
   if (typeof extractor === 'function') {
@@ -19,13 +21,20 @@ export function normalizeOption(
     label?: Extractor
     disabled?: Extractor
     description?: Extractor
-  } = {}
+    stringifyValue?: Stringifier
+  } = {},
+  selectedValue?: any
 ): Option {
+  const stringifyValue = extractors.stringifyValue || String
+
+  const value = stringifyValue(retrieveValue(item, extractors.value))
+
   return {
-    value: retrieveValue(item, extractors.value),
+    value,
     label: retrieveValue(item, extractors.label),
     disabled: extractors.disabled && retrieveValue(item, extractors.disabled),
     description: extractors.description && retrieveValue(item, extractors.description),
+    isSelected: selectedValue === undefined ? undefined : value === stringifyValue(selectedValue),
     data: item
   }
 }
@@ -37,17 +46,19 @@ export function normalizeOptions(
     label?: Extractor
     disabled?: Extractor
     description?: Extractor
-  } = {}
+    stringifyValue?: Stringifier
+  } = {},
+  selectedValue?: any
 ): Option[] {
   if (Array.isArray(items)) {
-    return items.map((item) => normalizeOption(item, extractors))
+    return items.map((item) => normalizeOption(item, extractors, selectedValue))
   }
 
   if (typeof items === 'object' && items !== null) {
     return Object.entries(items || {}).reduce((options, [value, label]) => {
       return options.concat({
-        ...normalizeOption(label, extractors),
-        value,
+        ...normalizeOption(value, extractors, selectedValue),
+        label,
         data: value
       })
     }, [] as Option[])
@@ -65,18 +76,21 @@ export function normalizeGroups(
     label?: Extractor
     disabled?: Extractor
     description?: Extractor
-  } = {}
+    stringifyValue?: Stringifier
+  } = {},
+  selectedValue?: any
 ): OptionGroup[] {
   if (Array.isArray(items)) {
     return items.map((group) => ({
       label: retrieveValue(group, extractors.groupLabel),
-      options: normalizeOptions(retrieveValue(group, extractors.groupOptions), extractors)
+      options: normalizeOptions(retrieveValue(group, extractors.groupOptions), extractors, selectedValue)
     }))
   }
 
   if (typeof items === 'object' && items !== null) {
     return Object.entries(items || {}).reduce(
-      (groups, [label, options]) => groups.concat({ label, options: normalizeOptions(options, extractors) }),
+      (groups, [label, options]) =>
+        groups.concat({ label, options: normalizeOptions(options, extractors, selectedValue) }),
       [] as OptionGroup[]
     )
   }

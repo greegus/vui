@@ -14,8 +14,8 @@
         :name="inputName"
         :disabled="$props.disabled || option.disabled"
         :readonly="$props.readonly"
-        :checked="option.value === props.modelValue"
-        @input="$emit('update:model-value', option.value)"
+        :checked="option.isSelected"
+        @input="handleInput(option.value)"
       />
 
       <div class="RadioGroup__radio vuiii-input">
@@ -24,9 +24,7 @@
 
       <div v-if="option.label || option.description || $slots.default">
         <slot v-bind="{ option }">
-          <div class="RadioGroup__label">
-            {{ option.label }}
-          </div>
+          <div class="RadioGroup__label">{{ option.label }}</div>
         </slot>
 
         <div v-if="option.description" class="RadioGroup__description">
@@ -46,14 +44,13 @@ export default {
 <script lang="ts" setup>
 import { computed, useAttrs } from 'vue'
 
-import type { Extractor, Option } from '../types'
+import type { Extractor, Option, ValueParser } from '../types'
 import { generateId } from '../utils/generateId'
 import { normalizeOptions } from '../utils/normalizeOptions'
 import { useAttrsWithoutClass } from '../utils/useAttrsWithoutClass'
+import { createTypeParser } from '@/utils/createTypeParser'
 
-defineEmits<{
-  'update:model-value': [value: string | number]
-}>()
+const modelValue = defineModel<any>()
 
 defineSlots<{
   default: (props: { option: Option }) => any
@@ -61,30 +58,49 @@ defineSlots<{
 
 const attrs = useAttrs()
 
+const attrsWithoutClass = useAttrsWithoutClass()
+
 const inputName = (attrs.name as string) || 'RadioGroup-input-' + generateId()
 
-const props = defineProps<{
-  modelValue?: string | number | undefined
-  options: any[] | any
-  optionLabel?: Extractor
-  optionValue?: Extractor
-  optionDisabled?: Extractor
-  optionDescription?: Extractor
-  disabled?: boolean
-  readonly?: boolean
-  inline?: boolean
-}>()
-
-const normalizedOptions = computed<Option[]>(() =>
-  normalizeOptions(props.options, {
-    value: props.optionValue,
-    label: props.optionLabel,
-    disabled: props.optionDisabled,
-    description: props.optionDescription
-  })
+const props = withDefaults(
+  defineProps<{
+    options: any[] | any
+    optionLabel?: Extractor
+    optionValue?: Extractor
+    optionDisabled?: Extractor
+    optionDescription?: Extractor
+    valueParser?: ValueParser<string>
+    disabled?: boolean
+    readonly?: boolean
+    inline?: boolean
+    type?: 'string' | 'number' | 'boolean' | 'date'
+  }>(),
+  {
+    type: 'string'
+  }
 )
 
-const attrsWithoutClass = useAttrsWithoutClass()
+const optionParser = computed(() => {
+  return props.valueParser || createTypeParser(props.type)
+})
+
+const normalizedOptions = computed<Option[]>(() =>
+  normalizeOptions(
+    props.options,
+    {
+      value: props.optionValue,
+      label: props.optionLabel,
+      disabled: props.optionDisabled,
+      description: props.optionDescription,
+      stringifyValue: optionParser.value?.stringify
+    },
+    modelValue.value
+  )
+)
+
+function handleInput(value: any) {
+  modelValue.value = optionParser.value.parse(value)
+}
 </script>
 
 <style lang="postcss" scoped>
@@ -170,3 +186,4 @@ const attrsWithoutClass = useAttrsWithoutClass()
   font-size: var(--vuiii-fontSize--small);
 }
 </style>
+@/utils/createTypeParser

@@ -13,9 +13,9 @@
       v-bind="attrsWithoutClass"
       class="vuiii-input__nested Select__select"
       :class="inputClass"
-      :value="$props.modelValue"
+      :value="serializedModelValue"
       :required="$props.required"
-      @input="$emit('update:model-value', ($event.target as HTMLSelectElement).value)"
+      @input="handleInput($event)"
     >
       <option v-if="$props.placeholder" :disabled="$props.required" value="" selected>
         {{ $props.placeholder }}
@@ -23,14 +23,26 @@
 
       <template v-if="groups">
         <optgroup v-for="(group, index) in groups" :key="index" :label="group.label">
-          <option v-for="option in group.options" :key="option.value" :disabled="option.disabled" :value="option.value">
+          <option
+            v-for="option in group.options"
+            :key="option.value"
+            :disabled="option.disabled"
+            :value="option.value"
+            :selected="option.isSelected"
+          >
             {{ option.label }}
           </option>
         </optgroup>
       </template>
 
       <template v-else>
-        <option v-for="option in options" :key="option.value" :disabled="option.disabled" :value="option.value">
+        <option
+          v-for="option in options"
+          :key="option.value"
+          :disabled="option.disabled"
+          :value="option.value"
+          :selected="option.isSelected"
+        >
           {{ option.label }}
         </option>
       </template>
@@ -51,54 +63,61 @@ export default {
 <script lang="ts" setup>
 import { computed } from 'vue'
 
-import type { Extractor, InputSize, Option } from '../types'
+import type { Extractor, InputSize, ValueParser } from '../types'
 import { normalizeGroups, normalizeOptions } from '../utils/normalizeOptions'
+import { createTypeParser } from '../utils/createTypeParser'
 import { useAttrsWithoutClass } from '../utils/useAttrsWithoutClass'
 import Icon from './Icon.vue'
 
+const modelValue = defineModel<any>()
+
+const attrsWithoutClass = useAttrsWithoutClass()
+
 const props = withDefaults(
   defineProps<{
-    modelValue?: Option['value']
     options: any[] | any
     optionLabel?: Extractor
     optionValue?: Extractor
     optionDisabled?: Extractor
     groupLabel?: Extractor
     groupOptions?: Extractor
+    valueParser?: ValueParser<string>
     placeholder?: string
     size?: InputSize
     required?: boolean
     inputClass?: any
     pill?: boolean
+    type?: 'string' | 'number' | 'boolean' | 'date'
   }>(),
   {
-    modelValue: undefined,
     size: 'normal',
-    optionLabel: undefined,
-    optionValue: undefined,
-    optionDisabled: undefined,
-    groupLabel: undefined,
-    groupOptions: undefined,
-    placeholder: undefined
+    type: 'string'
   }
 )
 
-defineEmits<{
-  'update:model-value': [value: Option['value']]
-}>()
+const optionParser = computed(() => {
+  return props.valueParser || createTypeParser(props.type)
+})
+
+const serializedModelValue = computed(() => optionParser.value.stringify(modelValue.value))
 
 const groups = computed(() => {
   if (!props.groupOptions) {
     return
   }
 
-  return normalizeGroups(props.options, {
-    groupLabel: props.groupLabel,
-    groupOptions: props.groupOptions,
-    value: props.optionValue,
-    label: props.optionLabel,
-    disabled: props.optionDisabled
-  })
+  return normalizeGroups(
+    props.options,
+    {
+      groupLabel: props.groupLabel,
+      groupOptions: props.groupOptions,
+      value: props.optionValue,
+      label: props.optionLabel,
+      disabled: props.optionDisabled,
+      stringifyValue: optionParser.value.stringify
+    },
+    modelValue.value
+  )
 })
 
 const options = computed(() => {
@@ -106,14 +125,21 @@ const options = computed(() => {
     return
   }
 
-  return normalizeOptions(props.options, {
-    value: props.optionValue,
-    label: props.optionLabel,
-    disabled: props.optionDisabled
-  })
+  return normalizeOptions(
+    props.options,
+    {
+      value: props.optionValue,
+      label: props.optionLabel,
+      disabled: props.optionDisabled,
+      stringifyValue: optionParser.value.stringify
+    },
+    modelValue.value
+  )
 })
 
-const attrsWithoutClass = useAttrsWithoutClass()
+function handleInput(e: Event) {
+  modelValue.value = optionParser.value.parse((e.target as HTMLSelectElement).value)
+}
 </script>
 
 <style lang="postcss" scoped>
@@ -154,3 +180,4 @@ const attrsWithoutClass = useAttrsWithoutClass()
   pointer-events: none;
 }
 </style>
+../utils/createTypeParser

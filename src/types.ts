@@ -43,11 +43,17 @@ export type Option<T = any> = {
   description?: string
   data: T
   index?: number
+  isSelected?: boolean
 }
 
 export type OptionGroup<T = any> = {
   label: string
   options: Option<T>[]
+}
+
+export type ValueParser<SerializedValueType = any, RawValueType = any> = {
+  parse: (serializedValue: SerializedValueType) => RawValueType
+  stringify: (rawValue: RawValueType) => SerializedValueType
 }
 
 export type Tabs = Record<string, string>

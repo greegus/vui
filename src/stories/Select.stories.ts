@@ -1,7 +1,10 @@
 import { type Meta, type StoryFn } from '@storybook/vue3'
 
 import Select from '../components/Select.vue'
-import { groupedOptions, options, plainOptions } from './assets/options'
+import DumpValue from './helpers/components/DumpValue.vue'
+import { groupedOptions, objectOptions, plainArrayOptions } from './assets/options'
+import { ref } from 'vue'
+import { Parser } from '../types'
 
 export default {
   title: 'Example/Select',
@@ -15,7 +18,8 @@ export default {
   },
   args: {
     placeholder: 'Select an option...',
-    size: 'normal'
+    size: 'normal',
+    options: plainArrayOptions
   },
   argTypes: {
     modelValue: {
@@ -27,7 +31,7 @@ export default {
     },
     options: {
       control: { type: 'object' },
-      defaultValue: options
+      defaultValue: plainArrayOptions
     },
     optionValue: {
       control: { type: 'text' },
@@ -50,55 +54,83 @@ export default {
     },
     disabled: {
       control: { type: 'boolean' }
-    },
-    readonly: {
-      control: { type: 'boolean' }
     }
   }
 } as Meta<typeof Select>
 
-const DefaultTeplate: StoryFn<typeof Select> = () => ({
+const Template: StoryFn<typeof Select> = (args) => ({
   components: { Select },
-  setup: () => ({
-    options,
-    plainOptions,
-    groupedOptions
-  }),
+  setup: () => ({ args, value: ref() }),
   template: `
-    <div style="display: flex; flex-direction: column; gap: 1rem;">
-      <div style="display: flex; flex-direction: column; gap: .5rem;">
-          <Select placeholder="Select an option…" :options="options" option-value="value" option-label="label" option-disabled="disabled" required />
-      </div>
-
-        <div>
-          <h3>Sizes</h3>
-
-          <div style="display: flex; flex-direction: column; gap: .5rem;">
-              <Select :options="plainOptions" placeholder="Select an option…" size="small" />
-              <Select :options="plainOptions" placeholder="Select an option…" />
-              <Select :options="plainOptions" placeholder="Select an option…" size="large" />
-          </div>
-        </div>
-
-        <div>
-          <h3>Groups</h3>
-
-          <Select :options="groupedOptions" placeholder="Select an option…" group-options="options" group-label="label" />
-        </div>
-    </div>
+    <Select v-bind="args" v-model="value" />
   `
 })
 
 export const Default = {
-  render: DefaultTeplate
+  render: Template
 }
 
-const PlaygroundTemplate: StoryFn<typeof Select> = (args) => ({
-  components: { Select },
-  setup: () => ({ args }),
-  template: '<Select v-bind="args" />'
-})
+export const Sizes = {
+  render: (args) => ({
+    components: { Select },
+    setup: () => ({ args, value: ref() }),
+    template: `
+      <div style="display: flex; flex-flow: column; gap: 0.5rem">
+        <Select v-bind="args" v-model="value" size="small" />
+        <Select v-bind="args" v-model="value" size="normal" />
+        <Select v-bind="args" v-model="value" size="large" />
+      </div>
+    `
+  })
+}
 
-export const Playground = {
-  render: PlaygroundTemplate
+export const Disabled = {
+  args: { disabled: true },
+  render: Template
+}
+
+export const Groups = {
+  args: { options: groupedOptions, groupOptions: 'options', groupLabel: 'label' },
+  render: Template
+}
+
+export const ValueCasting = {
+  render: (args) => ({
+    components: { Select, DumpValue },
+    setup: () => {
+      const options = [1, 2, 3]
+
+      return {
+        args: { ...args, options },
+        value: ref<number>(2)
+      }
+    },
+    template: `
+      <Select v-model="value" v-bind="args" type="number" />
+      <DumpValue :value="value" />
+    `
+  })
+}
+
+export const ValueParser = {
+  render: (args) => ({
+    components: { Select, DumpValue },
+    setup: () => {
+      const options = [new Date('2021-01-01'), new Date('2022-01-01'), new Date('2023-01-01')]
+
+      const valueParser: Parser<Date> = {
+        stringify: (value) => (value ? value.toISOString() : ''),
+        parse: (value) => (value ? new Date(value) : undefined)
+      }
+
+      return {
+        args: { ...args, options, valueParser, optionLabel: (value) => value.getFullYear() },
+        value: ref<Date>()
+      }
+    },
+    template: `
+      <Select v-model="value" v-bind="args" />
+      <DumpValue :value="value" />
+    `
+  })
 }

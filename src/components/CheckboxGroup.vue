@@ -3,7 +3,7 @@
     <div v-for="option in normalizedOptions" :key="option.value">
       <Checkbox
         :disabled="option.disabled"
-        :model-value="checkedValues[option.value]"
+        :model-value="checkedValues.has(option.value)"
         :label="option.label"
         :description="option.description"
         @update:model-value="toggleCheckedValue(option.value, $event)"
@@ -15,55 +15,51 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 
-import type { Extractor, Option } from '../types'
+import type { Extractor, Option, ValueParser } from '../types'
 import { normalizeOptions } from '../utils/normalizeOptions'
 import Checkbox from './Checkbox.vue'
+import { createTypeParser } from '@/utils/createTypeParser'
 
-type CheckedValues = Record<Option['value'], boolean>
+const modelValue = defineModel<any[]>()
 
-const props = defineProps<{
-  modelValue?: Option['value'][]
-  options: any[] | Record<string, any>
-  optionLabel?: Extractor
-  optionValue?: Extractor
-  optionDisabled?: Extractor
-  optionDescription?: Extractor
-}>()
+const props = withDefaults(
+  defineProps<{
+    options: any[] | any
+    optionLabel?: Extractor
+    optionValue?: Extractor
+    optionDisabled?: Extractor
+    optionDescription?: Extractor
+    valueParser?: ValueParser
+    type?: 'string' | 'number' | 'boolean' | 'date'
+  }>(),
+  {}
+)
 
-const emit = defineEmits<{
-  'update:model-value': [value: Option['value'][]]
-}>()
+const valueParser = computed(() => {
+  return props.valueParser || createTypeParser(props.type)
+})
 
 const normalizedOptions = computed<Option[]>(() => {
   return normalizeOptions(props.options, {
     value: props.optionValue,
     label: props.optionLabel,
     disabled: props.optionDisabled,
-    description: props.optionDescription
+    description: props.optionDescription,
+    stringifyValue: valueParser.value.stringify
   })
 })
 
-const checkedValues = computed<Record<string, boolean>>(() => {
-  return (props.modelValue || []).reduce(
-    (result, value) => ({
-      ...result,
-      [value]: true
-    }),
-    {}
-  )
+const checkedValues = computed<Set<string | number>>(() => {
+  return new Set(modelValue.value)
 })
 
-const toggleCheckedValue = (key: Option['value'], value: boolean) => {
-  const updatedCheckedValues: CheckedValues = {
-    ...checkedValues.value,
-    [key]: value
-  }
+const toggleCheckedValue = (value: any, checked: boolean) => {
+  const newCheckedValues = new Set(checkedValues.value.values())
+  const parsedValue = valueParser.value.parse(value)
 
-  const modelValue = Object.entries(updatedCheckedValues)
-    .filter(([_, isChecked]) => isChecked)
-    .map(([value]) => value)
+  checked ? newCheckedValues.add(parsedValue) : newCheckedValues.delete(parsedValue)
 
-  emit('update:model-value', modelValue)
+  modelValue.value = Array.from(newCheckedValues)
 }
 </script>
 

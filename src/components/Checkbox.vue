@@ -10,13 +10,13 @@
     ]"
   >
     <input
-      :checked="$props.modelValue"
+      :checked="serializedModelValue"
       class="Checkbox__input"
       :required="$props.required"
       :disabled="$props.disabled"
       type="checkbox"
       v-bind="attrsWithoutClass"
-      @input="$emit('update:model-value', ($event.target as any).checked)"
+      @input="handleInput($event)"
     />
 
     <div v-if="$props.switch" class="Checkbox__switch">
@@ -51,30 +51,45 @@ export default {
 
 <script lang="ts" setup>
 import '../assets/css/input.css'
-
-import type { InputSize } from '../types'
+import type { InputSize, ValueParser } from '../types'
 import { useAttrsWithoutClass } from '../utils/useAttrsWithoutClass'
 import Icon from './Icon.vue'
+import { computed } from 'vue'
 
-defineProps<{
-  modelValue?: boolean
+const modelValue = defineModel()
+
+const attrsWithoutClass = useAttrsWithoutClass()
+
+const props = defineProps<{
   required?: boolean
   disabled?: boolean
   switch?: boolean
   label?: string
   description?: string
   size?: InputSize
-}>()
-
-defineEmits<{
-  'update:model-value': [value: boolean]
+  valueParser?: ValueParser<boolean>
 }>()
 
 defineSlots<{
   default: void
 }>()
 
-const attrsWithoutClass = useAttrsWithoutClass()
+const valueParser = computed<ValueParser<boolean>>(() => {
+  return (
+    props.valueParser || {
+      parse: Boolean,
+      stringify: Boolean
+    }
+  )
+})
+
+const serializedModelValue = computed(() => {
+  return valueParser.value.stringify(modelValue.value)
+})
+
+function handleInput(event: Event) {
+  modelValue.value = valueParser.value.parse((event.target as HTMLInputElement).checked)
+}
 </script>
 
 <style lang="postcss" scoped>
