@@ -1,4 +1,4 @@
-import { type Meta, type StoryFn } from '@storybook/vue3'
+import { StoryObj, type Meta } from '@storybook/vue3'
 
 import Checkbox from '../components/Checkbox.vue'
 import DumpValue from './helpers/components/DumpValue.vue'
@@ -19,29 +19,21 @@ export default {
   }
 } as Meta<typeof Checkbox>
 
-const Template: StoryFn<typeof Checkbox> = (args) => ({
-  components: { Checkbox },
-  setup: () => ({ args, value: ref(false) }),
-  template: `
-    <Checkbox v-bind="args" v-model="value" />
-  `
-})
+export const Default: StoryObj<typeof Checkbox> = {}
 
-export const Default = {
-  render: Template
-}
-
-export const Disabled = {
-  render: Template,
+export const Disabled: StoryObj<typeof Checkbox> = {
   args: { disabled: true }
 }
 
-export const Description = {
-  render: Template,
+export const Description: StoryObj<typeof Checkbox> = {
   args: { description: 'Lorem ipsum dolor sid amed melonis quo.' }
 }
 
-export const Sizes = {
+export const Switch: StoryObj<typeof Checkbox> = {
+  args: { switch: true }
+}
+
+export const Sizes: StoryObj<typeof Checkbox> = {
   render: (args) => ({
     components: { Checkbox },
     setup: () => ({ args }),
@@ -63,12 +55,7 @@ export const Sizes = {
   })
 }
 
-export const Switch = {
-  render: Template,
-  args: { switch: true }
-}
-
-export const CustomLabelSlot = {
+export const CustomLabelSlot: StoryObj<typeof Checkbox> = {
   render: () => ({
     components: { Checkbox },
     template: `
@@ -79,7 +66,7 @@ export const CustomLabelSlot = {
   })
 }
 
-export const ValueParsing = {
+export const ValueParsing: StoryObj<typeof Checkbox> = {
   args: {
     valueParser: {
       stringify: (rawValue) => rawValue === 'yes',

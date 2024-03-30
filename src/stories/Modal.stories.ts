@@ -30,10 +30,10 @@ const AnotherSimpleModal = defineComponent({
   },
 
   template: `
-            <ModalLayout title="Another Simple modal">
-                <button @click="close()">Close</button>
-            </ModalLayout>
-        `
+    <ModalLayout title="Another Simple modal">
+      <button @click="close()">Close</button>
+    </ModalLayout>
+  `
 })
 
 const SimpleModal = defineComponent({

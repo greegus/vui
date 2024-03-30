@@ -1,4 +1,4 @@
-import { type Meta } from '@storybook/vue3'
+import { StoryObj, type Meta } from '@storybook/vue3'
 
 import Input from '../components/Input.vue'
 import { icons } from './assets/icons'
@@ -51,33 +51,33 @@ export default {
   }
 } as Meta<typeof Input>
 
-export const Default = {}
+export const Default: StoryObj<typeof Input> = {}
 
-export const Disabled = {
+export const Disabled: StoryObj<typeof Input> = {
   args: { disabled: true }
 }
 
-export const Readonly = {
+export const Readonly: StoryObj<typeof Input> = {
   args: { readonly: true }
 }
 
-export const Invalid = {
+export const Invalid: StoryObj<typeof Input> = {
   args: { invalid: true }
 }
 
-export const PrefixIcon = {
+export const PrefixIcon: StoryObj<typeof Input> = {
   args: { prefixIcon: 'mail' }
 }
 
-export const SuffixIcon = {
+export const SuffixIcon: StoryObj<typeof Input> = {
   args: { suffixIcon: 'x' }
 }
 
-export const Pill = {
+export const Pill: StoryObj<typeof Input> = {
   args: { pill: true }
 }
 
-export const Sizes = {
+export const Sizes: StoryObj<typeof Input> = {
   render: (args) => ({
     components: { Input },
     setup: () => ({ args }),

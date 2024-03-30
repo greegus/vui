@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { type Meta, type StoryFn } from '@storybook/vue3'
+import { StoryObj, type Meta, type StoryFn } from '@storybook/vue3'
 
 import CheckboxGroup from '../components/CheckboxGroup.vue'
 import DumpValue from './helpers/components/DumpValue.vue'
@@ -24,7 +24,7 @@ export default {
   }
 } as Meta<typeof CheckboxGroup>
 
-const Template: StoryFn<typeof CheckboxGroup> = (args) => ({
+const TemplateWithDumpValue: StoryFn<typeof CheckboxGroup> = (args) => ({
   components: { CheckboxGroup, DumpValue },
   setup: () => ({ args, value: ref() }),
   template: `
@@ -33,21 +33,11 @@ const Template: StoryFn<typeof CheckboxGroup> = (args) => ({
   `
 })
 
-export const Default = {
-  render: Template
+export const Default: StoryObj<typeof CheckboxGroup> = {
+  render: TemplateWithDumpValue
 }
 
-export const ValueCasting = {
-  render: (args) => ({
-    components: { CheckboxGroup, DumpValue },
-    setup: () => {
-      const value = ref([])
-
-      return { args: { options: plainObjectOptions }, value }
-    },
-    template: `
-      <CheckboxGroup v-bind="args" v-model="value" type="number" />
-      <DumpValue :value="value" hide-type />
-    `
-  })
+export const ValueCasting: StoryObj<typeof CheckboxGroup> = {
+  args: { options: plainObjectOptions, type: 'number' },
+  render: TemplateWithDumpValue
 }

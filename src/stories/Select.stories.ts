@@ -1,10 +1,11 @@
-import { type Meta, type StoryFn } from '@storybook/vue3'
+import { StoryObj, type Meta } from '@storybook/vue3'
 
 import Select from '../components/Select.vue'
 import DumpValue from './helpers/components/DumpValue.vue'
-import { groupedOptions, objectOptions, plainArrayOptions } from './assets/options'
+import { groupedOptions, plainArrayOptions, plainObjectOptions } from './assets/options'
 import { ref } from 'vue'
-import { Parser } from '../types'
+import { type ValueParser as ValueParserType } from '../types'
+import { inputSizes } from './assets/inputSizes'
 
 export default {
   title: 'Example/Select',
@@ -27,7 +28,7 @@ export default {
     },
     size: {
       control: { type: 'select' },
-      options: ['small', 'normal', 'large']
+      options: inputSizes
     },
     options: {
       control: { type: 'object' },
@@ -58,19 +59,17 @@ export default {
   }
 } as Meta<typeof Select>
 
-const Template: StoryFn<typeof Select> = (args) => ({
-  components: { Select },
-  setup: () => ({ args, value: ref() }),
-  template: `
-    <Select v-bind="args" v-model="value" />
-  `
-})
+export const Default: StoryObj<typeof Select> = {}
 
-export const Default = {
-  render: Template
+export const Disabled: StoryObj<typeof Select> = {
+  args: { disabled: true }
 }
 
-export const Sizes = {
+export const Groups: StoryObj<typeof Select> = {
+  args: { options: groupedOptions, groupOptions: 'options', groupLabel: 'label' }
+}
+
+export const Sizes: StoryObj<typeof Select> = {
   render: (args) => ({
     components: { Select },
     setup: () => ({ args, value: ref() }),
@@ -84,41 +83,25 @@ export const Sizes = {
   })
 }
 
-export const Disabled = {
-  args: { disabled: true },
-  render: Template
-}
-
-export const Groups = {
-  args: { options: groupedOptions, groupOptions: 'options', groupLabel: 'label' },
-  render: Template
-}
-
-export const ValueCasting = {
+export const ValueCasting: StoryObj<typeof Select> = {
+  args: { options: plainObjectOptions, type: 'number' },
   render: (args) => ({
     components: { Select, DumpValue },
-    setup: () => {
-      const options = [1, 2, 3]
-
-      return {
-        args: { ...args, options },
-        value: ref<number>(2)
-      }
-    },
+    setup: () => ({ args, value: ref<number>(1) }),
     template: `
-      <Select v-model="value" v-bind="args" type="number" />
+      <Select v-model="value" v-bind="args" />
       <DumpValue :value="value" />
     `
   })
 }
 
-export const ValueParser = {
+export const ValueParser: StoryObj<typeof Select> = {
   render: (args) => ({
     components: { Select, DumpValue },
     setup: () => {
       const options = [new Date('2021-01-01'), new Date('2022-01-01'), new Date('2023-01-01')]
 
-      const valueParser: Parser<Date> = {
+      const valueParser: ValueParserType<Date> = {
         stringify: (value) => (value ? value.toISOString() : ''),
         parse: (value) => (value ? new Date(value) : undefined)
       }
