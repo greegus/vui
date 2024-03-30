@@ -37,8 +37,8 @@
         }
       ]"
       :type="($attrs.type as string) || 'text'"
-      :value="$props.modelValue"
-      @input="$emit('update:model-value', retrieveTargetValue($event))"
+      :value="modelValue"
+      @input="handleInput($event)"
     />
 
     <slot v-if="slots.suffix || props.suffixIcon" name="suffix">
@@ -70,8 +70,11 @@ import type { InputSize } from '../types'
 import { useAttrsWithoutClass } from '../utils/useAttrsWithoutClass'
 import Icon from './Icon.vue'
 
+type ModelValueType = string | number | Date | null | undefined
+
+const modelValue = defineModel<ModelValueType>()
+
 const props = defineProps<{
-  modelValue?: number | string | Date | null
   prefixIcon?: string
   suffixIcon?: string
   size?: InputSize
@@ -81,7 +84,6 @@ const props = defineProps<{
 }>()
 
 defineEmits<{
-  'update:model-value': [value: number | string | Date | null]
   'prefix-icon-click': []
   'suffix-icon-click': []
 }>()
@@ -92,13 +94,18 @@ defineSlots<{
 }>()
 
 const attrs = useAttrs()
+
+const attrsWithoutClass = useAttrsWithoutClass()
+
 const slots = useSlots()
+
 const input = ref()
 
 const isPrefixIconClickable = computed<boolean>(() => Boolean(attrs.onPrefixIconClick))
+
 const isSuffixIconClickable = computed<boolean>(() => Boolean(attrs.onSuffixIconClick))
 
-const retrieveTargetValue = (e: Event) => {
+function retrieveTargetValue(e: Event): ModelValueType {
   const target = e.target as HTMLInputElement
 
   if (attrs.type === 'number') {
@@ -112,7 +119,9 @@ const retrieveTargetValue = (e: Event) => {
   return target.value
 }
 
-const attrsWithoutClass = useAttrsWithoutClass()
+function handleInput(e: Event) {
+  modelValue.value = retrieveTargetValue(e)
+}
 
 defineExpose({
   input,
