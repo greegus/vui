@@ -1,9 +1,8 @@
-import { action } from '@storybook/addon-actions'
-import { type Meta, type StoryFn } from '@storybook/vue3'
+import { type Meta } from '@storybook/vue3'
 
-import Button from '../components/Button.vue'
 import Input from '../components/Input.vue'
 import { icons } from './assets/icons'
+import { inputSizes } from './assets/inputSizes'
 
 export default {
   title: 'Example/Input',
@@ -17,7 +16,8 @@ export default {
   },
   args: {
     modelValue: '',
-    size: 'normal'
+    size: 'normal',
+    placeholder: 'Placeholder'
   },
   argTypes: {
     modelValue: {
@@ -25,7 +25,7 @@ export default {
     },
     size: {
       control: { type: 'select' },
-      options: ['small', 'normal', 'large']
+      options: inputSizes
     },
     prefixIcon: {
       control: { type: 'select' },
@@ -51,68 +51,42 @@ export default {
   }
 } as Meta<typeof Input>
 
-const DefaultTeplate: StoryFn<typeof Input> = () => ({
-  components: { Input, Button },
-  setup: () => ({
-    action
-  }),
-  template: `
-    <div style="display: flex; flex-direction: column; gap: 1rem;">
-        <div style="display: flex; flex-direction: column; gap: .5rem;">
-            <Input placeholder="First name" />
-            <Input placeholder="Email address" prefix-icon="mail" />
-            <Input placeholder="Search" prefix-icon="search" suffix-icon="x" @suffix-icon-click="action('@suffix-icon-click')" />
-            <Input placeholder="username">
-                <template #prefix>
-                    <div style="display: flex; align-items:center; padding-left: 1rem; margin-right: -1.35rem">
-                        facebook.com/
-                    </div>
-                </template>
-            </Input>
-            <Input placeholder="First name" invalid />
-            <Input placeholder="First name" disabled />
-        </div>
+export const Default = {}
 
-        <div>
-          <h3>Sizes</h3>
-
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
-            <div style="display: flex; flex-direction: column; gap: .5rem;">
-                <Input placeholder="First name" size="small" />
-                <Input placeholder="First name" />
-                <Input placeholder="First name" size="large" />
-            </div>
-
-            <div style="display: flex; flex-direction: column; gap: .5rem;">
-                <Input placeholder="Search" prefix-icon="search" suffix-icon="x" @suffix-icon-click="action('@suffix-icon-click')" size="small" />
-                <Input placeholder="Search" prefix-icon="search" suffix-icon="x" @suffix-icon-click="action('@suffix-icon-click')" />
-                <Input placeholder="Search" prefix-icon="search" suffix-icon="x" @suffix-icon-click="action('@suffix-icon-click')" size="large" />
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <h3>Pill version</h3>
-
-          <div style="display: flex; align-items: center; gap: 1rem">
-            <Input pill prefix-icon="mail" placeholder="Your email" />
-            <Button pill variant="primary">Subscribe</Button>
-          </div>
-        </div>
-    </div>
-  `
-})
-
-export const Default = {
-  render: DefaultTeplate
+export const Disabled = {
+  args: { disabled: true }
 }
 
-const PlaygroundTemplate: StoryFn<typeof Input> = (args) => ({
-  components: { Input },
-  setup: () => ({ args }),
-  template: '<Input v-bind="args" />'
-})
+export const Readonly = {
+  args: { readonly: true }
+}
 
-export const Playground = {
-  render: PlaygroundTemplate
+export const Invalid = {
+  args: { invalid: true }
+}
+
+export const PrefixIcon = {
+  args: { prefixIcon: 'mail' }
+}
+
+export const SuffixIcon = {
+  args: { suffixIcon: 'x' }
+}
+
+export const Pill = {
+  args: { pill: true }
+}
+
+export const Sizes = {
+  render: (args) => ({
+    components: { Input },
+    setup: () => ({ args }),
+    template: `
+      <div style="display: flex; flex-direction: column; gap: .5rem;">
+        <Input v-bind="args" size="small" />
+        <Input v-bind="args" />
+        <Input v-bind="args" size="large" />
+      </div>
+    `
+  })
 }
