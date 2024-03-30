@@ -9,10 +9,6 @@ module.exports = {
     options: {}
   },
 
-  features: {
-    'storyStoreV7': true
-  },
-
   async viteFinal(config, { configType }) {
     return mergeConfig(config, {
       resolve: {
