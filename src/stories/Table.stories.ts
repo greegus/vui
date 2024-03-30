@@ -87,7 +87,7 @@ const meta: Meta<typeof Table<TableItem>> = {
 
 export default meta
 
-type Story = StoryObj<(typeof Table<TableItem>)>
+type Story = StoryObj<typeof Table<TableItem>>
 
 export const Default: Story = {}
 
