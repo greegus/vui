@@ -22,6 +22,8 @@
   padding-left: var(--padding);
   padding-right: var(--padding);
   min-height: var(--height);
+  font-family: inherit;
+  box-sizing: border-box;
   font-size: var(--fontSize);
   transition: var(--vuiii-input-transition);
   box-shadow:

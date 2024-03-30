@@ -1,11 +1,18 @@
 <template>
   <textarea
     v-bind="$attrs"
-    ref="textarea"
+    ref="textareaElement"
     class="Textarea vuiii-input"
-    :class="{ [`vuiii-input--${$props.size}`]: $props.size }"
+    :class="{
+      'vuiii-input--invalid': $props.invalid,
+      'vuiii-input--disabled': $props.disabled,
+      [`vuiii-input--${$props.size}`]: $props.size
+    }"
     :value="$props.modelValue"
-    @input="$emit('update:model-value', ($event.target as HTMLInputElement).value)"
+    :disabled="$props.disabled"
+    :readonly="$props.readonly"
+    :invalid="$props.invalid"
+    @input="handleInput($event)"
   />
 </template>
 
@@ -14,19 +21,23 @@ import { ref } from 'vue'
 
 import type { InputSize } from '@/types'
 
+const modelValue = defineModel<string>()
+
 defineProps<{
-  modelValue?: string
+  invalid?: boolean
+  disabled?: boolean
+  readonly?: boolean
   size?: InputSize
 }>()
 
-defineEmits<{
-  'update:model-value': [value: string]
-}>()
+const textareaElement = ref()
 
-const textarea = ref()
+function handleInput(event: Event) {
+  modelValue.value = (event.target as HTMLTextAreaElement).value
+}
 
 defineExpose({
-  focus: () => textarea.value.focus(),
-  select: () => textarea.value.select()
+  focus: () => textareaElement.value.focus(),
+  select: () => textareaElement.value.select()
 })
 </script>
