@@ -3,6 +3,7 @@ require('@rushstack/eslint-patch/modern-module-resolution')
 
 module.exports = {
   parserOptions: {
+    sourceType: 'module',
     ecmaVersion: 'latest'
   },
   extends: [
@@ -14,10 +15,8 @@ module.exports = {
   plugins: ['simple-import-sort'],
   rules: {
     '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
-    'import/order': 'off',
-    'sort-imports': 'off',
-    'simple-import-sort/exports': 'error',
     'simple-import-sort/imports': 'error',
+    'simple-import-sort/exports': 'error',
     'vue/multi-word-component-names': 'off',
     'vue/no-reserved-component-names': 'off'
   }

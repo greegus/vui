@@ -1,4 +1,4 @@
-import type { Extractor, Option, OptionGroup, ValueParser } from '../types'
+import type { Extractor, Option, OptionGroup } from '../types'
 
 type Stringifier = (value: any) => string
 

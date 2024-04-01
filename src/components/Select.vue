@@ -64,8 +64,8 @@ export default {
 import { computed } from 'vue'
 
 import type { Extractor, InputSize, ValueParser } from '../types'
-import { normalizeGroups, normalizeOptions } from '../utils/normalizeOptions'
 import { createTypeParser } from '../utils/createTypeParser'
+import { normalizeGroups, normalizeOptions } from '../utils/normalizeOptions'
 import { useAttrsWithoutClass } from '../utils/useAttrsWithoutClass'
 import Icon from './Icon.vue'
 

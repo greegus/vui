@@ -1,4 +1,4 @@
-import { StoryObj, type Meta } from '@storybook/vue3'
+import { type Meta,StoryObj } from '@storybook/vue3'
 
 import Textarea from '../components/Textarea.vue'
 import { inputSizes } from './assets/inputSizes'

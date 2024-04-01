@@ -1,4 +1,4 @@
-import { StoryObj, type Meta } from '@storybook/vue3'
+import { type Meta, StoryObj } from '@storybook/vue3'
 
 import IconButton from '../components/IconButton.vue'
 import { icons } from './assets/icons'

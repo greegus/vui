@@ -1,8 +1,8 @@
-import { StoryObj, type Meta } from '@storybook/vue3'
+import { type Meta,StoryObj } from '@storybook/vue3'
+import { ref } from 'vue'
 
 import Checkbox from '../components/Checkbox.vue'
 import DumpValue from './helpers/components/DumpValue.vue'
-import { ref } from 'vue'
 
 export default {
   title: 'Example/Checkbox',

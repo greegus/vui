@@ -1,9 +1,9 @@
+import { type Meta, type StoryFn,StoryObj } from '@storybook/vue3'
 import { ref } from 'vue'
-import { StoryObj, type Meta, type StoryFn } from '@storybook/vue3'
 
 import CheckboxGroup from '../components/CheckboxGroup.vue'
-import DumpValue from './helpers/components/DumpValue.vue'
 import { objectOptions, plainObjectOptions } from './assets/options'
+import DumpValue from './helpers/components/DumpValue.vue'
 
 export default {
   title: 'Example/CheckboxGroup',

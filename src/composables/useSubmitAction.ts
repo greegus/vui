@@ -1,4 +1,4 @@
-import { type Ref, onMounted, ref } from 'vue'
+import { onMounted, type Ref, ref } from 'vue'
 import { type RouteLocationRaw, type Router, useRouter } from 'vue-router'
 
 import { useModal } from '../modal'

@@ -1,11 +1,11 @@
-import { StoryObj, type Meta } from '@storybook/vue3'
+import { type Meta,StoryObj } from '@storybook/vue3'
+import { ref } from 'vue'
 
 import Select from '../components/Select.vue'
-import DumpValue from './helpers/components/DumpValue.vue'
-import { groupedOptions, plainArrayOptions, plainObjectOptions } from './assets/options'
-import { ref } from 'vue'
 import { type ValueParser as ValueParserType } from '../types'
 import { inputSizes } from './assets/inputSizes'
+import { groupedOptions, plainArrayOptions, plainObjectOptions } from './assets/options'
+import DumpValue from './helpers/components/DumpValue.vue'
 
 export default {
   title: 'Example/Select',

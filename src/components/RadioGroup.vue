@@ -44,11 +44,12 @@ export default {
 <script lang="ts" setup>
 import { computed, useAttrs } from 'vue'
 
+import { createTypeParser } from '@/utils/createTypeParser'
+
 import type { Extractor, Option, ValueParser } from '../types'
 import { generateId } from '../utils/generateId'
 import { normalizeOptions } from '../utils/normalizeOptions'
 import { useAttrsWithoutClass } from '../utils/useAttrsWithoutClass'
-import { createTypeParser } from '@/utils/createTypeParser'
 
 const modelValue = defineModel<any>()
 

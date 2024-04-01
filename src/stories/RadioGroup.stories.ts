@@ -1,9 +1,9 @@
-import { StoryObj, type Meta } from '@storybook/vue3'
+import { type Meta,StoryObj } from '@storybook/vue3'
+import { ref } from 'vue'
 
 import RadioGroup from '../components/RadioGroup.vue'
-import DumpValue from './helpers/components/DumpValue.vue'
 import { objectOptions, plainObjectOptions } from './assets/options'
-import { ref } from 'vue'
+import DumpValue from './helpers/components/DumpValue.vue'
 
 export default {
   title: 'Example/RadioGroup',

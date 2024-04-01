@@ -46,7 +46,7 @@
 </template>
 
 <script lang="ts" setup>
-import { type CSSProperties, computed, onMounted, ref, useSlots } from 'vue'
+import { computed, type CSSProperties, onMounted, ref, useSlots } from 'vue'
 
 import { useCloseModal } from '../../modal'
 import type { ModalLayoutButton } from '../../types'

@@ -1,4 +1,4 @@
-import { type Ref, onMounted, ref } from 'vue'
+import { onMounted, type Ref, ref } from 'vue'
 
 import { useLoadData } from '../composables/useLoadData'
 import type { PaginatedData, PaginatedDataSource, Pagination } from '../types'
