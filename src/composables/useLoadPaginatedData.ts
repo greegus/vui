@@ -1,7 +1,7 @@
 import { onMounted, type Ref, ref } from 'vue'
 
-import { useLoadData } from '../composables/useLoadData'
-import type { PaginatedData, PaginatedDataSource, Pagination } from '../types'
+import { useLoadData } from '@/composables/useLoadData'
+import type { PaginatedData, PaginatedDataSource, Pagination } from '@/types'
 
 const DEFAULT_ITEMS_PER_PAGE = 25
 

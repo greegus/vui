@@ -50,13 +50,13 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import '../assets/css/input.css'
+import '@/assets/css/input.css'
 
 import { computed } from 'vue'
 
-import type { InputSize, ValueParser } from '../types'
-import { useAttrsWithoutClass } from '../utils/useAttrsWithoutClass'
-import Icon from './Icon.vue'
+import Icon from '@/components/Icon.vue'
+import { useAttrsWithoutClass } from '@/composables/useAttrsWithoutClass'
+import type { InputSize, ValueParser } from '@/types'
 
 const modelValue = defineModel()
 

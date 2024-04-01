@@ -1,8 +1,8 @@
 import { onMounted, type Ref, ref } from 'vue'
 import { type RouteLocationRaw, type Router, useRouter } from 'vue-router'
 
-import { useModal } from '../modal'
-import { useSnackbar } from '../snackbar'
+import { useModal } from '@/modal'
+import { useSnackbar } from '@/snackbar'
 
 export function useSubmitAction<D = unknown, S extends (...args: any[]) => D = (...args: any[]) => D>(
   action: S,

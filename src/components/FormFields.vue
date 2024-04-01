@@ -28,8 +28,8 @@
 <script lang="ts" setup generic="Data extends {}">
 import { computed } from 'vue'
 
-import type { FormField, ObjectKeyOrAnyString, ValidationFieldResults } from '../types'
-import FormGroup from './FormGroup.vue'
+import FormGroup from '@/components/FormGroup.vue'
+import type { FormField, ObjectKeyOrAnyString, ValidationFieldResults } from '@/types'
 
 const props = defineProps<{
   fields: FormField<Data>[]

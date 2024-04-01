@@ -39,13 +39,13 @@
 </template>
 
 <script lang="ts" setup>
-import '../assets/css/button.css'
+import '@/assets/css/button.css'
 
 import { computed } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
 
-import type { ButtonVariant, InputSize } from '../types'
-import Icon from './Icon.vue'
+import Icon from '@/components/Icon.vue'
+import type { ButtonVariant, InputSize } from '@/types'
 
 export interface NativeButtonProps {
   disabled?: boolean

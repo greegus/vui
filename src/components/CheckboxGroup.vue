@@ -15,11 +15,10 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 
+import Checkbox from '@/components/Checkbox.vue'
+import type { Extractor, Option, ValueParser } from '@/types'
 import { createTypeParser } from '@/utils/createTypeParser'
-
-import type { Extractor, Option, ValueParser } from '../types'
-import { normalizeOptions } from '../utils/normalizeOptions'
-import Checkbox from './Checkbox.vue'
+import { normalizeOptions } from '@/utils/normalizeOptions'
 
 const modelValue = defineModel<any[]>()
 

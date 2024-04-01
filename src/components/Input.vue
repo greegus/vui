@@ -62,13 +62,13 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import '../assets/css/input.css'
+import '@/assets/css/input.css'
 
 import { computed, ref, useAttrs, useSlots } from 'vue'
 
-import type { InputSize } from '../types'
-import { useAttrsWithoutClass } from '../utils/useAttrsWithoutClass'
-import Icon from './Icon.vue'
+import Icon from '@/components/Icon.vue'
+import { useAttrsWithoutClass } from '@/composables/useAttrsWithoutClass'
+import type { InputSize } from '@/types'
 
 type ModelValueType = string | number | Date | null | undefined
 

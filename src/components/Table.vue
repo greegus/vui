@@ -85,13 +85,13 @@
 </template>
 
 <script lang="ts" generic="T extends object" setup>
-import '../assets/css/table.css'
-import '../assets/css/typography.css'
+import '@/assets/css/table.css'
+import '@/assets/css/typography.css'
 
 import { computed } from 'vue'
 
-import { Icon } from '..'
-import type { TableColumn } from '../types'
+import Icon from '@/components/Icon.vue'
+import type { TableColumn } from '@/types'
 
 type TableCell = {
   column: TableColumn<T>

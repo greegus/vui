@@ -1,7 +1,6 @@
 <script lang="ts" setup>
-import { useFilteredProps } from '@/utils/useFilteredProps'
-
-import Button, { type ButtonProps } from './Button.vue'
+import Button, { type ButtonProps } from '@/components/Button.vue'
+import { useFilteredProps } from '@/composables/useFilteredProps'
 
 export interface IconButtonProps extends Omit<ButtonProps, 'prefixIcon' | 'suffixIcon' | 'label' | 'block'> {
   icon: string

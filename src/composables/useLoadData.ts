@@ -1,7 +1,7 @@
 import type { Ref } from 'vue'
 import type { Router } from 'vue-router'
 
-import { useSubmitAction } from '../composables/useSubmitAction'
+import { useSubmitAction } from '@/composables/useSubmitAction'
 
 export const useLoadData = <D = unknown, S extends (...args: any[]) => D = (...args: any[]) => D>(
   source: S,

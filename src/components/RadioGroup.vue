@@ -44,12 +44,11 @@ export default {
 <script lang="ts" setup>
 import { computed, useAttrs } from 'vue'
 
+import { useAttrsWithoutClass } from '@/composables/useAttrsWithoutClass'
+import type { Extractor, Option, ValueParser } from '@/types'
 import { createTypeParser } from '@/utils/createTypeParser'
-
-import type { Extractor, Option, ValueParser } from '../types'
-import { generateId } from '../utils/generateId'
-import { normalizeOptions } from '../utils/normalizeOptions'
-import { useAttrsWithoutClass } from '../utils/useAttrsWithoutClass'
+import { generateId } from '@/utils/generateId'
+import { normalizeOptions } from '@/utils/normalizeOptions'
 
 const modelValue = defineModel<any>()
 
@@ -187,4 +186,3 @@ function handleInput(value: any) {
   font-size: var(--vuiii-fontSize--small);
 }
 </style>
-@/utils/createTypeParser

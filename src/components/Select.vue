@@ -63,11 +63,11 @@ export default {
 <script lang="ts" setup>
 import { computed } from 'vue'
 
-import type { Extractor, InputSize, ValueParser } from '../types'
-import { createTypeParser } from '../utils/createTypeParser'
-import { normalizeGroups, normalizeOptions } from '../utils/normalizeOptions'
-import { useAttrsWithoutClass } from '../utils/useAttrsWithoutClass'
-import Icon from './Icon.vue'
+import Icon from '@/components/Icon.vue'
+import { useAttrsWithoutClass } from '@/composables/useAttrsWithoutClass'
+import type { Extractor, InputSize, ValueParser } from '@/types'
+import { createTypeParser } from '@/utils/createTypeParser'
+import { normalizeGroups, normalizeOptions } from '@/utils/normalizeOptions'
 
 const modelValue = defineModel<any>()
 
@@ -180,4 +180,3 @@ function handleInput(e: Event) {
   pointer-events: none;
 }
 </style>
-../utils/createTypeParser

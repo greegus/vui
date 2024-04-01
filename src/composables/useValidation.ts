@@ -1,6 +1,6 @@
 import { computed, type ComputedRef, ref } from 'vue'
 
-import type { ValidationResults } from '../types'
+import type { ValidationResults } from '@/types'
 
 export function useValidation<Data extends {} = any, Rules extends Data = any>(
   validation: (data: Partial<Data>) => ValidationResults<Rules> | Promise<ValidationResults<Rules>>
