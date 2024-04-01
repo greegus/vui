@@ -53,15 +53,6 @@ defineSlots<{
   width: 100%;
 }
 
-.FormGroup--invalid {
-  &:deep() .vuiii-input,
-  &:deep() .vuiii-input:hover {
-    --textColor: var(--vuiii-field-borderColor--invalid);
-    --borderColor: var(--vuiii-field-borderColor--invalid);
-    --ringColor: var(--vuiii-field-ringColor--invalid, rgb(225 29 72/0.2) /* rose.600 */);
-  }
-}
-
 .FormGroup__header {
   display: flex;
   align-items: center;
@@ -82,14 +73,15 @@ defineSlots<{
 
 .FormGroup__description {
   font-size: 0.8rem;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
+  margin-top: -0.25rem;
   max-width: 48rem; /* max-w-3xl */
   color: rgb(115, 115, 115);
 }
 
 .FormGroup__hint {
   font-size: 0.8rem;
-  margin-top: 0.5rem;
+  margin-top: 0.25rem;
   max-width: 48rem; /* max-w-3xl */
   color: rgb(115, 115, 115);
 }

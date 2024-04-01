@@ -71,7 +71,7 @@
   /* ------ */
   /* Labels */
   /* ------ */
-  --vuiii-label-fontSize: var(--vuiii-fontSize);
+  --vuiii-label-fontSize: var(--vuiii-fontSize--small);
   --vuiii-label-fontWeight: 600;
   --vuiii-label-textTransform: none;
 
