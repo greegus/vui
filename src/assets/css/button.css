@@ -79,7 +79,7 @@
 
   /* Sizes */
 
-  &.vuiii-button--small {
+  &.vuiii-button--size-small {
     --gap: 0.5rem;
     --fontSize: var(--vuiii-button-fontSize--small, var(--vuiii-field-fontSize--small));
     --height: var(--vuiii-button-height--small, var(--vuiii-field-height--small, var(--vuiii-field-height)));
@@ -90,7 +90,7 @@
     }
   }
 
-  &.vuiii-button--large {
+  &.vuiii-button--size-large {
     --gap: 0.75rem;
     --fontSize: var(--vuiii-button-fontSize--large, var(--vuiii-field-fontSize--large));
     --height: var(--vuiii-button-height--large, var(--vuiii-field-height--large, var(--vuiii-field-height)));
@@ -99,7 +99,7 @@
 
   /* Variants */
 
-  &.vuiii-button--primary {
+  &.vuiii-button--variant-primary {
     --bgColor: var(--vuiii-button-bgColor--primary);
     --textColor: var(--vuiii-button-textColor--primary);
     --borderColor: var(--vuiii-button-borderColor--primary);
@@ -131,7 +131,7 @@
     }
   }
 
-  &.vuiii-button--secondary {
+  &.vuiii-button--variant-secondary {
     --bgColor: var(--vuiii-button-bgColor--secondary);
     --borderColor: var(--vuiii-button-borderColor--secondary);
     --textColor: var(--vuiii-button-textColor--secondary);
@@ -163,7 +163,7 @@
     }
   }
 
-  &.vuiii-button--danger {
+  &.vuiii-button--variant-danger {
     --bgColor: var(--vuiii-button-bgColor--danger);
     --textColor: var(--vuiii-button-textColor--danger);
     --borderColor: var(--vuiii-button-borderColor--danger);
@@ -192,7 +192,7 @@
     }
   }
 
-  &.vuiii-button--success {
+  &.vuiii-button--variant-success {
     --bgColor: var(--vuiii-button-bgColor--success);
     --textColor: var(--vuiii-button-textColor--success);
     --borderColor: var(--vuiii-button-borderColor--success);

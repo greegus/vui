@@ -3,17 +3,16 @@
     :is="component"
     class="Button vuiii-button"
     :class="{
-      [`vuiii-button--${$props.variant}`]: $props.variant,
-      [`vuiii-button--${$props.size}`]: $props.size,
-      'vuiii-button--disabled': $props.loading || $attrs.disabled,
+      [`vuiii-button--variant-${$props.variant}`]: $props.variant,
+      [`vuiii-button--size-${$props.size}`]: $props.size,
+      'vuiii-button--disabled': $props.disabled || $props.loading,
       'vuiii-button--loading': $props.loading,
-      'vuiii-button--active': $props.active,
       'vuiii-button--outlined': $props.outlined && $props.variant,
       'vuiii-button--block': $props.block,
       'vuiii-button--pill': $props.pill
     }"
     v-bind="$attrs"
-    :type="$attrs.type || (component === 'button' ? 'button' : undefined)"
+    :type="component === 'button' ? $props.type : undefined"
   >
     <slot name="prefix">
       <Icon
@@ -42,12 +41,18 @@
 <script lang="ts" setup>
 import '../assets/css/button.css'
 
-import { computed, useAttrs } from 'vue'
+import { computed } from 'vue'
+import type { RouteLocationRaw } from 'vue-router'
 
 import type { ButtonVariant, InputSize } from '../types'
 import Icon from './Icon.vue'
 
-defineProps<{
+export interface NativeButtonProps {
+  disabled?: boolean
+  type?: 'button' | 'submit' | 'reset'
+}
+
+export interface ButtonProps extends NativeButtonProps {
   size?: InputSize
   variant?: ButtonVariant
   prefixIcon?: string
@@ -55,10 +60,15 @@ defineProps<{
   label?: string
   block?: boolean
   loading?: boolean
-  active?: boolean
   outlined?: boolean
   pill?: boolean
-}>()
+  to?: RouteLocationRaw
+  href?: string
+}
+
+const props = withDefaults(defineProps<ButtonProps>(), {
+  type: 'button'
+})
 
 defineSlots<{
   prefix: void
@@ -66,14 +76,12 @@ defineSlots<{
   suffix: void
 }>()
 
-const attrs = useAttrs()
-
 const component = computed<string>(() => {
-  if (attrs.to) {
+  if (props.to) {
     return 'router-link'
   }
 
-  if (attrs.href) {
+  if (props.href) {
     return 'a'
   }
 
