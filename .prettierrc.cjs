@@ -1,4 +1,6 @@
-{
+/* eslint-env node */
+
+module.exports = {
   "htmlWhitespaceSensitivity": "ignore",
   "printWidth": 120,
   "quoteProps": "preserve",
