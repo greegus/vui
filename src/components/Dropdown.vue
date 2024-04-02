@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts" generic="Item extends any = any" setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 import Button from '@/components/Button.vue'
 import { useOnClickOutside } from '@/composables/useOnClickOutside'
@@ -28,6 +28,11 @@ interface DropdownProps {
 
 defineProps<DropdownProps>()
 
+const emit = defineEmits<{
+  open: []
+  close: []
+}>()
+
 const isOpen = ref(false)
 
 const rootElement = ref<HTMLDivElement>()
@@ -40,6 +45,8 @@ function open() {
   }
 
   isOpen.value = true
+
+  emit('open')
 }
 
 function close() {
@@ -48,6 +55,8 @@ function close() {
   }
 
   isOpen.value = false
+
+  emit('close')
 }
 
 function toggle(state?: boolean) {
@@ -80,7 +89,8 @@ defineSlots<{
 defineExpose({
   open,
   close,
-  toggle
+  toggle,
+  isOpen: computed(() => isOpen.value)
 })
 </script>
 
