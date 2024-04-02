@@ -23,9 +23,9 @@ function handleItemClick(item: Item) {
   <div class="DropdownMenu">
     <ul class="DropdownMenu__items" v-if="items?.length">
       <li v-for="(item, index) in items" :key="index" class="DropdownMenu__itemWrapper">
-        <slot name="item" v-bind="{ item }">
+        <slot name="item" v-bind="{ item, index }">
           <button class="DropdownMenu__item" @click="handleItemClick(item)">
-            <slot name="itemLabel" v-bind="{ item }">
+            <slot name="itemLabel" v-bind="{ item, index }">
               {{ item }}
             </slot>
           </button>
