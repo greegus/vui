@@ -1,6 +1,7 @@
 import { type Meta, StoryFn, StoryObj } from '@storybook/vue3'
 
 import Dropdown from '../components/Dropdown.vue'
+import DropdownMenu from '../components/DropdownMenu.vue'
 import { icons } from './assets/icons'
 import { plainArrayOptions } from './assets/options'
 
@@ -46,10 +47,14 @@ export default {
 } as Meta<typeof Dropdown>
 
 export const DefaultTemplate: StoryFn<typeof Dropdown> = (args) => ({
-  components: { Dropdown },
+  components: { Dropdown, DropdownMenu },
   setup: () => ({ args }),
   template: `
-    <Dropdown v-bind="args" />
+    <Dropdown v-bind="args">
+      <template #default="{close}">
+        <DropdownMenu :items="args.items" @click-item="close()" />
+      </template>
+    </Dropdown>
   `
 })
 

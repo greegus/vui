@@ -5,19 +5,7 @@
     </slot>
 
     <div v-if="isOpen" class="Dropdown__dropdown" ref="dropdownElement">
-      <slot v-bind="{ close }">
-        <ul class="Dropdown__items" :style="{ maxHeight: height + 'px' }">
-          <li v-for="(item, index) in items" :key="index" class="Dropdown__itemWrapper">
-            <slot name="item" v-bind="{ item, close }">
-              <button class="Dropdown__item" @click="handleItemClick(item)">
-                <slot name="itemLabel" v-bind="{ item }">
-                  {{ item }}
-                </slot>
-              </button>
-            </slot>
-          </li>
-        </ul>
-      </slot>
+      <slot v-bind="{ close }" />
     </div>
   </div>
 </template>
@@ -31,22 +19,14 @@ import { useOnKeyPress } from '@/composables/useOnKeyPress'
 import { usePopper } from '@/composables/usePopper'
 import { ButtonVariant } from '@/types'
 
-interface Dropdownprops {
+interface DropdownProps {
   label?: string
   variant?: ButtonVariant
   block?: boolean
   icon?: string
-  height?: number
-  items?: Item[]
 }
 
-withDefaults(defineProps<Dropdownprops>(), {
-  height: 200
-})
-
-const emit = defineEmits<{
-  'item-click': [Item]
-}>()
+defineProps<DropdownProps>()
 
 const isOpen = ref(false)
 
@@ -59,8 +39,6 @@ function open() {
     return
   }
 
-  console.log('open')
-
   isOpen.value = true
 }
 
@@ -69,20 +47,11 @@ function close() {
     return
   }
 
-  console.log('close')
-
   isOpen.value = false
 }
 
 function toggle(state?: boolean) {
-  console.log('isOpen.value', isOpen.value, state)
-
   state ?? !isOpen.value ? open() : close()
-}
-
-function handleItemClick(item: Item) {
-  emit('item-click', item)
-  close()
 }
 
 usePopper(rootElement, dropdownElement)
@@ -106,8 +75,6 @@ useOnKeyPress('Escape', (event: KeyboardEvent) => {
 defineSlots<{
   default?: (props: { close: () => void }) => any
   trigger?: (props: { open: () => void; close: () => void; toggle: (state?: boolean) => void }) => any
-  item?: (props: { item: Item; close: () => void }) => any
-  itemLabel?: (props: { item: Item }) => any
 }>()
 </script>
 
@@ -121,45 +88,5 @@ defineSlots<{
   display: block;
   width: 100%;
   flex-grow: 1;
-}
-
-.Dropdown__dropdown {
-  position: absolute;
-  z-index: 9;
-  background-color: var(--vuiii-color-white);
-  border: 1px solid var(--vuiii-color-gray--light);
-  box-shadow: var(--vuiii-shadow--large);
-  border-radius: 0.25rem;
-  min-width: 100%;
-  box-sizing: border-box;
-  width: max-content;
-}
-
-.Dropdown__items {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow-y: auto;
-
-  & > * + * {
-    border-top: 1px solid var(--vuiii-color-gray--light);
-  }
-}
-
-.Dropdown__itemWrapper {
-  display: block;
-}
-
-.Dropdown__item {
-  all: unset;
-  padding: 0.5rem 1.25rem;
-  cursor: pointer;
-  display: block;
-  width: 100%;
-  box-sizing: border-box;
-
-  &:hover {
-    background-color: var(--vuiii-color-gray--lighter);
-  }
 }
 </style>
