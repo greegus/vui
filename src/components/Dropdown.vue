@@ -76,6 +76,12 @@ defineSlots<{
   default?: (props: { close: () => void }) => any
   trigger?: (props: { open: () => void; close: () => void; toggle: (state?: boolean) => void }) => any
 }>()
+
+defineExpose({
+  open,
+  close,
+  toggle
+})
 </script>
 
 <style scoped>
