@@ -1,30 +1,41 @@
 <script lang="ts" generic="Item extends any = any" setup>
 interface DropdownMenuProps {
   items?: Item[]
+  cursorIndex?: number
 }
+
+type ItemWithIndex = { item: Item; index: number }
 
 defineProps<DropdownMenuProps>()
 
-const emits = defineEmits<{
-  'clickItem': [Item]
+const emit = defineEmits<{
+  'itemClick': [ItemWithIndex]
+  'itemMouseenter': [ItemWithIndex]
+  'itemMouseleave': [ItemWithIndex]
 }>()
 
 defineSlots<{
-  item?: (props: { item: Item }) => any
-  itemLabel?: (props: { item: Item }) => any
+  item?: (props: ItemWithIndex) => any
+  itemLabel?: (props: ItemWithIndex) => any
 }>()
-
-function handleItemClick(item: Item) {
-  emits('clickItem', item)
-}
 </script>
 
 <template>
   <div class="DropdownMenu">
     <ul class="DropdownMenu__items" v-if="items?.length">
-      <li v-for="(item, index) in items" :key="index" class="DropdownMenu__itemWrapper">
+      <li
+        v-for="(item, index) in items"
+        :key="index"
+        class="DropdownMenu__item"
+        :class="{ 'DropdownMenu__item--withCursor': cursorIndex === index }"
+      >
         <slot name="item" v-bind="{ item, index }">
-          <button class="DropdownMenu__item" @click="handleItemClick(item)">
+          <button
+            class="DropdownMenu__button"
+            @click="emit('itemClick', { item, index })"
+            @mouseenter="emit('itemMouseenter', { item, index })"
+            @mouseleave="emit('itemMouseleave', { item, index })"
+          >
             <slot name="itemLabel" v-bind="{ item, index }">
               {{ item }}
             </slot>
@@ -42,7 +53,7 @@ function handleItemClick(item: Item) {
   background-color: var(--vuiii-color-white);
   border: 1px solid var(--vuiii-color-gray--light);
   box-shadow: var(--vuiii-shadow--large);
-  border-radius: 0.25rem;
+  border-radius: var(--vuiii-field-borderRadius);
   min-width: 100%;
   box-sizing: border-box;
   width: max-content;
@@ -59,11 +70,15 @@ function handleItemClick(item: Item) {
   }
 }
 
-.DropdownMenu__itemWrapper {
+.DropdownMenu__item {
   display: block;
+
+  &--withCursor {
+    background-color: color-mix(in srgb, var(--vuiii-color-primary) 20%, transparent);
+  }
 }
 
-.DropdownMenu__item {
+.DropdownMenu__button {
   all: unset;
   padding: 0.5rem 1.25rem;
   cursor: pointer;
