@@ -1,12 +1,14 @@
 <template>
   <div class="Dropdown" :class="{ 'Dropdown--block': block }" ref="rootElement">
-    <slot name="trigger" v-bind="{ open, close, toggle }">
+    <slot name="trigger" v-bind="{ open, close, toggle, isOpen }">
       <Button :label :variant :block :prefixIcon="icon" suffixIcon="chevron-down" @click="toggle()" />
     </slot>
 
-    <div v-if="isOpen" class="Dropdown__dropdown" ref="dropdownElement">
-      <slot v-bind="{ close }" />
-    </div>
+    <FadeTransition :duration="100">
+      <div v-if="isOpen" class="Dropdown__dropdown" ref="dropdownElement">
+        <slot v-bind="{ close }" />
+      </div>
+    </FadeTransition>
   </div>
 </template>
 
@@ -14,6 +16,7 @@
 import { computed, ref } from 'vue'
 
 import Button from '@/components/Button.vue'
+import FadeTransition from '@/components/transitions/FadeTransition.vue'
 import { useOnClickOutside } from '@/composables/useOnClickOutside'
 import { useOnKeyPress } from '@/composables/useOnKeyPress'
 import { usePopper } from '@/composables/usePopper'
@@ -83,7 +86,7 @@ useOnKeyPress('Escape', (event: KeyboardEvent) => {
 
 defineSlots<{
   default?: (props: { close: () => void }) => any
-  trigger?: (props: { open: () => void; close: () => void; toggle: (state?: boolean) => void }) => any
+  trigger?: (props: { open: () => void; close: () => void; toggle: (state?: boolean) => void; isOpen: boolean }) => any
 }>()
 
 defineExpose({
@@ -98,11 +101,16 @@ defineExpose({
 .Dropdown {
   position: relative;
   display: inline-block;
+
+  &.Dropdown--block {
+    display: block;
+    width: 100%;
+    flex-grow: 1;
+  }
 }
 
-.Dropdown--block {
-  display: block;
-  width: 100%;
-  flex-grow: 1;
+.Dropdown__dropdown {
+  width: max-content;
+  min-width: 100%;
 }
 </style>

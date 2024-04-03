@@ -1,4 +1,6 @@
 <script lang="ts" generic="Item extends any = any" setup>
+import { ref, watch } from 'vue'
+
 interface DropdownMenuProps {
   items?: Item[]
   cursorIndex?: number
@@ -6,7 +8,7 @@ interface DropdownMenuProps {
 
 type ItemWithIndex = { item: Item; index: number }
 
-defineProps<DropdownMenuProps>()
+const props = defineProps<DropdownMenuProps>()
 
 const emit = defineEmits<{
   'itemClick': [ItemWithIndex]
@@ -15,9 +17,23 @@ const emit = defineEmits<{
 }>()
 
 defineSlots<{
-  item?: (props: ItemWithIndex) => any
-  itemLabel?: (props: ItemWithIndex) => any
+  item?: (props: ItemWithIndex & { cursorIndex?: number }) => any
+  itemLabel?: (props: ItemWithIndex & { cursorIndex?: number }) => any
 }>()
+
+const itemElements = ref<HTMLElement[]>([])
+
+watch(
+  () => props.cursorIndex,
+  (cursorIndex) => {
+    if (cursorIndex !== undefined && cursorIndex >= 0) {
+      itemElements.value[cursorIndex]?.scrollIntoView({
+        block: 'nearest',
+        behavior: 'smooth'
+      })
+    }
+  }
+)
 </script>
 
 <template>
@@ -28,15 +44,16 @@ defineSlots<{
         :key="index"
         class="DropdownMenu__item"
         :class="{ 'DropdownMenu__item--withCursor': cursorIndex === index }"
+        ref="itemElements"
       >
-        <slot name="item" v-bind="{ item, index }">
+        <slot name="item" v-bind="{ item, index, cursorIndex }">
           <button
             class="DropdownMenu__button"
             @click="emit('itemClick', { item, index })"
             @mouseenter="emit('itemMouseenter', { item, index })"
             @mouseleave="emit('itemMouseleave', { item, index })"
           >
-            <slot name="itemLabel" v-bind="{ item, index }">
+            <slot name="itemLabel" v-bind="{ item, index, cursorIndex }">
               {{ item }}
             </slot>
           </button>
@@ -51,7 +68,7 @@ defineSlots<{
   position: relative;
   z-index: 9;
   background-color: var(--vuiii-color-white);
-  border: 1px solid var(--vuiii-color-gray--light);
+  border: 1px solid var(--vuiii-color-gray);
   box-shadow: var(--vuiii-shadow--large);
   border-radius: var(--vuiii-field-borderRadius);
   min-width: 100%;
@@ -73,8 +90,19 @@ defineSlots<{
 .DropdownMenu__item {
   display: block;
 
-  &--withCursor {
-    background-color: color-mix(in srgb, var(--vuiii-color-primary) 20%, transparent);
+  &:first-child {
+    border-top-left-radius: var(--vuiii-field-borderRadius);
+    border-top-right-radius: var(--vuiii-field-borderRadius);
+  }
+
+  &:last-child {
+    border-bottom-left-radius: var(--vuiii-field-borderRadius);
+    border-bottom-right-radius: var(--vuiii-field-borderRadius);
+  }
+
+  &.DropdownMenu__item--withCursor,
+  &:has(.DropdownMenu__button:hover) {
+    background-color: color-mix(in srgb, var(--vuiii-color-black) 5%, transparent);
   }
 }
 
@@ -85,9 +113,5 @@ defineSlots<{
   display: block;
   width: 100%;
   box-sizing: border-box;
-
-  &:hover {
-    background-color: var(--vuiii-color-gray--lighter);
-  }
 }
 </style>
