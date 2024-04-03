@@ -66,7 +66,7 @@ watch(
 <style lang="postcss">
 .DropdownMenu {
   position: relative;
-  z-index: 9;
+  z-index: 10;
   background-color: var(--vuiii-color-white);
   border: 1px solid var(--vuiii-color-gray);
   box-shadow: var(--vuiii-shadow--large);
@@ -74,6 +74,8 @@ watch(
   min-width: 100%;
   box-sizing: border-box;
   width: max-content;
+  display: flex;
+  flex-flow: column;
 }
 
 .DropdownMenu__items {
@@ -81,6 +83,8 @@ watch(
   margin: 0;
   padding: 0;
   overflow-y: auto;
+  flex: 1 1 auto;
+  max-height: 100%;
 
   & > * + * {
     border-top: 1px solid var(--vuiii-color-gray--light);
@@ -100,9 +104,8 @@ watch(
     border-bottom-right-radius: var(--vuiii-field-borderRadius);
   }
 
-  &.DropdownMenu__item--withCursor,
-  &:has(.DropdownMenu__button:hover) {
-    background-color: color-mix(in srgb, var(--vuiii-color-black) 5%, transparent);
+  &.DropdownMenu__item--withCursor {
+    background-color: color-mix(in srgb, var(--vuiii-color-black) 6%, transparent);
   }
 }
 
@@ -113,5 +116,9 @@ watch(
   display: block;
   width: 100%;
   box-sizing: border-box;
+
+  &:hover {
+    background-color: color-mix(in srgb, var(--vuiii-color-black) 3%, transparent);
+  }
 }
 </style>

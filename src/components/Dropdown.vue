@@ -110,7 +110,9 @@ defineExpose({
 }
 
 .Dropdown__dropdown {
+  position: absolute;
   width: max-content;
   min-width: 100%;
+  z-index: 10;
 }
 </style>

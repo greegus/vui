@@ -125,7 +125,7 @@ export const SearchSuggestions: StoryObj<typeof Dropdown> = {
         </template>
 
         <template #default="{ close }" v-if="items.length">
-          <DropdownMenu :items :cursor-index="cursor" @item-click="selectItem($event.item)" style="width: 100%" />
+          <DropdownMenu :items :cursor-index="cursor" @item-click="selectItem($event.item)" style="width: 100%; max-height: 100px" />
         </template>
       </Dropdown>
     `
