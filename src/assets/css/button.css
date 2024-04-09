@@ -1,20 +1,21 @@
 @import './common.css';
 
 .vuiii-button {
+  --fontSize: var(--vuiii-button-fontSize);
+  --height: var(--vuiii-button-height);
+  --padding: var(--vuiii-button-padding);
+  --borderRadius: var(--vuiii-button-borderRadius);
+  --ringSize: 0;
+
   --bgColor: var(--vuiii-button-bgColor);
   --borderColor: var(--vuiii-button-borderColor);
   --textColor: var(--vuiii-button-textColor);
-  --height: var(--vuiii-button-height, var(--vuiii-field-height));
-  --padding: var(--vuiii-button-padding, var(--vuiii-field-padding));
-  --borderRadius: var(--vuiii-button-borderRadius, var(--vuiii-field-borderRadius));
-  --borderWidth: var(--vuiii-button-borderWidth, var(--vuiii-field-borderWidth));
-  --fontSize: var(--vuiii-button-fontSize, var(--vuiii-field-fontSize));
+  --borderWidth: var(--vuiii-button-borderWidth);
   --fontWeight: var(--vuiii-button-fontWeight);
   --shadow: var(--vuiii-button-shadow, 0 0);
-  --transition: var(--vuiii-button-transition, var(--vuiii-field-transition, none));
+  --transition: var(--vuiii-button-transition);
   --ringColor: var(--vuiii-button-ringColor);
   --gap: 0.5rem;
-  --ringSize: 0;
   --iconColor: var(--vuiii-button-iconColor, currentColor);
 
   appearance: none;
@@ -54,7 +55,7 @@
     border-color: var(--borderColor--focus);
     background-color: var(--bgColor--focus);
 
-    --ringSize: var(--vuiii-button-ringSize, var(--vuiii-field-ringSize));
+    --ringSize: var(--vuiii-button-ringSize);
   }
 
   /* Hover state */
@@ -74,16 +75,16 @@
   &&:disabled,
   &.vuiii-button--disabled {
     pointer-events: none;
-    opacity: var(--vuiii-button-opacity--disabled, var(--vuiii-field-opacity--disabled, 0.5));
+    opacity: var(--vuiii-button-opacity--disabled);
   }
 
   /* Sizes */
 
   &.vuiii-button--size-small {
     --gap: 0.5rem;
-    --fontSize: var(--vuiii-button-fontSize--small, var(--vuiii-field-fontSize--small));
-    --height: var(--vuiii-button-height--small, var(--vuiii-field-height--small, var(--vuiii-field-height)));
-    --padding: var(--vuiii-button-padding--small, var(--vuiii-field-padding));
+    --fontSize: var(--vuiii-button-fontSize--small);
+    --height: var(--vuiii-button-height--small);
+    --padding: var(--vuiii-button-padding--small);
 
     &:focus:not(:disabled) {
       --ringSize: var(--vuiii-button-ringSize--small, var(--vuiii-button-ringSize));
@@ -92,9 +93,9 @@
 
   &.vuiii-button--size-large {
     --gap: 0.75rem;
-    --fontSize: var(--vuiii-button-fontSize--large, var(--vuiii-field-fontSize--large));
-    --height: var(--vuiii-button-height--large, var(--vuiii-field-height--large, var(--vuiii-field-height)));
-    --padding: var(--vuiii-button-padding--large, var(--vuiii-field-padding));
+    --fontSize: var(--vuiii-button-fontSize--large);
+    --height: var(--vuiii-button-height--large);
+    --padding: var(--vuiii-button-padding--large);
   }
 
   /* Variants */
@@ -105,7 +106,7 @@
     --borderColor: var(--vuiii-button-borderColor--primary);
     --ringColor: var(--vuiii-button-ringColor--primary);
 
-    --bgColor--focus: var(--vuiii-button-bgColor--primary--focus, var(--bgColor));
+    --bgColor--focus: var(--vuiii-button-bgColor--primary--focus);
     --textColor--focus: var(--vuiii-button-textColor--primary--focus, var(--textColor));
     --borderColor--focus: var(--vuiii-button-borderColor--primary--focus, var(--borderColor));
 

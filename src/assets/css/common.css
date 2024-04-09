@@ -8,7 +8,7 @@
 
   --vuiii-fontSize: 1rem;
   --vuiii-fontSize--tiny: calc(var(--vuiii-fontSize) * 0.75);
-  --vuiii-fontSize--small: calc(var(--vuiii-fontSize) * 0.875);
+  --vuiii-fontSize--small: calc(var(--vuiii-fontSize) * 0.85);
   --vuiii-fontSize--large: calc(var(--vuiii-fontSize) * 1.25);
 
   /* ------ */
@@ -53,21 +53,34 @@
   --vuiii-field-height: 2.5em;
   --vuiii-field-padding: 1.35em;
   --vuiii-field-borderRadius: 0.25em;
+  --vuiii-field-fontSize: var(--vuiii-fontSize);
+
   --vuiii-field-borderWidth: 1px;
   --vuiii-field-bgColor: var(--vuiii-color-white);
   --vuiii-field-borderColor: var(--vuiii-color-gray);
   --vuiii-field-ringColor: color-mix(in srgb, var(--vuiii-color-gray--dark) 10%, transparent);
   --vuiii-field-ringSize: 0.25em;
 
-  --vuiii-field-fontSize: var(--vuiii-fontSize);
-  --vuiii-field-fontSize--small: var(--vuiii-fontSize--small);
-  --vuiii-field-fontSize--large: var(--vuiii-fontSize--large);
-
   --vuiii-field-borderColor--active: var(--vuiii-color-gray--dark);
   --vuiii-field-borderColor--focus: var(--vuiii-color-gray--dark);
   --vuiii-field-borderColor--invalid: var(--vuiii-color-danger);
 
   --vuiii-field-transition: all 0.05s ease-in-out;
+  --vuiii-field-opacity--disabled: 0.6;
+
+  /* Sizes */
+
+  --vuiii-field-height--small: var(--vuiii-field-height);
+  --vuiii-field-padding--small: var(--vuiii-field-padding);
+  --vuiii-field-borderRadius--small: var(--vuiii-field-borderRadius);
+  --vuiii-field-fontSize--small: var(--vuiii-fontSize--small);
+  --vuiii-field-ringSize--small: var(--vuiii-field-ringSize);
+
+  --vuiii-field-height--large: var(--vuiii-field-height);
+  --vuiii-field-padding--large: var(--vuiii-field-padding);
+  --vuiii-field-borderRadius--large: var(--vuiii-field-borderRadius);
+  --vuiii-field-fontSize--large: var(--vuiii-fontSize--large);
+  --vuiii-field-ringSize--large: var(--vuiii-field-ringSize);
 
   /* ------ */
   /* Labels */
@@ -80,8 +93,28 @@
   /* Buttons */
   /* ––––––– */
 
+  --vuiii-button-fontSize: var(--vuiii-field-fontSize);
+  --vuiii-button-height: var(--vuiii-field-height);
+  --vuiii-button-padding: var(--vuiii-field-padding);
+  --vuiii-button-borderRadius: var(--vuiii-field-borderRadius);
   --vuiii-button-ringSize: var(--vuiii-field-ringSize);
+
+  --vuiii-button-borderWidth: var(--vuiii-field-borderWidth);
+  --vuiii-button-transition: var(--vuiii-field-transition);
+  --vuiii-button-opacity--disabled: var(--vuiii-field-opacity--disabled);
+
+  /* Sizes */
+
+  --vuiii-button-fontSize--small: var(--vuiii-field-fontSize--small);
+  --vuiii-button-height--small: var(--vuiii-field-height--small);
+  --vuiii-button-padding--small: var(--vuiii-field-padding--small);
+  --vuiii-button-borderRadius--small: var(--vuiii-field-borderRadius--small);
   --vuiii-button-ringSize-small: var(--vuiii-field-ringSize--small);
+
+  --vuiii-button-fontSize--large: var(--vuiii-field-fontSize--large);
+  --vuiii-button-height--large: var(--vuiii-field-height--large);
+  --vuiii-button-padding--large: var(--vuiii-field-padding--large);
+  --vuiii-button-borderRadius--large: var(--vuiii-field-borderRadius--large);
   --vuiii-button-ringSize-large: var(--vuiii-field-ringSize--large);
 
   /* Default button */
@@ -146,19 +179,49 @@
   /* Inputs */
   /* ------ */
 
+  --vuiii-input-height: var(--vuiii-field-height);
+  --vuiii-input-padding: var(--vuiii-field-padding);
+  --vuiii-input-fontSize: var(--vuiii-field-fontSize);
+  --vuiii-input-borderRadius: var(--vuiii-field-borderRadius);
+  --vuiii-input-ringSize: var(--vuiii-field-ringSize);
+
   --vuiii-input-textColor: inherit;
   --vuiii-input-borderColor: var(--vuiii-field-borderColor);
   --vuiii-input-borderColor--focus: color-mix(in srgb, var(--vuiii-input-borderColor) 80%, black);
   --vuiii-input-bgColor: var(--vuiii-color-white);
+  --vuiii-input-bgColor--focus: var(--vuiii-input-bgColor);
   --vuiii-input-placeholderColor: color-mix(in srgb, currentColor 50%, transparent);
   --vuiii-input-ringColor: var(--vuiii-field-ringColor);
-  --vuiii-input-borderRadius: var(--vuiii-field-borderRadius);
   --vuiii-input-borderWidth: var(--vuiii-field-borderWidth);
-  --vuiii-input-height: var(--vuiii-field-height);
-  --vuiii-input-padding: var(--vuiii-field-padding);
-  --vuiii-input-fontSize: var(--vuiii-field-fontSize);
-  --vuiii-input-transition: var(--vuiii-field-transition);
   --vuiii-input-iconColor: color-mix(in srgb, currentColor 50%, transparent);
+  --vuiii-input-shadow: 0 0;
+  --vuiii-input-shadow--focus: var(--vuiii-input-shadow);
+  --vuiii-input-transition: var(--vuiii-field-transition);
+  --vuiii-input-opacity--disabled: var(--vuiii-field-opacity--disabled);
+
+  /* Sizes */
+
+  --vuiii-input-height--small: var(--vuiii-field-height--small);
+  --vuiii-input-fontSize--small: var(--vuiii-field-fontSize--small);
+  --vuiii-input-padding--small: var(--vuiii-field-padding--small);
+  --vuiii-input-borderRadius--small: var(--vuiii-field-borderRadius--small);
+  --vuiii-input-ringSize--small: var(--vuiii-field-ringSize--small);
+
+  --vuiii-input-height--large: var(--vuiii-field-height--large);
+  --vuiii-input-fontSize--large: var(--vuiii-field-fontSize--large);
+  --vuiii-input-padding--large: var(--vuiii-field-padding--large);
+  --vuiii-input-borderRadius--large: var(--vuiii-field-borderRadius--large);
+  --vuiii-input-ringSize--large: var(--vuiii-field-ringSize--large);
+
+  /* Validity states */
+
+  --vuiii-input-textColor--valid: var(--vuiii-color-success);
+  --vuiii-input-borderColor--valid: var(--vuiii-color-success);
+  --vuiii-input-ringColor--valid: color-mix(in srgb, var(--vuiii-color-success) 10%, transparent);
+
+  --vuiii-input-textColor--invalid: var(--vuiii-color-danger);
+  --vuiii-input-borderColor--invalid: var(--vuiii-color-danger);
+  --vuiii-input-ringColor--invalid: color-mix(in srgb, var(--vuiii-color-danger) 10%, transparent);
 
   /* ------ */
   /* Checkboxes and radios */
