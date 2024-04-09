@@ -1,4 +1,4 @@
-import { type Meta,StoryObj } from '@storybook/vue3'
+import { type Meta, StoryObj } from '@storybook/vue3'
 import { ref } from 'vue'
 
 import Select from '../components/Select.vue'
@@ -63,6 +63,10 @@ export const Default: StoryObj<typeof Select> = {}
 
 export const Disabled: StoryObj<typeof Select> = {
   args: { disabled: true }
+}
+
+export const Invalid: StoryObj<typeof Select> = {
+  args: { invalid: true }
 }
 
 export const Groups: StoryObj<typeof Select> = {

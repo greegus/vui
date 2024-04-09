@@ -5,6 +5,8 @@
       $attrs.class,
       {
         [`vuiii-input--${$props.size}`]: $props.size,
+        'vuiii-input--invalid': $props.invalid,
+        'vuiii-input--disabled': $props.disabled,
         'Select--pill': $props.pill
       }
     ]"
@@ -86,6 +88,8 @@ const props = withDefaults(
     size?: InputSize
     required?: boolean
     inputClass?: any
+    invalid?: boolean
+    disabled?: boolean
     pill?: boolean
     type?: 'string' | 'number' | 'boolean' | 'date'
   }>(),
