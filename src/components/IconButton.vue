@@ -11,13 +11,13 @@ const props = defineProps<IconButtonProps>()
 
 const buttonProps = useFilteredProps(props, ['icon'])
 
-defineEmits<{
-  click: []
+const emit = defineEmits<{
+  click: [Event]
 }>()
 </script>
 
 <template>
-  <Button class="vuiii-icon-button" :prefixIcon="icon" v-bind="buttonProps" />
+  <Button class="vuiii-icon-button" :prefixIcon="icon" v-bind="buttonProps" @click="emit('click', $event)" />
 </template>
 
 <style lang="postcss">
