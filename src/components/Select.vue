@@ -19,7 +19,14 @@
       :required="$props.required"
       @input="handleInput($event)"
     >
-      <option v-if="$props.placeholder" :disabled="$props.required" value="" selected>
+      <option
+        data-placeholder
+        v-if="$props.placeholder"
+        :disabled="$props.required"
+        :hidden="$props.required"
+        value=""
+        selected
+      >
         {{ $props.placeholder }}
       </option>
 
@@ -166,6 +173,10 @@ function handleInput(e: Event) {
   text-overflow: ellipsis;
   align-self: stretch;
   padding-right: calc(var(--padding) + var(--vuiii-icon-size) + 0.5rem);
+
+  &:has(option[data-placeholder]:checked) {
+    color: var(--vuiii-input-placeholderColor);
+  }
 
   /* XXX: deal with vertical cropping of the label */
   line-height: 1.5;
