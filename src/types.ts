@@ -3,6 +3,8 @@ import type { RouteLocationRaw } from 'vue-router'
 
 export type ObjectKeyOrAnyString<T> = (keyof T & string) | (string & {})
 
+export type MaybePromise<T> = T | Promise<T>
+
 export type ConstOrAnyString<T extends string> = T | (string & {})
 
 export type InputSize = 'small' | 'normal' | 'large'

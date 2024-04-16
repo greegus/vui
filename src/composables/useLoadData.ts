@@ -2,10 +2,18 @@ import type { Ref } from 'vue'
 import type { Router } from 'vue-router'
 
 import { useSubmitAction } from '@/composables/useSubmitAction'
+import { useModal } from '@/modal'
+import { useSnackbar } from '@/snackbar'
+import { MaybePromise } from '@/types'
 
 export const useLoadData = <D = unknown, S extends (...args: any[]) => D = (...args: any[]) => D>(
   source: S,
   options: {
+    onBeforeLoad?: (params: {
+      params: Parameters<S>
+      modal: ReturnType<typeof useModal>
+      snackbar: ReturnType<typeof useSnackbar>
+    }) => MaybePromise<boolean | undefined>
     onSuccess?: (params: { data: Awaited<ReturnType<S>>; params: Parameters<S>; router: Router }) => unknown
     onError?: (params: { error: Error; params: Parameters<S>; router: Router }) => boolean | void
     successMessage?: ((params: { data: Awaited<ReturnType<S>> | Promise<D>; params: Parameters<S> }) => string) | string
@@ -25,6 +33,9 @@ export const useLoadData = <D = unknown, S extends (...args: any[]) => D = (...a
     submit: load,
     result: data
   } = useSubmitAction(source, {
+    onBeforeSubmit: options.onBeforeLoad
+      ? ({ params, modal, snackbar }) => options.onBeforeLoad!({ params, modal, snackbar })
+      : undefined,
     onSuccess: ({ router, params, result }) => options.onSuccess?.({ data: result, params, router }),
     onError: ({ router, error, params }) => options.onError?.({ error, params, router }),
     successMessage:

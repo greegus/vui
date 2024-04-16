@@ -3,6 +3,7 @@ import { type RouteLocationRaw, type Router, useRouter } from 'vue-router'
 
 import { useModal } from '@/modal'
 import { useSnackbar } from '@/snackbar'
+import { MaybePromise } from '@/types'
 
 export function useSubmitAction<D = unknown, S extends (...args: any[]) => D = (...args: any[]) => D>(
   action: S,
@@ -11,7 +12,7 @@ export function useSubmitAction<D = unknown, S extends (...args: any[]) => D = (
       params: Parameters<typeof action>
       modal: ReturnType<typeof useModal>
       snackbar: ReturnType<typeof useSnackbar>
-    }) => boolean | Promise<boolean>
+    }) => MaybePromise<boolean | undefined>
     onSuccess?: (params: {
       params: Parameters<typeof action>
       result: Awaited<ReturnType<S>>
