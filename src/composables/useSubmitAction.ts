@@ -60,7 +60,7 @@ export function useSubmitAction<D = unknown, S extends (...args: any[]) => D = (
       if (options.onBeforeSubmit) {
         const onBeforeSubmitResult = await options.onBeforeSubmit({ params, modal, snackbar })
 
-        if (!onBeforeSubmitResult) {
+        if (onBeforeSubmitResult === false) {
           isSubmitting.value = false
           return undefined
         }
