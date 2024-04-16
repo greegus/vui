@@ -43,6 +43,7 @@ export function useSubmitAction<D = unknown, S extends (...args: any[]) => D = (
   isSubmitting: Ref<boolean>
   hasSubbmitted: Ref<boolean>
   result: Ref<Awaited<ReturnType<S>>>
+  error: Ref<Error | null>
 } {
   const snackbar = useSnackbar()
   const modal = useModal()
@@ -50,6 +51,7 @@ export function useSubmitAction<D = unknown, S extends (...args: any[]) => D = (
 
   const isSubmitting = ref<boolean>(false)
   const hasSubbmitted = ref<boolean>(false)
+  const error = ref<Error | null>(null)
   const result = ref<Awaited<ReturnType<S>>>(options.initialResultValue as Awaited<ReturnType<S>>) as Ref<
     Awaited<ReturnType<S>>
   >
@@ -57,6 +59,7 @@ export function useSubmitAction<D = unknown, S extends (...args: any[]) => D = (
   const submit = async (...params: Parameters<typeof action>): Promise<ReturnType<S> | undefined> => {
     try {
       isSubmitting.value = true
+      error.value = null
 
       if (options.onBeforeSubmit) {
         const onBeforeSubmitResult = await options.onBeforeSubmit({ params, modal, snackbar })
@@ -68,26 +71,28 @@ export function useSubmitAction<D = unknown, S extends (...args: any[]) => D = (
       }
 
       result.value = (await action(...params)) as Awaited<ReturnType<S>>
-    } catch (error) {
+    } catch (e) {
+      error.value = e as Error
+
       if (options.errorMessage && snackbar) {
         snackbar.error(
           typeof options.errorMessage === 'function'
-            ? options.errorMessage({ error: error as Error, params })
-            : options.errorMessage || (error as Error).message
+            ? options.errorMessage({ error: e as Error, params })
+            : options.errorMessage || (e as Error).message
         )
       }
 
       isSubmitting.value = false
 
       if (options.onError) {
-        const hasErrorBeenResolved = options.onError({ error: error as Error, params, router, snackbar, modal })
+        const hasErrorBeenResolved = options.onError({ error: e as Error, params, router, snackbar, modal })
 
         if (hasErrorBeenResolved) {
           return undefined
         }
       }
 
-      throw error
+      throw e
     }
 
     hasSubbmitted.value = true
@@ -121,6 +126,7 @@ export function useSubmitAction<D = unknown, S extends (...args: any[]) => D = (
   return {
     submit,
     result,
+    error,
     isSubmitting,
     hasSubbmitted
   }

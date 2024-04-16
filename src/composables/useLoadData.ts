@@ -26,12 +26,14 @@ export const useLoadData = <D = unknown, S extends (...args: any[]) => D = (...a
   isLoading: Ref<boolean>
   hasLoaded: Ref<boolean>
   data: Ref<Awaited<ReturnType<S>>>
+  error: Ref<Error | null>
 } => {
   const {
     isSubmitting: isLoading,
     hasSubbmitted: hasLoaded,
     submit: load,
-    result: data
+    result: data,
+    error
   } = useSubmitAction(source, {
     onBeforeSubmit: options.onBeforeLoad
       ? ({ params, modal, snackbar }) => options.onBeforeLoad!({ params, modal, snackbar })
@@ -54,6 +56,7 @@ export const useLoadData = <D = unknown, S extends (...args: any[]) => D = (...a
     load: load as typeof source,
     isLoading,
     hasLoaded,
-    data
+    data,
+    error
   }
 }
