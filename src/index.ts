@@ -22,6 +22,7 @@ export { default as FadeTransition } from './components/transitions/FadeTransiti
 export { useLoadData } from './composables/useLoadData'
 export { useLoadPaginatedData } from './composables/useLoadPaginatedData'
 export { useOnClickOutside } from './composables/useOnClickOutside'
+export { useOnFocusOutside } from './composables/useOnFocusOutside'
 export { useOnKeyPress } from './composables/useOnKeyPress'
 export { usePageFromRouteQuery, useRouteQuery } from './composables/useRouteQuery'
 export { useSubmitAction } from './composables/useSubmitAction'
