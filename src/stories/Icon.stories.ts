@@ -3,7 +3,6 @@ import { type Meta, type StoryFn } from '@storybook/vue3'
 import Icon from '../components/Icon.vue'
 import { icons } from './assets/icons'
 
-// More on default export: https://storybook.js.org/docs/vue/writing-stories/introduction#default-export
 export default {
   title: 'Example/Icon',
   component: Icon,

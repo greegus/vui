@@ -3,7 +3,7 @@ import { type Component, defineAsyncComponent } from 'vue'
 export type IconComponent = string | Component | undefined
 export type IconResolver = (name: string) => IconComponent
 
-const icons = import.meta.glob('../icons/*.vue', { as: 'component' })
+const icons = import.meta.glob('../icons/*.vue', { query: '?component' })
 
 let customIconResolver: IconResolver
 
