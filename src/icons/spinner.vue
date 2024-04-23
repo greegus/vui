@@ -1,11 +1,12 @@
 <template>
   <!-- name: spinner -->
-  <svg class="IconSpinner" fill="none" stroke="currentColor" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg">
+  <svg fill="none" stroke="currentColor" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg">
     <path
       d="M23.5 12.5c0 6.1-4.9 11-11 11s-11-4.9-11-11 4.9-11 11-11"
       shape-rendering="geometricPrecision"
       style="stroke-width: 2; stroke-miterlimit: 10; stroke: currentColor; fill: none"
       vector-effect="non-scaling-stroke"
+      class="IconSpinner"
     />
   </svg>
 </template>
