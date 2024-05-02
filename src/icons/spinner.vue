@@ -15,6 +15,7 @@
 .IconSpinner {
   will-change: transform;
   animation: animation 0.7s infinite linear;
+  transform-origin: center;
 }
 
 @keyframes animation {

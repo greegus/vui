@@ -1,6 +1,6 @@
 {
   "name": "vuiii",
-  "version": "1.0.0-beta.38",
+  "version": "1.0.0-beta.39",
   "type": "module",
   "scripts": {
     "dev": "vite",
