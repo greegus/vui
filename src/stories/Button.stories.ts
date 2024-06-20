@@ -66,6 +66,10 @@ export const Pill: StoryObj<typeof Button> = {
   args: { pill: true }
 }
 
+export const Link: StoryObj<typeof Button> = {
+  args: { href: 'https://google.com', target: '_blank', label: 'Link to Google' }
+}
+
 export const Sizes: StoryObj<typeof Button> = {
   render: (args) => ({
     components: { Button },

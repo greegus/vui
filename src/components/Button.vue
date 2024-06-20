@@ -12,6 +12,7 @@
       'vuiii-button--pill': $props.pill
     }"
     v-bind="$attrs"
+    :href="$props.href"
     :type="component === 'button' ? $props.type : undefined"
   >
     <slot name="prefix">
