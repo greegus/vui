@@ -107,7 +107,7 @@
     --borderColor: var(--vuiii-button-borderColor--primary);
     --ringColor: var(--vuiii-button-ringColor--primary);
 
-    --bgColor--focus: var(--vuiii-button-bgColor--primary--focus);
+    --bgColor--focus: var(--vuiii-button-bgColor--primary--focus, var(--bgColor));
     --textColor--focus: var(--vuiii-button-textColor--primary--focus, var(--textColor));
     --borderColor--focus: var(--vuiii-button-borderColor--primary--focus, var(--borderColor));
 
