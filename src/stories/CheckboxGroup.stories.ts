@@ -1,4 +1,4 @@
-import { type Meta, type StoryFn,StoryObj } from '@storybook/vue3'
+import { type Meta, type StoryFn, StoryObj } from '@storybook/vue3'
 import { ref } from 'vue'
 
 import CheckboxGroup from '../components/CheckboxGroup.vue'
@@ -38,6 +38,29 @@ export const Default: StoryObj<typeof CheckboxGroup> = {
 }
 
 export const ValueCasting: StoryObj<typeof CheckboxGroup> = {
-  args: { options: plainObjectOptions, type: 'number' },
+  args: {
+    options: plainObjectOptions,
+    optionValue: undefined,
+    optionLabel: undefined,
+    type: 'number'
+  },
   render: TemplateWithDumpValue
+}
+
+export const CustomCheckboxSymbol: StoryObj<typeof CheckboxGroup> = {
+  args: {
+    options: objectOptions
+  },
+  render: (args) => ({
+    components: { CheckboxGroup, DumpValue },
+    setup: () => ({ args, value: ref() }),
+    template: `
+      <CheckboxGroup v-bind="args" v-model="value">
+        <template #symbol="{ checked }">
+          {{ checked ? '[x]' : '[ ]' }}
+        </template>
+      </CheckboxGroup>
+      <DumpValue :value="value" />
+    `
+  })
 }

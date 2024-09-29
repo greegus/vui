@@ -7,7 +7,11 @@
         :label="option.label"
         :description="option.description"
         @update:model-value="toggleCheckedValue(option.value, $event)"
-      />
+      >
+        <template v-if="$slots.symbol" #symbol="{ checked, disabled }">
+          <slot name="symbol" v-bind="{ checked, disabled }" />
+        </template>
+      </Checkbox>
     </div>
   </div>
 </template>
@@ -34,6 +38,11 @@ const props = withDefaults(
   }>(),
   {}
 )
+
+defineSlots<{
+  default: void
+  symbol?: (props: { checked: boolean; disabled: boolean }) => any
+}>()
 
 const valueParser = computed(() => {
   return props.valueParser || createTypeParser(props.type)

@@ -1,4 +1,4 @@
-import { type Meta,StoryObj } from '@storybook/vue3'
+import { type Meta, StoryObj } from '@storybook/vue3'
 import { ref } from 'vue'
 
 import RadioGroup from '../components/RadioGroup.vue'
@@ -59,6 +59,24 @@ export const ValueCasting: StoryObj<typeof RadioGroup> = {
     template: `
       <RadioGroup v-bind="args" v-model="value" />
       <DumpValue :value="value" />
-  `
+    `
+  })
+}
+
+export const CustomRadioSymbol: StoryObj<typeof RadioGroup> = {
+  args: {
+    options: plainObjectOptions
+  },
+  render: (args) => ({
+    components: { RadioGroup, DumpValue },
+    setup: () => ({ args, value: ref() }),
+    template: `
+      <RadioGroup v-bind="args" v-model="value">
+        <template #symbol="{ checked }">
+          {{ checked ? '(o)' : '( )' }}
+        </template>
+      </RadioGroup>
+      <DumpValue :value="value" />
+    `
   })
 }

@@ -19,13 +19,15 @@
       @input="handleInput($event)"
     />
 
-    <div v-if="$props.switch" class="Checkbox__switch">
-      <div class="Checkbox__switchDot"></div>
-    </div>
+    <slot name="symbol" v-bind="{ disabled: !!disabled, size, checked: serializedModelValue }">
+      <div v-if="$props.switch" class="Checkbox__switch">
+        <div class="Checkbox__switchDot"></div>
+      </div>
 
-    <div v-else class="Checkbox__checkbox vuiii-input">
-      <Icon name="check" class="Checkbox__checkboxIcon" :size="$props.size" />
-    </div>
+      <div v-else class="Checkbox__checkbox vuiii-input">
+        <Icon name="check" class="Checkbox__checkboxIcon" :size="$props.size" />
+      </div>
+    </slot>
 
     <div v-if="$slots.default || $props.label || $props.description">
       <div v-if="$slots.default || $props.label" class="Checkbox__label">
@@ -62,18 +64,24 @@ const modelValue = defineModel()
 
 const attrsWithoutClass = useAttrsWithoutClass()
 
-const props = defineProps<{
-  required?: boolean
-  disabled?: boolean
-  switch?: boolean
-  label?: string
-  description?: string
-  size?: InputSize
-  valueParser?: ValueParser<boolean>
-}>()
+const props = withDefaults(
+  defineProps<{
+    required?: boolean
+    disabled?: boolean
+    switch?: boolean
+    label?: string
+    description?: string
+    size?: InputSize
+    valueParser?: ValueParser<boolean>
+  }>(),
+  {
+    size: 'normal'
+  }
+)
 
 defineSlots<{
   default: void
+  symbol?: (props: { checked: boolean; disabled: boolean; size: InputSize }) => any
 }>()
 
 const valueParser = computed<ValueParser<boolean>>(() => {

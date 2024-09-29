@@ -1,4 +1,4 @@
-import { type Meta,StoryObj } from '@storybook/vue3'
+import { type Meta, StoryObj } from '@storybook/vue3'
 import { ref } from 'vue'
 
 import Checkbox from '../components/Checkbox.vue'
@@ -81,6 +81,19 @@ export const ValueParsing: StoryObj<typeof Checkbox> = {
         <Checkbox v-bind="args" v-model="value" />
         <DumpValue :value="value" />
       </div>
+    `
+  })
+}
+
+export const CustomCheckboxSymbol: StoryObj<typeof Checkbox> = {
+  render: () => ({
+    components: { Checkbox },
+    template: `
+      <Checkbox label="Custom checkbox">
+        <template #checkbox="{ checked }">
+          <span>{{ checked ? '[ ]' : '[x]' }}</span>
+        </template>
+      </Checkbox>
     `
   })
 }

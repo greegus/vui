@@ -18,9 +18,11 @@
         @input="handleInput(option.value)"
       />
 
-      <div class="RadioGroup__radio vuiii-input">
-        <div class="RadioGroup__radioDot"></div>
-      </div>
+      <slot name="symbol" v-bind="{ disabled: !!disabled, checked: modelValue === option.value }">
+        <div class="RadioGroup__radio vuiii-input">
+          <div class="RadioGroup__radioDot"></div>
+        </div>
+      </slot>
 
       <div v-if="option.label || option.description || $slots.default">
         <slot v-bind="{ option }">
@@ -54,6 +56,7 @@ const modelValue = defineModel<any>()
 
 defineSlots<{
   default: (props: { option: Option }) => any
+  symbol: (props: { checked: boolean; disabled: boolean }) => any
 }>()
 
 const attrs = useAttrs()
