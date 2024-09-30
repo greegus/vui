@@ -18,7 +18,7 @@
         @input="handleInput(option.value)"
       />
 
-      <slot name="symbol" v-bind="{ disabled: !!disabled, checked: modelValue === option.value }">
+      <slot name="symbol" v-bind="{ disabled: !!disabled, checked: !!option.isSelected }">
         <div class="RadioGroup__radio vuiii-input">
           <div class="RadioGroup__radioDot"></div>
         </div>
