@@ -67,11 +67,11 @@ watch(
 .DropdownMenu {
   position: relative;
   z-index: 10;
-  background-color: var(--vuiii-dropdown-bgColor);
-  color: var(--vuiii-dropdown-textColor);
-  border: var(--vuiii-field-borderWidth) solid var(--vuiii-field-bgColor);
-  border-radius: var(--vuiii-dropdown-borderRadius);
-  box-shadow: var(--vuiii-dropdown-boxShadow);
+  background-color: var(--vuiii-dropdownMenu-bgColor);
+  color: var(--vuiii-dropdownMenu-textColor);
+  border: var(--vuiii-dropdownMenu-borderWidth) solid var(--vuiii-dropdownMenu-borderColor);
+  border-radius: var(--vuiii-dropdownMenu-borderRadius);
+  box-shadow: var(--vuiii-dropdownMenu-boxShadow);
   min-width: 100%;
   box-sizing: border-box;
   width: max-content;
@@ -88,26 +88,28 @@ watch(
   max-height: 100%;
 
   & > * + * {
-    border-top: var(--vuiii-dropdown-separator-width) solid var(--vuiii-color-gray--light);
+    border-top: var(--vuiii-dropdownMenu-separator-width) solid var(--vuiii-color-gray--light);
   }
 }
 
 .DropdownMenu__item {
   display: block;
 
-  &:first-child {
-    border-top-left-radius: var(--vuiii-dropdown-borderRadius);
-    border-top-right-radius: var(--vuiii-dropdown-borderRadius);
+  &:first-child,
+  &:last-child .DropdownMenu__button {
+    border-top-left-radius: var(--vuiii-dropdownMenu-borderRadius);
+    border-top-right-radius: var(--vuiii-dropdownMenu-borderRadius);
   }
 
-  &:last-child {
-    border-bottom-left-radius: var(--vuiii-dropdown-borderRadius);
-    border-bottom-right-radius: var(--vuiii-dropdown-borderRadius);
+  &:last-child,
+  &:last-child .DropdownMenu__button {
+    border-bottom-left-radius: var(--vuiii-dropdownMenu-borderRadius);
+    border-bottom-right-radius: var(--vuiii-dropdownMenu-borderRadius);
   }
 
   &.DropdownMenu__item--withCursor {
-    color: var(--vuiii-dropdown-cursor-textColor);
-    background-color: var(--vuiii-dropdown-cursor-bgColor);
+    color: var(--vuiii-dropdownMenu-cursor-textColor);
+    background-color: var(--vuiii-dropdownMenu-cursor-bgColor);
   }
 }
 
@@ -120,8 +122,8 @@ watch(
   box-sizing: border-box;
 
   &:hover {
-    color: var(--vuiii-dropdown-button-textColor--hover);
-    background-color: var(--vuiii-dropdown-button-bgColor--hover);
+    color: var(--vuiii-dropdownMenu-button-textColor--hover);
+    background-color: var(--vuiii-dropdownMenu-button-bgColor--hover);
   }
 }
 </style>

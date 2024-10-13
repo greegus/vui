@@ -262,21 +262,21 @@
   /* Dropdown menu */
   /* ------ */
 
-  --vuiii-dropdown-bgColor: var(--vuiii-field-bgColor);
-  --vuiii-dropdown-textColor: var(--vuiii-field-textColor);
-  --vuiii-dropdown-borderColor: var(--vuiii-field-bgColor);
-  --vuiii-dropdown-borderWidth: var(--vuiii-field-borderWidth);
-  --vuiii-dropdown-borderRadius: var(--vuiii-field-borderRadius);
-  --vuiii-dropdown-boxShadow: var(--vuiii-shadow--large);
+  --vuiii-dropdownMenu-bgColor: var(--vuiii-field-bgColor);
+  --vuiii-dropdownMenu-textColor: var(--vuiii-field-textColor);
+  --vuiii-dropdownMenu-borderColor: var(--vuiii-field-bgColor);
+  --vuiii-dropdownMenu-borderWidth: var(--vuiii-field-borderWidth);
+  --vuiii-dropdownMenu-borderRadius: var(--vuiii-field-borderRadius);
+  --vuiii-dropdownMenu-boxShadow: var(--vuiii-shadow--large);
 
-  --vuiii-dropdown-separator-color: var(--vuiii-color-gray--light);
-  --vuiii-dropdown-separator-width: 1px;
+  --vuiii-dropdownMenu-separator-color: var(--vuiii-color-gray--light);
+  --vuiii-dropdownMenu-separator-width: 1px;
 
-  --vuiii-dropdown-cursor-textColor: inherit;
-  --vuiii-dropdown-cursor-bgColor: color-mix(in srgb, var(--vuiii-color-black) 6%, transparent);
+  --vuiii-dropdownMenu-cursor-textColor: inherit;
+  --vuiii-dropdownMenu-cursor-bgColor: color-mix(in srgb, var(--vuiii-color-black) 6%, transparent);
 
-  --vuiii-dropdown-button-textColor--hover: inherit;
-  --vuiii-dropdown-button-bgColor--hover: color-mix(in srgb, var(--vuiii-color-black) 4%, transparent);
+  --vuiii-dropdownMenu-button-textColor--hover: inherit;
+  --vuiii-dropdownMenu-button-bgColor--hover: color-mix(in srgb, var(--vuiii-color-black) 4%, transparent);
 
   /* ------- */
   /* Z-index */
