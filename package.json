@@ -4,7 +4,7 @@
     "type": "git",
     "url": "https://github.com/greegus/vui.git"
   },
-  "version": "1.0.0-beta.52",
+  "version": "1.0.0-beta.53",
   "type": "module",
   "scripts": {
     "dev": "vite",
