@@ -1,12 +1,12 @@
 .vuiii-table {
   --fontSize: var(--vuiii-table-fontSize);
-  --headSeparatorWidth: var(--vuiii-table-headSeparatorWidth);
-  --headSeparatorColor: var(--vuiii-table-headSeparatorColor);
+  --headDividerWidth: var(--vuiii-table-headDividerWidth);
+  --headDividerColor: var(--vuiii-table-headDividerColor);
   --headFontSize: var(--vuiii-table-headFontSize);
   --headFontWeight: var(--vuiii-table-headFontWeight);
   --headTextTransform: var(--vuiii-table-headTextTransform);
-  --rowSeparatorWidth: var(--vuiii-table-rowSeparatorWidth);
-  --rowSeparatorColor: var(--vuiii-table-rowSeparatorColor);
+  --rowDividerWidth: var(--vuiii-table-rowDividerWidth);
+  --rowDividerColor: var(--vuiii-table-rowDividerColor);
   --rowBgColor: var(--vuiii-table-rowBgColor);
   --rowBgColor--hover: var(--vuiii-table-rowBgColor--hover);
 
@@ -16,7 +16,7 @@
 
   & thead {
     & tr {
-      border-bottom: var(--headSeparatorWidth) solid var(--headSeparatorColor);
+      border-bottom: var(--headDividerWidth) solid var(--headDividerColor);
     }
 
     & th {
@@ -31,7 +31,7 @@
 
   & tbody {
     & > * + * {
-      border-top: var(--rowSeparatorWidth) solid var(--rowSeparatorColor);
+      border-top: var(--rowDividerWidth) solid var(--rowDividerColor);
     }
 
     & td {

@@ -88,7 +88,7 @@ watch(
   max-height: 100%;
 
   & > * + * {
-    border-top: var(--vuiii-dropdownMenu-divider-width) solid var(--vuiii-dropdownMenu-divider-color);
+    border-top: var(--vuiii-dropdownMenu-dividerWidth) solid var(--vuiii-dropdownMenu-dividerColor);
   }
 }
 
