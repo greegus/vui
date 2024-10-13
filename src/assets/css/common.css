@@ -269,8 +269,8 @@
   --vuiii-dropdownMenu-borderRadius: var(--vuiii-field-borderRadius);
   --vuiii-dropdownMenu-boxShadow: var(--vuiii-shadow--large);
 
-  --vuiii-dropdownMenu-separator-color: var(--vuiii-color-gray--light);
-  --vuiii-dropdownMenu-separator-width: 1px;
+  --vuiii-dropdownMenu-divider-color: var(--vuiii-color-gray--light);
+  --vuiii-dropdownMenu-divider-width: 1px;
 
   --vuiii-dropdownMenu-cursor-textColor: inherit;
   --vuiii-dropdownMenu-cursor-bgColor: color-mix(in srgb, var(--vuiii-color-black) 6%, transparent);
