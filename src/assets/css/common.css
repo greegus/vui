@@ -258,6 +258,26 @@
   --vuiii-table-rowSeparatorColor: var(--vuiii-table-separatorColor);
   --vuiii-table-rowSeparatorWidth: var(--vuiii-table-separatorWidth);
 
+  /* ------ */
+  /* Dropdown menu */
+  /* ------ */
+
+  --vuiii-dropdown-bgColor: var(--vuiii-field-bgColor);
+  --vuiii-dropdown-textColor: var(--vuiii-field-textColor);
+  --vuiii-dropdown-borderColor: var(--vuiii-field-bgColor);
+  --vuiii-dropdown-borderWidth: var(--vuiii-field-borderWidth);
+  --vuiii-dropdown-borderRadius: var(--vuiii-field-borderRadius);
+  --vuiii-dropdown-boxShadow: var(--vuiii-shadow--large);
+
+  --vuiii-dropdown-separator-color: var(--vuiii-color-gray--light);
+  --vuiii-dropdown-separator-width: 1px;
+
+  --vuiii-dropdown-cursor-textColor: inherit;
+  --vuiii-dropdown-cursor-bgColor: color-mix(in srgb, var(--vuiii-color-black) 6%, transparent);
+
+  --vuiii-dropdown-button-textColor--hover: inherit;
+  --vuiii-dropdown-button-bgColor--hover: color-mix(in srgb, var(--vuiii-color-black) 4%, transparent);
+
   /* ------- */
   /* Z-index */
   /* ------- */
