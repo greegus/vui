@@ -197,7 +197,10 @@ onMounted(() => {
 
 .ModalLayout__content {
   padding-right: calc(var(--vuiii-modal-closeButton-size) + var(--vuiii-modal-padding));
-  min-height: var(--vuiii-modal-closeButton-size);
+
+  &:not(:empty) {
+    min-height: var(--vuiii-modal-closeButton-size);
+  }
 }
 
 .ModalLayout.hasHeader .ModalLayout__body {
