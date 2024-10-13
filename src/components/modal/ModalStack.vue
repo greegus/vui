@@ -52,7 +52,7 @@ useOnKeyPress('Escape', (e) => {
 }
 
 .ModalStack__backdrop {
-  background: rgba(0, 0, 0, 0.35);
+  background: var(--vuiii-modal-backdropBgColor);
 
   position: fixed;
   z-index: 1;

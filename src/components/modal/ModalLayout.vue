@@ -137,10 +137,11 @@ onMounted(() => {
   margin: auto;
   min-height: fit-content;
 
-  background-color: white;
-  border-radius: 4px;
-
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  color: var(--vuiii-modal-textColor);
+  background-color: var(--vuiii-modal-bgColor);
+  border: var(--vuiii-modal-borderWidth) solid var(--vuiii-modal-borderColor);
+  border-radius: var(--vuiii-modal-borderRadius);
+  box-shadow: var(--vuiii-modal-boxShadow);
 
   &.isScrollable {
     min-height: auto;
@@ -150,7 +151,8 @@ onMounted(() => {
 
 .ModalLayout__header {
   flex: 0 0 auto;
-  padding: 1.25rem 4rem 1.25rem 1.5rem;
+  padding: var(--vuiii-modal-padding);
+  padding-right: calc(var(--vuiii-modal-closeButton-size) + var(--vuiii-modal-padding) * 2);
 
   & .ModalLayout.isPlain {
     padding: 0;
@@ -158,22 +160,22 @@ onMounted(() => {
 }
 
 .ModalLayout__title {
-  font-size: larger;
+  font-family: var(--vuiii-modal-title-fontFamily);
+  font-size: var(--vuiii-modal-title-fontSize);
+  font-weight: var(--vuiii-modal-title-fontWeight);
 }
 
 .ModalLayout__close {
   position: absolute;
   z-index: 1;
-  top: 0;
-  right: 0;
+  top: var(--vuiii-modal-closeButton-top);
+  right: var(--vuiii-modal-closeButton-right);
 
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 4rem;
-  height: 4rem;
+  padding: var(--vuiii-modal-padding);
 
-  font-size: 1.85rem;
   opacity: 0.4;
 
   &:hover {
@@ -183,18 +185,19 @@ onMounted(() => {
 }
 
 .ModalLayout__closeIcon {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: var(--vuiii-modal-closeButton-size);
+  height: var(--vuiii-modal-closeButton-size);
 }
 
 .ModalLayout__body {
   flex: 1 0 auto;
-  padding: 1.5rem;
+  padding: var(--vuiii-modal-padding);
   border-radius: 4px;
 }
 
 .ModalLayout__content {
-  padding-right: 2rem;
+  padding-right: calc(var(--vuiii-modal-closeButton-size) + var(--vuiii-modal-padding));
+  min-height: var(--vuiii-modal-closeButton-size);
 }
 
 .ModalLayout.hasHeader .ModalLayout__body {
@@ -220,11 +223,11 @@ onMounted(() => {
 }
 
 .ModalLayout.isScrollable.hasHeader .ModalLayout__body {
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-top: var(--vuii--modal-dividerWidth) solid var(--vuii--modal-dividerColor);
 }
 
 .ModalLayout.isScrollable.hasFooter .ModalLayout__body {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: var(--vuii--modal-dividerWidth) solid var(--vuii--modal-dividerColor);
 }
 
 .ModalLayout.isPlain .ModalLayout__body {
@@ -233,7 +236,7 @@ onMounted(() => {
 
 .ModalLayout__footer {
   flex: 0 0 auto;
-  padding: 1.25rem 1.5rem;
+  padding: var(--vuiii-modal-padding);
 }
 
 .ModalLayout.isPlain .ModalLayout__footer {
@@ -244,8 +247,6 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  margin-top: -0.25rem;
-  margin-bottom: -0.25rem;
 
   & > * + * {
     margin-left: 0.5rem;

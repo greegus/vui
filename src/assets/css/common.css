@@ -10,6 +10,7 @@
   --vuiii-fontSize--tiny: calc(var(--vuiii-fontSize) * 0.75);
   --vuiii-fontSize--small: calc(var(--vuiii-fontSize) * 0.85);
   --vuiii-fontSize--large: calc(var(--vuiii-fontSize) * 1.25);
+  --vuiii-fontSize--x-large: calc(var(--vuiii-fontSize) * 1.5);
 
   /* ------ */
   /* Colors */
@@ -257,6 +258,27 @@
   --vuiii-table-rowBgColor--hover: color-mix(in srgb, var(--vuiii-color-dark) 4%, transparent);
   --vuiii-table-rowDividerColor: var(--vuiii-table-dividerColor);
   --vuiii-table-rowDividerWidth: var(--vuiii-table-dividerWidth);
+
+  /* ------ */
+  /* Modal */
+  /* ------ */
+
+  --vuiii-modal-title-fontSize: var(--vuiii-fontSize--x-large);
+  --vuiii-modal-title-fontWeight: inherit;
+  --vuiii-modal-title-fontFamily: inherit;
+  --vuiii-modal-bgColor: var(--vuiii-color-light);
+  --vuiii-modal-textColor: var(--vuiii-color-dark);
+  --vuiii-modal-borderRadius: var(--vuiii-button-borderRadius);
+  --vuiii-modal-boxShadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  --vuiii-modal-borderColor: black;
+  --vuiii-modal-borderWidth: 1;
+  --vuiii-modal-padding: 1.5rem;
+  --vuii--modal-dividerWidth: 1px;
+  --vuii--modal-dividerColor: var(--vuiii-color-gray--light);
+  --vuiii-modal-backdropBgColor: rgba(0, 0, 0, 0.35);
+  --vuiii-modal-closeButton-right: 0;
+  --vuiii-modal-closeButton-top: 0;
+  --vuiii-modal-closeButton-size: 1.75rem;
 
   /* ------ */
   /* Dropdown menu */
