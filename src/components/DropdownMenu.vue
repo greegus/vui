@@ -96,7 +96,7 @@ watch(
   display: block;
 
   &:first-child,
-  &:last-child .DropdownMenu__button {
+  &:first-child .DropdownMenu__button {
     border-top-left-radius: var(--vuiii-dropdownMenu-borderRadius);
     border-top-right-radius: var(--vuiii-dropdownMenu-borderRadius);
   }
