@@ -47,21 +47,32 @@ export function useRouteQuery<QueryParams extends Record<string, unknown> = Reco
     return params
   })
 
+  const serializeValue = (key: keyof QueryParams, value: any) => {
+    return encodeURIComponent(options.serialize?.[key] ? options.serialize[key](value) : value)
+  }
+
   const setQuery = (params: Partial<QueryParams>) => {
     const serializedParams = Object.fromEntries(
       Object.entries(params)
         .filter(([_key, value]) => valueIsNotEmpty(value))
-        .map(([key, value]) => [
-          key,
-          encodeURIComponent(options.serialize?.[key] ? options.serialize[key](value) : value)
-        ])
+        .map(([key, value]) => [key, serializeValue(key, value)])
     ) as Record<string, string>
 
-    return router.push({ query: serializedParams })
+    return router.push({
+      query: serializedParams
+    })
   }
 
   const setQueryParam = (key: keyof QueryParams, value: any) => {
-    return setQuery({ ...queryParams.value, [key]: value })
+    const newQueryParams = {
+      ...route.query
+    }
+
+    if (valueIsNotEmpty(value)) {
+      newQueryParams[key as string] = serializeValue(key, value)
+    }
+
+    return router.push({ query: newQueryParams })
   }
 
   watch(queryParams, () => options.onChange?.(queryParams.value), { immediate: options.immediate })
