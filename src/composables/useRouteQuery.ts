@@ -61,7 +61,7 @@ export function useRouteQuery<QueryParams extends Record<string, unknown> = Reco
   }
 
   const setQueryParam = (key: keyof QueryParams, value: any) => {
-    return setQuery({ ...(route.query as QueryParams), [key]: value })
+    return setQuery({ ...queryParams.value, [key]: value })
   }
 
   watch(queryParams, () => options.onChange?.(queryParams.value), { immediate: options.immediate })
