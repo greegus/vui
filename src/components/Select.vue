@@ -178,6 +178,11 @@ function handleInput(e: Event) {
     color: var(--vuiii-input-placeholderColor);
   }
 
+  /* XXX: When placeholder is selected, we need to reset the color of individual option to the default one provided by vuiii-input */
+  option {
+    color: var(--textColor);
+  }
+
   /* XXX: deal with vertical cropping of the label */
   line-height: 1.5;
 
