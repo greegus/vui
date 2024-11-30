@@ -19,6 +19,7 @@ export { default as SnackbarStack } from './components/snackbar/SnackbarStack.vu
 export { default as Table } from './components/Table.vue'
 export { default as Textarea } from './components/Textarea.vue'
 export { default as FadeTransition } from './components/transitions/FadeTransition.vue'
+export { useCursor } from './composables/useCursor'
 export { useLoadData } from './composables/useLoadData'
 export { useLoadPaginatedData } from './composables/useLoadPaginatedData'
 export { useOnClickOutside } from './composables/useOnClickOutside'
