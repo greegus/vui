@@ -1,17 +1,4 @@
 :root {
-  /* ---------- */
-  /* Typography */
-  /* ---------- */
-
-  --vuiii-typeface-body: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  --vuiii-typeface-display: var(--vuiii-typeface-body);
-
-  --vuiii-fontSize: 1rem;
-  --vuiii-fontSize--tiny: calc(var(--vuiii-fontSize) * 0.75);
-  --vuiii-fontSize--small: calc(var(--vuiii-fontSize) * 0.85);
-  --vuiii-fontSize--large: calc(var(--vuiii-fontSize) * 1.25);
-  --vuiii-fontSize--x-large: calc(var(--vuiii-fontSize) * 1.5);
-
   /* ------ */
   /* Colors */
   /* ------ */
@@ -46,6 +33,115 @@
 
   --vuiii-shadow: 0 1px 3px 0 rgb(0 0 0/0.1), 0 1px 2px -1px rgb(0 0 0/0.1);
   --vuiii-shadow--large: 0 2px 15px 0 rgb(0 0 0/0.2), 0 1px 2px -1px rgb(0 0 0/0.1);
+
+  /* ---------- */
+  /* Typography */
+  /* ---------- */
+
+  /* Tokens */
+
+  --vuiii-typeface-body: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --vuiii-typeface-display: var(--vuiii-typeface-body);
+
+  --vuiii-fontSize: 1rem;
+  --vuiii-fontSize--tiny: calc(var(--vuiii-fontSize) * 0.75);
+  --vuiii-fontSize--small: calc(var(--vuiii-fontSize) * 0.85);
+  --vuiii-fontSize--large: calc(var(--vuiii-fontSize) * 1.25);
+  --vuiii-fontSize--x-large: calc(var(--vuiii-fontSize) * 1.5);
+  --vuiii-fontSize--2x-large: calc(var(--vuiii-fontSize) * 2);
+  --vuiii-fontSize--3x-large: calc(var(--vuiii-fontSize) * 3);
+  --vuiii-fontSize--4x-large: calc(var(--vuiii-fontSize) * 4);
+
+  /* Headings */
+
+  --vuiii-typography-display-fontSize: var(--vuiii-fontSize--4x-large);
+  --vuiii-typography-display-fontWeight: 600;
+  --vuiii-typography-display-lineHeight: 1.2;
+  --vuiii-typography-display-textTransform: none;
+  --vuiii-typography-display-color: inherit;
+  --vuiii-typography-display-opacity: 1;
+
+  --vuiii-typography-heading1-fontSize: var(--vuiii-fontSize--2x-large);
+  --vuiii-typography-heading1-fontWeight: 600;
+  --vuiii-typography-heading1-lineHeight: 1.2;
+  --vuiii-typography-heading1-textTransform: none;
+  --vuiii-typography-heading1-color: inherit;
+  --vuiii-typography-heading1-opacity: 1;
+
+  --vuiii-typography-heading2-fontSize: var(--vuiii-fontSize--large);
+  --vuiii-typography-heading2-fontWeight: 600;
+  --vuiii-typography-heading2-lineHeight: 1.2;
+  --vuiii-typography-heading2-textTransform: none;
+  --vuiii-typography-heading2-color: inherit;
+  --vuiii-typography-heading2-opacity: 1;
+
+  --vuiii-typography-heading3-fontSize: var(--vuiii-fontSize);
+  --vuiii-typography-heading3-fontWeight: 600;
+  --vuiii-typography-heading3-lineHeight: 1.2;
+  --vuiii-typography-heading3-textTransform: none;
+  --vuiii-typography-heading3-color: inherit;
+  --vuiii-typography-heading3-opacity: 1;
+
+  --vuiii-typography-heading4-fontSize: var(--vuiii-fontSize--small);
+  --vuiii-typography-heading4-fontWeight: 600;
+  --vuiii-typography-heading4-lineHeight: 1.2;
+  --vuiii-typography-heading4-textTransform: none;
+  --vuiii-typography-heading4-color: inherit;
+  --vuiii-typography-heading4-opacity: 1;
+
+  --vuiii-typography-heading5-fontSize: var(--vuiii-fontSize--tiny);
+  --vuiii-typography-heading5-fontWeight: 600;
+  --vuiii-typography-heading5-lineHeight: 1.2;
+  --vuiii-typography-heading5-textTransform: none;
+  --vuiii-typography-heading5-color: inherit;
+  --vuiii-typography-heading5-opacity: 1;
+
+  --vuiii-typography-heading6-fontSize: var(--vuiii-fontSize--tiny);
+  --vuiii-typography-heading6-fontWeight: 400;
+  --vuiii-typography-heading6-lineHeight: 1.2;
+  --vuiii-typography-heading6-textTransform: none;
+  --vuiii-typography-heading6-color: inherit;
+  --vuiii-typography-heading6-opacity: 1;
+
+  /* Body text */
+  --vuiii-typography-body1-fontSize: var(--vuiii-fontSize);
+  --vuiii-typography-body1-fontWeight: 400;
+  --vuiii-typography-body1-lineHeight: 1.2;
+  --vuiii-typography-body1-textTransform: none;
+  --vuiii-typography-body1-color: inherit;
+  --vuiii-typography-body1-opacity: 1;
+
+  --vuiii-typography-body2-fontSize: var(--vuiii-fontSize);
+  --vuiii-typography-body2-fontWeight: 400;
+  --vuiii-typography-body2-lineHeight: 1.2;
+  --vuiii-typography-body2-textTransform: none;
+  --vuiii-typography-body2-color: inherit;
+  --vuiii-typography-body2-opacity: 0.65;
+
+  /* Caption */
+  --vuiii-typography-caption-fontSize: var(--vuiii-fontSize--tiny);
+  --vuiii-typography-caption-fontWeight: 400;
+  --vuiii-typography-caption-lineHeight: 1.2;
+  --vuiii-typography-caption-textTransform: uppercase;
+  --vuuii-typography-caption-letterSpacing: 0.1em;
+  --vuiii-typography-caption-color: inherit;
+  --vuiii-typography-caption-opacity: 0.65;
+
+  /* Labels */
+  --vuiii-typography-label-fontSize: var(--vuiii-fontSize--small);
+  --vuiii-typography-label-fontWeight: 600;
+  --vuiii-typography-label-lineHeight: 1.2;
+  --vuiii-typography-label-textTransform: none;
+  --vuiii-typography-label-color: inherit;
+  --vuiii-typography-label-opacity: 1;
+
+  /* Description */
+  --vuiii-typography-description-fontSize: var(--vuiii-fontSize--tiny);
+  --vuiii-typography-description-fontWeight: 400;
+  --vuiii-typography-description-lineHeight: 1.2;
+  --vuiii-typography-description-textTransform: none;
+  --vuiii-typography-description-color: inherit;
+  --vuiii-typography-description-opacity: 0.65;
 
   /* ------ */
   /* Fields */
@@ -82,13 +178,6 @@
   --vuiii-field-borderRadius--large: var(--vuiii-field-borderRadius);
   --vuiii-field-fontSize--large: var(--vuiii-fontSize--large);
   --vuiii-field-ringSize--large: var(--vuiii-field-ringSize);
-
-  /* ------ */
-  /* Labels */
-  /* ------ */
-  --vuiii-label-fontSize: var(--vuiii-fontSize--small);
-  --vuiii-label-fontWeight: 600;
-  --vuiii-label-textTransform: none;
 
   /* ––––––– */
   /* Buttons */

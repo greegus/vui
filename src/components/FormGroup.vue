@@ -61,9 +61,12 @@ defineSlots<{
 }
 
 .FormGroup__label {
-  font-size: var(--vuiii-label-fontSize);
-  font-weight: var(--vuiii-label-fontWeight);
-  text-transform: var(--vuiii-label-textTransform);
+  font-size: var(--vuiii-typography-label-fontSize);
+  font-weight: var(--vuiii-typography-label-fontWeight);
+  line-height: var(--vuiii-typography-label-lineHeight);
+  text-transform: var(--vuiii-typography-label-textTransform);
+  color: var(--vuiii-typography-label-color);
+  opacity: var(--vuiii-typography-label-opacity);
 }
 
 .FormGroup__required {
@@ -72,24 +75,35 @@ defineSlots<{
 }
 
 .FormGroup__description {
-  font-size: 0.8rem;
-  margin-bottom: 0.5rem;
-  margin-top: -0.25rem;
+  font-size: var(--vuiii-typography-description-fontSize);
+  font-weight: var(--vuiii-typography-description-fontWeight);
+  line-height: var(--vuiii-typography-description-lineHeight);
+  text-transform: var(--vuiii-typography-description-textTransform);
+  color: var(--vuiii-typography-description-color);
+  opacity: var(--vuiii-typography-description-opacity);
   max-width: 48rem; /* max-w-3xl */
-  color: rgb(115, 115, 115);
+  margin-top: -0.25rem;
+  margin-bottom: 0.5rem;
 }
 
 .FormGroup__hint {
-  font-size: 0.8rem;
-  margin-top: 0.25rem;
+  font-size: var(--vuiii-typography-description-fontSize);
+  font-weight: var(--vuiii-typography-description-fontWeight);
+  line-height: var(--vuiii-typography-description-lineHeight);
+  text-transform: var(--vuiii-typography-description-textTransform);
+  color: var(--vuiii-typography-description-color);
+  opacity: var(--vuiii-typography-description-opacity);
   max-width: 48rem; /* max-w-3xl */
-  color: rgb(115, 115, 115);
+  margin-top: 0.25rem;
 }
 
 .FormGroup__error {
-  font-size: 0.8rem;
+  font-size: var(--vuiii-typography-description-fontSize);
+  font-weight: var(--vuiii-typography-description-fontWeight);
+  line-height: var(--vuiii-typography-description-lineHeight);
+  text-transform: var(--vuiii-typography-description-textTransform);
+  color: var(--vuiii-color-danger);
   margin-top: 0.25rem;
   max-width: 48rem; /* max-w-3xl */
-  color: var(--vuiii-color-danger);
 }
 </style>
