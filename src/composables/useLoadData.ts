@@ -2,7 +2,7 @@ import type { Ref } from 'vue'
 import type { Router } from 'vue-router'
 
 import { useSubmitAction } from '@/composables/useSubmitAction'
-import { useModal } from '@/modal'
+import { useDialogStack } from '@/dialogStack'
 import { useSnackbar } from '@/snackbar'
 import { MaybePromise } from '@/types'
 
@@ -11,7 +11,7 @@ export const useLoadData = <D = unknown, S extends (...args: any[]) => D = (...a
   options: {
     onBeforeLoad?: (params: {
       params: Parameters<S>
-      modal: ReturnType<typeof useModal>
+      dialog: ReturnType<typeof useDialogStack>
       snackbar: ReturnType<typeof useSnackbar>
     }) => MaybePromise<boolean | undefined>
     onSuccess?: (params: { data: Awaited<ReturnType<S>>; params: Parameters<S>; router: Router }) => unknown
@@ -36,7 +36,7 @@ export const useLoadData = <D = unknown, S extends (...args: any[]) => D = (...a
     error
   } = useSubmitAction(source, {
     onBeforeSubmit: options.onBeforeLoad
-      ? ({ params, modal, snackbar }) => options.onBeforeLoad!({ params, modal, snackbar })
+      ? ({ params, dialog, snackbar }) => options.onBeforeLoad!({ params, dialog, snackbar })
       : undefined,
     onSuccess: ({ router, params, result }) => options.onSuccess?.({ data: result, params, router }),
     onError: ({ router, error, params }) => options.onError?.({ error, params, router }),

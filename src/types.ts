@@ -13,7 +13,7 @@ export type IconSize = InputSize
 
 export type ButtonVariant = 'default' | 'primary' | 'secondary' | 'danger'
 
-export type ModalLayoutButton = {
+export type DialogLayoutButton = {
   variant?: ButtonVariant
   label: string
   icon?: string

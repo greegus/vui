@@ -1,7 +1,7 @@
 import { onMounted, type Ref, ref } from 'vue'
 import { type RouteLocationRaw, type Router, useRouter } from 'vue-router'
 
-import { useModal } from '@/modal'
+import { useDialogStack } from '@/dialogStack'
 import { useSnackbar } from '@/snackbar'
 import { MaybePromise } from '@/types'
 
@@ -10,21 +10,21 @@ export function useSubmitAction<D = unknown, S extends (...args: any[]) => D = (
   options: {
     onBeforeSubmit?: (params: {
       params: Parameters<typeof action>
-      modal: ReturnType<typeof useModal>
+      dialog: ReturnType<typeof useDialogStack>
       snackbar: ReturnType<typeof useSnackbar>
     }) => MaybePromise<boolean | undefined>
     onSuccess?: (params: {
       params: Parameters<typeof action>
       result: Awaited<ReturnType<S>>
       router: Router
-      modal: ReturnType<typeof useModal>
+      dialog: ReturnType<typeof useDialogStack>
       snackbar: ReturnType<typeof useSnackbar>
     }) => void
     onError?: (params: {
       error: Error
       params: Parameters<typeof action>
       router: Router
-      modal: ReturnType<typeof useModal>
+      dialog: ReturnType<typeof useDialogStack>
       snackbar: ReturnType<typeof useSnackbar>
     }) => boolean | void
     redirectOnSuccess?:
@@ -46,7 +46,7 @@ export function useSubmitAction<D = unknown, S extends (...args: any[]) => D = (
   error: Ref<Error | null>
 } {
   const snackbar = useSnackbar()
-  const modal = useModal()
+  const dialog = useDialogStack()
   const router = useRouter()
 
   const isSubmitting = ref<boolean>(false)
@@ -62,7 +62,7 @@ export function useSubmitAction<D = unknown, S extends (...args: any[]) => D = (
       error.value = null
 
       if (options.onBeforeSubmit) {
-        const onBeforeSubmitResult = await options.onBeforeSubmit({ params, modal, snackbar })
+        const onBeforeSubmitResult = await options.onBeforeSubmit({ params, dialog, snackbar })
 
         if (onBeforeSubmitResult === false) {
           isSubmitting.value = false
@@ -85,7 +85,7 @@ export function useSubmitAction<D = unknown, S extends (...args: any[]) => D = (
       isSubmitting.value = false
 
       if (options.onError) {
-        const hasErrorBeenResolved = options.onError({ error: e as Error, params, router, snackbar, modal })
+        const hasErrorBeenResolved = options.onError({ error: e as Error, params, router, snackbar, dialog })
 
         if (hasErrorBeenResolved) {
           return undefined
@@ -106,7 +106,7 @@ export function useSubmitAction<D = unknown, S extends (...args: any[]) => D = (
       )
     }
 
-    options.onSuccess?.({ result: result.value!, params, router, snackbar, modal })
+    options.onSuccess?.({ result: result.value!, params, router, snackbar, dialog })
 
     if (options.redirectOnSuccess) {
       router.push(

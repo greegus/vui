@@ -1,8 +1,8 @@
 import { type Component, type ComponentCustomProps, computed, defineAsyncComponent, markRaw, ref } from 'vue'
 
-import type { ButtonVariant, ModalLayoutButton } from './types'
+import type { ButtonVariant, DialogLayoutButton } from './types'
 
-export type Modal = {
+export type Dialog = {
   id: number
   component: Component
   props?: ComponentCustomProps
@@ -19,7 +19,7 @@ export type Config = Partial<{
 export type DialogOptions = {
   title?: string
   content?: string
-  buttons?: ModalLayoutButton[]
+  buttons?: DialogLayoutButton[]
 }
 
 export type AlertOptions =
@@ -45,12 +45,8 @@ export type ConfirmOptions =
       confirmIcon?: string
     }
 
-export interface OpenModalInterface {
-  <T = any>(component: Component, props?: { [key: string]: any }): Promise<T>
-}
-
 export interface OpenDialogInterface {
-  <T = any>(options: DialogOptions): Promise<T>
+  <T = any>(component: Component, props?: { [key: string]: any }): Promise<T>
 }
 
 export interface OpenAlertInterface {
@@ -61,10 +57,9 @@ export interface OpenConfirmInterface {
   (options: ConfirmOptions): Promise<boolean>
 }
 
-interface ModalInterface {
-  open: OpenModalInterface
+interface DialogInterface {
+  open: OpenDialogInterface
   alert: OpenAlertInterface
-  dialog: OpenDialogInterface
   confirm: OpenConfirmInterface
 }
 
@@ -77,20 +72,20 @@ const config = defaultConfig
 
 const iteration = ref<number>(1)
 
-export const modals = ref<Modal[]>([])
-export const activeModal = computed(() => modals.value[modals.value.length - 1])
+export const dialogs = ref<Dialog[]>([])
+export const activeDialog = computed(() => dialogs.value[dialogs.value.length - 1])
 
 const getId = (): number => {
   return iteration.value++
 }
 
-export const openModal: OpenModalInterface = (component, props?) => {
+export const openDialog: OpenDialogInterface = (component, props?) => {
   const focusElement = document.activeElement as HTMLElement
 
   focusElement.blur?.()
 
   return new Promise((resolve) => {
-    const modal: Modal = {
+    const dialog: Dialog = {
       id: getId(),
       component: markRaw(component),
       props,
@@ -98,15 +93,8 @@ export const openModal: OpenModalInterface = (component, props?) => {
       focusElement
     }
 
-    modals.value.push(modal)
+    dialogs.value.push(dialog)
   })
-}
-
-export const openDialog: OpenDialogInterface = (options) => {
-  return openModal(
-    defineAsyncComponent(() => import('./components/modal/ModalLayout.vue')),
-    options
-  )
 }
 
 export const openAlert: OpenAlertInterface = (options) => {
@@ -118,17 +106,20 @@ export const openAlert: OpenAlertInterface = (options) => {
 
   const { title, content, confirmVariant, confirmLabel = config.confirmLabel, confirmIcon } = options
 
-  return openDialog({
-    title,
-    content,
-    buttons: [
-      {
-        variant: confirmVariant || 'primary',
-        label: confirmLabel || '',
-        icon: confirmIcon
-      }
-    ]
-  })
+  return openDialog(
+    defineAsyncComponent(() => import('./components/dialogStack/DialogLayout.vue')),
+    {
+      title,
+      content,
+      buttons: [
+        {
+          variant: confirmVariant || 'primary',
+          label: confirmLabel || '',
+          icon: confirmIcon
+        }
+      ]
+    }
+  )
 }
 
 export const openConfirm: OpenConfirmInterface = (options) => {
@@ -149,56 +140,60 @@ export const openConfirm: OpenConfirmInterface = (options) => {
     confirmIcon
   } = options
 
-  return openDialog({
-    title,
-    content,
-    buttons: [
-      {
-        variant: cancelVariant || 'secondary',
-        label: cancelLabel || '',
-        icon: cancelIcon,
-        value: false
-      },
-      {
-        variant: confirmVariant || 'primary',
-        label: confirmLabel || '',
-        icon: confirmIcon,
-        value: true
-      }
-    ]
-  })
+  return openDialog(
+    defineAsyncComponent(() => import('./components/dialogStack/DialogLayout.vue')),
+    {
+      title,
+      content,
+      buttons: [
+        {
+          variant: cancelVariant || 'secondary',
+          label: cancelLabel || '',
+          icon: cancelIcon,
+          value: false
+        },
+        {
+          variant: confirmVariant || 'primary',
+          label: confirmLabel || '',
+          icon: confirmIcon,
+          value: true
+        }
+      ]
+    }
+  )
 }
 
-const executeCloseModal = (modal: Modal, result: any = undefined) => {
-  modals.value = modals.value.filter((m) => m.id !== modal.id)
-  modal.resolve(result)
+const executeCloseDialog = (dialog: Dialog, result: any = undefined) => {
+  dialogs.value = dialogs.value.filter((m) => m.id !== dialog.id)
+  dialog.resolve(result)
 
-  if (modal.focusElement) {
-    modal.focusElement.focus?.()
+  if (dialog.focusElement) {
+    dialog.focusElement.focus?.()
   }
 }
 
-export const closeModal = (modal: Modal, result: any = undefined) => {
-  modal.onBeforeClose ? modal.onBeforeClose(() => executeCloseModal(modal, result)) : executeCloseModal(modal, result)
+export const closeDialog = (dialog: Dialog, result: any = undefined) => {
+  dialog.onBeforeClose
+    ? dialog.onBeforeClose(() => executeCloseDialog(dialog, result))
+    : executeCloseDialog(dialog, result)
 }
 
-export const useCloseModal = (onBeforeClose?: (confirm: () => void) => void): ((result?: any) => void) => {
+export const useCloseDialog = (onBeforeClose?: (confirm: () => void) => void): ((result?: any) => void) => {
   if (onBeforeClose) {
-    activeModal.value.onBeforeClose = onBeforeClose
+    activeDialog.value.onBeforeClose = onBeforeClose
   }
 
   return (result?: any) => {
-    closeModal(activeModal.value, result)
+    closeDialog(activeDialog.value, result)
   }
 }
 
 const context = {
-  open: openModal,
-  dialog: openDialog,
+  open: openDialog,
   alert: openAlert,
   confirm: openConfirm
 }
 
-export function useModal(): ModalInterface {
+export function useDialogStack(): DialogInterface {
   return context
 }

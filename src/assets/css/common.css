@@ -350,25 +350,25 @@
   --vuiii-table-rowDividerWidth: var(--vuiii-table-dividerWidth);
 
   /* ------ */
-  /* Modal */
+  /* Dialog */
   /* ------ */
 
-  --vuiii-modal-title-fontSize: var(--vuiii-fontSize--x-large);
-  --vuiii-modal-title-fontWeight: inherit;
-  --vuiii-modal-title-fontFamily: inherit;
-  --vuiii-modal-bgColor: var(--vuiii-color-light);
-  --vuiii-modal-textColor: var(--vuiii-color-dark);
-  --vuiii-modal-borderRadius: var(--vuiii-button-borderRadius);
-  --vuiii-modal-boxShadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  --vuiii-modal-borderColor: black;
-  --vuiii-modal-borderWidth: 1;
-  --vuiii-modal-padding: 1.5rem;
-  --vuiii-modal-dividerWidth: 1px;
-  --vuiii-modal-dividerColor: var(--vuiii-color-gray--light);
-  --vuiii-modal-backdropBgColor: rgba(0, 0, 0, 0.35);
-  --vuiii-modal-closeButton-right: 0;
-  --vuiii-modal-closeButton-top: 0;
-  --vuiii-modal-closeButton-size: 1.75rem;
+  --vuiii-dialog-title-fontSize: var(--vuiii-fontSize--x-large);
+  --vuiii-dialog-title-fontWeight: inherit;
+  --vuiii-dialog-title-fontFamily: inherit;
+  --vuiii-dialog-bgColor: var(--vuiii-color-light);
+  --vuiii-dialog-textColor: var(--vuiii-color-dark);
+  --vuiii-dialog-borderRadius: var(--vuiii-button-borderRadius);
+  --vuiii-dialog-boxShadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  --vuiii-dialog-borderColor: black;
+  --vuiii-dialog-borderWidth: 1;
+  --vuiii-dialog-padding: 1.5rem;
+  --vuiii-dialog-dividerWidth: 1px;
+  --vuiii-dialog-dividerColor: var(--vuiii-color-gray--light);
+  --vuiii-dialog-backdropBgColor: rgba(0, 0, 0, 0.35);
+  --vuiii-dialog-closeButton-right: 0;
+  --vuiii-dialog-closeButton-top: 0;
+  --vuiii-dialog-closeButton-size: 1.75rem;
 
   /* ------ */
   /* Dropdown menu */
@@ -394,7 +394,7 @@
   /* Z-index */
   /* ------- */
 
-  --vuiii-zIndex-modal: 1000;
+  --vuiii-zIndex-dialog: 1000;
   --vuiii-zIndex-dropdown: 1010;
   --vuiii-zIndex-tooltip: 1020;
   --vuiii-zIndex-snackbar: 1030;
