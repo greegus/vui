@@ -5,7 +5,7 @@
     :class="{ hasHeader, hasFooter, isScrollable: $props.scroll, isPlain: $props.plain }"
     :style="computedStyle"
   >
-    <div v-if="!$props.hideCloseButton" class="DialogLayout__close" @click="close()">
+    <div v-if="$props.withCloseButton" class="DialogLayout__close" @click="close()">
       <Icon name="x" class="DialogLayout__closeIcon" />
     </div>
 
@@ -64,7 +64,7 @@ const props = withDefaults(
     title?: string
     content?: string
     width?: number | string
-    hideCloseButton?: boolean
+    withCloseButton?: boolean
     scroll?: boolean
     plain?: boolean
     buttons?: DialogLayoutButton[]
