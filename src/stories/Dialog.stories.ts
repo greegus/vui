@@ -30,7 +30,7 @@ const AnotheropenSimpleDialog = defineComponent({
   },
 
   template: `
-    <DialogLayout title="Another Simple dialog">
+    <DialogLayout title="Another Simple dialog" withCloseButton>
       <button @click="close()">Close</button>
     </DialogLayout>
   `
@@ -53,7 +53,7 @@ const OpenSimpleDialog = defineComponent({
   },
 
   template: `
-    <DialogLayout title="Simple dialog">
+    <DialogLayout title="Simple dialog" withCloseButton>
       <button @click="close()">Close</button>
       <button @click="openAnotheropenSimpleDialog()">Another dialog</button>
     </DialogLayout>
@@ -76,7 +76,7 @@ const SimpleDialogWithBeforeClose = defineComponent({
   },
 
   template: `
-    <DialogLayout title="Simple dialog with onBeforeClose handleer">
+    <DialogLayout title="Simple dialog with onBeforeClose handler" withCloseButton>
         <button @click="close()">Confirm and close</button>
     </DialogLayout>
   `
