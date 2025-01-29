@@ -82,6 +82,22 @@ const SimpleDialogWithBeforeClose = defineComponent({
   `
 })
 
+const SimpleModalDialog = defineComponent({
+  components: {
+    DialogLayout
+  },
+
+  setup() {
+    return { close: useCloseDialog() }
+  },
+
+  template: `
+    <DialogLayout title="Modal dialog" :buttons="[{ label: 'Close', variant: 'primary' }]">
+      This modal cannot be closed by ESC or clicking outside.
+    </DialogLayout>
+  `
+})
+
 const Template: StoryFn<typeof DialogStack> = () => ({
   components: {
     DialogStack,
@@ -107,11 +123,16 @@ const Template: StoryFn<typeof DialogStack> = () => ({
       dialog.alert('Alert!')
     }
 
+    const openModalDialog = () => {
+      dialog.open(SimpleModalDialog, {}, { modal: true })
+    }
+
     return {
       openSimpleDialog,
       openConfirmationDialog,
       openSimpleDialogWithBeforeClose,
-      openAlert
+      openAlert,
+      openModalDialog
     }
   },
 
@@ -134,6 +155,10 @@ const Template: StoryFn<typeof DialogStack> = () => ({
 
             <div>
                 <Button variant="primary" label="Open alert" @click="openAlert()" />
+            </div>
+
+            <div>
+                <Button variant="primary" label="Open modal dialog" @click="openModalDialog()" />
             </div>
         </div>
     </div>
