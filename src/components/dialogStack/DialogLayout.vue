@@ -1,34 +1,34 @@
 <template>
   <div
     ref="root"
-    class="ModalLayout"
+    class="DialogLayout"
     :class="{ hasHeader, hasFooter, isScrollable: $props.scroll, isPlain: $props.plain }"
     :style="computedStyle"
   >
-    <div v-if="!$props.hideCloseButton" class="ModalLayout__close" @click="close()">
-      <Icon name="x" class="ModalLayout__closeIcon" />
+    <div v-if="!$props.hideCloseButton" class="DialogLayout__close" @click="close()">
+      <Icon name="x" class="DialogLayout__closeIcon" />
     </div>
 
-    <div v-if="hasHeader" class="ModalLayout__header">
+    <div v-if="hasHeader" class="DialogLayout__header">
       <slot name="header">
-        <div class="ModalLayout__title">
+        <div class="DialogLayout__title">
           {{ $props.title }}
         </div>
       </slot>
     </div>
 
-    <div class="ModalLayout__body">
+    <div class="DialogLayout__body">
       <slot>
-        <div class="ModalLayout__content">
+        <div class="DialogLayout__content">
           {{ $props.content }}
         </div>
       </slot>
     </div>
 
-    <div v-if="hasFooter" class="ModalLayout__footer">
+    <div v-if="hasFooter" class="DialogLayout__footer">
       <slot name="footer">
-        <div class="ModalLayout__buttons">
-          <span v-for="(button, $index) in $props.buttons" :key="$index" class="ModalLayout__buttonWrapper">
+        <div class="DialogLayout__buttons">
+          <span v-for="(button, $index) in $props.buttons" :key="$index" class="DialogLayout__buttonWrapper">
             <Button
               type="button"
               :label="button.label"
@@ -50,12 +50,12 @@ import { computed, type CSSProperties, onMounted, ref, useSlots } from 'vue'
 
 import Button from '@/components/Button.vue'
 import Icon from '@/components/Icon.vue'
-import { useCloseModal } from '@/modal'
-import type { ModalLayoutButton } from '@/types'
+import { useCloseDialog } from '@/dialogStack'
+import type { DialogLayoutButton } from '@/types'
 
 const slots = useSlots()
 
-const close = useCloseModal()
+const close = useCloseDialog()
 
 const root = ref<HTMLElement>()
 
@@ -67,7 +67,7 @@ const props = withDefaults(
     hideCloseButton?: boolean
     scroll?: boolean
     plain?: boolean
-    buttons?: ModalLayoutButton[]
+    buttons?: DialogLayoutButton[]
   }>(),
   {
     title: '',
@@ -128,7 +128,7 @@ onMounted(() => {
 </script>
 
 <style lang="postcss" scoped>
-.ModalLayout {
+.DialogLayout {
   position: relative;
 
   display: flex;
@@ -137,11 +137,11 @@ onMounted(() => {
   margin: auto;
   min-height: fit-content;
 
-  color: var(--vuiii-modal-textColor);
-  background-color: var(--vuiii-modal-bgColor);
-  border: var(--vuiii-modal-borderWidth) solid var(--vuiii-modal-borderColor);
-  border-radius: var(--vuiii-modal-borderRadius);
-  box-shadow: var(--vuiii-modal-boxShadow);
+  color: var(--vuiii-dialog-textColor);
+  background-color: var(--vuiii-dialog-bgColor);
+  border: var(--vuiii-dialog-borderWidth) solid var(--vuiii-dialog-borderColor);
+  border-radius: var(--vuiii-dialog-borderRadius);
+  box-shadow: var(--vuiii-dialog-boxShadow);
 
   &.isScrollable {
     min-height: auto;
@@ -149,32 +149,32 @@ onMounted(() => {
   }
 }
 
-.ModalLayout__header {
+.DialogLayout__header {
   flex: 0 0 auto;
-  padding: var(--vuiii-modal-padding);
-  padding-right: calc(var(--vuiii-modal-closeButton-size) + var(--vuiii-modal-padding) * 2);
+  padding: var(--vuiii-dialog-padding);
+  padding-right: calc(var(--vuiii-dialog-closeButton-size) + var(--vuiii-dialog-padding) * 2);
 
-  & .ModalLayout.isPlain {
+  & .DialogLayout.isPlain {
     padding: 0;
   }
 }
 
-.ModalLayout__title {
-  font-family: var(--vuiii-modal-title-fontFamily);
-  font-size: var(--vuiii-modal-title-fontSize);
-  font-weight: var(--vuiii-modal-title-fontWeight);
+.DialogLayout__title {
+  font-family: var(--vuiii-dialog-title-fontFamily);
+  font-size: var(--vuiii-dialog-title-fontSize);
+  font-weight: var(--vuiii-dialog-title-fontWeight);
 }
 
-.ModalLayout__close {
+.DialogLayout__close {
   position: absolute;
   z-index: 1;
-  top: var(--vuiii-modal-closeButton-top);
-  right: var(--vuiii-modal-closeButton-right);
+  top: var(--vuiii-dialog-closeButton-top);
+  right: var(--vuiii-dialog-closeButton-right);
 
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: var(--vuiii-modal-padding);
+  padding: var(--vuiii-dialog-padding);
 
   opacity: 0.4;
 
@@ -184,38 +184,38 @@ onMounted(() => {
   }
 }
 
-.ModalLayout__closeIcon {
-  width: var(--vuiii-modal-closeButton-size);
-  height: var(--vuiii-modal-closeButton-size);
+.DialogLayout__closeIcon {
+  width: var(--vuiii-dialog-closeButton-size);
+  height: var(--vuiii-dialog-closeButton-size);
 }
 
-.ModalLayout__body {
+.DialogLayout__body {
   flex: 1 0 auto;
-  padding: var(--vuiii-modal-padding);
+  padding: var(--vuiii-dialog-padding);
   border-radius: 4px;
 }
 
-.ModalLayout__content {
-  padding-right: calc(var(--vuiii-modal-closeButton-size) + var(--vuiii-modal-padding));
+.DialogLayout__content {
+  padding-right: calc(var(--vuiii-dialog-closeButton-size) + var(--vuiii-dialog-padding));
 
   &:not(:empty) {
-    min-height: var(--vuiii-modal-closeButton-size);
+    min-height: var(--vuiii-dialog-closeButton-size);
   }
 }
 
-.ModalLayout.hasHeader .ModalLayout__body {
+.DialogLayout.hasHeader .DialogLayout__body {
   padding-top: 0;
   border-top-right-radius: 0;
   border-top-left-radius: 0;
 }
 
-.ModalLayout.hasFooter .ModalLayout__body {
+.DialogLayout.hasFooter .DialogLayout__body {
   padding-bottom: 0;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
 
-.ModalLayout.isScrollable .ModalLayout__body {
+.DialogLayout.isScrollable .DialogLayout__body {
   flex: 1 1 auto;
   overflow: auto;
   padding: 1.5rem;
@@ -225,28 +225,28 @@ onMounted(() => {
   -webkit-overflow-scrolling: touch;
 }
 
-.ModalLayout.isScrollable.hasHeader .ModalLayout__body {
-  border-top: var(--vuiii-modal-dividerWidth) solid var(--vuiii-modal-dividerColor);
+.DialogLayout.isScrollable.hasHeader .DialogLayout__body {
+  border-top: var(--vuiii-dialog-dividerWidth) solid var(--vuiii-dialog-dividerColor);
 }
 
-.ModalLayout.isScrollable.hasFooter .ModalLayout__body {
-  border-bottom: var(--vuiii-modal-dividerWidth) solid var(--vuiii-modal-dividerColor);
+.DialogLayout.isScrollable.hasFooter .DialogLayout__body {
+  border-bottom: var(--vuiii-dialog-dividerWidth) solid var(--vuiii-dialog-dividerColor);
 }
 
-.ModalLayout.isPlain .ModalLayout__body {
+.DialogLayout.isPlain .DialogLayout__body {
   padding: 0;
 }
 
-.ModalLayout__footer {
+.DialogLayout__footer {
   flex: 0 0 auto;
-  padding: var(--vuiii-modal-padding);
+  padding: var(--vuiii-dialog-padding);
 }
 
-.ModalLayout.isPlain .ModalLayout__footer {
+.DialogLayout.isPlain .DialogLayout__footer {
   padding: 0;
 }
 
-.ModalLayout__buttons {
+.DialogLayout__buttons {
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -256,7 +256,7 @@ onMounted(() => {
   }
 }
 
-.ModalLayout__message--offset {
+.DialogLayout__message--offset {
   padding-right: 2.5rem;
 }
 </style>
