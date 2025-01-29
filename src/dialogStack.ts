@@ -9,6 +9,7 @@ export type Dialog = {
   resolve: (result: any) => void
   focusElement: HTMLElement | null
   onBeforeClose?: (confirm: () => void) => void
+  modal?: boolean
 }
 
 export type Config = Partial<{
@@ -30,6 +31,7 @@ export type AlertOptions =
       confirmLabel?: string
       confirmVariant?: ButtonVariant
       confirmIcon?: string
+      modal?: boolean
     }
 
 export type ConfirmOptions =
@@ -43,10 +45,11 @@ export type ConfirmOptions =
       confirmLabel?: string
       confirmVariant?: ButtonVariant
       confirmIcon?: string
+      modal?: boolean
     }
 
 export interface OpenDialogInterface {
-  <T = any>(component: Component, props?: { [key: string]: any }): Promise<T>
+  <T = any>(component: Component, props?: { [key: string]: any }, settings?: { modal?: boolean }): Promise<T>
 }
 
 export interface OpenAlertInterface {
@@ -79,7 +82,7 @@ const getId = (): number => {
   return iteration.value++
 }
 
-export const openDialog: OpenDialogInterface = (component, props?) => {
+export const openDialog: OpenDialogInterface = (component, props?, { modal } = {}) => {
   const focusElement = document.activeElement as HTMLElement
 
   focusElement.blur?.()
@@ -90,7 +93,8 @@ export const openDialog: OpenDialogInterface = (component, props?) => {
       component: markRaw(component),
       props,
       resolve,
-      focusElement
+      focusElement,
+      modal
     }
 
     dialogs.value.push(dialog)
@@ -104,13 +108,14 @@ export const openAlert: OpenAlertInterface = (options) => {
     }
   }
 
-  const { title, content, confirmVariant, confirmLabel = config.confirmLabel, confirmIcon } = options
+  const { title, content, confirmVariant, confirmLabel = config.confirmLabel, confirmIcon, modal } = options
 
   return openDialog(
     defineAsyncComponent(() => import('./components/dialogStack/DialogLayout.vue')),
     {
       title,
       content,
+      modal,
       buttons: [
         {
           variant: confirmVariant || 'primary',
@@ -137,7 +142,8 @@ export const openConfirm: OpenConfirmInterface = (options) => {
     cancelIcon,
     confirmLabel = config.confirmLabel,
     confirmVariant,
-    confirmIcon
+    confirmIcon,
+    modal
   } = options
 
   return openDialog(
@@ -145,6 +151,7 @@ export const openConfirm: OpenConfirmInterface = (options) => {
     {
       title,
       content,
+      modal,
       buttons: [
         {
           variant: cancelVariant || 'secondary',

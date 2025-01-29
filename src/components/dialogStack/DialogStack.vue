@@ -32,13 +32,13 @@ import type { Dialog } from '@/dialogStack'
 import { activeDialog, closeDialog, dialogs } from '@/dialogStack'
 
 const closeDialogByBackdropClick = (e: MouseEvent, dialog: Dialog) => {
-  if (e.target === e.currentTarget) {
+  if (!dialog.modal && e.target === e.currentTarget) {
     closeDialog(dialog)
   }
 }
 
 useOnKeyPress('Escape', (e) => {
-  if (dialogs.value.length && !e.defaultPrevented) {
+  if (activeDialog.value && !activeDialog.value.modal && !e.defaultPrevented) {
     closeDialog(activeDialog.value)
     e.preventDefault()
   }
