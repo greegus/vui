@@ -139,8 +139,9 @@ defineSlots<
       index: number
     }) => any
   } & {
-    rowOptions: (props: { item: T; index: number }) => any
-    noDataMessage: () => any
+    rowOptions?: (props: { item: T; index: number }) => any
+    noDataMessage?: () => any
+    tools?: () => any
   }
 >()
 

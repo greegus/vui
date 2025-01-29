@@ -89,8 +89,8 @@ defineEmits<{
 }>()
 
 defineSlots<{
-  prefix: void
-  suffix: void
+  prefix?: void
+  suffix?: void
 }>()
 
 const attrs = useAttrs()

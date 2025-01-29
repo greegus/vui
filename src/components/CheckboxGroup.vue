@@ -40,7 +40,7 @@ const props = withDefaults(
 )
 
 defineSlots<{
-  default: void
+  default?: void
   symbol?: (props: { checked: boolean; disabled: boolean }) => any
 }>()
 

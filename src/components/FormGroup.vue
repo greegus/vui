@@ -41,10 +41,10 @@ defineProps<{
 }>()
 
 defineSlots<{
-  default: void
-  label: void
-  description: void
-  hint: void
+  default?: void
+  label?: void
+  description?: void
+  hint?: void
 }>()
 </script>
 

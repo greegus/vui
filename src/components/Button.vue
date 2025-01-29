@@ -72,9 +72,9 @@ const props = withDefaults(defineProps<ButtonProps>(), {
 })
 
 defineSlots<{
-  prefix: void
-  default: void
-  suffix: void
+  prefix?: void
+  default?: void
+  suffix?: void
 }>()
 
 const component = computed<string>(() => {

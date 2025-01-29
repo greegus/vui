@@ -2,6 +2,8 @@
 
 .vuiii-button {
   --fontSize: var(--vuiii-button-fontSize);
+  --fontFamily: var(--vuiii-button-fontFamily);
+  --fontWeight: var(--vuiii-button-fontWeight);
   --height: var(--vuiii-button-height);
   --padding: var(--vuiii-button-padding);
   --borderRadius: var(--vuiii-button-borderRadius);
@@ -11,7 +13,6 @@
   --borderColor: var(--vuiii-button-borderColor);
   --textColor: var(--vuiii-button-textColor);
   --borderWidth: var(--vuiii-button-borderWidth);
-  --fontWeight: var(--vuiii-button-fontWeight);
   --shadow: var(--vuiii-button-shadow, 0 0);
   --transition: var(--vuiii-button-transition);
   --ringColor: var(--vuiii-button-ringColor);

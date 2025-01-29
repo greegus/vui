@@ -21,12 +21,11 @@
   --vuiii-color-primary--darker: color-mix(in srgb, var(--vuiii-color-primary) 95%, black);
   --vuiii-color-primary--darkest: color-mix(in srgb, var(--vuiii-color-primary) 85%, black);
 
-  /* --vuiii-color-secondary: rgb(212 212 216); neutral.300 */
-  /* --vuiii-color-secondary-shadow: rgb(192 192 192/0.15); */
-  /* --vuiii-color-secondary--darker: rgb(192 192 192); */
-
   --vuiii-color-danger: rgb(225 29 72); /* rose.600 */
   --vuiii-color-danger--darker: color-mix(in srgb, var(--vuiii-color-danger) 95%, black);
+
+  --ui-color-warning: rgb(234, 179, 8); /* amber.400 */
+  --ui-color-warning--darker: color-mix(in srgb, var(--ui-color-warning) 95%, black);
 
   --vuiii-color-success: rgb(77 124 15); /* lime.700 */
   --vuiii-color-success--darker: color-mix(in srgb, var(--vuiii-color-success) 95%, black);
@@ -184,6 +183,8 @@
   /* ––––––– */
 
   --vuiii-button-fontSize: var(--vuiii-field-fontSize);
+  --vuiii-button-fontFamily: var(--vuiii-typeface-body);
+  --vuiii-button-fontWeight: normal;
   --vuiii-button-height: var(--vuiii-field-height);
   --vuiii-button-padding: var(--vuiii-field-padding);
   --vuiii-button-borderRadius: var(--vuiii-field-borderRadius);
@@ -195,7 +196,7 @@
 
   /* Sizes */
 
-  --vuiii-button-fontSize--small: var(--vuiii-field-fontSize--small);
+  --vuiii-button-fontSize--small: var(--vuiii-field-fontSize);
   --vuiii-button-height--small: var(--vuiii-field-height--small);
   --vuiii-button-padding--small: var(--vuiii-field-padding--small);
   --vuiii-button-borderRadius--small: var(--vuiii-field-borderRadius--small);
@@ -362,8 +363,8 @@
   --vuiii-modal-borderColor: black;
   --vuiii-modal-borderWidth: 1;
   --vuiii-modal-padding: 1.5rem;
-  --vuii--modal-dividerWidth: 1px;
-  --vuii--modal-dividerColor: var(--vuiii-color-gray--light);
+  --vuiii-modal-dividerWidth: 1px;
+  --vuiii-modal-dividerColor: var(--vuiii-color-gray--light);
   --vuiii-modal-backdropBgColor: rgba(0, 0, 0, 0.35);
   --vuiii-modal-closeButton-right: 0;
   --vuiii-modal-closeButton-top: 0;

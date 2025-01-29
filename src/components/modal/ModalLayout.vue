@@ -78,9 +78,9 @@ const props = withDefaults(
 )
 
 defineSlots<{
-  header: void
-  default: void
-  footer: void
+  header?: void
+  default?: void
+  footer?: void
 }>()
 
 const hasHeader = computed<boolean>(() => {
@@ -226,11 +226,11 @@ onMounted(() => {
 }
 
 .ModalLayout.isScrollable.hasHeader .ModalLayout__body {
-  border-top: var(--vuii--modal-dividerWidth) solid var(--vuii--modal-dividerColor);
+  border-top: var(--vuiii-modal-dividerWidth) solid var(--vuiii-modal-dividerColor);
 }
 
 .ModalLayout.isScrollable.hasFooter .ModalLayout__body {
-  border-bottom: var(--vuii--modal-dividerWidth) solid var(--vuii--modal-dividerColor);
+  border-bottom: var(--vuiii-modal-dividerWidth) solid var(--vuiii-modal-dividerColor);
 }
 
 .ModalLayout.isPlain .ModalLayout__body {
