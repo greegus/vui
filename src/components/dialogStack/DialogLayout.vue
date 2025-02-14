@@ -2,7 +2,13 @@
   <div
     ref="root"
     class="DialogLayout"
-    :class="{ hasHeader, hasFooter, isScrollable: $props.scroll, isPlain: $props.plain }"
+    :class="{
+      hasHeader,
+      hasFooter,
+      isScrollable: $props.scroll,
+      isPlain: $props.plain,
+      isWithCloseButton: $props.withCloseButton
+    }"
     :style="computedStyle"
   >
     <div v-if="$props.withCloseButton" class="DialogLayout__close" @click="close()">
@@ -152,10 +158,13 @@ onMounted(() => {
 .DialogLayout__header {
   flex: 0 0 auto;
   padding: var(--vuiii-dialog-padding);
-  padding-right: calc(var(--vuiii-dialog-closeButton-size) + var(--vuiii-dialog-padding) * 2);
 
-  & .DialogLayout.isPlain {
+  .DialogLayout.isPlain & {
     padding: 0;
+  }
+
+  .DialogLayout.isWithCloseButton & {
+    padding-right: calc(var(--vuiii-dialog-closeButton-size) + var(--vuiii-dialog-padding) * 2);
   }
 }
 
@@ -196,7 +205,9 @@ onMounted(() => {
 }
 
 .DialogLayout__content {
-  padding-right: calc(var(--vuiii-dialog-closeButton-size) + var(--vuiii-dialog-padding));
+  .DialogLayout.isWithCloseButton & {
+    padding-right: calc(var(--vuiii-dialog-closeButton-size) + var(--vuiii-dialog-padding));
+  }
 
   &:not(:empty) {
     min-height: var(--vuiii-dialog-closeButton-size);
@@ -226,11 +237,11 @@ onMounted(() => {
 }
 
 .DialogLayout.isScrollable.hasHeader .DialogLayout__body {
-  border-top: var(--vuiii-dialog-dividerWidth) solid var(--vuiii-dialog-dividerColor);
+  border-top: var(--vuiii-dialog-dividerWidth) var(--vuiii-dialog-dividerStyle) var(--vuiii-dialog-dividerColor);
 }
 
 .DialogLayout.isScrollable.hasFooter .DialogLayout__body {
-  border-bottom: var(--vuiii-dialog-dividerWidth) solid var(--vuiii-dialog-dividerColor);
+  border-bottom: var(--vuiii-dialog-dividerWidth) var(--vuiii-dialog-dividerStyle) var(--vuiii-dialog-dividerColor);
 }
 
 .DialogLayout.isPlain .DialogLayout__body {

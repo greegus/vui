@@ -364,6 +364,7 @@
   --vuiii-dialog-borderWidth: 1;
   --vuiii-dialog-padding: 1.5rem;
   --vuiii-dialog-dividerWidth: 1px;
+  --vuiii-dialog-dividerStyle: solid;
   --vuiii-dialog-dividerColor: var(--vuiii-color-gray--light);
   --vuiii-dialog-backdropBgColor: rgba(0, 0, 0, 0.35);
   --vuiii-dialog-closeButton-right: 0;
