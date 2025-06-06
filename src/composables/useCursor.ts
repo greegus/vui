@@ -1,6 +1,9 @@
 import { computed, type Ref, ref, unref, watch } from 'vue'
 
-export function useCursor<T = unknown>(items: Ref<T[]> | T[], options: { cycle?: boolean } = {}) {
+export function useCursor<T = unknown>(
+  items: Ref<T[]> | T[],
+  options: { cycle?: boolean; onCursorMove?: () => void } = {}
+) {
   const cursorIndex = ref(0)
 
   const cursorItem = computed(() => unref(items)[cursorIndex.value])

@@ -68,9 +68,7 @@ export function useRouteQuery<QueryParams extends Record<string, unknown> = Reco
       ...route.query
     }
 
-    if (valueIsNotEmpty(value)) {
-      newQueryParams[key as string] = serializeValue(key, value)
-    }
+    newQueryParams[key as string] = valueIsNotEmpty(value) ? serializeValue(key, value) : (undefined as any)
 
     return router.push({ query: newQueryParams })
   }
