@@ -1,12 +1,12 @@
-import { type Component, type ComponentCustomProps, computed, defineAsyncComponent, markRaw, ref } from 'vue'
+import { type Component, computed, defineAsyncComponent, markRaw, ref } from 'vue'
 
 import type { ButtonVariant, DialogLayoutButton } from './types'
 
-export type Dialog = {
+export type Dialog<ResultType = any, DialogComponentProps = Record<string, any>> = {
   id: number
   component: Component
-  props?: ComponentCustomProps
-  resolve: (result: any) => void
+  props?: DialogComponentProps
+  resolve: (result: ResultType) => void
   focusElement: HTMLElement | null
   onBeforeClose?: (confirm: () => void) => void
   modal?: boolean
@@ -48,24 +48,6 @@ export type ConfirmOptions =
       modal?: boolean
     }
 
-export interface OpenDialogInterface {
-  <T = any>(component: Component, props?: { [key: string]: any }, settings?: { modal?: boolean }): Promise<T>
-}
-
-export interface OpenAlertInterface {
-  (options: AlertOptions): Promise<void>
-}
-
-export interface OpenConfirmInterface {
-  (options: ConfirmOptions): Promise<boolean>
-}
-
-interface DialogInterface {
-  open: OpenDialogInterface
-  alert: OpenAlertInterface
-  confirm: OpenConfirmInterface
-}
-
 const defaultConfig: Config = {
   cancelLabel: 'Cancel',
   confirmLabel: 'OK'
@@ -82,13 +64,17 @@ const getId = (): number => {
   return iteration.value++
 }
 
-export const openDialog: OpenDialogInterface = (component, props?, { modal } = {}) => {
+export const openDialog = <ResultType = any, DialogComponentProps = Record<string, any>>(
+  component: Component,
+  props?: DialogComponentProps,
+  { modal }: { modal?: boolean } = {}
+): Promise<ResultType> => {
   const focusElement = document.activeElement as HTMLElement
 
   focusElement.blur?.()
 
   return new Promise((resolve) => {
-    const dialog: Dialog = {
+    const dialog: Dialog<ResultType, DialogComponentProps> = {
       id: getId(),
       component: markRaw(component),
       props,
@@ -97,11 +83,11 @@ export const openDialog: OpenDialogInterface = (component, props?, { modal } = {
       modal
     }
 
-    dialogs.value.push(dialog)
+    dialogs.value.push(dialog as Dialog)
   })
 }
 
-export const openAlert: OpenAlertInterface = (options) => {
+export const openAlert = (options: AlertOptions): Promise<void> => {
   if (typeof options === 'string') {
     options = {
       content: options
@@ -127,7 +113,7 @@ export const openAlert: OpenAlertInterface = (options) => {
   )
 }
 
-export const openConfirm: OpenConfirmInterface = (options) => {
+export const openConfirm = (options: ConfirmOptions): Promise<boolean> => {
   if (typeof options === 'string') {
     options = {
       content: options
@@ -201,6 +187,6 @@ const context = {
   confirm: openConfirm
 }
 
-export function useDialogStack(): DialogInterface {
+export function useDialogStack() {
   return context
 }

@@ -229,7 +229,6 @@ onMounted(() => {
 .DialogLayout.isScrollable .DialogLayout__body {
   flex: 1 1 auto;
   overflow: auto;
-  padding: 1.5rem;
 
   overscroll-behavior: contain;
   overflow-y: scroll;
