@@ -21,6 +21,7 @@ export function normalizeOption(
     label?: Extractor
     disabled?: Extractor
     description?: Extractor
+    icon?: Extractor
     stringifyValue?: Stringifier
   } = {},
   selectedValue?: any
@@ -34,6 +35,7 @@ export function normalizeOption(
     label: retrieveValue(item, extractors.label),
     disabled: extractors.disabled && retrieveValue(item, extractors.disabled),
     description: extractors.description && retrieveValue(item, extractors.description),
+    icon: extractors.icon && retrieveValue(item, extractors.icon),
     isSelected: selectedValue === undefined ? undefined : value === stringifyValue(selectedValue),
     data: item
   }
@@ -46,6 +48,7 @@ export function normalizeOptions(
     label?: Extractor
     disabled?: Extractor
     description?: Extractor
+    icon?: Extractor
     stringifyValue?: Stringifier
   } = {},
   selectedValue?: any
@@ -76,6 +79,7 @@ export function normalizeGroups(
     label?: Extractor
     disabled?: Extractor
     description?: Extractor
+    icon?: Extractor
     stringifyValue?: Stringifier
   } = {},
   selectedValue?: any

@@ -43,6 +43,7 @@ export type Option<T = any> = {
   label: string
   disabled?: boolean
   description?: string
+  icon?: string
   data: T
   index?: number
   isSelected?: boolean

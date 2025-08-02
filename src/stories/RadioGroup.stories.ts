@@ -1,6 +1,7 @@
 import { type Meta, StoryObj } from '@storybook/vue3'
 import { ref } from 'vue'
 
+import RadioButtonGroupComponent from '../components/RadioButtonGroup.vue'
 import RadioGroup from '../components/RadioGroup.vue'
 import { objectOptions, plainObjectOptions } from './assets/options'
 import DumpValue from './helpers/components/DumpValue.vue'
@@ -77,6 +78,15 @@ export const CustomRadioSymbol: StoryObj<typeof RadioGroup> = {
         </template>
       </RadioGroup>
       <DumpValue :value="value" />
+    `
+  })
+}
+export const RadioButtonGroup: StoryObj<typeof RadioGroup> = {
+  render: () => ({
+    components: { RadioButtonGroup: RadioButtonGroupComponent },
+    setup: () => ({ value: ref(), plainObjectOptions }),
+    template: `
+      <RadioButtonGroup v-model="value" :options="plainObjectOptions" />
     `
   })
 }
