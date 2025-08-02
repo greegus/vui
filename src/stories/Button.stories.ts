@@ -1,6 +1,8 @@
 import { type Meta, StoryObj } from '@storybook/vue3'
+import { ref } from 'vue'
 
 import Button from '../components/Button.vue'
+import ButtonGroupComponent from '../components/ButtonGroup.vue'
 import { icons } from './assets/icons'
 
 export default {
@@ -68,6 +70,20 @@ export const Pill: StoryObj<typeof Button> = {
 
 export const Link: StoryObj<typeof Button> = {
   args: { href: 'https://google.com', target: '_blank', label: 'Link to Google' }
+}
+
+export const ButtonGroup: StoryObj<typeof Button> = {
+  render: () => ({
+    components: { ButtonGroup: ButtonGroupComponent, Button },
+    setup: () => ({ active: ref(0) }),
+    template: `
+      <ButtonGroup>
+        <Button variant="primary" :outlined="active !== 0" @click="active = 0" label="First" />
+        <Button variant="primary" :outlined="active !== 1" @click="active = 1" label="Second" />
+        <Button variant="primary" :outlined="active !== 2" @click="active = 2" label="Third" />
+      </ButtonGroup>
+    `
+  })
 }
 
 export const Sizes: StoryObj<typeof Button> = {

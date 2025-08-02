@@ -2,6 +2,7 @@ import './assets/css/style.css'
 
 export { default as Breadcrumbs } from './components/Breadcrumbs.vue'
 export { default as Button } from './components/Button.vue'
+export { default as ButtonGroup } from './components/ButtonGroup.vue'
 export { default as Checkbox } from './components/Checkbox.vue'
 export { default as CheckboxGroup } from './components/CheckboxGroup.vue'
 export { default as DialogLayout } from './components/dialogStack/DialogLayout.vue'
