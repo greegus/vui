@@ -46,7 +46,7 @@
 }
 
 .vuiii-table__label {
-  line-height: 0;
+  line-height: 1;
 }
 
 .vuiii-table__label--sortable {
