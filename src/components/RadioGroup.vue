@@ -115,6 +115,7 @@ function handleInput(value: any) {
 
 .RadioGroup--inline {
   display: flex;
+  align-items: flex-start;
 
   & > * + * {
     margin-top: 0rem;

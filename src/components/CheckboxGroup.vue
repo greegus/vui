@@ -78,15 +78,15 @@ const toggleCheckedValue = (value: any, checked: boolean) => {
   & > * + * {
     margin-top: 0.75rem;
   }
+}
 
-  &--inline {
-    display: flex;
-    flex-wrap: wrap;
+.CheckboxGroup--inline {
+  display: flex;
+  align-items: flex-start;
 
-    & > * {
-      margin-top: 0rem;
-      margin-left: 1.5rem;
-    }
+  & > * + * {
+    margin-top: 0rem;
+    margin-left: 1.5rem;
   }
 }
 </style>
