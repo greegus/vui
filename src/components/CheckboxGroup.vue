@@ -1,5 +1,5 @@
 <template>
-  <div class="CheckboxGroup">
+  <div class="CheckboxGroup" :class="{ 'CheckboxGroup--inline': $props.inline }">
     <div v-for="option in normalizedOptions" :key="option.value">
       <Checkbox
         :disabled="option.disabled"
@@ -35,6 +35,7 @@ const props = withDefaults(
     optionDescription?: Extractor
     valueParser?: ValueParser
     type?: 'string' | 'number' | 'boolean' | 'date'
+    inline?: boolean
   }>(),
   {}
 )
@@ -76,6 +77,16 @@ const toggleCheckedValue = (value: any, checked: boolean) => {
 .CheckboxGroup {
   & > * + * {
     margin-top: 0.75rem;
+  }
+
+  &--inline {
+    display: flex;
+    flex-wrap: wrap;
+
+    & > * {
+      margin-top: 0rem;
+      margin-left: 1.5rem;
+    }
   }
 }
 </style>
