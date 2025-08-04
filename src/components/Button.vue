@@ -12,7 +12,8 @@
       'vuiii-button--pill': $props.pill
     }"
     v-bind="$attrs"
-    :href="$props.href"
+    :to="component === 'router-link' ? $props.to : undefined"
+    :href="component === 'a' ? $props.href : undefined"
     :type="component === 'button' ? $props.type : undefined"
   >
     <slot name="prefix">
@@ -77,7 +78,7 @@ defineSlots<{
   suffix?: void
 }>()
 
-const component = computed<string>(() => {
+const component = computed(() => {
   if (props.to) {
     return 'router-link'
   }
