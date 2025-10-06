@@ -12,8 +12,17 @@
   </div>
 </template>
 
+<script lang="ts" type="module">
+export type DropdownRef = {
+  open: () => void
+  close: () => void
+  toggle: (state?: boolean) => void
+  isOpen: ComputedRef<boolean>
+}
+</script>
+
 <script lang="ts" generic="Item extends any = any" setup>
-import { computed, ref } from 'vue'
+import { computed, ComputedRef, ref } from 'vue'
 
 import Button from '@/components/Button.vue'
 import FadeTransition from '@/components/transitions/FadeTransition.vue'
