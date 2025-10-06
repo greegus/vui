@@ -26,6 +26,8 @@ export function useCursor<T = unknown>(
     cursorIndex.value = 0
   }
 
+  watch(cursorIndex, () => options.onCursorMove?.())
+
   watch(() => unref(items).length, resetCursor)
 
   return {
