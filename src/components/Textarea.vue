@@ -16,6 +16,13 @@
   />
 </template>
 
+<script lang="ts" type="module">
+export type TextareaRef = {
+  focus: () => void
+  select: () => void
+}
+</script>
+
 <script lang="ts" setup>
 import { ref } from 'vue'
 

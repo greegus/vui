@@ -56,6 +56,12 @@
 </template>
 
 <script lang="ts">
+export type InputRef = {
+  input: HTMLInputElement
+  focus: () => void
+  select: () => void
+}
+
 export default {
   inheritAttrs: false
 }
