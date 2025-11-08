@@ -111,6 +111,7 @@ const computedStyle = computed<Partial<CSSProperties>>(() => {
 })
 
 onMounted(() => {
+  // TODO fix focus management
   const inputs = root.value?.querySelectorAll('input')
 
   if (inputs?.length) {
