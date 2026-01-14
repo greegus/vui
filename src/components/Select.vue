@@ -1,15 +1,11 @@
 <template>
-  <div
-    class="Select vuiii-input"
-    :class="[
-      $attrs.class,
-      {
-        [`vuiii-input--${$props.size}`]: $props.size,
-        'vuiii-input--invalid': $props.invalid,
-        'vuiii-input--disabled': $props.disabled,
-        'Select--pill': $props.pill
-      }
-    ]"
+  <InputWrapper
+    class="Select"
+    :class="$attrs.class"
+    :size="$props.size"
+    :invalid="$props.invalid"
+    :disabled="$props.disabled"
+    :pill="$props.pill"
   >
     <select
       v-bind="attrsWithoutClass"
@@ -57,10 +53,12 @@
       </template>
     </select>
 
-    <div class="Select__dropdownIcon vuiii-input__suffix-icon">
-      <Icon name="triangle-down" :size="$props.size" />
-    </div>
-  </div>
+    <template #suffix>
+      <div class="Select__dropdownIcon vuiii-input__suffix-icon">
+        <Icon name="triangle-down" :size="$props.size" />
+      </div>
+    </template>
+  </InputWrapper>
 </template>
 
 <script lang="ts">
@@ -73,6 +71,7 @@ export default {
 import { computed } from 'vue'
 
 import Icon from '@/components/Icon.vue'
+import InputWrapper from '@/components/InputWrapper.vue'
 import { useAttrsWithoutClass } from '@/composables/useAttrsWithoutClass'
 import type { Extractor, InputSize, ValueParser } from '@/types'
 import { createTypeParser } from '@/utils/createTypeParser'
@@ -154,19 +153,6 @@ function handleInput(e: Event) {
 </script>
 
 <style lang="postcss" scoped>
-.Select {
-  position: relative;
-  display: flex;
-  align-items: stretch;
-  padding-left: 0;
-  padding-right: 0;
-  line-height: 1;
-}
-
-.Select--pill {
-  --borderRadius: 9999px;
-}
-
 .Select__select {
   width: 100%;
   appearance: none;

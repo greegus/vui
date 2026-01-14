@@ -23,8 +23,8 @@
   padding-left: var(--padding);
   padding-right: var(--padding);
   min-height: var(--height);
-  font-family: inherit;
   box-sizing: border-box;
+  font-family: inherit;
   font-size: var(--fontSize);
   transition: var(--vuiii-input-transition);
   box-shadow:
@@ -99,6 +99,7 @@
     outline: none;
     cursor: inherit;
     text-align: inherit;
+    font-family: inherit;
     font-size: inherit;
 
     &::placeholder {
