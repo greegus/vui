@@ -41,7 +41,11 @@ import '@/assets/css/input.css'
 
 import { ref, useSlots } from 'vue'
 
-import InputWrapper, { type InputWrapperProps } from '@/components/InputWrapper.vue'
+import InputWrapper, {
+  type InputWrapperEmits,
+  type InputWrapperProps,
+  type InputWrapperSlots
+} from '@/components/InputWrapper.vue'
 import { useAttrsWithoutClass } from '@/composables/useAttrsWithoutClass'
 
 const modelValue = defineModel<string>()
@@ -53,13 +57,9 @@ defineProps<
   }
 >()
 
-defineEmits<{
-  'prefix-icon-click': []
-}>()
+defineEmits<Omit<InputWrapperEmits, 'suffix-icon-click'>>()
 
-defineSlots<{
-  prefix?: void
-}>()
+defineSlots<Omit<InputWrapperSlots, 'suffix'>>()
 
 const attrsWithoutClass = useAttrsWithoutClass()
 const slots = useSlots()

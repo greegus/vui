@@ -53,7 +53,11 @@ export default {
 <script lang="ts" setup>
 import { ref, useAttrs, useSlots } from 'vue'
 
-import InputWrapper, { type InputWrapperProps } from '@/components/InputWrapper.vue'
+import InputWrapper, {
+  type InputWrapperEmits,
+  type InputWrapperProps,
+  type InputWrapperSlots
+} from '@/components/InputWrapper.vue'
 import { useAttrsWithoutClass } from '@/composables/useAttrsWithoutClass'
 
 type ModelValueType = string | number | Date | null | undefined
@@ -64,15 +68,9 @@ defineProps<InputWrapperProps & {
   inputClass?: any
 }>()
 
-defineEmits<{
-  'prefix-icon-click': []
-  'suffix-icon-click': []
-}>()
+defineEmits<InputWrapperEmits>()
 
-defineSlots<{
-  prefix?: void
-  suffix?: void
-}>()
+defineSlots<InputWrapperSlots>()
 
 const attrs = useAttrs()
 const attrsWithoutClass = useAttrsWithoutClass()
