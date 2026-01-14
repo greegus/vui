@@ -31,21 +31,22 @@
     />
 
     <FadeTransition :duration="100">
-      <div v-if="isOpen && displayOptions.length > 0" class="Autocomplete__dropdown" ref="dropdownElement">
-        <DropdownMenu
-          :items="displayOptions"
-          :cursorIndex="cursorIndex"
-          @itemClick="handleOptionSelect"
-          @itemMouseenter="({ index }) => (cursorIndex = index)"
-        >
-          <template #itemLabel="{ item, index }">
-            <slot name="option" :option="item" :index="index" :isHighlighted="cursorIndex === index">
-              <span class="Autocomplete__optionLabel">{{ item.label }}</span>
-              <span v-if="item.description" class="Autocomplete__optionDescription">{{ item.description }}</span>
-            </slot>
-          </template>
-        </DropdownMenu>
-      </div>
+      <DropdownMenu
+        v-if="isOpen && displayOptions.length > 0"
+        class="Autocomplete__dropdown"
+        ref="dropdownElement"
+        :items="displayOptions"
+        :cursorIndex="cursorIndex"
+        @itemClick="handleOptionSelect"
+        @itemMouseenter="({ index }) => (cursorIndex = index)"
+      >
+        <template #itemLabel="{ item, index }">
+          <slot name="option" :option="item" :index="index" :isHighlighted="cursorIndex === index">
+            <div class="Autocomplete__optionLabel">{{ item.label }}</div>
+            <div v-if="item.description" class="Autocomplete__optionDescription">{{ item.description }}</div>
+          </slot>
+        </template>
+      </DropdownMenu>
     </FadeTransition>
 
     <template v-if="$slots.suffix" #suffix>
@@ -249,8 +250,11 @@ function handleKeydown(event: KeyboardEvent) {
       break;
 
     case "Escape":
-      event.preventDefault();
-      close();
+      if (isOpen.value) {
+        event.preventDefault();
+        close();
+      }
+
       break;
 
     case "Tab":
@@ -301,22 +305,15 @@ defineExpose({
   appearance: none;
   text-overflow: ellipsis;
   align-self: stretch;
-  line-height: 1.5;
-
-  @supports (-moz-appearance: none) {
-    line-height: 3;
-  }
-
-  &::placeholder {
-    color: var(--vuiii-input-placeholderColor);
-  }
 }
 
 .Autocomplete__dropdown {
   position: absolute;
   width: max-content;
   min-width: 100%;
-  z-index: 10;
+  z-index: var(--vuiii-zIndex-dropdown);
+  max-height: 320px;
+  overflow: auto;
 }
 
 .Autocomplete__optionLabel {
@@ -325,7 +322,7 @@ defineExpose({
 
 .Autocomplete__optionDescription {
   display: block;
-  font-size: 0.875em;
+  font-size: var(--vuiii-fontSize--small);
   opacity: 0.7;
 }
 </style>

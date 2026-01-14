@@ -314,6 +314,13 @@
   --vuiii-input-borderColor--invalid: var(--vuiii-color-danger);
   --vuiii-input-ringColor--invalid: color-mix(in srgb, var(--vuiii-color-danger) 10%, transparent);
 
+  /* ------- */
+  /* Divider */
+  /* ------- */
+
+  --vuiii-divider-color: var(--vuiii-color-gray--light);
+  --vuiii-divider-width: 1px;
+
   /* ------ */
   /* Checkboxes and radios */
   /* ------ */
@@ -333,8 +340,8 @@
   /* Table */
   /* ----- */
   --vuiii-table-fontSize: var(--vuiii-fontSize);
-  --vuiii-table-dividerColor: var(--vuiii-color-gray--light);
-  --vuiii-table-dividerWidth: 1px;
+  --vuiii-table-dividerColor: var(--vuiii-divider-color);
+  --vuiii-table-dividerWidth: var(--vuiii-divider-width);
 
   --vuiii-table-headBgColor: transparent;
   --vuiii-table-headTextColor: var(--vuiii-color-gray--dark);
@@ -359,14 +366,14 @@
   --vuiii-dialog-bgColor: var(--vuiii-color-light);
   --vuiii-dialog-textColor: var(--vuiii-color-dark);
   --vuiii-dialog-borderRadius: var(--vuiii-button-borderRadius);
-  --vuiii-dialog-boxShadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  --vuiii-dialog-boxShadow: 0 2px 10px rgb(0 0 0 / 0.1);
   --vuiii-dialog-borderColor: black;
   --vuiii-dialog-borderWidth: 1;
   --vuiii-dialog-padding: 1.5rem;
-  --vuiii-dialog-dividerWidth: 1px;
+  --vuiii-dialog-dividerWidth: var(--vuiii-divider-width);
   --vuiii-dialog-dividerStyle: solid;
-  --vuiii-dialog-dividerColor: var(--vuiii-color-gray--light);
-  --vuiii-dialog-backdropBgColor: rgba(0, 0, 0, 0.35);
+  --vuiii-dialog-dividerColor: var(--vuiii-divider-color);
+  --vuiii-dialog-backdropBgColor: rgb(0 0 0 / 0.35);
   --vuiii-dialog-closeButton-right: 0;
   --vuiii-dialog-closeButton-top: 0;
   --vuiii-dialog-closeButton-size: 1.75rem;
@@ -382,8 +389,8 @@
   --vuiii-dropdownMenu-borderRadius: var(--vuiii-field-borderRadius);
   --vuiii-dropdownMenu-boxShadow: var(--vuiii-shadow--large);
 
-  --vuiii-dropdownMenu-dividerColor: var(--vuiii-color-gray--light);
-  --vuiii-dropdownMenu-dividerWidth: 1px;
+  --vuiii-dropdownMenu-dividerColor: var(--vuiii-divider-color);
+  --vuiii-dropdownMenu-dividerWidth: var(--vuiii-divider-width);
 
   --vuiii-dropdownMenu-cursor-textColor: inherit;
   --vuiii-dropdownMenu-cursor-bgColor: color-mix(in srgb, var(--vuiii-color-black) 6%, transparent);
