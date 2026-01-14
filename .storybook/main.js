@@ -14,7 +14,7 @@ export default {
     options: {}
   },
 
-  async viteFinal(config, { configType }) {
+  async viteFinal(config) {
     return mergeConfig(config, {
       resolve: {
         alias: {
