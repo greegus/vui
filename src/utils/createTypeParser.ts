@@ -1,4 +1,4 @@
-import { ValueParser } from '@/types'
+import type { ValueParser } from '@/types'
 
 export function createTypeParser(type: 'string' | 'number' | 'boolean' | 'date' = 'string'): ValueParser {
   const typeToParserMap: Record<typeof type, ValueParser> = {

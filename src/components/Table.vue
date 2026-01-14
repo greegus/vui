@@ -200,7 +200,7 @@ const tableRows = computed<TableRow[]>(() => {
 
     rows.sort(
       (a: TableRow, b: TableRow) =>
-        sorter(a.cells[index].value, b.cells[index].value) * (sortDirection.value === 'asc' ? 1 : -1)
+        sorter(a.cells[index]?.value, b.cells[index]?.value) * (sortDirection.value === 'asc' ? 1 : -1)
     )
   }
 

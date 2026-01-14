@@ -26,27 +26,27 @@ export type DialogOptions = {
 export type AlertOptions =
   | string
   | {
-      title?: string
-      content?: string
-      confirmLabel?: string
-      confirmVariant?: ButtonVariant
-      confirmIcon?: string
-      modal?: boolean
-    }
+    title?: string
+    content?: string
+    confirmLabel?: string
+    confirmVariant?: ButtonVariant
+    confirmIcon?: string
+    modal?: boolean
+  }
 
 export type ConfirmOptions =
   | string
   | {
-      title?: string
-      content?: string
-      cancelLabel?: string
-      cancelVariant?: ButtonVariant
-      cancelIcon?: string
-      confirmLabel?: string
-      confirmVariant?: ButtonVariant
-      confirmIcon?: string
-      modal?: boolean
-    }
+    title?: string
+    content?: string
+    cancelLabel?: string
+    cancelVariant?: ButtonVariant
+    cancelIcon?: string
+    confirmLabel?: string
+    confirmVariant?: ButtonVariant
+    confirmIcon?: string
+    modal?: boolean
+  }
 
 const defaultConfig: Config = {
   cancelLabel: 'Cancel',
@@ -172,12 +172,14 @@ export const closeDialog = (dialog: Dialog, result: any = undefined) => {
 }
 
 export const useCloseDialog = (onBeforeClose?: (confirm: () => void) => void): ((result?: any) => void) => {
-  if (onBeforeClose) {
+  if (onBeforeClose && activeDialog.value) {
     activeDialog.value.onBeforeClose = onBeforeClose
   }
 
   return (result?: any) => {
-    closeDialog(activeDialog.value, result)
+    if (activeDialog.value) {
+      closeDialog(activeDialog.value, result)
+    }
   }
 }
 

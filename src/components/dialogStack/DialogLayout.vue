@@ -115,7 +115,7 @@ onMounted(() => {
   const inputs = root.value?.querySelectorAll('input')
 
   if (inputs?.length) {
-    inputs[0].focus()
+    inputs[0]?.focus()
     return
   }
 
@@ -129,7 +129,7 @@ onMounted(() => {
       return
     }
 
-    buttons[0].focus()
+    buttons[0]?.focus()
   }
 })
 </script>
