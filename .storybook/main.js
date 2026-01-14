@@ -1,9 +1,14 @@
-const { resolve } = require('path')
-const { mergeConfig } = require('vite')
+import { resolve, dirname } from 'path'
+import { mergeConfig } from 'vite'
+import { fileURLToPath } from 'url'
 
-module.exports = {
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+
+export default {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
-  addons: ['@storybook/addon-links', '@storybook/addon-essentials', '@storybook/addon-interactions'],
+  addons: ['@storybook/addon-links', '@storybook/addon-docs'],
+
   framework: {
     name: '@storybook/vue3-vite',
     options: {}
@@ -17,9 +22,5 @@ module.exports = {
         }
       }
     })
-  },
-
-  docs: {
-    autodocs: true
   }
-}
+};

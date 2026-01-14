@@ -1,4 +1,4 @@
-import { type Meta, type StoryFn } from '@storybook/vue3'
+import { type Meta, type StoryFn } from '@storybook/vue3-vite'
 
 import Checkbox from '../components/Checkbox.vue'
 import FormFields from '../components/FormFields.vue'

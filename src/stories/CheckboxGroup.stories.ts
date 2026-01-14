@@ -1,4 +1,4 @@
-import { type Meta, type StoryFn, StoryObj } from '@storybook/vue3'
+import { type Meta, type StoryFn, StoryObj } from '@storybook/vue3-vite'
 import { ref } from 'vue'
 
 import CheckboxGroup from '../components/CheckboxGroup.vue'
