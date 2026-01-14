@@ -2,17 +2,17 @@ import { ref } from 'vue'
 
 export type MessageType = 'success' | 'error'
 
-export interface Message {
+export type Message = {
   id: number
   text: string
   type: MessageType
 }
 
-export interface ShowMessage {
+export type ShowMessage = {
   (message: string, duration?: number): void
 }
 
-export interface Snackbar {
+export type Snackbar = {
   success: ShowMessage
   error: ShowMessage
 }

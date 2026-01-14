@@ -1,7 +1,7 @@
 <script lang="ts" generic="Item extends any = any" setup>
 import { ref, watch } from 'vue'
 
-interface DropdownMenuProps {
+type DropdownMenuProps = {
   items?: Item[]
   cursorIndex?: number
 }

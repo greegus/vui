@@ -49,12 +49,12 @@ import type { RouteLocationRaw } from 'vue-router'
 import Icon from '@/components/Icon.vue'
 import type { ButtonVariant, InputSize } from '@/types'
 
-export interface NativeButtonProps {
+export type NativeButtonProps = {
   disabled?: boolean
   type?: 'button' | 'submit' | 'reset'
 }
 
-export interface ButtonProps extends NativeButtonProps {
+export type ButtonProps = NativeButtonProps & {
   size?: InputSize
   variant?: ButtonVariant
   prefixIcon?: string

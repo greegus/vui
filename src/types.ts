@@ -99,7 +99,7 @@ export type PaginatedData<Item = unknown> = {
   pagination: Pagination
 }
 
-export interface PaginatedDataSource<Item> {
+export type PaginatedDataSource<Item> = {
   (params: { page: number; itemsPerPage: number }): Promise<PaginatedData<Item>>
 }
 
