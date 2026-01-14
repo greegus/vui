@@ -51,6 +51,17 @@ export type InputWrapperProps = {
   pill?: boolean
 }
 
+export type InputWrapperEmits = {
+  'prefix-icon-click': []
+  'suffix-icon-click': []
+}
+
+export type InputWrapperSlots = {
+  default: void
+  prefix?: void
+  suffix?: void
+}
+
 export default {
   inheritAttrs: false
 }
