@@ -1,4 +1,4 @@
-import { type Meta, StoryFn, StoryObj } from '@storybook/vue3'
+import { type Meta, StoryFn, StoryObj } from '@storybook/vue3-vite'
 import { computed, ref } from 'vue'
 
 import Dropdown from '../components/Dropdown.vue'

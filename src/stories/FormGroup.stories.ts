@@ -1,4 +1,4 @@
-import { type Meta, type StoryFn, StoryObj } from '@storybook/vue3'
+import { type Meta, type StoryFn, StoryObj } from '@storybook/vue3-vite'
 
 import FormGroup from '../components/FormGroup.vue'
 import Input from '../components/Input.vue'
