@@ -1,11 +1,21 @@
 {
   "name": "vuiii",
+  "version": "1.0.0-beta.70",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/greegus/vui.git"
   },
-  "version": "1.0.0-beta.70",
+  "files": [
+    "dist"
+  ],
   "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/vuiii.js"
+    },
+    "./style.css": "./dist/style.css"
+  },
   "scripts": {
     "dev": "npm run storybook",
     "build": "run-p type-check \"build-only {@}\" --",
@@ -13,23 +23,12 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --build --force",
     "lint": "oxlint --fix",
-    "format": "prettier --write src/",
+    "format": "oxfmt",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
-  "files": [
-    "dist"
-  ],
-  "exports": {
-    ".": {
-      "import": "./dist/vuiii.js",
-      "types": "./dist/index.d.ts"
-    },
-    "./style.css": "./dist/style.css"
-  },
-  "peerDependencies": {
-    "vue": "^3.5.26",
-    "vue-router": "^4.2.5"
+  "dependencies": {
+    "@popperjs/core": "^2.11.8"
   },
   "devDependencies": {
     "@storybook/addon-docs": "^10.1.11",
@@ -42,8 +41,8 @@
     "@vue/tsconfig": "^0.8.1",
     "jiti": "^2.6.1",
     "npm-run-all2": "^8.0.4",
+    "oxfmt": "^0.24.0",
     "oxlint": "^1.1.0",
-    "prettier": "^3.0.3",
     "storybook": "^10.1.11",
     "typescript": "~5.9.3",
     "vite": "^7.3.1",
@@ -51,10 +50,11 @@
     "vue-router": "^4.2.5",
     "vue-tsc": "^3.2.2"
   },
+  "peerDependencies": {
+    "vue": "^3.5.26",
+    "vue-router": "^4.2.5"
+  },
   "engines": {
     "node": ">=24.0.0"
-  },
-  "dependencies": {
-    "@popperjs/core": "^2.11.8"
   }
 }

@@ -1,9 +1,10 @@
 import { type Meta, type StoryObj } from '@storybook/vue3-vite'
 import { ref } from 'vue'
 
+import type { TableColumn } from '../types'
+
 import Button from '../components/Button.vue'
 import Table from '../components/Table.vue'
-import type { TableColumn } from '../types'
 import { type TableItem, tableItems } from './assets/tableItems'
 
 const sortColumnName = ref('total')
