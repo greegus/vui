@@ -1,9 +1,10 @@
+import type { ElementRef } from '@/types'
 import { createPopperLite, flip, offset, type Placement, preventOverflow } from '@popperjs/core'
-import { onMounted, ref, ShallowRef, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 
 export function usePopper(
-  rootElement: ShallowRef<HTMLElement | undefined>,
-  popperElement: ShallowRef<HTMLElement | undefined>,
+  rootElement: ElementRef,
+  popperElement: ElementRef,
   options: Partial<{ placement: Placement }> = {}
 ) {
   const popperInstance = ref<ReturnType<typeof createPopper> | undefined>(undefined)

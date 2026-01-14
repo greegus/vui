@@ -1,4 +1,4 @@
-import type { AsyncComponentLoader, Component } from 'vue'
+import type { AsyncComponentLoader, Component, Ref } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
 
 export type ObjectKeyOrAnyString<T> = (keyof T & string) | (string & {})
@@ -117,3 +117,5 @@ export type ValidationFieldResults = {
   errorMessage: string
   validators?: any[]
 }
+
+export type ElementRef = Readonly<Ref<HTMLElement | null | undefined>>
