@@ -7,8 +7,8 @@
   "version": "1.0.0-beta.70",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build && vue-tsc --emitDeclarationOnly --declaration",
+    "dev": "npm run storybook",
+    "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --build --force",
