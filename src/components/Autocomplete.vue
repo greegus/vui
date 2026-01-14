@@ -31,22 +31,22 @@
     />
 
     <FadeTransition :duration="100">
-      <DropdownMenu
-        v-if="isOpen && displayOptions.length > 0"
-        class="Autocomplete__dropdown"
-        ref="dropdownElement"
-        :items="displayOptions"
-        :cursorIndex="cursorIndex"
-        @itemClick="handleOptionSelect"
-        @itemMouseenter="({ index }) => (cursorIndex = index)"
-      >
-        <template #itemLabel="{ item, index }">
-          <slot name="option" :option="item" :index="index" :isHighlighted="cursorIndex === index">
-            <div class="Autocomplete__optionLabel">{{ item.label }}</div>
-            <div v-if="item.description" class="Autocomplete__optionDescription">{{ item.description }}</div>
-          </slot>
-        </template>
-      </DropdownMenu>
+      <div v-if="isOpen && displayOptions.length > 0" class="Autocomplete__dropdown" ref="dropdownElement">
+        <DropdownMenu
+          class="Autocomplete__dropdownMenu"
+          :items="displayOptions"
+          :cursorIndex="cursorIndex"
+          @itemClick="handleOptionSelect"
+          @itemMouseenter="({ index }) => (cursorIndex = index)"
+        >
+          <template #itemLabel="{ item, index }">
+            <slot name="option" :option="item" :index="index" :isHighlighted="cursorIndex === index">
+              <div class="Autocomplete__optionLabel">{{ item.label }}</div>
+              <div v-if="item.description" class="Autocomplete__optionDescription">{{ item.description }}</div>
+            </slot>
+          </template>
+        </DropdownMenu>
+      </div>
     </FadeTransition>
 
     <template v-if="$slots.suffix" #suffix>
@@ -312,6 +312,9 @@ defineExpose({
   width: max-content;
   min-width: 100%;
   z-index: var(--vuiii-zIndex-dropdown);
+}
+
+.Autocomplete__dropdownMenu {
   max-height: 320px;
   overflow: auto;
 }
