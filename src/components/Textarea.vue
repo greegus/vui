@@ -1,41 +1,68 @@
 <template>
-  <textarea
-    v-bind="$attrs"
-    ref="textareaElement"
-    class="Textarea vuiii-input"
-    :class="{
-      'vuiii-input--invalid': $props.invalid,
-      'vuiii-input--disabled': $props.disabled,
-      [`vuiii-input--${$props.size}`]: $props.size
-    }"
-    :value="$props.modelValue"
-    :disabled="$props.disabled"
-    :readonly="$props.readonly"
+  <InputWrapper
+    class="Textarea"
+    :class="$attrs.class"
+    :size="$props.size"
     :invalid="$props.invalid"
-    @input="handleInput($event)"
-  />
+    :disabled="$props.disabled"
+    :prefix-icon="$props.prefixIcon"
+    @click="textareaElement.focus()"
+    @prefix-icon-click="$emit('prefix-icon-click')"
+  >
+    <template v-if="slots.prefix" #prefix>
+      <slot name="prefix" />
+    </template>
+
+    <textarea
+      v-bind="attrsWithoutClass"
+      ref="textareaElement"
+      class="vuiii-input__nested Textarea__textarea"
+      :value="$props.modelValue"
+      :disabled="$props.disabled"
+      :readonly="$props.readonly"
+      @input="handleInput($event)"
+    />
+  </InputWrapper>
 </template>
 
-<script lang="ts" type="module">
+<script lang="ts">
 export type TextareaRef = {
   focus: () => void
   select: () => void
 }
+
+export default {
+  inheritAttrs: false
+}
 </script>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import '@/assets/css/input.css'
 
-import type { InputSize } from '@/types'
+import { ref, useSlots } from 'vue'
+
+import InputWrapper, { type InputWrapperProps } from '@/components/InputWrapper.vue'
+import { useAttrsWithoutClass } from '@/composables/useAttrsWithoutClass'
 
 const modelValue = defineModel<string>()
 
-defineProps<{
-  invalid?: boolean
-  disabled?: boolean
-  readonly?: boolean
-  size?: InputSize
+defineProps<
+  Omit<InputWrapperProps, 'suffixIcon'> & {
+    disabled?: boolean
+    readonly?: boolean
+  }
+>()
+
+defineEmits<{
+  'prefix-icon-click': []
 }>()
+
+defineSlots<{
+  prefix?: void
+}>()
+
+const attrsWithoutClass = useAttrsWithoutClass()
+const slots = useSlots()
 
 const textareaElement = ref()
 
@@ -48,3 +75,20 @@ defineExpose({
   select: () => textareaElement.value.select()
 })
 </script>
+
+<style lang="postcss" scoped>
+.Textarea {
+  align-items: flex-start;
+
+  &:deep(.vuiii-input__prefix-icon) {
+    margin-top: 0.65em;
+  }
+
+  .vuiii-input__nested {
+    width: 100%;
+    flex: auto;
+    align-self: stretch;
+    resize: vertical;
+  }
+}
+</style>

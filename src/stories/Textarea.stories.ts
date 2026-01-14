@@ -1,6 +1,7 @@
-import { type Meta,StoryObj } from '@storybook/vue3-vite'
+import { type Meta, StoryObj } from '@storybook/vue3-vite'
 
 import Textarea from '../components/Textarea.vue'
+import { icons } from './assets/icons'
 import { inputSizes } from './assets/inputSizes'
 
 export default {
@@ -26,6 +27,10 @@ export default {
       control: { type: 'select' },
       options: inputSizes
     },
+    prefixIcon: {
+      control: { type: 'select' },
+      options: icons
+    },
     placeholder: {
       control: { type: 'text' },
       defaultValue: 'Placeholder'
@@ -37,6 +42,12 @@ export default {
       control: { type: 'boolean' }
     },
     readonly: {
+      control: { type: 'boolean' }
+    },
+    invalid: {
+      control: { type: 'boolean' }
+    },
+    pill: {
       control: { type: 'boolean' }
     }
   }
@@ -54,4 +65,26 @@ export const Readonly: StoryObj<typeof Textarea> = {
 
 export const Invalid: StoryObj<typeof Textarea> = {
   args: { invalid: true }
+}
+
+export const PrefixIcon: StoryObj<typeof Textarea> = {
+  args: { prefixIcon: 'mail' }
+}
+
+export const Pill: StoryObj<typeof Textarea> = {
+  args: { pill: true }
+}
+
+export const Sizes: StoryObj<typeof Textarea> = {
+  render: (args) => ({
+    components: { Textarea },
+    setup: () => ({ args }),
+    template: `
+      <div style="display: flex; flex-direction: column; gap: .5rem;">
+        <Textarea v-bind="args" size="small" />
+        <Textarea v-bind="args" />
+        <Textarea v-bind="args" size="large" />
+      </div>
+    `
+  })
 }
