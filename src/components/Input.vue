@@ -64,9 +64,11 @@ type ModelValueType = string | number | Date | null | undefined
 
 const modelValue = defineModel<ModelValueType>()
 
-defineProps<InputWrapperProps & {
-  inputClass?: any
-}>()
+defineProps<
+  InputWrapperProps & {
+    inputClass?: any
+  }
+>()
 
 defineEmits<InputWrapperEmits>()
 

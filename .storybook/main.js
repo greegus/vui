@@ -1,6 +1,6 @@
 import { resolve, dirname } from 'path'
-import { mergeConfig } from 'vite'
 import { fileURLToPath } from 'url'
+import { mergeConfig } from 'vite'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -23,4 +23,4 @@ export default {
       }
     })
   }
-};
+}

@@ -26,27 +26,27 @@ export type DialogOptions = {
 export type AlertOptions =
   | string
   | {
-    title?: string
-    content?: string
-    confirmLabel?: string
-    confirmVariant?: ButtonVariant
-    confirmIcon?: string
-    modal?: boolean
-  }
+      title?: string
+      content?: string
+      confirmLabel?: string
+      confirmVariant?: ButtonVariant
+      confirmIcon?: string
+      modal?: boolean
+    }
 
 export type ConfirmOptions =
   | string
   | {
-    title?: string
-    content?: string
-    cancelLabel?: string
-    cancelVariant?: ButtonVariant
-    cancelIcon?: string
-    confirmLabel?: string
-    confirmVariant?: ButtonVariant
-    confirmIcon?: string
-    modal?: boolean
-  }
+      title?: string
+      content?: string
+      cancelLabel?: string
+      cancelVariant?: ButtonVariant
+      cancelIcon?: string
+      confirmLabel?: string
+      confirmVariant?: ButtonVariant
+      confirmIcon?: string
+      modal?: boolean
+    }
 
 const defaultConfig: Config = {
   cancelLabel: 'Cancel',

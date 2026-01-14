@@ -1,10 +1,11 @@
 import type { Ref } from 'vue'
 import type { Router } from 'vue-router'
 
+import type { MaybePromise } from '@/types'
+
 import { useSubmitAction } from '@/composables/useSubmitAction'
 import { useDialogStack } from '@/dialogStack'
 import { useSnackbar } from '@/snackbar'
-import type { MaybePromise } from '@/types'
 
 export const useLoadData = <D = unknown, S extends (...args: any[]) => D = (...args: any[]) => D>(
   source: S,

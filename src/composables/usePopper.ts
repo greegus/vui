@@ -1,6 +1,7 @@
-import type { ElementRef } from '@/types'
 import { createPopperLite, flip, offset, type Placement, preventOverflow } from '@popperjs/core'
 import { onMounted, ref, watch } from 'vue'
+
+import type { ElementRef } from '@/types'
 
 export function usePopper(
   rootElement: ElementRef,

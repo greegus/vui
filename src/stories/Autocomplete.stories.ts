@@ -1,8 +1,9 @@
 import { type Meta, StoryObj } from '@storybook/vue3-vite'
 import { ref } from 'vue'
 
-import Autocomplete from '../components/Autocomplete.vue'
 import type { Option } from '../types'
+
+import Autocomplete from '../components/Autocomplete.vue'
 import { inputSizes } from './assets/inputSizes'
 import { groupedOptions, objectOptions, plainArrayOptions, plainObjectOptions } from './assets/options'
 import DumpValue from './helpers/components/DumpValue.vue'

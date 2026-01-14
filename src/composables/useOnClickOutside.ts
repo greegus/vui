@@ -1,5 +1,6 @@
-import type { ElementRef } from '@/types'
 import { onUnmounted } from 'vue'
+
+import type { ElementRef } from '@/types'
 
 export function useOnClickOutside(element: ElementRef, callback: (e: MouseEvent) => void) {
   const handler = (e: MouseEvent) => {
