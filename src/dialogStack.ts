@@ -166,9 +166,11 @@ const executeCloseDialog = (dialog: Dialog, result: any = undefined) => {
 }
 
 export const closeDialog = (dialog: Dialog, result: any = undefined) => {
-  dialog.onBeforeClose
-    ? dialog.onBeforeClose(() => executeCloseDialog(dialog, result))
-    : executeCloseDialog(dialog, result)
+  if (dialog.onBeforeClose) {
+    dialog.onBeforeClose(() => executeCloseDialog(dialog, result))
+  } else {
+    executeCloseDialog(dialog, result)
+  }
 }
 
 export const useCloseDialog = (onBeforeClose?: (confirm: () => void) => void): ((result?: any) => void) => {

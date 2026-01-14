@@ -74,7 +74,11 @@ function close() {
 }
 
 function toggle(state?: boolean) {
-  state ?? !isOpen.value ? open() : close()
+  if (state ?? !isOpen.value) {
+    open()
+  } else {
+    close()
+  }
 }
 
 usePopper(rootElement, dropdownElement)

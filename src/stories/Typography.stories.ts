@@ -1,4 +1,4 @@
-import { type Meta, setup, StoryObj } from '@storybook/vue3-vite'
+import { type Meta, StoryObj } from '@storybook/vue3-vite'
 
 import Typography from '../components/Typography.vue'
 

@@ -67,7 +67,11 @@ const toggleCheckedValue = (value: any, checked: boolean) => {
   const newCheckedValues = new Set(checkedValues.value.values())
   const parsedValue = valueParser.value.parse(value)
 
-  checked ? newCheckedValues.add(parsedValue) : newCheckedValues.delete(parsedValue)
+  if (checked) {
+    newCheckedValues.add(parsedValue)
+  } else {
+    newCheckedValues.delete(parsedValue)
+  }
 
   modelValue.value = Array.from(newCheckedValues)
 }
