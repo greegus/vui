@@ -7,7 +7,11 @@ const __dirname = dirname(__filename);
 
 export default {
   stories: ["../src/**/*.stories.@(js|jsx|ts|tsx)"],
-  addons: ["@storybook/addon-links", "@storybook/addon-docs"],
+  addons: [
+    "@storybook/addon-links",
+    "@storybook/addon-docs",
+    "@chromatic-com/storybook"
+  ],
 
   framework: {
     name: "@storybook/vue3-vite",
