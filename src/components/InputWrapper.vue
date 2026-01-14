@@ -95,7 +95,7 @@ const isPrefixIconClickable = computed<boolean>(() => Boolean(attrs.onPrefixIcon
 const isSuffixIconClickable = computed<boolean>(() => Boolean(attrs.onSuffixIconClick))
 </script>
 
-<style lang="postcss" scoped>
+<style scoped>
 .InputWrapper {
   position: relative;
   display: flex;

@@ -15,7 +15,7 @@ withDefaults(
   </Transition>
 </template>
 
-<style lang="postcss">
+<style>
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity v-bind(duration + 'ms');

@@ -20,7 +20,7 @@ const emit = defineEmits<{
   <Button class="vuiii-icon-button" :prefixIcon="icon" v-bind="buttonProps" @click="emit('click', $event)" />
 </template>
 
-<style lang="postcss">
+<style>
 .vuiii-icon-button.vuiii-button {
   padding: 0.5em;
 

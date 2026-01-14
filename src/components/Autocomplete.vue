@@ -311,7 +311,7 @@ defineExpose({
 })
 </script>
 
-<style lang="postcss" scoped>
+<style scoped>
 .Autocomplete__input {
   width: 100%;
   appearance: none;

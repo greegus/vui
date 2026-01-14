@@ -103,7 +103,7 @@ defineExpose({
 })
 </script>
 
-<style lang="postcss" scoped>
+<style scoped>
 .Input__input {
   width: 100%;
   flex: auto;

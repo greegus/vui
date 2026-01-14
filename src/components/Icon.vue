@@ -22,7 +22,7 @@ watch(
 )
 </script>
 
-<style lang="postcss" scoped>
+<style scoped>
 .Icon {
   display: inline-block;
   vertical-align: middle;

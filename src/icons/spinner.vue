@@ -11,7 +11,7 @@
   </svg>
 </template>
 
-<style lang="postcss" scoped>
+<style scoped>
 .IconSpinner {
   will-change: transform;
   animation: animation 0.7s infinite linear;

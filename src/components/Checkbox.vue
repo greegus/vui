@@ -102,7 +102,7 @@ function handleInput(event: Event) {
 }
 </script>
 
-<style lang="postcss" scoped>
+<style scoped>
 .Checkbox {
   --checkbox-iconSize: var(--vuiii-icon-size);
   --checkbox-labelFontSize: var(--vuiii-fontSize);

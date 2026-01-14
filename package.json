@@ -44,7 +44,6 @@
     "@vue/eslint-config-prettier": "^10.2.0",
     "@vue/eslint-config-typescript": "^14.6.0",
     "@vue/tsconfig": "^0.8.1",
-    "autoprefixer": "^10.4.7",
     "babel-loader": "^8.3.0",
     "eslint": "^9.39.2",
     "jiti": "^2.6.1",
@@ -52,9 +51,6 @@
     "eslint-plugin-simple-import-sort": "^12.0.0",
     "eslint-plugin-storybook": "^10.1.11",
     "eslint-plugin-vue": "~10.6.2",
-    "postcss": "^8.4.34",
-    "postcss-import": "^14.1.0",
-    "postcss-nesting": "^12.0.2",
     "prettier": "^3.0.3",
     "storybook": "^10.1.11",
     "typescript": "~5.9.3",
@@ -64,7 +60,7 @@
     "vue-tsc": "^3.2.2"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=24.0.0"
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8"

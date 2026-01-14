@@ -73,7 +73,7 @@ const toggleCheckedValue = (value: any, checked: boolean) => {
 }
 </script>
 
-<style lang="postcss" scoped>
+<style scoped>
 .CheckboxGroup {
   & > * + * {
     margin-top: 0.75rem;

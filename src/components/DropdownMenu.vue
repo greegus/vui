@@ -63,7 +63,7 @@ watch(
   </div>
 </template>
 
-<style lang="postcss">
+<style>
 .DropdownMenu {
   position: relative;
   z-index: 10;

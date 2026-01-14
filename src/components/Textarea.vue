@@ -76,7 +76,7 @@ defineExpose({
 })
 </script>
 
-<style lang="postcss" scoped>
+<style scoped>
 .Textarea {
   align-items: flex-start;
 
