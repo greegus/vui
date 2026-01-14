@@ -134,7 +134,7 @@ onMounted(() => {
 })
 </script>
 
-<style lang="postcss" scoped>
+<style scoped>
 .DialogLayout {
   position: relative;
 
@@ -159,14 +159,14 @@ onMounted(() => {
 .DialogLayout__header {
   flex: 0 0 auto;
   padding: var(--vuiii-dialog-padding);
+}
 
-  .DialogLayout.isPlain & {
-    padding: 0;
-  }
+.DialogLayout.isPlain .DialogLayout__header {
+  padding: 0;
+}
 
-  .DialogLayout.isWithCloseButton & {
-    padding-right: calc(var(--vuiii-dialog-closeButton-size) + var(--vuiii-dialog-padding) * 2);
-  }
+.DialogLayout.isWithCloseButton .DialogLayout__header {
+  padding-right: calc(var(--vuiii-dialog-closeButton-size) + var(--vuiii-dialog-padding) * 2);
 }
 
 .DialogLayout__title {
@@ -206,13 +206,13 @@ onMounted(() => {
 }
 
 .DialogLayout__content {
-  .DialogLayout.isWithCloseButton & {
-    padding-right: calc(var(--vuiii-dialog-closeButton-size) + var(--vuiii-dialog-padding));
-  }
-
   &:not(:empty) {
     min-height: var(--vuiii-dialog-closeButton-size);
   }
+}
+
+.DialogLayout.isWithCloseButton .DialogLayout__content {
+  padding-right: calc(var(--vuiii-dialog-closeButton-size) + var(--vuiii-dialog-padding));
 }
 
 .DialogLayout.hasHeader .DialogLayout__body {

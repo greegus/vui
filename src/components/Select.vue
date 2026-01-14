@@ -152,7 +152,7 @@ function handleInput(e: Event) {
 }
 </script>
 
-<style lang="postcss" scoped>
+<style scoped>
 .Select__select {
   width: 100%;
   appearance: none;

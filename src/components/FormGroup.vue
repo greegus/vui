@@ -48,7 +48,7 @@ defineSlots<{
 }>()
 </script>
 
-<style lang="postcss" scoped>
+<style scoped>
 .FormGroup {
   width: 100%;
 }

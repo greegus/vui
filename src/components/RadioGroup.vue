@@ -106,7 +106,7 @@ function handleInput(value: any) {
 }
 </script>
 
-<style lang="postcss" scoped>
+<style scoped>
 .RadioGroup {
   & > * + * {
     margin-top: 0.75rem;

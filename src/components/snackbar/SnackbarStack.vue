@@ -29,7 +29,7 @@ import { type Message, messages, removeMessage } from '@/snackbar'
 const messagesInReverse = computed<Message[]>(() => [...messages.value].reverse())
 </script>
 
-<style lang="postcss" scoped>
+<style scoped>
 .Snackbar {
   position: fixed;
   bottom: 0;

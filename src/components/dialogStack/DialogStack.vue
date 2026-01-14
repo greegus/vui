@@ -45,7 +45,7 @@ useOnKeyPress('Escape', (e) => {
 })
 </script>
 
-<style lang="postcss" scoped>
+<style scoped>
 .DialogStack {
   position: fixed;
   z-index: var(--vuiii-zIndex-dialog);

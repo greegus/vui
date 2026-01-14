@@ -24,7 +24,7 @@ withDefaults(
 )
 </script>
 
-<style lang="postcss" scoped>
+<style scoped>
 .Breadcrumbs {
   display: flex;
   align-items: center;

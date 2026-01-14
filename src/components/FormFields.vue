@@ -79,7 +79,7 @@ const resolveIfComputed = <T = any,>(name: ObjectKeyOrAnyString<T>, property: an
 }
 </script>
 
-<style lang="postcss" scoped>
+<style scoped>
 .FormFields {
   & > * + * {
     margin-top: 1.5rem;
