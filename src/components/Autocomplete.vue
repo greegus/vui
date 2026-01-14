@@ -24,9 +24,9 @@
       :class="inputClass"
       :placeholder="placeholder"
       :disabled="disabled"
-      :value="query"
+      :value="modelValue"
       @input="handleInput"
-      @focus="handleFocus"
+      @click="handleClick"
       @keydown="handleKeydown"
     />
 
@@ -69,7 +69,7 @@ export default {
 </script>
 
 <script lang="ts" setup generic="T = any">
-import { computed, ref, useTemplateRef, watch } from "vue";
+import { computed, ref, nextTick } from "vue";
 
 import DropdownMenu from "@/components/DropdownMenu.vue";
 import InputWrapper, {
@@ -87,7 +87,7 @@ import { normalizeGroups, normalizeOptions } from "@/utils/normalizeOptions";
 
 export type AutocompleteFilterFn<T = any> = (option: Option<T>, query: string) => boolean;
 
-const modelValue = defineModel<T | undefined>();
+const modelValue = defineModel<string>({ default: "" });
 
 const props = withDefaults(
   defineProps<
@@ -114,7 +114,6 @@ const props = withDefaults(
 const emit = defineEmits<
   InputWrapperEmits & {
     select: [option: Option<T>];
-    "update:query": [query: string];
   }
 >();
 
@@ -131,7 +130,6 @@ const dropdownElement = ref<HTMLDivElement>();
 const inputElement = ref<HTMLInputElement>();
 
 const isOpen = ref(false);
-const query = ref("");
 
 // Normalize options (flat list)
 const normalizedOptions = computed<Option<T>[]>(() => {
@@ -172,10 +170,10 @@ function defaultFilter(option: Option<T>, searchQuery: string): boolean {
   return label.includes(lowerQuery) || description.includes(lowerQuery);
 }
 
-// Filtered options based on query
+// Filtered options based on modelValue
 const filteredOptions = computed(() => {
   const filterFn = props.filter || defaultFilter;
-  return normalizedOptions.value.filter((option) => filterFn(option, query.value));
+  return normalizedOptions.value.filter((option) => filterFn(option, modelValue.value));
 });
 
 // Display options (what's shown in dropdown)
@@ -221,13 +219,7 @@ function close() {
 }
 
 function handleInput(event: Event) {
-  const target = event.target as HTMLInputElement;
-  query.value = target.value;
-  emit("update:query", query.value);
-  open();
-}
-
-function handleFocus() {
+  modelValue.value = (event.target as HTMLInputElement).value;
   open();
 }
 
@@ -267,7 +259,13 @@ function handleKeydown(event: KeyboardEvent) {
   }
 }
 
-function handleOptionSelect({ item }: { item: Option<T>; index: number }) {
+function handleClick() {
+  if (!isOpen.value) {
+    open();
+  }
+}
+
+function handleOptionSelect({ item }: { item: Option<T> }) {
   selectOption(item);
 }
 
@@ -276,29 +274,15 @@ function selectOption(option: Option<T>) {
     return;
   }
 
-  modelValue.value = option.data;
-  query.value = String(option.label);
+  modelValue.value = String(option.label);
   emit("select", option);
-  emit("update:query", query.value);
-  close();
-  inputElement.value?.blur();
-}
 
-// Sync query with selected option label when modelValue changes externally
-watch(
-  modelValue,
-  (newValue) => {
-    if (newValue !== undefined) {
-      const selectedOption = normalizedOptions.value.find((opt) => opt.data === newValue || opt.value === newValue);
-      if (selectedOption) {
-        query.value = String(selectedOption.label);
-      }
-    } else {
-      query.value = "";
-    }
-  },
-  { immediate: true },
-);
+  close();
+
+  nextTick(() => {
+    inputElement.value?.focus()
+  });
+}
 
 // Expose filter function and component methods
 defineExpose({
