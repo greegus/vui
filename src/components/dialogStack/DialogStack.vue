@@ -27,22 +27,22 @@
 </template>
 
 <script lang="ts" setup>
-import { useOnKeyPress } from '@/composables/useOnKeyPress'
-import type { Dialog } from '@/dialogStack'
-import { activeDialog, closeDialog, dialogs } from '@/dialogStack'
+import { useOnKeyPress } from "@/composables/useOnKeyPress";
+import type { Dialog } from "@/dialogStack";
+import { activeDialog, closeDialog, dialogs } from "@/dialogStack";
 
 const closeDialogByBackdropClick = (e: MouseEvent, dialog: Dialog) => {
   if (!dialog.modal && e.target === e.currentTarget) {
-    closeDialog(dialog)
+    closeDialog(dialog);
   }
-}
+};
 
-useOnKeyPress('Escape', (e) => {
+useOnKeyPress("Escape", (e) => {
   if (activeDialog.value && !activeDialog.value.modal && !e.defaultPrevented) {
-    closeDialog(activeDialog.value)
-    e.preventDefault()
+    closeDialog(activeDialog.value);
+    e.preventDefault();
   }
-})
+});
 </script>
 
 <style scoped>

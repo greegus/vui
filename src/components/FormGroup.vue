@@ -32,20 +32,20 @@
 
 <script lang="ts" setup>
 defineProps<{
-  label?: string
-  for?: string
-  required?: boolean
-  error?: string | boolean
-  description?: string
-  hint?: string
-}>()
+  label?: string;
+  for?: string;
+  required?: boolean;
+  error?: string | boolean;
+  description?: string;
+  hint?: string;
+}>();
 
 defineSlots<{
-  default?: void
-  label?: void
-  description?: void
-  hint?: void
-}>()
+  default?: void;
+  label?: void;
+  description?: void;
+  hint?: void;
+}>();
 </script>
 
 <style scoped>

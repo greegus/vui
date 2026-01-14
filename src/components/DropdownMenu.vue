@@ -1,39 +1,39 @@
 <script lang="ts" generic="Item extends any = any" setup>
-import { ref, watch } from 'vue'
+import { ref, watch } from "vue";
 
 type DropdownMenuProps = {
-  items?: Item[]
-  cursorIndex?: number
-}
+  items?: Item[];
+  cursorIndex?: number;
+};
 
-type ItemWithIndex = { item: Item; index: number }
+type ItemWithIndex = { item: Item; index: number };
 
-const props = defineProps<DropdownMenuProps>()
+const props = defineProps<DropdownMenuProps>();
 
 const emit = defineEmits<{
-  'itemClick': [ItemWithIndex]
-  'itemMouseenter': [ItemWithIndex]
-  'itemMouseleave': [ItemWithIndex]
-}>()
+  "itemClick": [ItemWithIndex];
+  "itemMouseenter": [ItemWithIndex];
+  "itemMouseleave": [ItemWithIndex];
+}>();
 
 defineSlots<{
-  item?: (props: ItemWithIndex & { cursorIndex?: number }) => any
-  itemLabel?: (props: ItemWithIndex & { cursorIndex?: number }) => any
-}>()
+  item?: (props: ItemWithIndex & { cursorIndex?: number }) => any;
+  itemLabel?: (props: ItemWithIndex & { cursorIndex?: number }) => any;
+}>();
 
-const itemElements = ref<HTMLElement[]>([])
+const itemElements = ref<HTMLElement[]>([]);
 
 watch(
   () => props.cursorIndex,
   (cursorIndex) => {
     if (cursorIndex !== undefined && cursorIndex >= 0) {
       itemElements.value[cursorIndex]?.scrollIntoView({
-        block: 'nearest',
-        behavior: 'smooth'
-      })
+        block: "nearest",
+        behavior: "smooth",
+      });
     }
-  }
-)
+  },
+);
 </script>
 
 <template>

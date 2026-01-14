@@ -56,82 +56,82 @@
 
 <script lang="ts">
 export type AutocompleteRef = {
-  inputElement: HTMLInputElement
-  focus: () => void
-  blur: () => void
-  open: () => void
-  close: () => void
-}
+  inputElement: HTMLInputElement;
+  focus: () => void;
+  blur: () => void;
+  open: () => void;
+  close: () => void;
+};
 
 export default {
-  inheritAttrs: false
-}
+  inheritAttrs: false,
+};
 </script>
 
 <script lang="ts" setup generic="T = any">
-import { computed, ref, useTemplateRef, watch } from 'vue'
+import { computed, ref, useTemplateRef, watch } from "vue";
 
-import DropdownMenu from '@/components/DropdownMenu.vue'
+import DropdownMenu from "@/components/DropdownMenu.vue";
 import InputWrapper, {
   type InputWrapperEmits,
   type InputWrapperProps,
-  type InputWrapperSlots
-} from '@/components/InputWrapper.vue'
-import FadeTransition from '@/components/transitions/FadeTransition.vue'
-import { useAttrsWithoutClass } from '@/composables/useAttrsWithoutClass'
-import { useCursor } from '@/composables/useCursor'
-import { useOnClickOutside } from '@/composables/useOnClickOutside'
-import { usePopper } from '@/composables/usePopper'
-import type { Extractor, Option } from '@/types'
-import { normalizeGroups, normalizeOptions } from '@/utils/normalizeOptions'
+  type InputWrapperSlots,
+} from "@/components/InputWrapper.vue";
+import FadeTransition from "@/components/transitions/FadeTransition.vue";
+import { useAttrsWithoutClass } from "@/composables/useAttrsWithoutClass";
+import { useCursor } from "@/composables/useCursor";
+import { useOnClickOutside } from "@/composables/useOnClickOutside";
+import { usePopper } from "@/composables/usePopper";
+import type { Extractor, Option } from "@/types";
+import { normalizeGroups, normalizeOptions } from "@/utils/normalizeOptions";
 
-export type AutocompleteFilterFn<T = any> = (option: Option<T>, query: string) => boolean
+export type AutocompleteFilterFn<T = any> = (option: Option<T>, query: string) => boolean;
 
-const modelValue = defineModel<T | undefined>()
+const modelValue = defineModel<T | undefined>();
 
 const props = withDefaults(
   defineProps<
     InputWrapperProps & {
-      options: T[] | Record<string, any>
-      optionLabel?: Extractor
-      optionValue?: Extractor
-      optionDisabled?: Extractor
-      optionDescription?: Extractor
-      optionIcon?: Extractor
-      groupLabel?: Extractor
-      groupOptions?: Extractor
-      placeholder?: string
-      disabled?: boolean
-      inputClass?: any
-      filter?: AutocompleteFilterFn<T>
+      options: T[] | Record<string, any>;
+      optionLabel?: Extractor;
+      optionValue?: Extractor;
+      optionDisabled?: Extractor;
+      optionDescription?: Extractor;
+      optionIcon?: Extractor;
+      groupLabel?: Extractor;
+      groupOptions?: Extractor;
+      placeholder?: string;
+      disabled?: boolean;
+      inputClass?: any;
+      filter?: AutocompleteFilterFn<T>;
     }
   >(),
   {
-    size: 'normal'
-  }
-)
+    size: "normal",
+  },
+);
 
 const emit = defineEmits<
   InputWrapperEmits & {
-    select: [option: Option<T>]
-    'update:query': [query: string]
+    select: [option: Option<T>];
+    "update:query": [query: string];
   }
->()
+>();
 
 defineSlots<
   InputWrapperSlots & {
-    option?: (props: { option: Option<T>; index: number; isHighlighted: boolean }) => any
+    option?: (props: { option: Option<T>; index: number; isHighlighted: boolean }) => any;
   }
->()
+>();
 
-const attrsWithoutClass = useAttrsWithoutClass()
+const attrsWithoutClass = useAttrsWithoutClass();
 
-const rootElement = ref<InstanceType<typeof InputWrapper>>()
-const dropdownElement = ref<HTMLDivElement>()
-const inputElement = ref<HTMLInputElement>()
+const rootElement = ref<InstanceType<typeof InputWrapper>>();
+const dropdownElement = ref<HTMLDivElement>();
+const inputElement = ref<HTMLInputElement>();
 
-const isOpen = ref(false)
-const query = ref('')
+const isOpen = ref(false);
+const query = ref("");
 
 // Normalize options (flat list)
 const normalizedOptions = computed<Option<T>[]>(() => {
@@ -140,8 +140,8 @@ const normalizedOptions = computed<Option<T>[]>(() => {
     label: props.optionLabel,
     disabled: props.optionDisabled,
     description: props.optionDescription,
-    icon: props.optionIcon
-  }
+    icon: props.optionIcon,
+  };
 
   if (props.groupOptions) {
     const groups = normalizeGroups(
@@ -149,139 +149,139 @@ const normalizedOptions = computed<Option<T>[]>(() => {
       {
         groupLabel: props.groupLabel,
         groupOptions: props.groupOptions,
-        ...extractors
+        ...extractors,
       },
-      modelValue.value
-    )
+      modelValue.value,
+    );
     // Flatten groups into a single array
-    return groups.flatMap((group) => group.options)
+    return groups.flatMap((group) => group.options);
   }
 
-  return normalizeOptions(props.options, extractors, modelValue.value)
-})
+  return normalizeOptions(props.options, extractors, modelValue.value);
+});
 
 // Default filter function
 function defaultFilter(option: Option<T>, searchQuery: string): boolean {
   if (!searchQuery) {
-    return true
+    return true;
   }
 
-  const lowerQuery = searchQuery.toLowerCase()
-  const label = String(option.label).toLowerCase()
-  const description = option.description ? String(option.description).toLowerCase() : ''
-  return label.includes(lowerQuery) || description.includes(lowerQuery)
+  const lowerQuery = searchQuery.toLowerCase();
+  const label = String(option.label).toLowerCase();
+  const description = option.description ? String(option.description).toLowerCase() : "";
+  return label.includes(lowerQuery) || description.includes(lowerQuery);
 }
 
 // Filtered options based on query
 const filteredOptions = computed(() => {
-  const filterFn = props.filter || defaultFilter
-  return normalizedOptions.value.filter((option) => filterFn(option, query.value))
-})
+  const filterFn = props.filter || defaultFilter;
+  return normalizedOptions.value.filter((option) => filterFn(option, query.value));
+});
 
 // Display options (what's shown in dropdown)
-const displayOptions = computed(() => filteredOptions.value)
+const displayOptions = computed(() => filteredOptions.value);
 
 // Cursor navigation
 const { cursorIndex, cursorItem, moveCursorForward, moveCursorBack, resetCursor } = useCursor(displayOptions, {
   cycle: true,
   onCursorMove: () => {
     // Scroll into view is handled by DropdownMenu
-  }
-})
+  },
+});
 
 // Computed ref for root element's $el
-const rootEl = computed(() => rootElement.value?.$el as HTMLElement | undefined)
+const rootEl = computed(() => rootElement.value?.$el as HTMLElement | undefined);
 
 // Popper positioning
-usePopper(rootEl, dropdownElement)
+usePopper(rootEl, dropdownElement);
 
 // Close on click outside
 useOnClickOutside(rootEl, (event: MouseEvent) => {
   if (isOpen.value && !event.defaultPrevented) {
-    event.preventDefault()
-    close()
+    event.preventDefault();
+    close();
   }
-})
+});
 
 function open() {
   if (isOpen.value || props.disabled) {
-    return
+    return;
   }
 
-  isOpen.value = true
-  resetCursor()
+  isOpen.value = true;
+  resetCursor();
 }
 
 function close() {
   if (!isOpen.value) {
-    return
+    return;
   }
 
-  isOpen.value = false
+  isOpen.value = false;
 }
 
 function handleInput(event: Event) {
-  const target = event.target as HTMLInputElement
-  query.value = target.value
-  emit('update:query', query.value)
-  open()
+  const target = event.target as HTMLInputElement;
+  query.value = target.value;
+  emit("update:query", query.value);
+  open();
 }
 
 function handleFocus() {
-  open()
+  open();
 }
 
 function handleKeydown(event: KeyboardEvent) {
   switch (event.key) {
-    case 'ArrowDown':
-      event.preventDefault()
+    case "ArrowDown":
+      event.preventDefault();
       if (!isOpen.value) {
-        open()
+        open();
       } else {
-        moveCursorForward()
+        moveCursorForward();
       }
-      break
+      break;
 
-    case 'ArrowUp':
-      event.preventDefault()
+    case "ArrowUp":
+      event.preventDefault();
       if (isOpen.value) {
-        moveCursorBack()
+        moveCursorBack();
       }
-      break
+      break;
 
-    case 'Enter':
-      event.preventDefault()
+    case "Enter":
+      event.preventDefault();
       if (isOpen.value && cursorItem.value) {
-        selectOption(cursorItem.value)
+        selectOption(cursorItem.value);
       }
-      break
+      break;
 
-    case 'Escape':
-      event.preventDefault()
-      close()
-      break
+    case "Escape":
+      event.preventDefault();
+      close();
+      break;
 
-    case 'Tab':
-      close()
-      break
+    case "Tab":
+      close();
+      break;
   }
 }
 
 function handleOptionSelect({ item }: { item: Option<T>; index: number }) {
-  selectOption(item)
+  selectOption(item);
 }
 
 function selectOption(option: Option<T>) {
   if (option.disabled) {
-    return
+    return;
   }
 
-  modelValue.value = option.data
-  query.value = String(option.label)
-  emit('select', option)
-  emit('update:query', query.value)
-  close()
-  inputElement.value?.blur()
+  modelValue.value = option.data;
+  query.value = String(option.label);
+  emit("select", option);
+  emit("update:query", query.value);
+  close();
+  inputElement.value?.blur();
 }
 
 // Sync query with selected option label when modelValue changes externally
@@ -289,16 +289,16 @@ watch(
   modelValue,
   (newValue) => {
     if (newValue !== undefined) {
-      const selectedOption = normalizedOptions.value.find((opt) => opt.data === newValue || opt.value === newValue)
+      const selectedOption = normalizedOptions.value.find((opt) => opt.data === newValue || opt.value === newValue);
       if (selectedOption) {
-        query.value = String(selectedOption.label)
+        query.value = String(selectedOption.label);
       }
     } else {
-      query.value = ''
+      query.value = "";
     }
   },
-  { immediate: true }
-)
+  { immediate: true },
+);
 
 // Expose filter function and component methods
 defineExpose({
@@ -307,8 +307,8 @@ defineExpose({
   blur: () => inputElement.value?.blur(),
   open,
   close,
-  filter: defaultFilter
-})
+  filter: defaultFilter,
+});
 </script>
 
 <style scoped>

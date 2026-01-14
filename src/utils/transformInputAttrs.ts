@@ -1,18 +1,18 @@
-import { defineComponent } from 'vue'
+import { defineComponent } from "vue";
 
-import { retrieveInputValue } from './retrieveInputValue'
+import { retrieveInputValue } from "./retrieveInputValue";
 
 export const transformInputAttrs = defineComponent({
-  emits: ['update:model-value'],
+  emits: ["update:model-value"],
 
   computed: {
     normalizedAttrs(): any {
-      const { class: _class, ...attrs } = this.$attrs
+      const { class: _class, ...attrs } = this.$attrs;
 
       return {
         ...attrs,
-        onInput: (e: KeyboardEvent) => this.$emit('update:model-value', retrieveInputValue(e))
-      }
-    }
-  }
-})
+        onInput: (e: KeyboardEvent) => this.$emit("update:model-value", retrieveInputValue(e)),
+      };
+    },
+  },
+});

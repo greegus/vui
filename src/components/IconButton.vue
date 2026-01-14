@@ -1,19 +1,19 @@
 <script lang="ts" setup>
-import Button, { type ButtonProps } from '@/components/Button.vue'
-import { useFilteredProps } from '@/composables/useFilteredProps'
+import Button, { type ButtonProps } from "@/components/Button.vue";
+import { useFilteredProps } from "@/composables/useFilteredProps";
 
-export type IconButtonProps = Omit<ButtonProps, 'prefixIcon' | 'suffixIcon' | 'label' | 'block'> & {
-  icon: string
-  title?: string
-}
+export type IconButtonProps = Omit<ButtonProps, "prefixIcon" | "suffixIcon" | "label" | "block"> & {
+  icon: string;
+  title?: string;
+};
 
-const props = defineProps<IconButtonProps>()
+const props = defineProps<IconButtonProps>();
 
-const buttonProps = useFilteredProps(props, ['icon'])
+const buttonProps = useFilteredProps(props, ["icon"]);
 
 const emit = defineEmits<{
-  click: [Event]
-}>()
+  click: [Event];
+}>();
 </script>
 
 <template>

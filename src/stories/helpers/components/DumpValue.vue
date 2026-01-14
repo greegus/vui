@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 defineProps<{
-  value: any
-  hideType?: boolean
-}>()
+  value: any;
+  hideType?: boolean;
+}>();
 </script>
 
 <template>

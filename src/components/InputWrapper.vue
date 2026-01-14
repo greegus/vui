@@ -7,8 +7,8 @@
         'vuiii-input--invalid': $props.invalid,
         'vuiii-input--disabled': $attrs.disabled,
         'InputWrapper--pill': $props.pill,
-        [`vuiii-input--${$props.size}`]: $props.size
-      }
+        [`vuiii-input--${$props.size}`]: $props.size,
+      },
     ]"
     @click="$emit('click', $event)"
   >
@@ -41,58 +41,58 @@
 </template>
 
 <script lang="ts">
-import type { InputSize } from '@/types'
+import type { InputSize } from "@/types";
 
 export type InputWrapperProps = {
-  prefixIcon?: string
-  suffixIcon?: string
-  size?: InputSize
-  invalid?: boolean
-  pill?: boolean
-}
+  prefixIcon?: string;
+  suffixIcon?: string;
+  size?: InputSize;
+  invalid?: boolean;
+  pill?: boolean;
+};
 
 export type InputWrapperEmits = {
-  'prefix-icon-click': []
-  'suffix-icon-click': []
-}
+  "prefix-icon-click": [];
+  "suffix-icon-click": [];
+};
 
 export type InputWrapperSlots = {
-  default: void
-  prefix?: void
-  suffix?: void
-}
+  default: void;
+  prefix?: void;
+  suffix?: void;
+};
 
 export default {
-  inheritAttrs: false
-}
+  inheritAttrs: false,
+};
 </script>
 
 <script lang="ts" setup>
-import '@/assets/css/input.css'
+import "@/assets/css/input.css";
 
-import { computed, useAttrs, useSlots } from 'vue'
+import { computed, useAttrs, useSlots } from "vue";
 
-import Icon from '@/components/Icon.vue'
+import Icon from "@/components/Icon.vue";
 
-const props = defineProps<InputWrapperProps>()
+const props = defineProps<InputWrapperProps>();
 
 defineEmits<{
-  'click': [event: MouseEvent]
-  'prefix-icon-click': []
-  'suffix-icon-click': []
-}>()
+  "click": [event: MouseEvent];
+  "prefix-icon-click": [];
+  "suffix-icon-click": [];
+}>();
 
 defineSlots<{
-  default: void
-  prefix?: void
-  suffix?: void
-}>()
+  default: void;
+  prefix?: void;
+  suffix?: void;
+}>();
 
-const attrs = useAttrs()
-const slots = useSlots()
+const attrs = useAttrs();
+const slots = useSlots();
 
-const isPrefixIconClickable = computed<boolean>(() => Boolean(attrs.onPrefixIconClick))
-const isSuffixIconClickable = computed<boolean>(() => Boolean(attrs.onSuffixIconClick))
+const isPrefixIconClickable = computed<boolean>(() => Boolean(attrs.onPrefixIconClick));
+const isSuffixIconClickable = computed<boolean>(() => Boolean(attrs.onSuffixIconClick));
 </script>
 
 <style scoped>

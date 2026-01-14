@@ -1,51 +1,51 @@
-import { type Meta, StoryFn, StoryObj } from '@storybook/vue3-vite'
-import { computed, ref } from 'vue'
+import { type Meta, StoryFn, StoryObj } from "@storybook/vue3-vite";
+import { computed, ref } from "vue";
 
-import Dropdown from '../components/Dropdown.vue'
-import DropdownMenu from '../components/DropdownMenu.vue'
-import Input from '../components/Input.vue'
-import { icons } from './assets/icons'
-import { plainArrayOptions } from './assets/options'
+import Dropdown from "../components/Dropdown.vue";
+import DropdownMenu from "../components/DropdownMenu.vue";
+import Input from "../components/Input.vue";
+import { icons } from "./assets/icons";
+import { plainArrayOptions } from "./assets/options";
 
 export default {
-  title: 'Example/Dropdown',
+  title: "Example/Dropdown",
   component: Dropdown,
   parameters: {
-    layout: 'centered',
+    layout: "centered",
     docs: {
       description: {
-        component: 'Standard Dropdown'
-      }
-    }
+        component: "Standard Dropdown",
+      },
+    },
   },
   argTypes: {
     label: {
-      control: 'text'
+      control: "text",
     },
     icon: {
-      control: 'select',
-      options: icons
+      control: "select",
+      options: icons,
     },
     size: {
-      control: 'select',
-      options: ['small', 'normal', 'large']
+      control: "select",
+      options: ["small", "normal", "large"],
     },
     variant: {
-      control: 'select',
-      options: ['default', 'primary', 'secondary', 'danger', 'success']
+      control: "select",
+      options: ["default", "primary", "secondary", "danger", "success"],
     },
     block: {
-      control: 'boolean'
+      control: "boolean",
     },
     pill: {
-      control: 'boolean'
-    }
+      control: "boolean",
+    },
   },
   args: {
-    variant: 'primary',
-    label: 'Dropdown'
-  }
-} as Meta<typeof Dropdown>
+    variant: "primary",
+    label: "Dropdown",
+  },
+} as Meta<typeof Dropdown>;
 
 export const DefaultTemplate: StoryFn<typeof Dropdown> = (args) => ({
   components: { Dropdown, DropdownMenu },
@@ -56,44 +56,44 @@ export const DefaultTemplate: StoryFn<typeof Dropdown> = (args) => ({
         <DropdownMenu :items="items" @click-item="close()" />
       </template>
     </Dropdown>
-  `
-})
+  `,
+});
 
 export const Default: StoryObj<typeof Dropdown> = {
-  render: DefaultTemplate
-}
+  render: DefaultTemplate,
+};
 export const Block: StoryObj<typeof Dropdown> = {
   args: { block: true },
-  render: DefaultTemplate
-}
+  render: DefaultTemplate,
+};
 
 export const SearchSuggestions: StoryObj<typeof Dropdown> = {
   args: { block: true },
   render: (args) => ({
     components: { Dropdown, DropdownMenu, Input },
     setup: () => {
-      const query = ref('')
+      const query = ref("");
 
-      const cursor = ref(0)
+      const cursor = ref(0);
 
-      const dropdown = ref()
+      const dropdown = ref();
 
       const items = computed(() => {
-        if (query.value === '') {
-          return plainArrayOptions
+        if (query.value === "") {
+          return plainArrayOptions;
         }
 
-        return plainArrayOptions.filter((item) => item.toLowerCase().includes(query.value.toLowerCase()))
-      })
+        return plainArrayOptions.filter((item) => item.toLowerCase().includes(query.value.toLowerCase()));
+      });
 
       function setCursor(index: number) {
-        cursor.value = Math.max(0, Math.min(plainArrayOptions.length - 1, index))
+        cursor.value = Math.max(0, Math.min(plainArrayOptions.length - 1, index));
       }
 
       function selectItem(item) {
         if (item !== undefined) {
-          query.value = item
-          dropdown.value.close()
+          query.value = item;
+          dropdown.value.close();
         }
       }
 
@@ -104,8 +104,8 @@ export const SearchSuggestions: StoryObj<typeof Dropdown> = {
         cursor,
         dropdown,
         setCursor,
-        selectItem
-      }
+        selectItem,
+      };
     },
     template: `
       <Dropdown v-bind="args" ref="dropdown" @open="setCursor(0)">
@@ -128,6 +128,6 @@ export const SearchSuggestions: StoryObj<typeof Dropdown> = {
           <DropdownMenu :items :cursor-index="cursor" @item-click="selectItem($event.item)" style="width: 100%; max-height: 100px" />
         </template>
       </Dropdown>
-    `
-  })
-}
+    `,
+  }),
+};

@@ -1,21 +1,21 @@
-import { onBeforeUnmount, onMounted } from 'vue'
+import { onBeforeUnmount, onMounted } from "vue";
 
 export function useOnKeyPress(
-  key: KeyboardEvent['code'],
+  key: KeyboardEvent["code"],
   callback: (event: KeyboardEvent) => boolean | void,
-  options?: AddEventListenerOptions
+  options?: AddEventListenerOptions,
 ) {
   const handleKeyPress = (event: KeyboardEvent) => {
     if (event.key.toLowerCase() === key.toLowerCase()) {
-      callback(event)
+      callback(event);
     }
-  }
+  };
 
   onMounted(() => {
-    window.addEventListener('keydown', handleKeyPress, options)
-  })
+    window.addEventListener("keydown", handleKeyPress, options);
+  });
 
   onBeforeUnmount(() => {
-    window.removeEventListener('keydown', handleKeyPress, options)
-  })
+    window.removeEventListener("keydown", handleKeyPress, options);
+  });
 }
