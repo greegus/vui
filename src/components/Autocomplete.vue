@@ -280,7 +280,7 @@ function selectOption(option: Option<T>) {
   close();
 
   nextTick(() => {
-    inputElement.value?.focus()
+    inputElement.value?.focus();
   });
 }
 

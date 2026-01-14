@@ -1,6 +1,8 @@
-import { type Component, computed, defineAsyncComponent, markRaw, ref } from "vue";
+import { type Component, computed, markRaw, ref } from "vue";
 
 import type { ButtonVariant, DialogLayoutButton } from "./types";
+
+import { DialogLayout } from "./index";
 
 export type Dialog<ResultType = any, DialogComponentProps = Record<string, any>> = {
   id: number;
@@ -96,21 +98,18 @@ export const openAlert = (options: AlertOptions): Promise<void> => {
 
   const { title, content, confirmVariant, confirmLabel = config.confirmLabel, confirmIcon, modal } = options;
 
-  return openDialog(
-    defineAsyncComponent(() => import("./components/dialogStack/DialogLayout.vue")),
-    {
-      title,
-      content,
-      modal,
-      buttons: [
-        {
-          variant: confirmVariant || "primary",
-          label: confirmLabel || "",
-          icon: confirmIcon,
-        },
-      ],
-    },
-  );
+  return openDialog(DialogLayout, {
+    title,
+    content,
+    modal,
+    buttons: [
+      {
+        variant: confirmVariant || "primary",
+        label: confirmLabel || "",
+        icon: confirmIcon,
+      },
+    ],
+  });
 };
 
 export const openConfirm = (options: ConfirmOptions): Promise<boolean> => {
@@ -132,28 +131,25 @@ export const openConfirm = (options: ConfirmOptions): Promise<boolean> => {
     modal,
   } = options;
 
-  return openDialog(
-    defineAsyncComponent(() => import("./components/dialogStack/DialogLayout.vue")),
-    {
-      title,
-      content,
-      modal,
-      buttons: [
-        {
-          variant: cancelVariant || "secondary",
-          label: cancelLabel || "",
-          icon: cancelIcon,
-          value: false,
-        },
-        {
-          variant: confirmVariant || "primary",
-          label: confirmLabel || "",
-          icon: confirmIcon,
-          value: true,
-        },
-      ],
-    },
-  );
+  return openDialog(DialogLayout, {
+    title,
+    content,
+    modal,
+    buttons: [
+      {
+        variant: cancelVariant || "secondary",
+        label: cancelLabel || "",
+        icon: cancelIcon,
+        value: false,
+      },
+      {
+        variant: confirmVariant || "primary",
+        label: confirmLabel || "",
+        icon: confirmIcon,
+        value: true,
+      },
+    ],
+  });
 };
 
 const executeCloseDialog = (dialog: Dialog, result: any = undefined) => {
