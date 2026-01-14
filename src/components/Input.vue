@@ -24,8 +24,8 @@
         inputClass,
         {
           'Input__input--withPrefixIcon': $props.prefixIcon,
-          'Input__input--withSuffixIcon': $props.suffixIcon
-        }
+          'Input__input--withSuffixIcon': $props.suffixIcon,
+        },
       ]"
       :type="($attrs.type as string) || 'text'"
       :value="modelValue"
@@ -40,69 +40,69 @@
 
 <script lang="ts">
 export type InputRef = {
-  input: HTMLInputElement
-  focus: () => void
-  select: () => void
-}
+  input: HTMLInputElement;
+  focus: () => void;
+  select: () => void;
+};
 
 export default {
-  inheritAttrs: false
-}
+  inheritAttrs: false,
+};
 </script>
 
 <script lang="ts" setup>
-import { ref, useAttrs, useSlots } from 'vue'
+import { ref, useAttrs, useSlots } from "vue";
 
 import InputWrapper, {
   type InputWrapperEmits,
   type InputWrapperProps,
-  type InputWrapperSlots
-} from '@/components/InputWrapper.vue'
-import { useAttrsWithoutClass } from '@/composables/useAttrsWithoutClass'
+  type InputWrapperSlots,
+} from "@/components/InputWrapper.vue";
+import { useAttrsWithoutClass } from "@/composables/useAttrsWithoutClass";
 
-type ModelValueType = string | number | Date | null | undefined
+type ModelValueType = string | number | Date | null | undefined;
 
-const modelValue = defineModel<ModelValueType>()
+const modelValue = defineModel<ModelValueType>();
 
 defineProps<
   InputWrapperProps & {
-    inputClass?: any
+    inputClass?: any;
   }
->()
+>();
 
-defineEmits<InputWrapperEmits>()
+defineEmits<InputWrapperEmits>();
 
-defineSlots<InputWrapperSlots>()
+defineSlots<InputWrapperSlots>();
 
-const attrs = useAttrs()
-const attrsWithoutClass = useAttrsWithoutClass()
-const slots = useSlots()
+const attrs = useAttrs();
+const attrsWithoutClass = useAttrsWithoutClass();
+const slots = useSlots();
 
-const input = ref()
+const input = ref();
 
 function retrieveTargetValue(e: Event): ModelValueType {
-  const target = e.target as HTMLInputElement
+  const target = e.target as HTMLInputElement;
 
-  if (attrs.type === 'number') {
-    return target.valueAsNumber
+  if (attrs.type === "number") {
+    return target.valueAsNumber;
   }
 
-  if (attrs.type === 'date') {
-    return target.valueAsDate
+  if (attrs.type === "date") {
+    return target.valueAsDate;
   }
 
-  return target.value
+  return target.value;
 }
 
 function handleInput(e: Event) {
-  modelValue.value = retrieveTargetValue(e)
+  modelValue.value = retrieveTargetValue(e);
 }
 
 defineExpose({
   input,
   focus: () => input.value.focus(),
-  select: () => input.value.select()
-})
+  select: () => input.value.select(),
+});
 </script>
 
 <style scoped>

@@ -13,103 +13,103 @@
 </template>
 
 <script lang="ts" type="module">
-import type { ComputedRef } from 'vue'
-import type { ButtonVariant } from '@/types'
+import type { ComputedRef } from "vue";
+import type { ButtonVariant } from "@/types";
 
 export type DropdownProps = {
-  label?: string
-  variant?: ButtonVariant
-  block?: boolean
-  icon?: string
-}
+  label?: string;
+  variant?: ButtonVariant;
+  block?: boolean;
+  icon?: string;
+};
 
 export type DropdownRef = {
-  open: () => void
-  close: () => void
-  toggle: (state?: boolean) => void
-  isOpen: ComputedRef<boolean>
-}
+  open: () => void;
+  close: () => void;
+  toggle: (state?: boolean) => void;
+  isOpen: ComputedRef<boolean>;
+};
 </script>
 
 <script lang="ts" generic="Item extends any = any" setup>
-import { computed, ref } from 'vue'
+import { computed, ref } from "vue";
 
-import Button from '@/components/Button.vue'
-import FadeTransition from '@/components/transitions/FadeTransition.vue'
-import { useOnClickOutside } from '@/composables/useOnClickOutside'
-import { useOnKeyPress } from '@/composables/useOnKeyPress'
-import { usePopper } from '@/composables/usePopper'
+import Button from "@/components/Button.vue";
+import FadeTransition from "@/components/transitions/FadeTransition.vue";
+import { useOnClickOutside } from "@/composables/useOnClickOutside";
+import { useOnKeyPress } from "@/composables/useOnKeyPress";
+import { usePopper } from "@/composables/usePopper";
 
-defineProps<DropdownProps>()
+defineProps<DropdownProps>();
 
 const emit = defineEmits<{
-  open: []
-  close: []
-}>()
+  open: [];
+  close: [];
+}>();
 
-const isOpen = ref(false)
+const isOpen = ref(false);
 
-const rootElement = ref<HTMLDivElement>()
+const rootElement = ref<HTMLDivElement>();
 
-const dropdownElement = ref<HTMLDivElement>()
+const dropdownElement = ref<HTMLDivElement>();
 
 function open() {
   if (isOpen.value) {
-    return
+    return;
   }
 
-  isOpen.value = true
+  isOpen.value = true;
 
-  emit('open')
+  emit("open");
 }
 
 function close() {
   if (!isOpen.value) {
-    return
+    return;
   }
 
-  isOpen.value = false
+  isOpen.value = false;
 
-  emit('close')
+  emit("close");
 }
 
 function toggle(state?: boolean) {
   if (state ?? !isOpen.value) {
-    open()
+    open();
   } else {
-    close()
+    close();
   }
 }
 
-usePopper(rootElement, dropdownElement)
+usePopper(rootElement, dropdownElement);
 
 // Close by click outside
 useOnClickOutside(rootElement, (event: MouseEvent) => {
   if (isOpen.value && !event.defaultPrevented) {
-    event.preventDefault()
-    close()
+    event.preventDefault();
+    close();
   }
-})
+});
 
 // Close by Escape key
-useOnKeyPress('Escape', (event: KeyboardEvent) => {
+useOnKeyPress("Escape", (event: KeyboardEvent) => {
   if (isOpen.value && !event.defaultPrevented) {
-    event.preventDefault()
-    close()
+    event.preventDefault();
+    close();
   }
-})
+});
 
 defineSlots<{
-  default?: (props: { close: () => void }) => any
-  trigger?: (props: { open: () => void; close: () => void; toggle: (state?: boolean) => void; isOpen: boolean }) => any
-}>()
+  default?: (props: { close: () => void }) => any;
+  trigger?: (props: { open: () => void; close: () => void; toggle: (state?: boolean) => void; isOpen: boolean }) => any;
+}>();
 
 defineExpose({
   open,
   close,
   toggle,
-  isOpen: computed(() => isOpen.value)
-})
+  isOpen: computed(() => isOpen.value),
+});
 </script>
 
 <style scoped>

@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 withDefaults(
   defineProps<{
-    duration: number
+    duration: number;
   }>(),
   {
-    duration: 300
-  }
-)
+    duration: 300,
+  },
+);
 </script>
 
 <template>
@@ -18,7 +18,7 @@ withDefaults(
 <style>
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity v-bind(duration + 'ms');
+  transition: opacity v-bind(duration + "ms");
 }
 
 .fade-enter-from,

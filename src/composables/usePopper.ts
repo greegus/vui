@@ -1,37 +1,37 @@
-import { createPopperLite, flip, offset, type Placement, preventOverflow } from '@popperjs/core'
-import { onMounted, ref, watch } from 'vue'
+import { createPopperLite, flip, offset, type Placement, preventOverflow } from "@popperjs/core";
+import { onMounted, ref, watch } from "vue";
 
-import type { ElementRef } from '@/types'
+import type { ElementRef } from "@/types";
 
 export function usePopper(
   rootElement: ElementRef,
   popperElement: ElementRef,
-  options: Partial<{ placement: Placement }> = {}
+  options: Partial<{ placement: Placement }> = {},
 ) {
-  const popperInstance = ref<ReturnType<typeof createPopper> | undefined>(undefined)
+  const popperInstance = ref<ReturnType<typeof createPopper> | undefined>(undefined);
 
   function createPopper() {
     createPopperLite(rootElement.value!, popperElement.value!, {
-      placement: options.placement || 'bottom-start',
-      modifiers: [flip, preventOverflow, offset, { name: 'offset', options: { offset: [0, 4] } }]
-    })
+      placement: options.placement || "bottom-start",
+      modifiers: [flip, preventOverflow, offset, { name: "offset", options: { offset: [0, 4] } }],
+    });
   }
 
   function updatePopper() {
     if (rootElement.value && popperElement.value) {
-      createPopper()
+      createPopper();
     }
   }
 
-  watch(rootElement, updatePopper)
+  watch(rootElement, updatePopper);
 
-  watch(popperElement, updatePopper)
+  watch(popperElement, updatePopper);
 
-  onMounted(updatePopper)
+  onMounted(updatePopper);
 
   //   onUnmounted(() => {
   //     popperInstance.value?.destroy()
   //   })
 
-  return popperInstance
+  return popperInstance;
 }

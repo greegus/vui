@@ -5,8 +5,8 @@
       $attrs.class,
       {
         [`Checkbox--size-${$props.size}`]: $props.size,
-        'Checkbox--disabled': $props.disabled
-      }
+        'Checkbox--disabled': $props.disabled,
+      },
     ]"
   >
     <input
@@ -47,58 +47,58 @@
 
 <script lang="ts">
 export default {
-  inheritAttrs: false
-}
+  inheritAttrs: false,
+};
 </script>
 
 <script lang="ts" setup>
-import '@/assets/css/input.css'
+import "@/assets/css/input.css";
 
-import { computed } from 'vue'
+import { computed } from "vue";
 
-import Icon from '@/components/Icon.vue'
-import { useAttrsWithoutClass } from '@/composables/useAttrsWithoutClass'
-import type { InputSize, ValueParser } from '@/types'
+import Icon from "@/components/Icon.vue";
+import { useAttrsWithoutClass } from "@/composables/useAttrsWithoutClass";
+import type { InputSize, ValueParser } from "@/types";
 
-const modelValue = defineModel()
+const modelValue = defineModel();
 
-const attrsWithoutClass = useAttrsWithoutClass()
+const attrsWithoutClass = useAttrsWithoutClass();
 
 const props = withDefaults(
   defineProps<{
-    required?: boolean
-    disabled?: boolean
-    switch?: boolean
-    label?: string
-    description?: string
-    size?: InputSize
-    valueParser?: ValueParser<boolean>
+    required?: boolean;
+    disabled?: boolean;
+    switch?: boolean;
+    label?: string;
+    description?: string;
+    size?: InputSize;
+    valueParser?: ValueParser<boolean>;
   }>(),
   {
-    size: 'normal'
-  }
-)
+    size: "normal",
+  },
+);
 
 defineSlots<{
-  default?: void
-  symbol?: (props: { checked: boolean; disabled: boolean; size: InputSize }) => any
-}>()
+  default?: void;
+  symbol?: (props: { checked: boolean; disabled: boolean; size: InputSize }) => any;
+}>();
 
 const valueParser = computed<ValueParser<boolean>>(() => {
   return (
     props.valueParser || {
       parse: Boolean,
-      stringify: Boolean
+      stringify: Boolean,
     }
-  )
-})
+  );
+});
 
 const serializedModelValue = computed(() => {
-  return valueParser.value.stringify(modelValue.value)
-})
+  return valueParser.value.stringify(modelValue.value);
+});
 
 function handleInput(event: Event) {
-  modelValue.value = valueParser.value.parse((event.target as HTMLInputElement).checked)
+  modelValue.value = valueParser.value.parse((event.target as HTMLInputElement).checked);
 }
 </script>
 

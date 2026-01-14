@@ -9,7 +9,7 @@
       'vuiii-button--loading': $props.loading,
       'vuiii-button--outlined': $props.outlined && $props.variant,
       'vuiii-button--block': $props.block,
-      'vuiii-button--pill': $props.pill
+      'vuiii-button--pill': $props.pill,
     }"
     v-bind="$attrs"
     :to="component === 'router-link' ? $props.to : undefined"
@@ -41,52 +41,52 @@
 </template>
 
 <script lang="ts" setup>
-import '@/assets/css/button.css'
+import "@/assets/css/button.css";
 
-import { computed } from 'vue'
-import type { RouteLocationRaw } from 'vue-router'
+import { computed } from "vue";
+import type { RouteLocationRaw } from "vue-router";
 
-import Icon from '@/components/Icon.vue'
-import type { ButtonVariant, InputSize } from '@/types'
+import Icon from "@/components/Icon.vue";
+import type { ButtonVariant, InputSize } from "@/types";
 
 export type NativeButtonProps = {
-  disabled?: boolean
-  type?: 'button' | 'submit' | 'reset'
-}
+  disabled?: boolean;
+  type?: "button" | "submit" | "reset";
+};
 
 export type ButtonProps = NativeButtonProps & {
-  size?: InputSize
-  variant?: ButtonVariant
-  prefixIcon?: string
-  suffixIcon?: string
-  label?: string
-  block?: boolean
-  loading?: boolean
-  outlined?: boolean
-  pill?: boolean
-  to?: RouteLocationRaw
-  href?: string
-}
+  size?: InputSize;
+  variant?: ButtonVariant;
+  prefixIcon?: string;
+  suffixIcon?: string;
+  label?: string;
+  block?: boolean;
+  loading?: boolean;
+  outlined?: boolean;
+  pill?: boolean;
+  to?: RouteLocationRaw;
+  href?: string;
+};
 
 const props = withDefaults(defineProps<ButtonProps>(), {
-  type: 'button'
-})
+  type: "button",
+});
 
 defineSlots<{
-  prefix?: void
-  default?: void
-  suffix?: void
-}>()
+  prefix?: void;
+  default?: void;
+  suffix?: void;
+}>();
 
 const component = computed(() => {
   if (props.to) {
-    return 'router-link'
+    return "router-link";
   }
 
   if (props.href) {
-    return 'a'
+    return "a";
   }
 
-  return 'button'
-})
+  return "button";
+});
 </script>

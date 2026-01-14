@@ -7,7 +7,7 @@
       hasFooter,
       isScrollable: $props.scroll,
       isPlain: $props.plain,
-      isWithCloseButton: $props.withCloseButton
+      isWithCloseButton: $props.withCloseButton,
     }"
     :style="computedStyle"
   >
@@ -52,86 +52,86 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, type CSSProperties, onMounted, ref, useSlots } from 'vue'
+import { computed, type CSSProperties, onMounted, ref, useSlots } from "vue";
 
-import Button from '@/components/Button.vue'
-import Icon from '@/components/Icon.vue'
-import { useCloseDialog } from '@/dialogStack'
-import type { DialogLayoutButton } from '@/types'
+import Button from "@/components/Button.vue";
+import Icon from "@/components/Icon.vue";
+import { useCloseDialog } from "@/dialogStack";
+import type { DialogLayoutButton } from "@/types";
 
-const slots = useSlots()
+const slots = useSlots();
 
-const close = useCloseDialog()
+const close = useCloseDialog();
 
-const root = ref<HTMLElement>()
+const root = ref<HTMLElement>();
 
 const props = withDefaults(
   defineProps<{
-    title?: string
-    content?: string
-    width?: number | string
-    withCloseButton?: boolean
-    scroll?: boolean
-    plain?: boolean
-    buttons?: DialogLayoutButton[]
+    title?: string;
+    content?: string;
+    width?: number | string;
+    withCloseButton?: boolean;
+    scroll?: boolean;
+    plain?: boolean;
+    buttons?: DialogLayoutButton[];
   }>(),
   {
-    title: '',
-    content: '',
+    title: "",
+    content: "",
     width: 600,
-    buttons: () => []
-  }
-)
+    buttons: () => [],
+  },
+);
 
 defineSlots<{
-  header?: void
-  default?: void
-  footer?: void
-}>()
+  header?: void;
+  default?: void;
+  footer?: void;
+}>();
 
 const hasHeader = computed<boolean>(() => {
-  return Boolean(slots.header || props.title)
-})
+  return Boolean(slots.header || props.title);
+});
 
 const hasFooter = computed<boolean>(() => {
-  return Boolean(slots.footer) || Boolean(props.buttons?.length)
-})
+  return Boolean(slots.footer) || Boolean(props.buttons?.length);
+});
 
 const computedStyle = computed<Partial<CSSProperties>>(() => {
-  const maxWidth = props.width + (Number(props.width) ? 'px' : '')
+  const maxWidth = props.width + (Number(props.width) ? "px" : "");
 
-  if (maxWidth && maxWidth !== 'auto') {
+  if (maxWidth && maxWidth !== "auto") {
     return {
-      width: '100%',
-      maxWidth
-    }
+      width: "100%",
+      maxWidth,
+    };
   }
 
-  return {}
-})
+  return {};
+});
 
 onMounted(() => {
   // TODO fix focus management
-  const inputs = root.value?.querySelectorAll('input')
+  const inputs = root.value?.querySelectorAll("input");
 
   if (inputs?.length) {
-    inputs[0]?.focus()
-    return
+    inputs[0]?.focus();
+    return;
   }
 
-  const buttons = root.value?.querySelectorAll('button')
+  const buttons = root.value?.querySelectorAll("button");
 
   if (buttons?.length) {
-    const primaryButton = Array.from(buttons).find((button) => button.classList.contains('vuiii-button--primary'))
+    const primaryButton = Array.from(buttons).find((button) => button.classList.contains("vuiii-button--primary"));
 
     if (primaryButton) {
-      primaryButton.focus()
-      return
+      primaryButton.focus();
+      return;
     }
 
-    buttons[0]?.focus()
+    buttons[0]?.focus();
   }
-})
+});
 </script>
 
 <style scoped>

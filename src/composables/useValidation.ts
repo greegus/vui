@@ -1,42 +1,42 @@
-import { computed, type ComputedRef, ref } from 'vue'
+import { computed, type ComputedRef, ref } from "vue";
 
-import type { ValidationResults } from '@/types'
+import type { ValidationResults } from "@/types";
 
 export function useValidation<Data extends {} = any, Rules extends Data = any>(
-  validation: (data: Partial<Data>) => ValidationResults<Rules> | Promise<ValidationResults<Rules>>
+  validation: (data: Partial<Data>) => ValidationResults<Rules> | Promise<ValidationResults<Rules>>,
 ): {
-  isValid: ComputedRef<boolean>
-  isInvalid: ComputedRef<boolean>
-  isValidating: ComputedRef<boolean>
-  errorMessages: ComputedRef<ValidationResults<Rules>['errorMessages']>
-  validatedFields: ComputedRef<ValidationResults<Rules>['validatedFields']>
-  validate: (data: Partial<Data>) => Promise<boolean>
+  isValid: ComputedRef<boolean>;
+  isInvalid: ComputedRef<boolean>;
+  isValidating: ComputedRef<boolean>;
+  errorMessages: ComputedRef<ValidationResults<Rules>["errorMessages"]>;
+  validatedFields: ComputedRef<ValidationResults<Rules>["validatedFields"]>;
+  validate: (data: Partial<Data>) => Promise<boolean>;
 } {
-  const results = ref<ValidationResults>()
+  const results = ref<ValidationResults>();
 
-  const isValidating = ref(false)
+  const isValidating = ref(false);
 
   const validate = async (data: Partial<Data>): Promise<boolean> => {
-    isValidating.value = true
+    isValidating.value = true;
 
-    results.value = await validation(data)
+    results.value = await validation(data);
 
-    isValidating.value = false
+    isValidating.value = false;
 
-    return isValid.value
-  }
+    return isValid.value;
+  };
 
-  const isValid = computed<boolean>(() => results.value?.isValid ?? false)
+  const isValid = computed<boolean>(() => results.value?.isValid ?? false);
 
-  const isInvalid = computed<boolean>(() => !isValid.value)
+  const isInvalid = computed<boolean>(() => !isValid.value);
 
-  const errorMessages = computed<ValidationResults<Rules>['errorMessages']>(() =>
-    results.value && !isValidating.value ? results.value.errorMessages : {}
-  )
+  const errorMessages = computed<ValidationResults<Rules>["errorMessages"]>(() =>
+    results.value && !isValidating.value ? results.value.errorMessages : {},
+  );
 
-  const validatedFields = computed<ValidationResults<Rules>['validatedFields']>(
-    () => results.value?.validatedFields ?? {}
-  )
+  const validatedFields = computed<ValidationResults<Rules>["validatedFields"]>(
+    () => results.value?.validatedFields ?? {},
+  );
 
   return {
     isValidating: computed(() => isValidating.value),
@@ -44,6 +44,6 @@ export function useValidation<Data extends {} = any, Rules extends Data = any>(
     isInvalid,
     errorMessages,
     validatedFields,
-    validate
-  }
+    validate,
+  };
 }

@@ -11,17 +11,17 @@
 </template>
 
 <script lang="ts" setup>
-import Icon from '@/components/Icon.vue'
-import type { BreadcrumbItems } from '@/types'
+import Icon from "@/components/Icon.vue";
+import type { BreadcrumbItems } from "@/types";
 
 withDefaults(
   defineProps<{
-    breadcrumbs: BreadcrumbItems
+    breadcrumbs: BreadcrumbItems;
   }>(),
   {
-    breadcrumbs: () => []
-  }
-)
+    breadcrumbs: () => [],
+  },
+);
 </script>
 
 <style scoped>

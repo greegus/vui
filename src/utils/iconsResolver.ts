@@ -1,38 +1,38 @@
-import { type Component, defineAsyncComponent } from 'vue'
+import { type Component, defineAsyncComponent } from "vue";
 
-export type IconComponent = string | Component | undefined
-export type IconResolver = (name: string) => IconComponent
+export type IconComponent = string | Component | undefined;
+export type IconResolver = (name: string) => IconComponent;
 
-const icons = import.meta.glob('../icons/*.vue', { query: '?component' })
+const icons = import.meta.glob("../icons/*.vue", { query: "?component" });
 
-let customIconResolver: IconResolver
+let customIconResolver: IconResolver;
 
 function defaultIconResolver(name: string): IconComponent {
-  const key = Object.keys(icons).find((path) => path.endsWith(`/${name}.vue`))
+  const key = Object.keys(icons).find((path) => path.endsWith(`/${name}.vue`));
 
   if (key) {
-    return defineAsyncComponent(icons[key] as any)
+    return defineAsyncComponent(icons[key] as any);
   }
 }
 
 export function registerCustomIconResolver(resolver: IconResolver) {
-  customIconResolver = resolver
+  customIconResolver = resolver;
 }
 
 export function resolveIconComponent(name: string): IconComponent {
-  let component
+  let component;
 
   if (customIconResolver) {
-    component = customIconResolver(name)
+    component = customIconResolver(name);
   }
 
   if (!component) {
-    component = defaultIconResolver(name)
+    component = defaultIconResolver(name);
   }
 
   if (!component) {
-    console.error('Unable to resolve icon component for name: ' + name)
+    console.error("Unable to resolve icon component for name: " + name);
   }
 
-  return component
+  return component;
 }

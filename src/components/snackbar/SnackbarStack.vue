@@ -21,12 +21,12 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed } from "vue";
 
-import Icon from '@/components/Icon.vue'
-import { type Message, messages, removeMessage } from '@/snackbar'
+import Icon from "@/components/Icon.vue";
+import { type Message, messages, removeMessage } from "@/snackbar";
 
-const messagesInReverse = computed<Message[]>(() => [...messages.value].reverse())
+const messagesInReverse = computed<Message[]>(() => [...messages.value].reverse());
 </script>
 
 <style scoped>
