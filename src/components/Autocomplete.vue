@@ -181,12 +181,7 @@ const filteredOptions = computed(() => {
 const displayOptions = computed(() => filteredOptions.value);
 
 // Cursor navigation
-const { cursorIndex, cursorItem, moveCursorForward, moveCursorBack, resetCursor } = useCursor(displayOptions, {
-  cycle: true,
-  onCursorMove: () => {
-    // Scroll into view is handled by DropdownMenu
-  },
-});
+const { cursorIndex, cursorItem, moveCursorForward, moveCursorBack, resetCursor } = useCursor(displayOptions);
 
 // Computed ref for root element's $el
 const rootEl = computed(() => rootElement.value?.$el as HTMLElement | undefined);
