@@ -92,7 +92,7 @@ const modelValue = defineModel<T | undefined>()
 const props = withDefaults(
   defineProps<
     InputWrapperProps & {
-      options: T[] | Record<string, string>
+      options: T[] | Record<string, any>
       optionLabel?: Extractor
       optionValue?: Extractor
       optionDisabled?: Extractor

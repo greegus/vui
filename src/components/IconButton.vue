@@ -2,7 +2,7 @@
 import Button, { type ButtonProps } from '@/components/Button.vue'
 import { useFilteredProps } from '@/composables/useFilteredProps'
 
-export interface IconButtonProps extends Omit<ButtonProps, 'prefixIcon' | 'suffixIcon' | 'label' | 'block'> {
+export type IconButtonProps = Omit<ButtonProps, 'prefixIcon' | 'suffixIcon' | 'label' | 'block'> & {
   icon: string
   title?: string
 }

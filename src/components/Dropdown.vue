@@ -13,6 +13,16 @@
 </template>
 
 <script lang="ts" type="module">
+import type { ComputedRef } from 'vue'
+import type { ButtonVariant } from '@/types'
+
+export type DropdownProps = {
+  label?: string
+  variant?: ButtonVariant
+  block?: boolean
+  icon?: string
+}
+
 export type DropdownRef = {
   open: () => void
   close: () => void
@@ -22,21 +32,13 @@ export type DropdownRef = {
 </script>
 
 <script lang="ts" generic="Item extends any = any" setup>
-import { computed, ComputedRef, ref } from 'vue'
+import { computed, ref } from 'vue'
 
 import Button from '@/components/Button.vue'
 import FadeTransition from '@/components/transitions/FadeTransition.vue'
 import { useOnClickOutside } from '@/composables/useOnClickOutside'
 import { useOnKeyPress } from '@/composables/useOnKeyPress'
 import { usePopper } from '@/composables/usePopper'
-import { ButtonVariant } from '@/types'
-
-interface DropdownProps {
-  label?: string
-  variant?: ButtonVariant
-  block?: boolean
-  icon?: string
-}
 
 defineProps<DropdownProps>()
 
