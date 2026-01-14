@@ -69,7 +69,7 @@ export default {
 </script>
 
 <script lang="ts" setup generic="T = any">
-import { computed, ref, watch } from 'vue'
+import { computed, ref, useTemplateRef, watch } from 'vue'
 
 import DropdownMenu from '@/components/DropdownMenu.vue'
 import InputWrapper, {
