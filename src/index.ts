@@ -12,6 +12,7 @@ export { default as DialogStack } from "./components/dialogStack/DialogStack.vue
 export type { DropdownRef } from "./components/Dropdown.vue";
 export { default as Dropdown } from "./components/Dropdown.vue";
 export { default as DropdownMenu } from "./components/DropdownMenu.vue";
+export { default as FilePicker } from "./components/FilePicker.vue";
 export { default as FormFields } from "./components/FormFields.vue";
 export { default as FormGroup } from "./components/FormGroup.vue";
 export { default as Icon } from "./components/Icon.vue";
@@ -27,6 +28,7 @@ export type { TextareaRef } from "./components/Textarea.vue";
 export { default as Textarea } from "./components/Textarea.vue";
 export { default as FadeTransition } from "./components/transitions/FadeTransition.vue";
 export { useCursor } from "./composables/useCursor";
+export { useDropArea, usePreventHandlingDrop } from "./composables/useDropArea";
 export { useLoadData } from "./composables/useLoadData";
 export { useLoadPaginatedData } from "./composables/useLoadPaginatedData";
 export { useOnClickOutside } from "./composables/useOnClickOutside";
@@ -54,4 +56,7 @@ export type {
 } from "./types";
 export { registerCustomIconResolver } from "./utils/iconsResolver";
 export { normalizeOptions } from "./utils/normalizeOptions";
+export { resolveFilesFromClipboardEvent } from "./utils/resolveFilesFromClipboardEvent";
+export { retrieveFilesFromDataTransfer } from "./utils/retrieveFilesFromDataTransfer";
+export { retrieveMediaUrlFromHTML } from "./utils/retrieveMediaUrlFromHTML";
 export { ValidationError } from "./validations/validator";
