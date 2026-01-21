@@ -1,17 +1,33 @@
-import { type Component, defineAsyncComponent } from "vue";
+import { type Component, defineAsyncComponent, h } from "vue";
 
 export type IconComponent = string | Component | undefined;
 export type IconResolver = (name: string) => IconComponent;
 
-const icons = import.meta.glob("../icons/*.vue", { query: "?component" });
+const icons = import.meta.glob("../assets/icons/*.svg", {
+  query: "?raw",
+  import: "default",
+});
 
 let customIconResolver: IconResolver;
 
 function defaultIconResolver(name: string): IconComponent {
-  const key = Object.keys(icons).find((path) => path.endsWith(`/${name}.vue`));
+  const key = Object.keys(icons).find((path) => path.endsWith(`/${name}.svg`));
 
-  if (key) {
-    return defineAsyncComponent(icons[key] as any);
+  const loader = key ? icons[key] : undefined;
+
+  if (loader) {
+    return defineAsyncComponent(async () => {
+      const svgContent = (await loader()) as string;
+      return {
+        name: `Icon${name}`,
+        render() {
+          return h("span", {
+            innerHTML: svgContent,
+            class: "icon-svg-wrapper",
+          });
+        },
+      };
+    });
   }
 }
 

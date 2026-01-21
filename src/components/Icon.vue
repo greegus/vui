@@ -38,4 +38,10 @@ watch(
 .Icon--large {
   width: var(--vuiii-icon-size--large);
 }
+
+.Icon :deep(svg) {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
 </style>
