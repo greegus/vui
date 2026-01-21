@@ -54,7 +54,7 @@ import { normalizeOptions } from "@/utils/normalizeOptions";
 const modelValue = defineModel<any>();
 
 defineSlots<{
-  default: (props: { option: Option }) => any;
+  default?: (props: { option: Option }) => any;
   symbol: (props: { checked: boolean; disabled: boolean }) => any;
 }>();
 
