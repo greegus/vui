@@ -1,5 +1,5 @@
 <template>
-  <div class="RadioGroup" :class="[$attrs.class, { 'RadioGroup--inline': inline }]">
+  <div class="RadioGroup" :class="[$attrs.class, { 'RadioGroup--inline': inline, [`RadioGroup--size-${$props.size}`]: $props.size }]">
     <label
       v-for="option in normalizedOptions"
       :key="option.value"
@@ -47,7 +47,7 @@ export default {
 import { computed, useAttrs, useId } from "vue";
 
 import { useAttrsWithoutClass } from "@/composables/useAttrsWithoutClass";
-import type { Extractor, Option, ValueParser } from "@/types";
+import type { Extractor, InputSize, Option, ValueParser } from "@/types";
 import { createTypeParser } from "@/utils/createTypeParser";
 import { normalizeOptions } from "@/utils/normalizeOptions";
 
@@ -75,6 +75,7 @@ const props = withDefaults(
     disabled?: boolean;
     readonly?: boolean;
     inline?: boolean;
+    size?: InputSize;
     type?: "string" | "number" | "boolean" | "date";
   }>(),
   {
@@ -107,8 +108,21 @@ function handleInput(value: any) {
 
 <style scoped>
 .RadioGroup {
+  --radio-iconSize: var(--vuiii-icon-size);
+  --radio-labelFontSize: var(--vuiii-fontSize);
+
   & > * + * {
     margin-top: 0.75rem;
+  }
+
+  &.RadioGroup--size-small {
+    --radio-iconSize: var(--vuiii-icon-size--small);
+    --radio-labelFontSize: var(--vuiii-fontSize--small);
+  }
+
+  &.RadioGroup--size-large {
+    --radio-iconSize: var(--vuiii-icon-size--large);
+    --radio-labelFontSize: var(--vuiii-fontSize--large);
   }
 }
 
@@ -144,7 +158,7 @@ function handleInput(value: any) {
   --vuiii-input-transition: all 0.1s;
   --vuiii-input-padding: 0;
 
-  width: var(--vuiii-icon-size);
+  width: var(--radio-iconSize);
   aspect-ratio: 1 / 1;
   border-radius: 999px;
   min-height: 0;
@@ -181,6 +195,7 @@ function handleInput(value: any) {
 
 .RadioGroup__label {
   line-height: 1.45;
+  font-size: var(--radio-labelFontSize);
 }
 
 .RadioGroup__description {

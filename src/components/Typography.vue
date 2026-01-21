@@ -1,7 +1,7 @@
 <template>
   <component
     :is="resolvedTag"
-    class="Typograpgy"
+    class="Typography"
     :class="{
       'vuiii-typography-display': variant === 'display',
       'vuiii-typography-heading1': variant === 'heading1',

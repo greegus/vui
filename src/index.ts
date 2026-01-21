@@ -19,6 +19,8 @@ export { default as Icon } from "./components/Icon.vue";
 export { default as IconButton } from "./components/IconButton.vue";
 export type { InputRef } from "./components/Input.vue";
 export { default as Input } from "./components/Input.vue";
+export type { InputWrapperProps, InputWrapperEmits, InputWrapperSlots } from "./components/InputWrapper.vue";
+export { default as InputWrapper } from "./components/InputWrapper.vue";
 export { default as RadioButtonGroup } from "./components/RadioButtonGroup.vue";
 export { default as RadioGroup } from "./components/RadioGroup.vue";
 export { default as Select } from "./components/Select.vue";
@@ -26,6 +28,7 @@ export { default as SnackbarStack } from "./components/snackbar/SnackbarStack.vu
 export { default as Table } from "./components/Table.vue";
 export type { TextareaRef } from "./components/Textarea.vue";
 export { default as Textarea } from "./components/Textarea.vue";
+export { default as Typography } from "./components/Typography.vue";
 export { default as FadeTransition } from "./components/transitions/FadeTransition.vue";
 export { useCursor } from "./composables/useCursor";
 export { useDropArea } from "./composables/useDropArea";

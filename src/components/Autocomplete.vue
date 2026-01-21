@@ -25,6 +25,7 @@
       :style="{ 'anchor-name': anchorName }"
       :placeholder="placeholder"
       :disabled="disabled"
+      :aria-invalid="$props.invalid || undefined"
       :value="modelValue"
       @input="handleInput"
       @click="handleClick"

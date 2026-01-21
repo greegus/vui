@@ -20,6 +20,7 @@
       :value="$props.modelValue"
       :disabled="$props.disabled"
       :readonly="$props.readonly"
+      :aria-invalid="$props.invalid || undefined"
       @input="handleInput($event)"
     />
   </InputWrapper>

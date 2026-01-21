@@ -1,16 +1,26 @@
 <template>
   <div class="Dropdown" :class="{ 'Dropdown--block': block }" ref="rootElement">
-    <div :style="{ 'anchor-name': anchorName }">
+    <div
+      :style="{ 'anchor-name': anchorName }"
+      aria-haspopup="true"
+      :aria-expanded="isOpen"
+      :aria-controls="dropdownId"
+    >
       <slot name="trigger" v-bind="{ open, close, toggle, isOpen }">
         <Button :label :variant :block :prefixIcon="icon" suffixIcon="chevron-down" @click="toggle()" />
       </slot>
     </div>
 
     <FadeTransition :duration="100">
-      <div v-if="isOpen" class="Dropdown__dropdown" :style="{
-        'position-anchor': anchorName,
-        'position-area': positionArea
-      }">
+      <div
+        v-if="isOpen"
+        :id="dropdownId"
+        class="Dropdown__dropdown"
+        :style="{
+          'position-anchor': anchorName,
+          'position-area': positionArea
+        }"
+      >
         <slot v-bind="{ close }" />
       </div>
     </FadeTransition>
@@ -56,7 +66,9 @@ const isOpen = ref(false);
 
 const rootElement = ref<HTMLDivElement>();
 
-const anchorName = `--anchor-${useId()}`;
+const id = useId();
+const dropdownId = `dropdown-${id}`;
+const anchorName = `--anchor-${dropdownId}`;
 
 const positionArea = computed(() => {
   if (props.dropdownPlacement === "center") return "bottom";

@@ -15,6 +15,8 @@
     :to="component === 'router-link' ? $props.to : undefined"
     :href="component === 'a' ? $props.href : undefined"
     :type="component === 'button' ? $props.type : undefined"
+    :disabled="component === 'button' ? ($props.disabled || $props.loading) : undefined"
+    :aria-disabled="$props.disabled || $props.loading || undefined"
   >
     <slot name="prefix">
       <Icon

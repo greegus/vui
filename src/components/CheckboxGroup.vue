@@ -2,7 +2,8 @@
   <div class="CheckboxGroup" :class="{ 'CheckboxGroup--inline': $props.inline }">
     <div v-for="option in normalizedOptions" :key="option.value">
       <Checkbox
-        :disabled="option.disabled"
+        :disabled="$props.disabled || option.disabled"
+        :size="$props.size"
         :model-value="checkedValues.has(option.value)"
         :label="option.label"
         :description="option.description"
@@ -20,7 +21,7 @@
 import { computed } from "vue";
 
 import Checkbox from "@/components/Checkbox.vue";
-import type { Extractor, Option, ValueParser } from "@/types";
+import type { Extractor, InputSize, Option, ValueParser } from "@/types";
 import { createTypeParser } from "@/utils/createTypeParser";
 import { normalizeOptions } from "@/utils/normalizeOptions";
 
@@ -36,6 +37,8 @@ const props = withDefaults(
     valueParser?: ValueParser;
     type?: "string" | "number" | "boolean" | "date";
     inline?: boolean;
+    size?: InputSize;
+    disabled?: boolean;
   }>(),
   {},
 );

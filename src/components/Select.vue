@@ -13,6 +13,7 @@
       :class="inputClass"
       :value="serializedModelValue"
       :required="$props.required"
+      :aria-invalid="$props.invalid || undefined"
       @input="handleInput($event)"
     >
       <option

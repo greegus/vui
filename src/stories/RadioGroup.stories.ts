@@ -28,19 +28,19 @@ export const Disabled: StoryObj<typeof RadioGroup> = {
   args: { disabled: true },
 };
 
-// export const Sizes: StoryObj<typeof RadioGroup> = {
-//   render: (args) => ({
-//     components: { RadioGroup },
-//     setup: () => ({ args }),
-//     template: `
-//       <div style="display: flex; gap: 4rem">
-//         <RadioGroup v-bind="args" size="small" />
-//         <RadioGroup v-bind="args" size="normal" />
-//         <RadioGroup v-bind="args" size="large" />
-//       </div
-//     `
-//   })
-// }
+export const Sizes: StoryObj<typeof RadioGroup> = {
+  render: (args) => ({
+    components: { RadioGroup },
+    setup: () => ({ args }),
+    template: `
+      <div style="display: flex; gap: 4rem">
+        <RadioGroup v-bind="args" size="small" />
+        <RadioGroup v-bind="args" size="normal" />
+        <RadioGroup v-bind="args" size="large" />
+      </div>
+    `,
+  }),
+};
 
 export const OptionPropsMapping: StoryObj<typeof RadioGroup> = {
   args: {

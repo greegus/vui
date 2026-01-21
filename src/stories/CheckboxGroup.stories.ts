@@ -47,6 +47,25 @@ export const ValueCasting: StoryObj<typeof CheckboxGroup> = {
   render: TemplateWithDumpValue,
 };
 
+export const Disabled: StoryObj<typeof CheckboxGroup> = {
+  args: { disabled: true },
+  render: TemplateWithDumpValue,
+};
+
+export const Sizes: StoryObj<typeof CheckboxGroup> = {
+  render: (args) => ({
+    components: { CheckboxGroup },
+    setup: () => ({ args }),
+    template: `
+      <div style="display: flex; gap: 4rem">
+        <CheckboxGroup v-bind="args" size="small" />
+        <CheckboxGroup v-bind="args" size="normal" />
+        <CheckboxGroup v-bind="args" size="large" />
+      </div>
+    `,
+  }),
+};
+
 export const CustomCheckboxSymbol: StoryObj<typeof CheckboxGroup> = {
   args: {
     options: objectOptions,
