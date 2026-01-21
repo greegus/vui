@@ -22,6 +22,7 @@
       v-bind="attrsWithoutClass"
       class="vuiii-input__nested Autocomplete__input"
       :class="inputClass"
+      :style="{ 'anchor-name': anchorName }"
       :placeholder="placeholder"
       :disabled="disabled"
       :value="modelValue"
@@ -31,7 +32,12 @@
     />
 
     <FadeTransition :duration="100">
-      <div v-if="isOpen && displayOptions.length > 0" class="Autocomplete__dropdown" ref="dropdownElement">
+      <div
+          v-if="isOpen && displayOptions.length > 0"
+          class="Autocomplete__dropdown"
+          ref="dropdownElement"
+          :style="{ 'position-anchor': anchorName, 'position-area': positionArea }"
+        >
         <DropdownMenu
           class="Autocomplete__dropdownMenu"
           :items="displayOptions"
@@ -70,7 +76,7 @@ export default {
 </script>
 
 <script lang="ts" setup generic="T = any">
-import { computed, ref, nextTick } from "vue";
+import { computed, ref, nextTick, useId } from "vue";
 
 import DropdownMenu from "@/components/DropdownMenu.vue";
 import InputWrapper, {
@@ -82,7 +88,6 @@ import FadeTransition from "@/components/transitions/FadeTransition.vue";
 import { useAttrsWithoutClass } from "@/composables/useAttrsWithoutClass";
 import { useCursor } from "@/composables/useCursor";
 import { useOnClickOutside } from "@/composables/useOnClickOutside";
-import { usePopper } from "@/composables/usePopper";
 import type { Extractor, Option } from "@/types";
 import { normalizeGroups, normalizeOptions } from "@/utils/normalizeOptions";
 
@@ -105,6 +110,7 @@ const props = withDefaults(
       disabled?: boolean;
       inputClass?: any;
       filter?: AutocompleteFilterFn<T>;
+      dropdownPlacement?: "left" | "right" | "center";
     }
   >(),
   {
@@ -127,10 +133,18 @@ defineSlots<
 const attrsWithoutClass = useAttrsWithoutClass();
 
 const rootElement = ref<InstanceType<typeof InputWrapper>>();
-const dropdownElement = ref<HTMLDivElement>();
+
 const inputElement = ref<HTMLInputElement>();
 
 const isOpen = ref(false);
+
+const anchorName = `--anchor-${useId()}`;
+
+const positionArea = computed(() => {
+  if (props.dropdownPlacement === "center") return "bottom";
+  if (props.dropdownPlacement === "right") return "bottom span-left";
+  return "bottom span-right";
+});
 
 // Normalize options (flat list)
 const normalizedOptions = computed<Option<T>[]>(() => {
@@ -185,9 +199,6 @@ const { cursorIndex, cursorItem, moveCursorForward, moveCursorBack, resetCursor 
 
 // Computed ref for root element's $el
 const rootEl = computed(() => rootElement.value?.$el as HTMLElement | undefined);
-
-// Popper positioning
-usePopper(rootEl, dropdownElement);
 
 // Close on click outside
 useOnClickOutside(rootEl, (event: MouseEvent) => {
@@ -303,10 +314,14 @@ defineExpose({
 }
 
 .Autocomplete__dropdown {
+  margin-top: 1px;
   position: absolute;
   width: max-content;
   min-width: 100%;
   z-index: var(--vuiii-zIndex-dropdown);
+
+  position-try-fallbacks: flip-block, flip-inline;
+  position-visibility: anchors-visible;
 }
 
 .Autocomplete__dropdownMenu {

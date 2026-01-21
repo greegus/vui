@@ -28,9 +28,6 @@
     "build-storybook": "storybook build",
     "chromatic": "npx chromatic --exit-zero-on-changes"
   },
-  "dependencies": {
-    "@popperjs/core": "^2.11.8"
-  },
   "devDependencies": {
     "@chromatic-com/storybook": "^5.0.0",
     "@storybook/addon-docs": "^10.1.11",

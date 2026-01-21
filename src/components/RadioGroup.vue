@@ -44,12 +44,11 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { computed, useAttrs } from "vue";
+import { computed, useAttrs, useId } from "vue";
 
 import { useAttrsWithoutClass } from "@/composables/useAttrsWithoutClass";
 import type { Extractor, Option, ValueParser } from "@/types";
 import { createTypeParser } from "@/utils/createTypeParser";
-import { generateId } from "@/utils/generateId";
 import { normalizeOptions } from "@/utils/normalizeOptions";
 
 const modelValue = defineModel<any>();
@@ -63,7 +62,7 @@ const attrs = useAttrs();
 
 const attrsWithoutClass = useAttrsWithoutClass();
 
-const inputName = (attrs.name as string) || "RadioGroup-input-" + generateId();
+const inputName = (attrs.name as string) || `RadioGroup-input-${useId()}`;
 
 const props = withDefaults(
   defineProps<{
