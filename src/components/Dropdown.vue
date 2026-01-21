@@ -1,11 +1,16 @@
 <template>
   <div class="Dropdown" :class="{ 'Dropdown--block': block }" ref="rootElement">
-    <slot name="trigger" v-bind="{ open, close, toggle, isOpen }">
-      <Button :label :variant :block :prefixIcon="icon" suffixIcon="chevron-down" @click="toggle()" />
-    </slot>
+    <div :style="{ 'anchor-name': anchorName }">
+      <slot name="trigger" v-bind="{ open, close, toggle, isOpen }">
+        <Button :label :variant :block :prefixIcon="icon" suffixIcon="chevron-down" @click="toggle()" />
+      </slot>
+    </div>
 
     <FadeTransition :duration="100">
-      <div v-if="isOpen" class="Dropdown__dropdown" ref="dropdownElement">
+      <div v-if="isOpen" class="Dropdown__dropdown" :style="{
+        'position-anchor': anchorName,
+        'position-area': positionArea
+      }">
         <slot v-bind="{ close }" />
       </div>
     </FadeTransition>
@@ -21,6 +26,7 @@ export type DropdownProps = {
   variant?: ButtonVariant;
   block?: boolean;
   icon?: string;
+  dropdownPlacement?: 'left' | 'right' | 'center'
 };
 
 export type DropdownRef = {
@@ -32,15 +38,14 @@ export type DropdownRef = {
 </script>
 
 <script lang="ts" generic="Item extends any = any" setup>
-import { computed, ref } from "vue";
+import { computed, ref, useId } from "vue";
 
 import Button from "@/components/Button.vue";
 import FadeTransition from "@/components/transitions/FadeTransition.vue";
 import { useOnClickOutside } from "@/composables/useOnClickOutside";
 import { useOnKeyPress } from "@/composables/useOnKeyPress";
-import { usePopper } from "@/composables/usePopper";
 
-defineProps<DropdownProps>();
+const props = defineProps<DropdownProps>();
 
 const emit = defineEmits<{
   open: [];
@@ -51,7 +56,13 @@ const isOpen = ref(false);
 
 const rootElement = ref<HTMLDivElement>();
 
-const dropdownElement = ref<HTMLDivElement>();
+const anchorName = `--anchor-${useId()}`;
+
+const positionArea = computed(() => {
+  if (props.dropdownPlacement === "center") return "bottom";
+  if (props.dropdownPlacement === "right") return "bottom span-left";
+  return "bottom span-right";
+});
 
 function open() {
   if (isOpen.value) {
@@ -80,8 +91,6 @@ function toggle(state?: boolean) {
     close();
   }
 }
-
-usePopper(rootElement, dropdownElement);
 
 // Close by click outside
 useOnClickOutside(rootElement, (event: MouseEvent) => {
@@ -112,7 +121,7 @@ defineExpose({
 });
 </script>
 
-<style scoped>
+<style>
 .Dropdown {
   position: relative;
   display: inline-block;
@@ -120,14 +129,17 @@ defineExpose({
   &.Dropdown--block {
     display: block;
     width: 100%;
-    flex-grow: 1;
   }
 }
 
 .Dropdown__dropdown {
+  margin-top: 1px;
   position: absolute;
   width: max-content;
   min-width: 100%;
   z-index: 10;
+
+  position-try-fallbacks: flip-block, flip-inline;
+  position-visibility: anchors-visible;
 }
 </style>

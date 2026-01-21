@@ -18,6 +18,7 @@ export default {
       },
     },
   },
+  decorators: [() => ({ template: '<div style="min-height: 200px; padding-top: 20px;"><story /></div>' })],
   argTypes: {
     label: {
       control: "text",
@@ -47,13 +48,13 @@ export default {
   },
 } as Meta<typeof Dropdown>;
 
-export const DefaultTemplate: StoryFn<typeof Dropdown> = (args) => ({
+const DefaultTemplate: StoryFn<typeof Dropdown> = (args) => ({
   components: { Dropdown, DropdownMenu },
   setup: () => ({ args, items: plainArrayOptions }),
   template: `
     <Dropdown v-bind="args">
       <template #default="{close}">
-        <DropdownMenu :items="items" @click-item="close()" />
+        <DropdownMenu :items="items" @item-click="close()" />
       </template>
     </Dropdown>
   `,
@@ -62,9 +63,68 @@ export const DefaultTemplate: StoryFn<typeof Dropdown> = (args) => ({
 export const Default: StoryObj<typeof Dropdown> = {
   render: DefaultTemplate,
 };
+
 export const Block: StoryObj<typeof Dropdown> = {
   args: { block: true },
   render: DefaultTemplate,
+};
+
+export const Placement: StoryObj<typeof Dropdown> = {
+  render: (args) => ({
+    components: { Dropdown, DropdownMenu },
+    setup: () => ({ args, items: plainArrayOptions }),
+    template: `
+      <div style="display: flex; gap: 24px;">
+        <Dropdown v-bind="args" dropdown-placement="left" label="Left">
+          <template #default="{ close }">
+            <DropdownMenu :items="items" @item-click="close()" />
+          </template>
+        </Dropdown>
+
+        <Dropdown v-bind="args" dropdown-placement="center" label="Center">
+          <template #default="{ close }">
+            <DropdownMenu :items="items" @item-click="close()" />
+          </template>
+        </Dropdown>
+
+        <Dropdown v-bind="args" dropdown-placement="right" label="Right">
+          <template #default="{ close }">
+            <DropdownMenu :items="items" @item-click="close()" />
+          </template>
+        </Dropdown>
+      </div>
+    `,
+  }),
+  parameters: {
+    docs: {
+      description: {
+        story: "Demonstrates the three placement options: left, center, and right.",
+      },
+    },
+  },
+};
+
+export const FlipBlock: StoryObj<typeof Dropdown> = {
+  render: (args) => ({
+    components: { Dropdown, DropdownMenu },
+    setup: () => ({ args, items: plainArrayOptions }),
+    template: `
+      <div style="height: 300px; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 20px; width: 100%">
+        <Dropdown v-bind="args">
+          <template #default="{ close }">
+            <DropdownMenu :items="items" @item-click="close()" />
+          </template>
+        </Dropdown>
+      </div>
+    `,
+  }),
+  parameters: {
+    docs: {
+      description: {
+        story: "Demonstrates flip-block fallback: when there is not enough space below, the dropdown flips to appear above the trigger.",
+      },
+    },
+  },
 };
 
 export const SearchSuggestions: StoryObj<typeof Dropdown> = {
@@ -91,6 +151,7 @@ export const SearchSuggestions: StoryObj<typeof Dropdown> = {
       }
 
       function selectItem(item) {
+        console.log(item)
         if (item !== undefined) {
           query.value = item;
           dropdown.value.close();
