@@ -38,7 +38,7 @@ watch(
 
 <template>
   <div class="DropdownMenu">
-    <ul class="DropdownMenu__items" v-if="items?.length">
+    <ul class="DropdownMenu__items" role="menu" v-if="items?.length">
       <li
         v-for="(item, index) in items"
         :key="index"
@@ -49,6 +49,8 @@ watch(
         <slot name="item" v-bind="{ item, index, cursorIndex }">
           <button
             class="DropdownMenu__button"
+            role="menuitem"
+            :aria-selected="cursorIndex === index || undefined"
             @click="emit('itemClick', { item, index })"
             @mouseenter="emit('itemMouseenter', { item, index })"
             @mouseleave="emit('itemMouseleave', { item, index })"

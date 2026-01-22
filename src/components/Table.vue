@@ -13,8 +13,11 @@
             class="vuiii-table__label vuiii-table__label--sortable"
             :class="{ 'vuiii-table__label vuiii-table__label--activeSort': sortColumnName === column.name }"
             @click.prevent="setSortBy(column.name)"
+            @keydown.enter.prevent="setSortBy(column.name)"
+            @keydown.space.prevent="setSortBy(column.name)"
             role="button"
             tabindex="0"
+            :aria-sort="sortColumnName === column.name ? (sortDirection === 'asc' ? 'ascending' : 'descending') : 'none'"
           >
             {{ column.label }}
 

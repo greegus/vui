@@ -2,6 +2,9 @@
   <div
     ref="root"
     class="DialogLayout"
+    role="dialog"
+    aria-modal="true"
+    :aria-labelledby="hasHeader ? titleId : undefined"
     :class="{
       hasHeader,
       hasFooter,
@@ -11,13 +14,13 @@
     }"
     :style="computedStyle"
   >
-    <div v-if="$props.withCloseButton" class="DialogLayout__close" @click="close()">
+    <button v-if="$props.withCloseButton" type="button" class="DialogLayout__close" aria-label="Close" @click="close()">
       <Icon name="x" class="DialogLayout__closeIcon" />
-    </div>
+    </button>
 
     <div v-if="hasHeader" class="DialogLayout__header">
       <slot name="header">
-        <div class="DialogLayout__title">
+        <div :id="titleId" class="DialogLayout__title">
           {{ $props.title }}
         </div>
       </slot>
@@ -52,7 +55,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, type CSSProperties, onMounted, ref, useSlots } from "vue";
+import { computed, type CSSProperties, onMounted, ref, useId, useSlots } from "vue";
 
 import Button from "@/components/Button.vue";
 import Icon from "@/components/Icon.vue";
@@ -62,6 +65,8 @@ import type { DialogLayoutButton } from "@/types";
 const slots = useSlots();
 
 const close = useCloseDialog();
+
+const titleId = `dialog-title-${useId()}`;
 
 const root = ref<HTMLElement>();
 
@@ -176,6 +181,7 @@ onMounted(() => {
 }
 
 .DialogLayout__close {
+  all: unset;
   position: absolute;
   z-index: 1;
   top: var(--vuiii-dialog-closeButton-top);
@@ -187,6 +193,7 @@ onMounted(() => {
   padding: var(--vuiii-dialog-padding);
 
   opacity: 0.4;
+  color: inherit;
 
   &:hover {
     opacity: 1;
