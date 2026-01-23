@@ -1,3 +1,4 @@
+// This file has been automatically migrated to valid ESM format by Storybook.
 import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
 import { mergeConfig } from "vite";
