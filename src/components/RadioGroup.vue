@@ -1,5 +1,10 @@
 <template>
-  <div class="RadioGroup" :class="[$attrs.class, { 'RadioGroup--inline': inline, [`RadioGroup--size-${$props.size}`]: $props.size }]">
+  <div
+    class="RadioGroup"
+    :class="[$attrs.class, { 'RadioGroup--inline': inline, [`RadioGroup--size-${$props.size}`]: $props.size }]"
+    role="radiogroup"
+    :aria-invalid="$props.invalid || undefined"
+  >
     <label
       v-for="option in normalizedOptions"
       :key="option.value"
@@ -76,6 +81,7 @@ const props = withDefaults(
     readonly?: boolean;
     inline?: boolean;
     size?: InputSize;
+    invalid?: boolean;
     type?: "string" | "number" | "boolean" | "date";
   }>(),
   {

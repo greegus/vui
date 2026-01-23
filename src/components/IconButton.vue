@@ -5,11 +5,12 @@ import { useFilteredProps } from "@/composables/useFilteredProps";
 export type IconButtonProps = Omit<ButtonProps, "prefixIcon" | "suffixIcon" | "label" | "block"> & {
   icon: string;
   title?: string;
+  ariaLabel?: string;
 };
 
 const props = defineProps<IconButtonProps>();
 
-const buttonProps = useFilteredProps(props, ["icon"]);
+const buttonProps = useFilteredProps(props, ["icon", "ariaLabel"]);
 
 const emit = defineEmits<{
   click: [Event];
@@ -17,7 +18,13 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <Button class="vuiii-icon-button" :prefixIcon="icon" v-bind="buttonProps" @click="emit('click', $event)" />
+  <Button
+    class="vuiii-icon-button"
+    :prefixIcon="icon"
+    :aria-label="ariaLabel || title"
+    v-bind="buttonProps"
+    @click="emit('click', $event)"
+  />
 </template>
 
 <style>

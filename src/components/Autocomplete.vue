@@ -25,7 +25,12 @@
       :style="{ 'anchor-name': anchorName }"
       :placeholder="placeholder"
       :disabled="disabled"
+      role="combobox"
       :aria-invalid="$props.invalid || undefined"
+      :aria-required="$attrs.required ? true : undefined"
+      :aria-expanded="isOpen"
+      aria-haspopup="listbox"
+      :aria-controls="dropdownId"
       :value="modelValue"
       @input="handleInput"
       @click="handleClick"
@@ -35,7 +40,9 @@
     <FadeTransition :duration="100">
       <div
           v-if="isOpen && displayOptions.length > 0"
+          :id="dropdownId"
           class="Autocomplete__dropdown"
+          role="listbox"
           ref="dropdownElement"
           :style="{ 'position-anchor': anchorName, 'position-area': positionArea }"
         >
@@ -139,7 +146,9 @@ const inputElement = ref<HTMLInputElement>();
 
 const isOpen = ref(false);
 
-const anchorName = `--anchor-${useId()}`;
+const id = useId();
+const anchorName = `--anchor-${id}`;
+const dropdownId = `autocomplete-dropdown-${id}`;
 
 const positionArea = computed(() => {
   if (props.dropdownPlacement === "center") return "bottom";

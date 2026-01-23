@@ -7,7 +7,6 @@
             <div
               class="Snackbar__messageBlock"
               :class="`Snackbar__messageBlock--${message.type}`"
-              role="alert"
               aria-atomic="true"
             >
               <div>

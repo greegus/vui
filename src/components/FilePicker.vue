@@ -1,5 +1,12 @@
 <template>
-  <button type="button" class="FilePicker" @click="openFilePicker" ref="pickerOpener" v-bind="$attrs">
+  <button
+    type="button"
+    class="FilePicker"
+    :aria-label="($attrs['aria-label'] as string) || $props.ariaLabel"
+    @click="openFilePicker"
+    ref="pickerOpener"
+    v-bind="$attrs"
+  >
     <slot>
       <Button prefix-icon="arrow-up-tray" :label variant="primary" outlined />
     </slot>
@@ -26,9 +33,11 @@ const props = withDefaults(
     multiple?: boolean;
     accept?: string | string[];
     label?: string;
+    ariaLabel?: string;
   }>(),
   {
     multiple: false,
+    ariaLabel: "Choose file",
   },
 );
 

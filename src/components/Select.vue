@@ -14,6 +14,7 @@
       :value="serializedModelValue"
       :required="$props.required"
       :aria-invalid="$props.invalid || undefined"
+      :aria-required="$props.required || undefined"
       @input="handleInput($event)"
     >
       <option

@@ -1,5 +1,10 @@
 <template>
-  <div class="CheckboxGroup" :class="{ 'CheckboxGroup--inline': $props.inline }">
+  <div
+    class="CheckboxGroup"
+    :class="{ 'CheckboxGroup--inline': $props.inline }"
+    role="group"
+    :aria-invalid="$props.invalid || undefined"
+  >
     <div v-for="option in normalizedOptions" :key="option.value">
       <Checkbox
         :disabled="$props.disabled || option.disabled"
@@ -39,6 +44,7 @@ const props = withDefaults(
     inline?: boolean;
     size?: InputSize;
     disabled?: boolean;
+    invalid?: boolean;
   }>(),
   {},
 );

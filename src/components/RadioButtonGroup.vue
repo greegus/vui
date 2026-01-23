@@ -1,5 +1,5 @@
 <template>
-  <ButtonGroup>
+  <ButtonGroup role="radiogroup" :aria-invalid="$props.invalid || undefined">
     <Button
       v-for="option in normalizedOptions"
       :key="option.value"
@@ -10,6 +10,8 @@
       :title="option.description"
       :prefix-icon="option.icon"
       :size="$props.size"
+      role="radio"
+      :aria-checked="option.isSelected"
       @click="modelValue = option.value"
     />
   </ButtonGroup>
@@ -34,6 +36,7 @@ const props = defineProps<{
   optionDescription?: Extractor;
   valueParser?: ValueParser<string>;
   disabled?: boolean;
+  invalid?: boolean;
   size?: InputSize;
 }>();
 

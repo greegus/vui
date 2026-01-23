@@ -50,7 +50,6 @@ watch(
           <button
             class="DropdownMenu__button"
             role="menuitem"
-            :aria-selected="cursorIndex === index || undefined"
             @click="emit('itemClick', { item, index })"
             @mouseenter="emit('itemMouseenter', { item, index })"
             @mouseleave="emit('itemMouseleave', { item, index })"

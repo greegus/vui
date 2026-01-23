@@ -14,6 +14,7 @@
       class="Checkbox__input"
       :required="$props.required"
       :disabled="$props.disabled"
+      :aria-invalid="$props.invalid || undefined"
       type="checkbox"
       v-bind="attrsWithoutClass"
       @input="handleInput($event)"
@@ -68,6 +69,7 @@ const props = withDefaults(
   defineProps<{
     required?: boolean;
     disabled?: boolean;
+    invalid?: boolean;
     switch?: boolean;
     label?: string;
     description?: string;

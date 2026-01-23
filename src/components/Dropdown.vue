@@ -2,7 +2,7 @@
   <div class="Dropdown" :class="{ 'Dropdown--block': block }" ref="rootElement">
     <div
       :style="{ 'anchor-name': anchorName }"
-      aria-haspopup="true"
+      aria-haspopup="menu"
       :aria-expanded="isOpen"
       :aria-controls="dropdownId"
     >

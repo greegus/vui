@@ -1,13 +1,24 @@
 <template>
-  <div class="Breadcrumbs">
-    <div v-for="(item, index) in breadcrumbs" :key="index" class="Breadcrumbs__breadcrumb">
-      <router-link :to="item.link" class="Breadcrumbs__link">
-        {{ item.label }}
-      </router-link>
+  <nav aria-label="Breadcrumb">
+    <ol class="Breadcrumbs">
+      <li v-for="(item, index) in breadcrumbs" :key="index" class="Breadcrumbs__breadcrumb">
+        <router-link
+          :to="item.link"
+          class="Breadcrumbs__link"
+          :aria-current="index === breadcrumbs.length - 1 ? 'page' : undefined"
+        >
+          {{ item.label }}
+        </router-link>
 
-      <Icon name="chevron-right" class="Breadcrumbs__arrow" />
-    </div>
-  </div>
+        <Icon
+          v-if="index < breadcrumbs.length - 1"
+          name="chevron-right"
+          class="Breadcrumbs__arrow"
+          aria-hidden="true"
+        />
+      </li>
+    </ol>
+  </nav>
 </template>
 
 <script lang="ts" setup>
@@ -31,6 +42,9 @@ withDefaults(
   flex-wrap: wrap;
   gap: 0.5rem;
   opacity: 0.5;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .Breadcrumbs__breadcrumb {

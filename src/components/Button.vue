@@ -17,6 +17,7 @@
     :type="component === 'button' ? $props.type : undefined"
     :disabled="component === 'button' ? ($props.disabled || $props.loading) : undefined"
     :aria-disabled="$props.disabled || $props.loading || undefined"
+    :aria-busy="$props.loading || undefined"
   >
     <slot name="prefix">
       <Icon

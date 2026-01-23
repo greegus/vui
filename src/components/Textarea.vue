@@ -21,6 +21,7 @@
       :disabled="$props.disabled"
       :readonly="$props.readonly"
       :aria-invalid="$props.invalid || undefined"
+      :aria-required="$attrs.required ? true : undefined"
       @input="handleInput($event)"
     />
   </InputWrapper>

@@ -17,8 +17,8 @@
 
     <input
       ref="input"
-      :aria-label="($attrs.placeholder as string) || 'input'"
       :aria-invalid="$props.invalid || undefined"
+      :aria-required="$attrs.required ? true : undefined"
       v-bind="attrsWithoutClass"
       class="vuiii-input__nested Input__input"
       :class="[
