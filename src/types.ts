@@ -83,6 +83,9 @@ export type FormField<Data extends {} = any> = {
   value?: FormFieldValue;
 };
 
+export type FormFieldRow<Data extends {} = any> = FormField<Data>[];
+export type FormFieldOrRow<Data extends {} = any> = FormField<Data> | FormFieldRow<Data>;
+
 // Pagination
 
 export type Pagination = {
