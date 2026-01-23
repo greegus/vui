@@ -1,6 +1,7 @@
 import { type Meta, type StoryFn } from "@storybook/vue3-vite";
 
 import type { FormField, FormFieldOrRow } from "../types";
+import { FORM_DIVIDER } from "../types";
 
 import Checkbox from "../components/Checkbox.vue";
 import FormFields from "../components/FormFields.vue";
@@ -140,4 +141,74 @@ const RowLayoutTemplate: StoryFn<typeof FormFields> = () => ({
 
 export const WithRowLayout = {
   render: RowLayoutTemplate,
+};
+
+const WithDividersTemplate: StoryFn<typeof FormFields> = () => ({
+  components: { FormFields },
+  setup: () => {
+    const fields: FormFieldOrRow<FormData>[] = [
+      // Personal information section
+      [
+        {
+          name: "firstName",
+          component: Input,
+          label: "First Name",
+          props: { required: true, placeholder: "First name" },
+        },
+        {
+          name: "lastName",
+          component: Input,
+          label: "Last Name",
+          props: { required: true, placeholder: "Last name" },
+        },
+      ],
+      {
+        name: "email",
+        component: Input,
+        label: "Email",
+        props: { required: true, placeholder: "Email", type: "email" },
+      },
+
+      // Divider separating sections
+      FORM_DIVIDER,
+
+      // Professional information section
+      {
+        name: "position",
+        component: Select,
+        label: "Position",
+        props: {
+          required: true,
+          placeholder: "Select your position…",
+          options: ["developer", "manager", "customer support"],
+        },
+      },
+      {
+        name: "gender",
+        component: RadioGroup,
+        label: "Gender",
+        props: { required: true, options: ["male", "female"] },
+      },
+
+      // Another divider
+      FORM_DIVIDER,
+
+      // Terms and conditions
+      { name: "acceptTerms", component: Checkbox, props: { label: "Accept Terms" } },
+    ];
+
+    const formData: Partial<FormData> = {};
+
+    return {
+      fields,
+      formData,
+    };
+  },
+  template: `
+    <FormFields :fields="fields" v-model="formData" />
+  `,
+});
+
+export const WithDividers = {
+  render: WithDividersTemplate,
 };

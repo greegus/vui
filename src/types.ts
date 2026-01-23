@@ -84,7 +84,11 @@ export type FormField<Data extends {} = any> = {
 };
 
 export type FormFieldRow<Data extends {} = any> = FormField<Data>[];
-export type FormFieldOrRow<Data extends {} = any> = FormField<Data> | FormFieldRow<Data>;
+
+export const FORM_DIVIDER = "–" as const;
+export type FormDivider = typeof FORM_DIVIDER;
+
+export type FormFieldOrRow<Data extends {} = any> = FormField<Data> | FormFieldRow<Data> | FormDivider;
 
 // Pagination
 

@@ -12,6 +12,9 @@
         @update:model-value="emit('update:model-value', $event)"
       />
 
+      <!-- Divider rendering -->
+      <Divider v-else-if="item === FORM_DIVIDER" />
+
       <!-- Regular field rendering -->
       <FormGroup
         v-else
@@ -42,7 +45,9 @@
 import { computed } from "vue";
 
 import FormGroup from "@/components/FormGroup.vue";
+import Divider from "@/components/Divider.vue";
 import type { FormField, FormFieldOrRow, ObjectKeyOrAnyString, ValidationFieldResults } from "@/types";
+import { FORM_DIVIDER } from "@/types";
 
 const props = withDefaults(
   defineProps<{
@@ -68,6 +73,9 @@ const getItemKey = (item: FormFieldOrRow<Data>, index: number): string => {
   if (Array.isArray(item)) {
     return item.map((f) => f.name).join("|");
   }
+  if (item === FORM_DIVIDER) {
+    return `divider-${index}`;
+  }
   return String(item.name);
 };
 
@@ -86,9 +94,10 @@ const fieldsByName = computed(() => {
   props.fields.forEach((item) => {
     if (Array.isArray(item)) {
       flatFields.push(...item);
-    } else {
+    } else if (item !== FORM_DIVIDER) {
       flatFields.push(item);
     }
+    // Skip dividers - they don't have values
   });
   return new Map<FormField<Data>["name"], FormField<Data>>(flatFields.map((field) => [field.name, field]));
 });

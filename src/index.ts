@@ -9,6 +9,7 @@ export { default as Checkbox } from "./components/Checkbox.vue";
 export { default as CheckboxGroup } from "./components/CheckboxGroup.vue";
 export { default as DialogLayout } from "./components/dialogStack/DialogLayout.vue";
 export { default as DialogStack } from "./components/dialogStack/DialogStack.vue";
+export { default as Divider } from "./components/Divider.vue";
 export type { DropdownRef } from "./components/Dropdown.vue";
 export { default as Dropdown } from "./components/Dropdown.vue";
 export { default as DropdownMenu } from "./components/DropdownMenu.vue";
@@ -46,6 +47,7 @@ export type {
   DialogLayoutButton,
   Extractor,
   FormField,
+  FormFieldOrRow,
   IconSize,
   InputSize,
   Option,
