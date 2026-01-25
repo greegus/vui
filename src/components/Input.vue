@@ -64,9 +64,11 @@ type ModelValueType = string | number | Date | null | undefined;
 
 const modelValue = defineModel<ModelValueType>();
 
-defineProps<
+const props = defineProps<
   InputWrapperProps & {
     inputClass?: any;
+    valueAsNumber?: boolean;
+    valueAsDate?: boolean;
   }
 >();
 
@@ -74,7 +76,6 @@ defineEmits<InputWrapperEmits>();
 
 defineSlots<InputWrapperSlots>();
 
-const attrs = useAttrs();
 const attrsWithoutClass = useAttrsWithoutClass();
 const slots = useSlots();
 
@@ -83,11 +84,11 @@ const input = ref();
 function retrieveTargetValue(e: Event): ModelValueType {
   const target = e.target as HTMLInputElement;
 
-  if (attrs.type === "number") {
+  if (props.valueAsNumber) {
     return target.valueAsNumber;
   }
 
-  if (attrs.type === "date") {
+  if (props.valueAsDate) {
     return target.valueAsDate;
   }
 
