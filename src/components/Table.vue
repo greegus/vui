@@ -8,24 +8,26 @@
           :style="{ textAlign: column.align || 'left' }"
           :width="column.width"
         >
-          <div
-            v-if="column.sortable"
-            class="vuiii-table__label vuiii-table__label--sortable"
-            :class="{ 'vuiii-table__label vuiii-table__label--activeSort': sortColumnName === column.name }"
-            @click.prevent="setSortBy(column.name)"
-            role="button"
-            tabindex="0"
-          >
-            {{ column.label }}
+          <slot :name="`header:${column.name}`" v-bind="{ column }">
+            <div
+              v-if="column.sortable"
+              class="vuiii-table__label vuiii-table__label--sortable"
+              :class="{ 'vuiii-table__label vuiii-table__label--activeSort': sortColumnName === column.name }"
+              @click.prevent="setSortBy(column.name)"
+              role="button"
+              tabindex="0"
+            >
+              {{ column.label }}
 
-            <div class="vuiii-table__sortIcon">
-              <Icon name="caret-sort" size="small" />
+              <div class="vuiii-table__sortIcon">
+                <Icon name="caret-sort" size="small" />
+              </div>
             </div>
-          </div>
 
-          <div class="vuiii-table__label" v-else>
-            {{ column.label }}
-          </div>
+            <div class="vuiii-table__label" v-else>
+              {{ column.label }}
+            </div>
+          </slot>
         </th>
 
         <th v-if="$slots.tools"></th>
@@ -137,6 +139,10 @@ defineSlots<
       item: T;
       value: any;
       index: number;
+    }) => any;
+  } & {
+    [K in `header:${(typeof props.columns)[number]["name"]}`]: (props: {
+      column: TableColumn<T>;
     }) => any;
   } & {
     rowOptions?: (props: { item: T; index: number }) => any;
