@@ -78,3 +78,8 @@
   font-style: italic;
   padding: 1rem;
 }
+
+.vuiii-table th.vuiii-table__cell--noPadding,
+.vuiii-table td.vuiii-table__cell--noPadding {
+  padding: 0;
+}

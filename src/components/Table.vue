@@ -7,6 +7,7 @@
           :key="key"
           :style="{ textAlign: column.align || 'left' }"
           :width="column.width"
+          :class="{ 'vuiii-table__cell--noPadding': column.noPadding }"
         >
           <slot :name="`header:${column.name}`" v-bind="{ column }">
             <div
@@ -47,7 +48,7 @@
           v-for="cell in row.cells"
           :key="cell.column.name"
           :style="{ textAlign: cell.column.align || 'left' }"
-          :class="cell.cellClass"
+          :class="[cell.cellClass, { 'vuiii-table__cell--noPadding': cell.column.noPadding }]"
         >
           <slot
             :name="`column:${cell.column.name}`"

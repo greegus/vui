@@ -27,6 +27,7 @@ export type TableColumn<T = any> = {
   label?: string;
   align?: "left" | "right" | "center";
   width?: string;
+  noPadding?: boolean;
   value?: (item: T, index: number) => unknown;
   formatter?: (value: any) => unknown;
   href?: (item: T) => RouteLocationRaw;
