@@ -7,6 +7,74 @@ import { useSubmitAction } from "@/composables/useSubmitAction";
 import { useDialogStack } from "@/dialogStack";
 import { useSnackbar } from "@/snackbar";
 
+/**
+ * Wraps a data loading function with loading state, error handling,
+ * and optional success/error messages. Built on top of useSubmitAction.
+ *
+ * @template D - The data type returned by the source function
+ * @template S - The source function type
+ * @param source - Async function that fetches data
+ * @param options - Configuration options
+ * @param options.onBeforeLoad - Called before loading. Return false to cancel.
+ * @param options.onSuccess - Called with loaded data on success
+ * @param options.onError - Called on error. Return true if handled.
+ * @param options.successMessage - Snackbar message on success
+ * @param options.errorMessage - Snackbar message on error
+ * @param options.initialValue - Initial value for data ref
+ * @param options.immediate - Load immediately on component mount
+ * @returns Object with load function and reactive state
+ *
+ * @example
+ * // Basic data loading
+ * import { useLoadData } from 'vuiii'
+ *
+ * const { load, isLoading, data } = useLoadData(
+ *   () => api.fetchUsers()
+ * )
+ *
+ * onMounted(load)
+ *
+ * // In template
+ * <div v-if="isLoading">Loading...</div>
+ * <div v-else>{{ data }}</div>
+ *
+ * @example
+ * // With immediate loading
+ * const { isLoading, data } = useLoadData(
+ *   () => api.fetchUsers(),
+ *   { immediate: true }
+ * )
+ *
+ * @example
+ * // With parameters
+ * const { load, data } = useLoadData(
+ *   (userId: string) => api.getUser(userId)
+ * )
+ *
+ * await load('user-123')
+ * console.log(data.value) // user data
+ *
+ * @example
+ * // With error handling
+ * const { load, isLoading, error } = useLoadData(
+ *   () => api.fetchData(),
+ *   {
+ *     errorMessage: 'Failed to load data',
+ *     onError: ({ error }) => {
+ *       console.error(error)
+ *       return true // mark as handled
+ *     }
+ *   }
+ * )
+ *
+ * @example
+ * // With initial value
+ * const { data } = useLoadData(
+ *   () => api.fetchItems(),
+ *   { initialValue: [] }
+ * )
+ * // data.value starts as [] instead of undefined
+ */
 export const useLoadData = <D = unknown, S extends (...args: any[]) => D = (...args: any[]) => D>(
   source: S,
   options: {

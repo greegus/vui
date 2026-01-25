@@ -11,6 +11,32 @@
 </template>
 
 <script lang="ts" setup>
+/**
+ * Navigation breadcrumbs with router-link support.
+ *
+ * @component Breadcrumbs
+ *
+ * @example
+ * // Basic usage
+ * import { Breadcrumbs } from 'vuiii'
+ * import type { BreadcrumbItems } from 'vuiii'
+ *
+ * const breadcrumbs: BreadcrumbItems = [
+ *   { label: 'Home', link: '/' },
+ *   { label: 'Products', link: '/products' },
+ *   { label: 'Electronics', link: '/products/electronics' }
+ * ]
+ *
+ * <Breadcrumbs :breadcrumbs="breadcrumbs" />
+ *
+ * @example
+ * // With named routes
+ * const breadcrumbs: BreadcrumbItems = [
+ *   { label: 'Dashboard', link: { name: 'dashboard' } },
+ *   { label: 'Users', link: { name: 'users' } },
+ *   { label: 'John Doe', link: { name: 'user', params: { id: 123 } } }
+ * ]
+ */
 import Icon from "@/components/Icon.vue";
 import type { BreadcrumbItems } from "@/types";
 

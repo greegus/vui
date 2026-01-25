@@ -41,6 +41,43 @@
 </template>
 
 <script lang="ts">
+/**
+ * Base wrapper component for input styling. Used internally by Input, Select, Autocomplete.
+ * Provides consistent styling, icon slots, and size variants across all input components.
+ *
+ * @component InputWrapper
+ *
+ * @example
+ * // Typically used internally, but can be used for custom inputs
+ * import { InputWrapper } from 'vuiii'
+ *
+ * <InputWrapper size="normal" prefix-icon="user">
+ *   <input class="vuiii-input__nested" v-model="value" />
+ * </InputWrapper>
+ *
+ * @example
+ * // With validation state
+ * <InputWrapper :invalid="hasError" size="normal">
+ *   <input class="vuiii-input__nested" v-model="value" />
+ * </InputWrapper>
+ *
+ * @example
+ * // With clickable icons
+ * <InputWrapper
+ *   suffix-icon="x-mark"
+ *   @suffix-icon-click="clearValue"
+ * >
+ *   <input class="vuiii-input__nested" v-model="value" />
+ * </InputWrapper>
+ *
+ * @slot default - The input element (should have class="vuiii-input__nested")
+ * @slot prefix - Custom prefix content (replaces prefixIcon)
+ * @slot suffix - Custom suffix content (replaces suffixIcon)
+ *
+ * @emits click - When wrapper is clicked
+ * @emits prefix-icon-click - When prefix icon is clicked
+ * @emits suffix-icon-click - When suffix icon is clicked
+ */
 import type { InputSize } from "@/types";
 
 export type InputWrapperProps = {

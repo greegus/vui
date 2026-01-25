@@ -3,6 +3,66 @@ import { computed, onBeforeUnmount, onMounted, type Ref, ref } from 'vue'
 import { debounce } from '@/utils/debounce'
 import { retrieveFilesFromDataTransfer } from '@/utils/retrieveFilesFromDataTransfer'
 
+/**
+ * Enables drag-and-drop file handling on an element.
+ * Provides dropzone active state for visual feedback.
+ *
+ * @param element - Ref to the drop target element
+ * @param onFiles - Callback when files are dropped
+ * @param options - Configuration options
+ * @param options.accept - MIME types to accept (e.g., 'image/*', ['image/png', 'application/pdf'])
+ * @param options.multiple - Allow multiple files (default: false)
+ * @param options.onError - Error handler callback
+ * @returns Object with isDropzoneActive reactive state
+ *
+ * @example
+ * // Basic usage
+ * import { useDropArea } from 'vuiii'
+ *
+ * const dropElement = ref<HTMLElement>()
+ *
+ * const { isDropzoneActive } = useDropArea(
+ *   dropElement,
+ *   (files) => console.log('Dropped files:', files)
+ * )
+ *
+ * // In template
+ * <div
+ *   ref="dropElement"
+ *   :class="{ 'dropzone-active': isDropzoneActive }"
+ * >
+ *   Drop files here
+ * </div>
+ *
+ * @example
+ * // With file type filter
+ * useDropArea(
+ *   dropElement,
+ *   handleFiles,
+ *   { accept: 'image/*' }
+ * )
+ *
+ * @example
+ * // Multiple files with specific types
+ * useDropArea(
+ *   dropElement,
+ *   handleFiles,
+ *   {
+ *     accept: ['image/png', 'image/jpeg', 'application/pdf'],
+ *     multiple: true
+ *   }
+ * )
+ *
+ * @example
+ * // With error handling
+ * useDropArea(
+ *   dropElement,
+ *   handleFiles,
+ *   {
+ *     onError: (error) => snackbar.error('Failed to process dropped files')
+ *   }
+ * )
+ */
 export function useDropArea(
   element: Ref<HTMLElement | undefined>,
   onFiles: (files: File[]) => void,

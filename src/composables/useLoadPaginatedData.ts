@@ -6,6 +6,68 @@ import { useLoadData } from "@/composables/useLoadData";
 
 const DEFAULT_ITEMS_PER_PAGE = 25;
 
+/**
+ * Extends useLoadData with pagination support for loading data in pages.
+ * Provides methods for loading specific pages, next/previous navigation,
+ * and optional append mode for infinite scroll.
+ *
+ * @template Item - The type of items in the paginated list
+ * @param source - Function that fetches paginated data
+ * @param options - Configuration options (inherits useLoadData options)
+ * @param options.startingPage - Initial page to load (default: 1)
+ * @param options.itemsPerPage - Items per page (default: 25)
+ * @param options.append - Append new items instead of replacing
+ * @param options.immediate - Load first page immediately on mount
+ * @returns Object with items, pagination state, and navigation methods
+ *
+ * @example
+ * // Basic paginated data loading
+ * import { useLoadPaginatedData } from 'vuiii'
+ * import type { PaginatedData } from 'vuiii'
+ *
+ * const { items, pagination, loadPage, isLoading } = useLoadPaginatedData(
+ *   ({ page, itemsPerPage }) => api.getUsers({ page, itemsPerPage })
+ * )
+ *
+ * onMounted(() => loadPage(1))
+ *
+ * @example
+ * // With immediate loading
+ * const { items, pagination } = useLoadPaginatedData(
+ *   ({ page, itemsPerPage }) => api.getItems({ page, itemsPerPage }),
+ *   { immediate: true }
+ * )
+ *
+ * @example
+ * // Navigation between pages
+ * const { loadPage, loadNextPage, loadPreviousPage, pagination } = useLoadPaginatedData(source)
+ *
+ * await loadPage(1)  // Load first page
+ * await loadNextPage()  // Go to page 2
+ * await loadPreviousPage()  // Back to page 1
+ * await loadPage(5)  // Jump to page 5
+ *
+ * @example
+ * // Infinite scroll with append mode
+ * const { items, loadNextPage, pagination } = useLoadPaginatedData(
+ *   source,
+ *   { append: true, immediate: true }
+ * )
+ *
+ * // Each loadNextPage() appends to existing items
+ * function onScrollEnd() {
+ *   if (pagination.value?.hasNextPage) {
+ *     loadNextPage()
+ *   }
+ * }
+ *
+ * @example
+ * // Custom items per page
+ * const { items } = useLoadPaginatedData(
+ *   source,
+ *   { itemsPerPage: 50, immediate: true }
+ * )
+ */
 export function useLoadPaginatedData<Item = unknown>(
   source: PaginatedDataSource<Item>,
   options: Parameters<typeof useLoadData>[1] & {

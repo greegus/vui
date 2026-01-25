@@ -42,6 +42,93 @@
 </template>
 
 <script lang="ts" setup generic="Data extends {}">
+/**
+ * Dynamic form generator that renders fields from a configuration array.
+ * Supports vertical/horizontal layouts, nested rows, dividers, and validation integration.
+ *
+ * @component FormFields
+ *
+ * @example
+ * // Basic vertical form
+ * import { FormFields, Input, Select } from 'vuiii'
+ *
+ * const fields: FormField<UserData>[] = [
+ *   { name: 'email', component: Input, label: 'Email', props: { type: 'email' } },
+ *   { name: 'name', component: Input, label: 'Name' },
+ *   { name: 'role', component: Select, label: 'Role', props: { options: ['admin', 'user'] } }
+ * ]
+ *
+ * <FormFields :fields="fields" v-model="formData" />
+ *
+ * @example
+ * // Horizontal row (fields side-by-side) - nest arrays for horizontal grouping
+ * const fields: FormFieldOrRow<UserData>[] = [
+ *   [
+ *     { name: 'firstName', component: Input, label: 'First Name' },
+ *     { name: 'lastName', component: Input, label: 'Last Name' }
+ *   ],
+ *   { name: 'email', component: Input, label: 'Email' }
+ * ]
+ *
+ * @example
+ * // With dividers between sections
+ * import { FORM_DIVIDER } from 'vuiii'
+ *
+ * const fields: FormFieldOrRow<UserData>[] = [
+ *   { name: 'name', component: Input, label: 'Name' },
+ *   FORM_DIVIDER,
+ *   { name: 'email', component: Input, label: 'Email' }
+ * ]
+ *
+ * @example
+ * // With validation results from useValidation
+ * const { validatedFields, validate } = useValidation(data, validationRules)
+ *
+ * <FormFields
+ *   :fields="fields"
+ *   v-model="data"
+ *   :validation-results="validatedFields"
+ * />
+ *
+ * @example
+ * // Dynamic props based on current form values
+ * const fields: FormField<UserData>[] = [
+ *   {
+ *     name: 'country',
+ *     component: Select,
+ *     label: 'Country',
+ *     props: { options: countries }
+ *   },
+ *   {
+ *     name: 'state',
+ *     component: Select,
+ *     label: 'State',
+ *     // Props can be a function that receives current field value
+ *     props: (countryValue) => ({ options: statesByCountry[countryValue] }),
+ *     disabled: (countryValue) => !countryValue
+ *   }
+ * ]
+ *
+ * @example
+ * // Custom getter/setter for complex data transformations
+ * const fields: FormField<UserData>[] = [
+ *   {
+ *     name: 'fullName',
+ *     component: Input,
+ *     label: 'Full Name',
+ *     value: {
+ *       getter: (data) => `${data.firstName} ${data.lastName}`,
+ *       setter: (value, data) => {
+ *         const [firstName, lastName] = value.split(' ')
+ *         return { ...data, firstName, lastName }
+ *       }
+ *     }
+ *   }
+ * ]
+ *
+ * @slot field:{fieldName} - Custom render slot for a specific field. Receives field config and index.
+ *   @example <template #field:email="{ name, label, index }">Custom email input</template>
+ */
 import { computed } from "vue";
 
 import FormGroup from "@/components/FormGroup.vue";

@@ -1,3 +1,39 @@
+/**
+ * Snackbar/toast notification system for displaying brief messages.
+ * Messages auto-dismiss after a configurable duration (default 7 seconds).
+ *
+ * @module snackbar
+ *
+ * @example
+ * // Setup: Add SnackbarStack component to your app root
+ * import { SnackbarStack } from 'vuiii'
+ *
+ * // In App.vue
+ * <template>
+ *   <router-view />
+ *   <SnackbarStack />
+ * </template>
+ *
+ * @example
+ * // Show success message
+ * import { useSnackbar } from 'vuiii'
+ *
+ * const snackbar = useSnackbar()
+ * snackbar.success('Item saved!')
+ *
+ * @example
+ * // Show error message
+ * snackbar.error('Failed to save item')
+ *
+ * @example
+ * // Custom duration (in milliseconds)
+ * snackbar.success('Quick message', 3000) // 3 seconds
+ * snackbar.error('Longer message', 10000) // 10 seconds
+ *
+ * @example
+ * // Persistent message (no auto-dismiss)
+ * snackbar.error('Critical error - please refresh', 0)
+ */
 import { ref } from "vue";
 
 export type MessageType = "success" | "error";
@@ -55,6 +91,25 @@ const context = {
   error: (text: string, duration: number = DEFAULT_MESSAGE_DURATION) => showMessage(text, "error", duration),
 };
 
+/**
+ * Composable that provides access to snackbar/toast notifications.
+ *
+ * @returns Object with success and error methods for showing messages
+ *
+ * @example
+ * import { useSnackbar } from 'vuiii'
+ *
+ * const snackbar = useSnackbar()
+ *
+ * // Success notification
+ * snackbar.success('Changes saved')
+ *
+ * // Error notification
+ * snackbar.error('Something went wrong')
+ *
+ * // Custom duration (ms)
+ * snackbar.success('Quick!', 2000)
+ */
 export function useSnackbar(): Snackbar {
   return context;
 }

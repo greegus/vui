@@ -48,6 +48,70 @@
 </template>
 
 <script lang="ts">
+/**
+ * Checkbox input with toggle/switch variant and indeterminate state support.
+ * Can be used standalone or within CheckboxGroup.
+ *
+ * @component Checkbox
+ *
+ * @example
+ * // Basic usage
+ * import { Checkbox } from 'vuiii'
+ *
+ * <Checkbox v-model="accepted" label="I accept the terms" />
+ *
+ * @example
+ * // Switch variant (toggle)
+ * <Checkbox v-model="enabled" switch label="Enable notifications" />
+ *
+ * @example
+ * // With description
+ * <Checkbox
+ *   v-model="newsletter"
+ *   label="Subscribe to newsletter"
+ *   description="Get weekly updates about new features"
+ * />
+ *
+ * @example
+ * // Required checkbox
+ * <Checkbox v-model="terms" required label="I agree to the terms" />
+ *
+ * @example
+ * // Indeterminate state (for "select all" patterns)
+ * <Checkbox
+ *   :model-value="allSelected"
+ *   :indeterminate="someSelected && !allSelected"
+ *   label="Select all"
+ *   @update:model-value="toggleAll"
+ * />
+ *
+ * @example
+ * // Different sizes
+ * <Checkbox v-model="small" size="small" label="Small" />
+ * <Checkbox v-model="normal" size="normal" label="Normal" />
+ * <Checkbox v-model="large" size="large" label="Large" />
+ *
+ * @example
+ * // Custom value parser (for non-boolean values)
+ * const yesNoParser = {
+ *   parse: (checked) => checked ? 'yes' : 'no',
+ *   stringify: (value) => value === 'yes'
+ * }
+ *
+ * <Checkbox v-model="answer" :value-parser="yesNoParser" label="Accept" />
+ *
+ * @example
+ * // Custom symbol slot
+ * <Checkbox v-model="checked">
+ *   <template #symbol="{ checked, disabled, indeterminate }">
+ *     <Icon :name="checked ? 'check-square' : 'square'" />
+ *   </template>
+ *   Custom checkbox label
+ * </Checkbox>
+ *
+ * @slot default - Label content (alternative to label prop)
+ * @slot symbol - Custom checkbox/switch symbol. Props: { checked, disabled, indeterminate, size }
+ */
 export default {
   inheritAttrs: false,
 };

@@ -38,6 +38,71 @@
 </template>
 
 <script lang="ts">
+/**
+ * Radio button group for single selection from a list of options.
+ * Normalizes various option formats and supports custom value parsing.
+ *
+ * @component RadioGroup
+ *
+ * @example
+ * // Basic usage with string array
+ * import { RadioGroup } from 'vuiii'
+ *
+ * <RadioGroup v-model="color" :options="['Red', 'Green', 'Blue']" />
+ *
+ * @example
+ * // With object options and extractors
+ * const plans = [
+ *   { id: 'free', name: 'Free', info: '0$/month' },
+ *   { id: 'pro', name: 'Pro', info: '10$/month' },
+ *   { id: 'enterprise', name: 'Enterprise', info: 'Contact us' }
+ * ]
+ *
+ * <RadioGroup
+ *   v-model="selectedPlan"
+ *   :options="plans"
+ *   option-value="id"
+ *   option-label="name"
+ *   option-description="info"
+ * />
+ *
+ * @example
+ * // Inline layout (horizontal)
+ * <RadioGroup
+ *   v-model="size"
+ *   :options="['Small', 'Medium', 'Large']"
+ *   inline
+ * />
+ *
+ * @example
+ * // With type parsing
+ * <RadioGroup
+ *   v-model="quantity"
+ *   :options="[1, 2, 3, 4, 5]"
+ *   type="number"
+ * />
+ *
+ * @example
+ * // With custom option rendering
+ * <RadioGroup v-model="theme" :options="themes" option-value="id">
+ *   <template #default="{ option }">
+ *     <div class="theme-preview" :style="{ background: option.data.color }">
+ *       {{ option.label }}
+ *     </div>
+ *   </template>
+ * </RadioGroup>
+ *
+ * @example
+ * // With custom symbol slot
+ * <RadioGroup v-model="selected" :options="options">
+ *   <template #symbol="{ checked, disabled }">
+ *     <Icon :name="checked ? 'circle-dot' : 'circle'" />
+ *   </template>
+ * </RadioGroup>
+ *
+ * @slot default - Custom option content. Props: { option }
+ * @slot symbol - Custom radio symbol. Props: { checked, disabled }
+ */
 export default {
   inheritAttrs: false,
 };

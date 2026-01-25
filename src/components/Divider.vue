@@ -6,6 +6,38 @@
 </template>
 
 <script lang="ts" setup>
+/**
+ * Visual separator line for content sections.
+ * Can be horizontal (default) or vertical.
+ *
+ * @component Divider
+ *
+ * @example
+ * // Horizontal divider (default)
+ * import { Divider } from 'vuiii'
+ *
+ * <div>Section 1</div>
+ * <Divider />
+ * <div>Section 2</div>
+ *
+ * @example
+ * // Vertical divider (for inline content)
+ * <div style="display: flex; align-items: center;">
+ *   <span>Item 1</span>
+ *   <Divider orientation="vertical" />
+ *   <span>Item 2</span>
+ * </div>
+ *
+ * @example
+ * // In FormFields (using FORM_DIVIDER constant)
+ * import { FORM_DIVIDER } from 'vuiii'
+ *
+ * const fields = [
+ *   { name: 'name', component: Input, label: 'Name' },
+ *   FORM_DIVIDER,
+ *   { name: 'email', component: Input, label: 'Email' }
+ * ]
+ */
 withDefaults(defineProps<{
   orientation?: "horizontal" | "vertical";
 }>(), {
