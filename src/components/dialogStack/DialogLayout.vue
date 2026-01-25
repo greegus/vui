@@ -153,6 +153,7 @@ onMounted(() => {
   &.isScrollable {
     min-height: auto;
     max-height: calc(100vh - 3rem);
+    overflow: clip;
   }
 }
 
