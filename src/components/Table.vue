@@ -165,8 +165,8 @@ function defaultSorted(a: any, b: any) {
 }
 
 const tableRows = computed<TableRow[]>(() => {
-  const generateCell = (column: TableColumn<T>, item: any): TableCell => {
-    const value = typeof column.value === "function" ? column.value(item) : item[column.name];
+  const generateCell = (column: TableColumn<T>, item: any, index: number): TableCell => {
+    const value = typeof column.value === "function" ? column.value(item, index) : item[column.name];
     const formattedValue = typeof column.formatter === "function" ? column.formatter(value) : value;
     const cellClass = typeof column.cellClass === "function" ? column.cellClass({ item, value }) : column.cellClass;
 
@@ -184,7 +184,7 @@ const tableRows = computed<TableRow[]>(() => {
       const rowClass = typeof props.rowClass === "function" ? props.rowClass({ item, index }) : props.rowClass;
 
       const cells = normalizedColumns.value.reduce((result, column) => {
-        return [...result, generateCell(column, item)];
+        return [...result, generateCell(column, item, index)];
       }, [] as TableCell[]);
 
       return {
