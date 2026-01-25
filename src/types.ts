@@ -27,7 +27,7 @@ export type TableColumn<T = any> = {
   label?: string;
   align?: "left" | "right" | "center";
   width?: string;
-  value?: (item: T) => unknown;
+  value?: (item: T, index: number) => unknown;
   formatter?: (value: any) => unknown;
   href?: (item: T) => RouteLocationRaw;
   target?: ConstOrAnyString<"_blank">;
@@ -66,9 +66,9 @@ export type BreadcrumbItems = {
   link: string | RouteLocationRaw;
 }[];
 
-export type FormFieldValue = {
-  getter: (modelValue: any) => unknown;
-  setter: (value: unknown, modelValue: any) => void;
+export type FormFieldValue<T> = {
+  getter: (modelValue: T) => unknown;
+  setter: (value: unknown, modelValue: T) => T;
 };
 
 export type FormField<Data extends {} = any> = {
@@ -80,7 +80,7 @@ export type FormField<Data extends {} = any> = {
   disabled?: boolean | ((value: any) => boolean);
   component: string | Component | AsyncComponentLoader;
   props?: Record<string, unknown>;
-  value?: FormFieldValue;
+  value?: FormFieldValue<Data>;
 };
 
 export type FormFieldRow<Data extends {} = any> = FormField<Data>[];

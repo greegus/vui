@@ -103,14 +103,14 @@ const fieldsByName = computed(() => {
 });
 
 const getFieldValue = (name: FormField<Data>["name"]): unknown => {
-  const getter = fieldsByName.value.get(name)!.value?.getter || ((modelValue) => modelValue[name]);
+  const getter = fieldsByName.value.get(name)!.value?.getter || ((modelValue: Data) => modelValue[name as keyof Data]);
 
   return getter(props.modelValue);
 };
 
 const setFieldValue = (name: FormField<Data>["name"], value: unknown): void => {
   const setter =
-    fieldsByName.value.get(name)!.value?.setter || ((value, modelValue) => ({ ...modelValue, [name]: value }));
+    fieldsByName.value.get(name)!.value?.setter || ((value: unknown, modelValue: Data) => ({ ...modelValue, [name]: value }));
   const modelValue = setter(value, props.modelValue);
 
   emit("update:model-value", modelValue);
