@@ -62,6 +62,70 @@
 </template>
 
 <script lang="ts">
+/**
+ * Native select dropdown with support for various option formats and type parsing.
+ * Normalizes arrays, objects, and grouped options into a consistent format.
+ *
+ * @see {@link module:normalizeOptions} for supported option formats and extractor props
+ *
+ * @component Select
+ *
+ * @example
+ * // Basic usage with string array
+ * import { Select } from 'vuiii'
+ *
+ * <Select v-model="color" :options="['Red', 'Green', 'Blue']" />
+ *
+ * @example
+ * // With object array and extractors
+ * const countries = [
+ *   { code: 'us', name: 'United States' },
+ *   { code: 'uk', name: 'United Kingdom' }
+ * ]
+ *
+ * <Select
+ *   v-model="country"
+ *   :options="countries"
+ *   option-value="code"
+ *   option-label="name"
+ *   placeholder="Select a country"
+ * />
+ *
+ * @example
+ * // With key-value object options
+ * const statuses = { draft: 'Draft', published: 'Published', archived: 'Archived' }
+ *
+ * <Select v-model="status" :options="statuses" />
+ *
+ * @example
+ * // With grouped options (optgroup)
+ * const vehicles = [
+ *   { category: 'Cars', items: [{ id: 1, name: 'Sedan' }, { id: 2, name: 'SUV' }] },
+ *   { category: 'Bikes', items: [{ id: 3, name: 'Mountain' }, { id: 4, name: 'Road' }] }
+ * ]
+ *
+ * <Select
+ *   v-model="vehicle"
+ *   :options="vehicles"
+ *   group-label="category"
+ *   group-options="items"
+ *   option-value="id"
+ *   option-label="name"
+ * />
+ *
+ * @example
+ * // With type parsing (automatically converts string value to number)
+ * <Select v-model="count" :options="[1, 2, 3, 4, 5]" type="number" />
+ *
+ * @example
+ * // With custom value parser
+ * const dateParser = {
+ *   parse: (str) => new Date(str),
+ *   stringify: (date) => date.toISOString()
+ * }
+ *
+ * <Select v-model="date" :options="dates" :value-parser="dateParser" />
+ */
 export default {
   inheritAttrs: false,
 };

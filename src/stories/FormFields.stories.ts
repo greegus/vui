@@ -1,12 +1,15 @@
 import { type Meta, type StoryFn } from "@storybook/vue3-vite";
 
-import type { FormField } from "../types";
+import type { FormField, FormFieldOrRow } from "../types";
+import { FORM_DIVIDER } from "../types";
 
 import Checkbox from "../components/Checkbox.vue";
 import FormFields from "../components/FormFields.vue";
 import Input from "../components/Input.vue";
 import RadioGroup from "../components/RadioGroup.vue";
 import Select from "../components/Select.vue";
+import { DateValueParser } from "../valueParsers/dateValueParser";
+import { NumberValueParser } from "../valueParsers/numberValueParser";
 
 type FormData = {
   firstName: string;
@@ -23,7 +26,9 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: "Form fields",
+        component: `Dynamic form builder that renders fields from a configuration array.
+
+**Features:** Row layouts, dividers, conditional states, custom value getters/setters, and typed bindings via [Value Parsers](?path=/docs/guides-value-parsers--docs).`,
       },
     },
   },
@@ -79,4 +84,210 @@ const Template: StoryFn<typeof FormFields> = () => ({
 
 export const Default = {
   render: Template,
+};
+
+const RowLayoutTemplate: StoryFn<typeof FormFields> = () => ({
+  components: { FormFields },
+  setup: () => {
+    const fields: FormFieldOrRow<FormData>[] = [
+      // First and last name in a row
+      [
+        {
+          name: "firstName",
+          component: Input,
+          label: "First Name",
+          props: { required: true, placeholder: "First name" },
+        },
+        {
+          name: "lastName",
+          component: Input,
+          label: "Last Name",
+          props: { required: true, placeholder: "Last name" },
+        },
+      ],
+      // Email as single field
+      {
+        name: "email",
+        component: Input,
+        label: "Email",
+        props: { required: true, placeholder: "Email", type: "email" },
+      },
+      {
+        name: "gender",
+        component: RadioGroup,
+        label: "Gender",
+        props: { required: true, options: ["male", "female"] },
+      },
+      {
+        name: "position",
+        component: Select,
+        label: "Position",
+        props: {
+          required: true,
+          placeholder: "Select your position…",
+          options: ["developer", "manager", "customer support"],
+        },
+      },
+      { name: "acceptTerms", component: Checkbox, props: { label: "Accept Terms" } },
+    ];
+
+    const formData: Partial<FormData> = {};
+
+    return {
+      fields,
+      formData,
+    };
+  },
+  template: `
+    <FormFields :fields="fields" v-model="formData" />
+  `,
+});
+
+export const WithRowLayout = {
+  render: RowLayoutTemplate,
+};
+
+const WithDividersTemplate: StoryFn<typeof FormFields> = () => ({
+  components: { FormFields },
+  setup: () => {
+    const fields: FormFieldOrRow<FormData>[] = [
+      // Personal information section
+      [
+        {
+          name: "firstName",
+          component: Input,
+          label: "First Name",
+          props: { required: true, placeholder: "First name" },
+        },
+        {
+          name: "lastName",
+          component: Input,
+          label: "Last Name",
+          props: { required: true, placeholder: "Last name" },
+        },
+      ],
+      {
+        name: "email",
+        component: Input,
+        label: "Email",
+        props: { required: true, placeholder: "Email", type: "email" },
+      },
+
+      // Divider separating sections
+      FORM_DIVIDER,
+
+      // Professional information section
+      {
+        name: "position",
+        component: Select,
+        label: "Position",
+        props: {
+          required: true,
+          placeholder: "Select your position…",
+          options: ["developer", "manager", "customer support"],
+        },
+      },
+      {
+        name: "gender",
+        component: RadioGroup,
+        label: "Gender",
+        props: { required: true, options: ["male", "female"] },
+      },
+
+      // Another divider
+      FORM_DIVIDER,
+
+      // Terms and conditions
+      { name: "acceptTerms", component: Checkbox, props: { label: "Accept Terms" } },
+    ];
+
+    const formData: Partial<FormData> = {};
+
+    return {
+      fields,
+      formData,
+    };
+  },
+  template: `
+    <FormFields :fields="fields" v-model="formData" />
+  `,
+});
+
+export const WithDividers = {
+  render: WithDividersTemplate,
+};
+
+type FormDataWithParsers = {
+  name: string;
+  birthDate: Date;
+  age: number;
+  salary: number;
+};
+
+/**
+ * Use Value Parsers to bind typed values (Date, number) instead of strings.
+ * Pass the parser via the `valueParser` prop on the Input component.
+ */
+const WithValueParsersTemplate: StoryFn<typeof FormFields> = () => ({
+  components: { FormFields },
+  setup: () => {
+    const fields: FormField<FormDataWithParsers>[] = [
+      {
+        name: "name",
+        component: Input,
+        label: "Name",
+        props: { placeholder: "Enter your name" },
+      },
+      {
+        name: "birthDate",
+        component: Input,
+        label: "Birth Date",
+        description: "Uses DateValueParser to bind a Date object",
+        props: { type: "date", valueParser: DateValueParser },
+      },
+      {
+        name: "age",
+        component: Input,
+        label: "Age",
+        description: "Uses NumberValueParser to bind a number",
+        props: { type: "number", valueParser: NumberValueParser, min: 0, max: 150 },
+      },
+      {
+        name: "salary",
+        component: Input,
+        label: "Annual Salary",
+        description: "Uses NumberValueParser to bind a number",
+        props: { type: "number", valueParser: NumberValueParser, step: 1000 },
+      },
+    ];
+
+    const formData: Partial<FormDataWithParsers> = {
+      birthDate: new Date("1990-01-15"),
+      age: 34,
+      salary: 75000,
+    };
+
+    return {
+      fields,
+      formData,
+    };
+  },
+  template: `
+    <div>
+      <FormFields :fields="fields" v-model="formData" />
+      <div style="margin-top: 1rem; padding: 1rem; background: #f5f5f5; border-radius: 4px; font-size: 12px;">
+        <strong>Form Data (typed values):</strong>
+        <pre>{{ JSON.stringify(formData, null, 2) }}</pre>
+        <div style="margin-top: 0.5rem;">
+          <strong>birthDate type:</strong> {{ formData.birthDate?.constructor?.name }}<br>
+          <strong>age type:</strong> {{ typeof formData.age }}<br>
+          <strong>salary type:</strong> {{ typeof formData.salary }}
+        </div>
+      </div>
+    </div>
+  `,
+});
+
+export const WithValueParsers = {
+  render: WithValueParsersTemplate,
 };

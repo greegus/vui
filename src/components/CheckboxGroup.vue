@@ -17,6 +17,64 @@
 </template>
 
 <script lang="ts" setup>
+/**
+ * Group of checkboxes for multi-select from a list of options.
+ * Normalizes various option formats and supports custom value parsing.
+ *
+ * @see {@link module:normalizeOptions} for supported option formats and extractor props
+ *
+ * @component CheckboxGroup
+ *
+ * @example
+ * // Basic usage with string array
+ * import { CheckboxGroup } from 'vuiii'
+ *
+ * <CheckboxGroup v-model="selectedFruits" :options="['Apple', 'Banana', 'Cherry']" />
+ *
+ * @example
+ * // With object options and extractors
+ * const permissions = [
+ *   { id: 'read', name: 'Read', info: 'View content' },
+ *   { id: 'write', name: 'Write', info: 'Edit content' },
+ *   { id: 'delete', name: 'Delete', info: 'Remove content' }
+ * ]
+ *
+ * <CheckboxGroup
+ *   v-model="selectedPermissions"
+ *   :options="permissions"
+ *   option-value="id"
+ *   option-label="name"
+ *   option-description="info"
+ * />
+ *
+ * @example
+ * // Inline layout (horizontal)
+ * <CheckboxGroup
+ *   v-model="selected"
+ *   :options="['Option A', 'Option B', 'Option C']"
+ *   inline
+ * />
+ *
+ * @example
+ * // With type parsing (values will be numbers)
+ * <CheckboxGroup
+ *   v-model="selectedIds"
+ *   :options="[{ id: 1, name: 'One' }, { id: 2, name: 'Two' }]"
+ *   option-value="id"
+ *   option-label="name"
+ *   type="number"
+ * />
+ *
+ * @example
+ * // With custom symbol slot
+ * <CheckboxGroup v-model="selected" :options="options">
+ *   <template #symbol="{ checked, disabled }">
+ *     <Icon :name="checked ? 'check-circle' : 'circle'" />
+ *   </template>
+ * </CheckboxGroup>
+ *
+ * @slot symbol - Custom checkbox symbol. Props: { checked, disabled }
+ */
 import { computed } from "vue";
 
 import Checkbox from "@/components/Checkbox.vue";

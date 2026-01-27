@@ -12,20 +12,22 @@
     <input
       :checked="serializedModelValue"
       class="Checkbox__input"
-      :required="$props.required"
-      :disabled="$props.disabled"
+      :indeterminate
+      :required
+      :disabled
       type="checkbox"
       v-bind="attrsWithoutClass"
       @input="handleInput($event)"
     />
 
-    <slot name="symbol" v-bind="{ disabled: !!disabled, size, checked: serializedModelValue }">
+    <slot name="symbol" v-bind="{ disabled: !!disabled, size, checked: serializedModelValue, indeterminate: !!indeterminate }">
       <div v-if="$props.switch" class="Checkbox__switch">
         <div class="Checkbox__switchDot"></div>
       </div>
 
       <div v-else class="Checkbox__checkbox vuiii-input">
-        <Icon name="check" class="Checkbox__checkboxIcon" :size="$props.size" />
+        <Icon name="check" class="Checkbox__checkboxIcon Checkbox__checkboxIcon--check" :size="$props.size" />
+        <Icon name="minus" class="Checkbox__checkboxIcon Checkbox__checkboxIcon--indeterminate" :size="$props.size" />
       </div>
     </slot>
 
@@ -46,6 +48,70 @@
 </template>
 
 <script lang="ts">
+/**
+ * Checkbox input with toggle/switch variant and indeterminate state support.
+ * Can be used standalone or within CheckboxGroup.
+ *
+ * @component Checkbox
+ *
+ * @example
+ * // Basic usage
+ * import { Checkbox } from 'vuiii'
+ *
+ * <Checkbox v-model="accepted" label="I accept the terms" />
+ *
+ * @example
+ * // Switch variant (toggle)
+ * <Checkbox v-model="enabled" switch label="Enable notifications" />
+ *
+ * @example
+ * // With description
+ * <Checkbox
+ *   v-model="newsletter"
+ *   label="Subscribe to newsletter"
+ *   description="Get weekly updates about new features"
+ * />
+ *
+ * @example
+ * // Required checkbox
+ * <Checkbox v-model="terms" required label="I agree to the terms" />
+ *
+ * @example
+ * // Indeterminate state (for "select all" patterns)
+ * <Checkbox
+ *   :model-value="allSelected"
+ *   :indeterminate="someSelected && !allSelected"
+ *   label="Select all"
+ *   @update:model-value="toggleAll"
+ * />
+ *
+ * @example
+ * // Different sizes
+ * <Checkbox v-model="small" size="small" label="Small" />
+ * <Checkbox v-model="normal" size="normal" label="Normal" />
+ * <Checkbox v-model="large" size="large" label="Large" />
+ *
+ * @example
+ * // Custom value parser (for non-boolean values)
+ * const yesNoParser = {
+ *   parse: (checked) => checked ? 'yes' : 'no',
+ *   stringify: (value) => value === 'yes'
+ * }
+ *
+ * <Checkbox v-model="answer" :value-parser="yesNoParser" label="Accept" />
+ *
+ * @example
+ * // Custom symbol slot
+ * <Checkbox v-model="checked">
+ *   <template #symbol="{ checked, disabled, indeterminate }">
+ *     <Icon :name="checked ? 'check-square' : 'square'" />
+ *   </template>
+ *   Custom checkbox label
+ * </Checkbox>
+ *
+ * @slot default - Label content (alternative to label prop)
+ * @slot symbol - Custom checkbox/switch symbol. Props: { checked, disabled, indeterminate, size }
+ */
 export default {
   inheritAttrs: false,
 };
@@ -69,6 +135,7 @@ const props = withDefaults(
     required?: boolean;
     disabled?: boolean;
     switch?: boolean;
+    indeterminate?: boolean;
     label?: string;
     description?: string;
     size?: InputSize;
@@ -81,7 +148,7 @@ const props = withDefaults(
 
 defineSlots<{
   default?: void;
-  symbol?: (props: { checked: boolean; disabled: boolean; size: InputSize }) => any;
+  symbol?: (props: { checked: boolean; disabled: boolean; indeterminate: boolean; size: InputSize }) => any;
 }>();
 
 const valueParser = computed<ValueParser<boolean>>(() => {
@@ -164,13 +231,28 @@ function handleInput(event: Event) {
     --vuiii-input-bgColor: var(--vuiii-checkbox-bgColor--checked);
     --vuiii-input-borderColor: var(--vuiii-checkbox-borderColor--checked);
 
-    & .Checkbox__checkboxIcon {
+    & .Checkbox__checkboxIcon--check {
       scale: 100%;
       opacity: 1;
     }
   }
 
-  input:focus-visible:not(:checked) + & {
+  input:indeterminate + & {
+    --vuiii-input-bgColor: var(--vuiii-checkbox-bgColor--checked);
+    --vuiii-input-borderColor: var(--vuiii-checkbox-borderColor--checked);
+
+    & .Checkbox__checkboxIcon--check {
+      scale: 50%;
+      opacity: 0;
+    }
+
+    & .Checkbox__checkboxIcon--indeterminate {
+      scale: 100%;
+      opacity: 1;
+    }
+  }
+
+  input:focus-visible:not(:checked):not(:indeterminate) + & {
     --borderColor: var(--vuiii-input-borderColor--focus);
   }
 }

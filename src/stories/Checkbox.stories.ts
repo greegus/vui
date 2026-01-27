@@ -1,5 +1,5 @@
 import { type Meta, StoryObj } from "@storybook/vue3-vite";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
 import Checkbox from "../components/Checkbox.vue";
 import DumpValue from "./helpers/components/DumpValue.vue";
@@ -94,6 +94,40 @@ export const CustomCheckboxSymbol: StoryObj<typeof Checkbox> = {
           <span>{{ checked ? '[ ]' : '[x]' }}</span>
         </template>
       </Checkbox>
+    `,
+  }),
+};
+
+export const Indeterminate: StoryObj<typeof Checkbox> = {
+  render: () => ({
+    components: { Checkbox },
+    setup: () => {
+      const items = ref([false, true, false]);
+      const allChecked = computed(() => items.value.every(Boolean));
+      const indeterminate = computed(() => !allChecked.value && items.value.some(Boolean));
+
+      function toggleAll() {
+        const newValue = !allChecked.value;
+        items.value = items.value.map(() => newValue);
+      }
+
+      return { items, allChecked, indeterminate, toggleAll };
+    },
+    template: `
+      <div style="display: flex; flex-flow: column; gap: 0.5rem">
+        <Checkbox
+          label="Select all"
+          :model-value="allChecked"
+          :indeterminate="indeterminate"
+          @update:model-value="toggleAll"
+        />
+
+        <div style="display: flex; flex-flow: column; gap: 0.5rem; margin-left: 1.5rem">
+          <Checkbox v-model="items[0]" label="Item 1" />
+          <Checkbox v-model="items[1]" label="Item 2" />
+          <Checkbox v-model="items[2]" label="Item 3" />
+        </div>
+      </div>
     `,
   }),
 };

@@ -26,6 +26,50 @@
 </template>
 
 <script lang="ts">
+/**
+ * Multi-line text input with InputWrapper styling.
+ * Supports prefix icon and programmatic control.
+ *
+ * @component Textarea
+ *
+ * @example
+ * // Basic usage
+ * import { Textarea } from 'vuiii'
+ *
+ * <Textarea v-model="description" placeholder="Enter description..." />
+ *
+ * @example
+ * // With rows and placeholder
+ * <Textarea
+ *   v-model="content"
+ *   placeholder="Write your message..."
+ *   rows="5"
+ * />
+ *
+ * @example
+ * // With prefix icon
+ * <Textarea v-model="notes" prefix-icon="document-text" placeholder="Notes..." />
+ *
+ * @example
+ * // Validation state
+ * <Textarea v-model="bio" :invalid="errors.bio" placeholder="Bio" />
+ *
+ * @example
+ * // Disabled and readonly states
+ * <Textarea v-model="text" disabled />
+ * <Textarea v-model="text" readonly />
+ *
+ * @example
+ * // Programmatic control via ref
+ * const textareaRef = ref<TextareaRef>()
+ *
+ * textareaRef.value?.focus()
+ * textareaRef.value?.select()
+ *
+ * @slot prefix - Content before the textarea (replaces prefixIcon)
+ *
+ * @emits prefix-icon-click - When prefix icon is clicked
+ */
 export type TextareaRef = {
   focus: () => void;
   select: () => void;

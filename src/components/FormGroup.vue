@@ -31,6 +31,61 @@
 </template>
 
 <script lang="ts" setup>
+/**
+ * Form field wrapper with label, description, hint, and error message support.
+ * Used by FormFields internally, but can be used standalone for custom form layouts.
+ *
+ * @component FormGroup
+ *
+ * @example
+ * // Basic usage with label
+ * import { FormGroup, Input } from 'vuiii'
+ *
+ * <FormGroup label="Email">
+ *   <Input v-model="email" type="email" />
+ * </FormGroup>
+ *
+ * @example
+ * // With description and hint
+ * <FormGroup
+ *   label="Password"
+ *   description="Choose a strong password for your account"
+ *   hint="Must be at least 8 characters"
+ * >
+ *   <Input v-model="password" type="password" />
+ * </FormGroup>
+ *
+ * @example
+ * // With required indicator and validation error
+ * <FormGroup
+ *   label="Username"
+ *   required
+ *   :error="errors.username"
+ * >
+ *   <Input v-model="username" :invalid="!!errors.username" />
+ * </FormGroup>
+ *
+ * @example
+ * // With custom label slot
+ * <FormGroup>
+ *   <template #label>
+ *     <span>Email</span>
+ *     <Icon name="info" v-tooltip="'We will never share your email'" />
+ *   </template>
+ *   <Input v-model="email" />
+ * </FormGroup>
+ *
+ * @example
+ * // Boolean error (shows invalid state without message)
+ * <FormGroup label="Field" :error="hasError">
+ *   <Input v-model="value" :invalid="hasError" />
+ * </FormGroup>
+ *
+ * @slot default - The form input element
+ * @slot label - Custom label content (replaces label prop)
+ * @slot description - Custom description content (replaces description prop)
+ * @slot hint - Custom hint content (replaces hint prop)
+ */
 defineProps<{
   label?: string;
   for?: string;

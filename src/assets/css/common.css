@@ -320,6 +320,7 @@
 
   --vuiii-divider-color: var(--vuiii-color-gray--light);
   --vuiii-divider-width: 1px;
+  --vuiii-divider-margin: 1rem;
 
   /* ------ */
   /* Checkboxes and radios */

@@ -265,7 +265,7 @@ export const PreselectedValue: StoryObj<typeof Autocomplete> = {
   render: (args) => ({
     components: { Autocomplete, DumpValue },
     setup: () => {
-      const value = ref(objectOptions[1]);
+      const value = ref(objectOptions[1].label);
       return { args, value };
     },
     template: `
