@@ -535,6 +535,44 @@ import { InputWrapper } from 'vuiii'
 </InputWrapper>
 ```
 
+### RadioButtonGroup
+
+**File:** `src/components/RadioButtonGroup.vue`
+
+Button-styled radio group for single selection with visual button appearance.
+Each option is rendered as a Button within a ButtonGroup.
+
+**Examples:**
+
+```typescript
+// Basic usage
+<RadioButtonGroup v-model="view" :options="['List', 'Grid', 'Table']" />
+```
+
+```typescript
+// With object options
+<RadioButtonGroup
+  v-model="status"
+  :options="[{ id: 'active', name: 'Active' }, { id: 'inactive', name: 'Inactive' }]"
+  option-value="id"
+  option-label="name"
+/>
+```
+
+```typescript
+// With icons
+<RadioButtonGroup
+  v-model="view"
+  :options="[
+    { value: 'list', label: 'List', icon: 'list' },
+    { value: 'grid', label: 'Grid', icon: 'grid' }
+  ]"
+  option-value="value"
+  option-label="label"
+  option-icon="icon"
+/>
+```
+
 ### RadioGroup
 
 **File:** `src/components/RadioGroup.vue`
@@ -1025,7 +1063,67 @@ Allows registering custom icon libraries (Heroicons, FontAwesome, etc.)
 **File:** `src/utils/normalizeOptions.ts`
 
 Utilities for normalizing various option formats into a consistent Option[] structure.
-Used by Select, Autocomplete, RadioGroup, and CheckboxGroup components.
+Used by Select, Autocomplete, RadioGroup, CheckboxGroup, and RadioButtonGroup components.
+
+
+## Option Parsing
+
+Components that display selectable options (Select, Autocomplete, RadioGroup, CheckboxGroup,
+RadioButtonGroup) support flexible option formats. The following props control how options
+are parsed:
+
+### Extractor Props
+
+| Prop | Description | Components |
+|------|-------------|------------|
+| `option-value` | Key or function to extract the option's value | All |
+| `option-label` | Key or function to extract the display label | All |
+| `option-disabled` | Key or function to determine if option is disabled | All |
+| `option-description` | Key or function to extract description text | RadioGroup, CheckboxGroup, Autocomplete, RadioButtonGroup |
+| `option-icon` | Key or function to extract icon name | Autocomplete, RadioButtonGroup |
+| `group-label` | Key or function to extract group label | Select, Autocomplete |
+| `group-options` | Key or function to extract group's options array | Select, Autocomplete |
+
+### Supported Option Formats
+
+**1. Primitive Array** - Value and label are the same
+```ts
+:options="['Apple', 'Banana', 'Cherry']"
+:options="[1, 2, 3, 4, 5]"
+```
+
+**2. Object Array** - Use extractors to specify which properties to use
+```ts
+:options="[{ id: 1, name: 'Apple' }, { id: 2, name: 'Banana' }]"
+option-value="id"
+option-label="name"
+```
+
+**3. Key-Value Object** - Keys become values, values become labels
+```ts
+:options="{ draft: 'Draft', published: 'Published', archived: 'Archived' }"
+```
+
+**4. Grouped Options** - For Select and Autocomplete with optgroup support
+```ts
+:options="[
+  { category: 'Fruits', items: [{ id: 1, name: 'Apple' }] },
+  { category: 'Vegetables', items: [{ id: 2, name: 'Carrot' }] }
+]"
+group-label="category"
+group-options="items"
+option-value="id"
+option-label="name"
+```
+
+### Function Extractors
+
+Instead of property keys, you can use functions for complex extraction:
+```ts
+:option-label="(user) => `${user.firstName} ${user.lastName}`"
+:option-value="(item) => item.id"
+:option-disabled="(item) => item.status === 'inactive'"
+```
 
 ## Types
 
