@@ -56,10 +56,13 @@ export type {
   Pagination,
   TableColumn,
   ValidationResults,
+  ValueParser,
 } from "./types";
 export { registerCustomIconResolver } from "./utils/iconsResolver";
 export { normalizeOptions } from "./utils/normalizeOptions";
 export { resolveFilesFromClipboardEvent } from "./utils/resolveFilesFromClipboardEvent";
 export { retrieveFilesFromDataTransfer } from "./utils/retrieveFilesFromDataTransfer";
 export { retrieveMediaUrlFromHTML } from "./utils/retrieveMediaUrlFromHTML";
+export { DateValueParser } from "./valueParsers/dateValueParser";
+export { NumberValueParser } from "./valueParsers/numberValueParser";
 export { ValidationError } from "./validations/validator";

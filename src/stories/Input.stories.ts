@@ -1,6 +1,9 @@
-import { type Meta, StoryObj } from "@storybook/vue3-vite";
+import { ref } from "vue";
+import { type Meta, type StoryFn, type StoryObj } from "@storybook/vue3-vite";
 
 import Input from "../components/Input.vue";
+import { DateValueParser } from "../valueParsers/dateValueParser";
+import { NumberValueParser } from "../valueParsers/numberValueParser";
 import { icons } from "./assets/icons";
 import { inputSizes } from "./assets/inputSizes";
 
@@ -10,7 +13,10 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: "Standard input field",
+        component: `Standard input field.
+
+Supports \`valueParser\` prop for typed bindings with date/number inputs.
+See [Value Parsers Guide](?path=/docs/guides-value-parsers--docs) for details.`,
       },
     },
   },
@@ -86,6 +92,52 @@ export const Sizes: StoryObj<typeof Input> = {
         <Input v-bind="args" size="small" />
         <Input v-bind="args" />
         <Input v-bind="args" size="large" />
+      </div>
+    `,
+  }),
+};
+
+/**
+ * Use `DateValueParser` to bind a `Date` object instead of a string.
+ * The parser converts between `Date` and the `YYYY-MM-DD` format used by date inputs.
+ */
+export const DateWithParser: StoryObj<typeof Input> = {
+  render: () => ({
+    components: { Input },
+    setup: () => {
+      const date = ref<Date>(new Date());
+      return { date, DateValueParser };
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: .5rem;">
+        <Input type="date" v-model="date" :value-parser="DateValueParser" />
+        <div style="font-size: 12px; color: #666;">
+          <strong>Bound value:</strong> {{ date }}<br>
+          <strong>Type:</strong> {{ date?.constructor?.name }}
+        </div>
+      </div>
+    `,
+  }),
+};
+
+/**
+ * Use `NumberValueParser` to bind a `number` instead of a string.
+ * The parser converts between `number` and string formats.
+ */
+export const NumberWithParser: StoryObj<typeof Input> = {
+  render: () => ({
+    components: { Input },
+    setup: () => {
+      const value = ref<number>(42);
+      return { value, NumberValueParser };
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: .5rem;">
+        <Input type="number" v-model="value" :value-parser="NumberValueParser" />
+        <div style="font-size: 12px; color: #666;">
+          <strong>Bound value:</strong> {{ value }}<br>
+          <strong>Type:</strong> {{ typeof value }}
+        </div>
       </div>
     `,
   }),
