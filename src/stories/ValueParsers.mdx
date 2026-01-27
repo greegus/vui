@@ -1,0 +1,93 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Guides/Value Parsers" />
+
+# Value Parsers
+
+When using `type="date"` or `type="number"`, native HTML inputs return string values.
+**Value Parsers** automatically convert between the input's string format and your desired type.
+
+## Available Parsers
+
+| Parser | Input Type | Converts Between |
+|--------|------------|------------------|
+| `DateValueParser` | `date` | `Date` ↔ `YYYY-MM-DD` string |
+| `NumberValueParser` | `number` | `number` ↔ string |
+
+## Basic Usage
+
+```typescript
+import { Input, DateValueParser, NumberValueParser } from 'vuiii'
+import { ref } from 'vue'
+
+const birthDate = ref<Date>(new Date())
+const age = ref<number>(25)
+```
+
+```html
+<!-- Date input bound to Date object -->
+<Input type="date" v-model="birthDate" :value-parser="DateValueParser" />
+
+<!-- Number input bound to number -->
+<Input type="number" v-model="age" :value-parser="NumberValueParser" />
+```
+
+## With FormFields
+
+Pass the parser via the `valueParser` prop in field configuration:
+
+```typescript
+import { Input, DateValueParser, NumberValueParser } from 'vuiii'
+import type { FormField } from 'vuiii'
+
+type UserData = {
+  name: string
+  birthDate: Date
+  age: number
+}
+
+const fields: FormField<UserData>[] = [
+  {
+    name: 'name',
+    component: Input,
+    label: 'Name',
+  },
+  {
+    name: 'birthDate',
+    component: Input,
+    label: 'Birth Date',
+    props: { type: 'date', valueParser: DateValueParser }
+  },
+  {
+    name: 'age',
+    component: Input,
+    label: 'Age',
+    props: { type: 'number', valueParser: NumberValueParser }
+  }
+]
+```
+
+## Creating Custom Parsers
+
+Use the `ValueParser<SerializedType, RawType>` type to create custom parsers:
+
+```typescript
+import type { ValueParser } from 'vuiii'
+
+// Boolean parser for checkbox-like string inputs
+const BooleanValueParser: ValueParser<string, boolean> = {
+  stringify: (value: boolean) => value ? 'true' : 'false',
+  parse: (value: string) => value === 'true'
+}
+
+// Currency parser that strips formatting
+const CurrencyValueParser: ValueParser<string, number> = {
+  stringify: (value: number) => value.toFixed(2),
+  parse: (value: string) => parseFloat(value.replace(/[^0-9.-]/g, '')) || 0
+}
+```
+
+## See Also
+
+- [Input Examples](?path=/story/example-input--date-with-parser) - Live examples with date and number parsers
+- [FormFields Examples](?path=/story/example-formfields--with-value-parsers) - Using parsers in forms

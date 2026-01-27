@@ -18,6 +18,64 @@
 </template>
 
 <script lang="ts" type="module">
+/**
+ * Popover dropdown component with customizable trigger and content.
+ * Closes on click outside or Escape key. Supports programmatic control.
+ *
+ * @component Dropdown
+ *
+ * @example
+ * // Basic dropdown with default button trigger
+ * import { Dropdown, DropdownMenu } from 'vuiii'
+ *
+ * <Dropdown label="Options" variant="primary">
+ *   <DropdownMenu :items="menuItems" @itemClick="handleClick" />
+ * </Dropdown>
+ *
+ * @example
+ * // With custom trigger slot
+ * <Dropdown>
+ *   <template #trigger="{ open, close, toggle, isOpen }">
+ *     <IconButton icon="ellipsis-vertical" @click="toggle()" />
+ *   </template>
+ *
+ *   <template #default="{ close }">
+ *     <div class="custom-dropdown-content">
+ *       <button @click="doSomething(); close()">Action</button>
+ *     </div>
+ *   </template>
+ * </Dropdown>
+ *
+ * @example
+ * // Programmatic control via ref
+ * const dropdownRef = ref<DropdownRef>()
+ *
+ * // Open/close programmatically
+ * dropdownRef.value?.open()
+ * dropdownRef.value?.close()
+ * dropdownRef.value?.toggle()
+ *
+ * // Check state
+ * if (dropdownRef.value?.isOpen.value) { ... }
+ *
+ * @example
+ * // With dropdown placement control
+ * <Dropdown label="Menu" dropdown-placement="right">
+ *   <DropdownMenu :items="items" />
+ * </Dropdown>
+ *
+ * @example
+ * // Full-width block dropdown
+ * <Dropdown label="Select Action" block>
+ *   <DropdownMenu :items="actions" />
+ * </Dropdown>
+ *
+ * @slot trigger - Custom trigger element. Props: { open, close, toggle, isOpen }
+ * @slot default - Dropdown content. Props: { close }
+ *
+ * @emits open - When dropdown opens
+ * @emits close - When dropdown closes
+ */
 import type { ComputedRef } from "vue";
 import type { ButtonVariant } from "@/types";
 

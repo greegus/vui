@@ -16,6 +16,56 @@
 </template>
 
 <script lang="ts" setup>
+/**
+ * File picker with drag-and-drop support. Opens native file dialog on click
+ * and accepts files dropped onto the component.
+ *
+ * @component FilePicker
+ *
+ * @example
+ * // Basic usage
+ * import { FilePicker } from 'vuiii'
+ *
+ * <FilePicker @files="handleFiles" />
+ *
+ * @example
+ * // Multiple files with accept filter
+ * <FilePicker
+ *   multiple
+ *   accept="image/*"
+ *   label="Upload Images"
+ *   @files="(files) => images = files"
+ * />
+ *
+ * @example
+ * // Multiple accept types as array
+ * <FilePicker
+ *   :accept="['image/png', 'image/jpeg', '.pdf']"
+ *   label="Upload Documents"
+ *   @files="handleFiles"
+ * />
+ *
+ * @example
+ * // Custom trigger with slot
+ * <FilePicker accept="image/*" @files="handleFiles">
+ *   <div class="dropzone">
+ *     <Icon name="cloud-upload" />
+ *     <span>Drop files here or click to upload</span>
+ *   </div>
+ * </FilePicker>
+ *
+ * @example
+ * // Handle files
+ * function handleFiles(files: File[]) {
+ *   files.forEach(file => {
+ *     console.log(file.name, file.size, file.type)
+ *   })
+ * }
+ *
+ * @slot default - Custom trigger content (replaces default button)
+ *
+ * @emits files - When files are selected or dropped. Payload: File[]
+ */
 import { computed, ref } from "vue";
 
 import Button from "@/components/Button.vue";

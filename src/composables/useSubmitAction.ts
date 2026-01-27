@@ -6,6 +6,70 @@ import type { MaybePromise } from "@/types";
 import { useDialogStack } from "@/dialogStack";
 import { useSnackbar } from "@/snackbar";
 
+/**
+ * Wraps an async action with submission state tracking, error handling,
+ * success/error messages, and optional redirect on success.
+ *
+ * @template D - The return type of the action
+ * @template S - The action function type
+ * @param action - Async function to wrap
+ * @param options - Configuration options
+ * @param options.onBeforeSubmit - Called before action. Return false to cancel.
+ * @param options.onSuccess - Called after successful completion
+ * @param options.onError - Called on error. Return true if error was handled.
+ * @param options.redirectOnSuccess - Route to navigate to after success
+ * @param options.successMessage - Snackbar message on success
+ * @param options.errorMessage - Snackbar message on error
+ * @param options.initialResultValue - Initial value for result ref
+ * @param options.immediate - Execute action immediately on mount
+ * @returns Object with submit function and reactive state
+ *
+ * @example
+ * // Basic form submission
+ * import { useSubmitAction } from 'vuiii'
+ *
+ * const { submit, isSubmitting } = useSubmitAction(
+ *   (data) => api.createUser(data),
+ *   {
+ *     successMessage: 'User created!',
+ *     errorMessage: 'Failed to create user',
+ *     redirectOnSuccess: { name: 'users' }
+ *   }
+ * )
+ *
+ * // In template
+ * <Button :loading="isSubmitting" @click="submit(formData)">Save</Button>
+ *
+ * @example
+ * // With confirmation before submit
+ * const { submit, isSubmitting } = useSubmitAction(
+ *   (id) => api.deleteUser(id),
+ *   {
+ *     onBeforeSubmit: async ({ dialog }) => {
+ *       return await dialog.confirm('Are you sure?')
+ *     },
+ *     successMessage: 'User deleted'
+ *   }
+ * )
+ *
+ * @example
+ * // With dynamic messages
+ * const { submit, result } = useSubmitAction(
+ *   (data) => api.saveItem(data),
+ *   {
+ *     successMessage: ({ result }) => `Saved item ${result.id}`,
+ *     errorMessage: ({ error }) => `Error: ${error.message}`
+ *   }
+ * )
+ *
+ * @example
+ * // Accessing the result
+ * const { submit, result, hasSubbmitted } = useSubmitAction(
+ *   () => api.fetchData()
+ * )
+ * await submit()
+ * console.log(result.value) // data from api.fetchData()
+ */
 export function useSubmitAction<D = unknown, S extends (...args: any[]) => D = (...args: any[]) => D>(
   action: S,
   options: {

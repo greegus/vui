@@ -7,25 +7,28 @@
           :key="key"
           :style="{ textAlign: column.align || 'left' }"
           :width="column.width"
+          :class="[column.headerClass, { 'vuiii-table__cell--noPadding': column.noPadding }]"
         >
-          <div
-            v-if="column.sortable"
-            class="vuiii-table__label vuiii-table__label--sortable"
-            :class="{ 'vuiii-table__label vuiii-table__label--activeSort': sortColumnName === column.name }"
-            @click.prevent="setSortBy(column.name)"
-            role="button"
-            tabindex="0"
-          >
-            {{ column.label }}
+          <slot :name="`header:${column.name}`" v-bind="{ column }">
+            <div
+              v-if="column.sortable"
+              class="vuiii-table__label vuiii-table__label--sortable"
+              :class="{ 'vuiii-table__label vuiii-table__label--activeSort': sortColumnName === column.name }"
+              @click.prevent="setSortBy(column.name)"
+              role="button"
+              tabindex="0"
+            >
+              {{ column.label }}
 
-            <div class="vuiii-table__sortIcon">
-              <Icon name="caret-sort" size="small" />
+              <div class="vuiii-table__sortIcon">
+                <Icon name="caret-sort" size="small" />
+              </div>
             </div>
-          </div>
 
-          <div class="vuiii-table__label" v-else>
-            {{ column.label }}
-          </div>
+            <div class="vuiii-table__label" v-else>
+              {{ column.label }}
+            </div>
+          </slot>
         </th>
 
         <th v-if="$slots.tools"></th>
@@ -45,7 +48,7 @@
           v-for="cell in row.cells"
           :key="cell.column.name"
           :style="{ textAlign: cell.column.align || 'left' }"
-          :class="cell.cellClass"
+          :class="[cell.cellClass, { 'vuiii-table__cell--noPadding': cell.column.noPadding }]"
         >
           <slot
             :name="`column:${cell.column.name}`"
@@ -85,6 +88,110 @@
 </template>
 
 <script lang="ts" generic="T extends object" setup>
+/**
+ * Data table component with sorting, custom columns, cell formatting, and row customization.
+ * Supports dynamic slot-based cell rendering and sortable columns.
+ *
+ * @component Table
+ * @generic T - The type of items in the table
+ *
+ * @example
+ * // Basic table with typed columns
+ * import { Table } from 'vuiii'
+ * import type { TableColumn } from 'vuiii'
+ *
+ * type User = { id: number; name: string; email: string }
+ *
+ * const columns: TableColumn<User>[] = [
+ *   { name: 'name', label: 'Name' },
+ *   { name: 'email', label: 'Email' }
+ * ]
+ *
+ * <Table :items="users" :columns="columns" />
+ *
+ * @example
+ * // With custom cell rendering via slots
+ * <Table :items="users" :columns="columns">
+ *   <template #column:name="{ item, value }">
+ *     <strong>{{ value }}</strong>
+ *   </template>
+ *   <template #column:status="{ item }">
+ *     <Badge :variant="item.active ? 'success' : 'danger'">
+ *       {{ item.active ? 'Active' : 'Inactive' }}
+ *     </Badge>
+ *   </template>
+ * </Table>
+ *
+ * @example
+ * // With row actions (rowOptions slot)
+ * <Table :items="users" :columns="columns">
+ *   <template #rowOptions="{ item, index }">
+ *     <IconButton icon="pencil" @click="edit(item)" />
+ *     <IconButton icon="trash" @click="remove(item)" />
+ *   </template>
+ * </Table>
+ *
+ * @example
+ * // With sorting (v-model for sort state)
+ * <Table
+ *   :items="users"
+ *   :columns="[
+ *     { name: 'name', label: 'Name', sortable: true },
+ *     { name: 'createdAt', label: 'Created', sortable: true, sorter: (a, b) => a - b }
+ *   ]"
+ *   v-model:sort-column-name="sortColumn"
+ *   v-model:sort-direction="sortDir"
+ * />
+ *
+ * @example
+ * // With custom value extraction and formatting
+ * const columns: TableColumn<User>[] = [
+ *   {
+ *     name: 'fullName',
+ *     label: 'Name',
+ *     value: (user) => `${user.firstName} ${user.lastName}`
+ *   },
+ *   {
+ *     name: 'createdAt',
+ *     label: 'Created',
+ *     formatter: (date) => date.toLocaleDateString()
+ *   },
+ *   {
+ *     name: 'profile',
+ *     label: 'Profile',
+ *     href: (user) => ({ name: 'user', params: { id: user.id } }),
+ *     target: '_blank'
+ *   }
+ * ]
+ *
+ * @example
+ * // With custom header slot
+ * <Table :items="users" :columns="columns">
+ *   <template #header:name="{ column }">
+ *     <Icon name="user" /> {{ column.label }}
+ *   </template>
+ * </Table>
+ *
+ * @example
+ * // With row click handling and hover highlight
+ * <Table
+ *   :items="users"
+ *   :columns="columns"
+ *   highlight-on-hover
+ *   @click-row="({ item, index }) => selectUser(item)"
+ * />
+ *
+ * @slot column:{columnName} - Custom cell content for a column. Props: { item, value, index, column }
+ * @slot header:{columnName} - Custom header content for a column. Props: { column }
+ * @slot rowOptions - Actions displayed at the end of each row. Props: { item, index }
+ * @slot noDataMessage - Custom content when items array is empty
+ * @slot tools - Additional header row tools (adds extra th column)
+ *
+ * @emits click-row - When a row is clicked. Payload: { item: T, index: number }
+ * @emits mouseenter-row - When mouse enters a row. Payload: { item: T, index: number }
+ * @emits mouseleave-row - When mouse leaves a row. Payload: { item: T, index: number }
+ * @emits sort - When sort column or direction changes. Payload: { sortColumnName, sortDirection }
+ */
 import "@/assets/css/table.css";
 import "@/assets/css/typography.css";
 
@@ -139,6 +246,10 @@ defineSlots<
       index: number;
     }) => any;
   } & {
+    [K in `header:${(typeof props.columns)[number]["name"]}`]: (props: {
+      column: TableColumn<T>;
+    }) => any;
+  } & {
     rowOptions?: (props: { item: T; index: number }) => any;
     noDataMessage?: () => any;
     tools?: () => any;
@@ -165,8 +276,8 @@ function defaultSorted(a: any, b: any) {
 }
 
 const tableRows = computed<TableRow[]>(() => {
-  const generateCell = (column: TableColumn<T>, item: any): TableCell => {
-    const value = typeof column.value === "function" ? column.value(item) : item[column.name];
+  const generateCell = (column: TableColumn<T>, item: any, index: number): TableCell => {
+    const value = typeof column.value === "function" ? column.value(item, index) : item[column.name];
     const formattedValue = typeof column.formatter === "function" ? column.formatter(value) : value;
     const cellClass = typeof column.cellClass === "function" ? column.cellClass({ item, value }) : column.cellClass;
 
@@ -184,7 +295,7 @@ const tableRows = computed<TableRow[]>(() => {
       const rowClass = typeof props.rowClass === "function" ? props.rowClass({ item, index }) : props.rowClass;
 
       const cells = normalizedColumns.value.reduce((result, column) => {
-        return [...result, generateCell(column, item)];
+        return [...result, generateCell(column, item, index)];
       }, [] as TableCell[]);
 
       return {
