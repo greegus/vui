@@ -16,6 +16,40 @@
 </template>
 
 <script lang="ts" setup>
+/**
+ * Button-styled radio group for single selection with visual button appearance.
+ * Each option is rendered as a Button within a ButtonGroup.
+ *
+ * @see {@link module:normalizeOptions} for supported option formats and extractor props
+ *
+ * @component RadioButtonGroup
+ *
+ * @example
+ * // Basic usage
+ * <RadioButtonGroup v-model="view" :options="['List', 'Grid', 'Table']" />
+ *
+ * @example
+ * // With object options
+ * <RadioButtonGroup
+ *   v-model="status"
+ *   :options="[{ id: 'active', name: 'Active' }, { id: 'inactive', name: 'Inactive' }]"
+ *   option-value="id"
+ *   option-label="name"
+ * />
+ *
+ * @example
+ * // With icons
+ * <RadioButtonGroup
+ *   v-model="view"
+ *   :options="[
+ *     { value: 'list', label: 'List', icon: 'list' },
+ *     { value: 'grid', label: 'Grid', icon: 'grid' }
+ *   ]"
+ *   option-value="value"
+ *   option-label="label"
+ *   option-icon="icon"
+ * />
+ */
 import { computed } from "vue";
 
 import Button from "@/components/Button.vue";

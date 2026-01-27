@@ -66,6 +66,8 @@
  * Native select dropdown with support for various option formats and type parsing.
  * Normalizes arrays, objects, and grouped options into a consistent format.
  *
+ * @see {@link module:normalizeOptions} for supported option formats and extractor props
+ *
  * @component Select
  *
  * @example

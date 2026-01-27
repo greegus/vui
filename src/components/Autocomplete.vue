@@ -66,6 +66,8 @@
  * Autocomplete input with dropdown suggestions and keyboard navigation.
  * Supports custom option rendering, filtering, and various data formats.
  *
+ * @see {@link module:normalizeOptions} for supported option formats and extractor props
+ *
  * @component Autocomplete
  * @generic T - The type of option data
  *

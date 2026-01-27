@@ -42,6 +42,8 @@
  * Radio button group for single selection from a list of options.
  * Normalizes various option formats and supports custom value parsing.
  *
+ * @see {@link module:normalizeOptions} for supported option formats and extractor props
+ *
  * @component RadioGroup
  *
  * @example

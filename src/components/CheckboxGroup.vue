@@ -21,6 +21,8 @@
  * Group of checkboxes for multi-select from a list of options.
  * Normalizes various option formats and supports custom value parsing.
  *
+ * @see {@link module:normalizeOptions} for supported option formats and extractor props
+ *
  * @component CheckboxGroup
  *
  * @example
