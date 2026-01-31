@@ -6,7 +6,7 @@ import IconButton from "../components/IconButton.vue";
 import DumpValue from "./helpers/components/DumpValue.vue";
 
 export default {
-  title: "Example/FilePicker",
+  title: "Components/FilePicker",
   component: FilePicker,
   parameters: {
     layout: "centered",

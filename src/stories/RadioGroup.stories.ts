@@ -7,7 +7,7 @@ import { objectOptions, plainObjectOptions } from "./assets/options";
 import DumpValue from "./helpers/components/DumpValue.vue";
 
 export default {
-  title: "Example/RadioGroup",
+  title: "Components/RadioGroup",
   component: RadioGroup,
   parameters: {
     docs: {

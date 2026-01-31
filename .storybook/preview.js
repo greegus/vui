@@ -5,5 +5,10 @@ export const parameters = {
       date: /Date$/,
     },
   },
+  options: {
+    storySort: {
+      order: ['Introduction', 'Example', 'Guides'],
+    },
+  },
 };
 export const tags = ["autodocs"];

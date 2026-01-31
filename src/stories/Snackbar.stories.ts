@@ -7,7 +7,7 @@ import SnackbarStack from "../components/snackbar/SnackbarStack.vue";
 import { useSnackbar } from "../snackbar";
 
 export default {
-  title: "Example/Snackbar",
+  title: "Components/Snackbar",
   component: SnackbarStack,
   parameters: {
     docs: {

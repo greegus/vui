@@ -5,7 +5,7 @@ import { icons } from "./assets/icons";
 import { inputSizes } from "./assets/inputSizes";
 
 export default {
-  title: "Example/Textarea",
+  title: "Components/Textarea",
   component: Textarea,
   parameters: {
     docs: {

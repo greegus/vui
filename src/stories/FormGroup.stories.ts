@@ -4,7 +4,7 @@ import FormGroup from "../components/FormGroup.vue";
 import Input from "../components/Input.vue";
 
 export default {
-  title: "Example/FormGroup",
+  title: "Components/FormGroup",
   component: FormGroup,
   parameters: {
     docs: {

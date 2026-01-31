@@ -21,7 +21,7 @@ type FormData = {
 };
 
 export default {
-  title: "Example/FormFields",
+  title: "Components/FormFields",
   component: FormFields,
   parameters: {
     docs: {

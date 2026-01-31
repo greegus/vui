@@ -1,6 +1,41 @@
 import { computed, type Ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
+/**
+ * Reactive binding for URL query parameters with Vue Router.
+ * Supports filtering, parsing, serialization, and default values.
+ *
+ * @example
+ * // Basic usage - sync filters with URL
+ * import { useRouteQuery } from 'vuiii'
+ *
+ * const { queryParams, setQuery, setQueryParam } = useRouteQuery<{
+ *   search: string
+ *   category: string
+ * }>({
+ *   filter: ['search', 'category'],
+ *   defaults: { category: 'all' }
+ * })
+ *
+ * // Read current params
+ * console.log(queryParams.value.search)
+ *
+ * // Update single param
+ * setQueryParam('search', 'hello')
+ *
+ * // Update multiple params
+ * setQuery({ search: 'hello', category: 'books' })
+ *
+ * @example
+ * // With onChange callback for data fetching
+ * const { queryParams } = useRouteQuery({
+ *   filter: ['page', 'sort'],
+ *   parse: { page: (v) => Number(v) || 1 },
+ *   onChange: (params) => fetchData(params),
+ *   immediate: true
+ * })
+ */
+
 const valueIsNotEmpty = (value: any) => {
   return value !== "" && value !== undefined && value !== null && (Array.isArray(value) ? value.length > 0 : true);
 };
@@ -80,22 +115,4 @@ export function useRouteQuery<QueryParams extends Record<string, unknown> = Reco
     setQuery,
     setQueryParam,
   };
-}
-
-export function usePageFromRouteQuery(options: { onChange?: (page: number) => void; immediate?: boolean }): {
-  page: Ref<number>;
-  setPage: (page: number) => void;
-} {
-  const { queryParams, setQuery } = useRouteQuery({
-    onChange: (params) => options.onChange?.(params.page as any),
-    filter: ["page"],
-    parse: { page: (page) => Number(page) || 1 },
-    immediate: options.immediate,
-  });
-
-  const page = computed<number>(() => queryParams.value.page as any);
-
-  const setPage = (page: number) => setQuery({ page: String(page) });
-
-  return { page, setPage };
 }

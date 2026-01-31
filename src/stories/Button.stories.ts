@@ -6,7 +6,7 @@ import ButtonGroupComponent from "../components/ButtonGroup.vue";
 import { icons } from "./assets/icons";
 
 export default {
-  title: "Example/Button",
+  title: "Components/Button",
   component: Button,
   parameters: {
     layout: "centered",

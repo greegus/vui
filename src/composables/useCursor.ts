@@ -2,7 +2,7 @@ import { computed, type Ref, ref, unref, watch } from "vue";
 
 /**
  * Manages cursor position for navigating through arrays.
- * Used internally by Autocomplete for keyboard navigation.
+ * Used internally by [Autocomplete](/components/autocomplete) for keyboard navigation.
  *
  * @template T - The type of items in the array
  * @param items - Array or ref to array of items

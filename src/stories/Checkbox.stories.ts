@@ -5,7 +5,7 @@ import Checkbox from "../components/Checkbox.vue";
 import DumpValue from "./helpers/components/DumpValue.vue";
 
 export default {
-  title: "Example/Checkbox",
+  title: "Components/Checkbox",
   component: Checkbox,
   parameters: {
     docs: {

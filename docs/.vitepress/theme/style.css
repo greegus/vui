@@ -1,0 +1,118 @@
+/* Custom styles for VUIII documentation */
+
+:root {
+  --vp-c-brand-1: var(--vuiii-color-primary);
+  --vp-c-brand-2: var(--vuiii-color-primary-hover);
+  --vp-c-brand-3: var(--vuiii-color-primary-active);
+}
+
+/* Component demo wrapper */
+.component-demo {
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  margin: 16px 0;
+  overflow: hidden;
+}
+
+.component-demo .demo-preview {
+  padding: 24px;
+  background: var(--vp-c-bg);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.component-demo .demo-actions {
+  padding: 12px 16px;
+  background: var(--vp-c-bg-soft);
+  border-top: 1px solid var(--vp-c-divider);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.component-demo .storybook-link {
+  font-size: 12px;
+  color: var(--vp-c-text-2);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.component-demo .storybook-link:hover {
+  color: var(--vp-c-brand-1);
+}
+
+/* Design token display */
+.design-token {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 6px;
+  margin: 8px 0;
+}
+
+.design-token .token-preview {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  border: 1px solid var(--vp-c-divider);
+  flex-shrink: 0;
+}
+
+.design-token .token-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.design-token .token-name {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.design-token .token-value {
+  font-size: 12px;
+  color: var(--vp-c-text-2);
+}
+
+/* Token grid for color palettes */
+.token-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+
+/* Props table styling */
+.props-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+}
+
+.props-table th,
+.props-table td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--vp-c-divider);
+}
+
+.props-table th {
+  font-weight: 600;
+  background: var(--vp-c-bg-soft);
+}
+
+.props-table code {
+  font-size: 12px;
+}
+
+/* Improve code block appearance in demos */
+.vp-doc div[class*='language-'] + .component-demo {
+  margin-top: -8px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}

@@ -1,5 +1,24 @@
 import { onBeforeUnmount, onMounted } from "vue"
 
+/**
+ * Prevents the browser's default drag-and-drop file handling on an element.
+ * Useful when you want to disable file drops on the page or specific areas.
+ * By default, applies to document.body to prevent accidental file navigation.
+ *
+ * @example
+ * // Prevent file drops on the entire page
+ * import { usePreventHandlingDrop } from 'vuiii'
+ *
+ * usePreventHandlingDrop()
+ *
+ * @example
+ * // Prevent drops on a specific element
+ * const containerRef = ref<HTMLElement>()
+ *
+ * onMounted(() => {
+ *   usePreventHandlingDrop(containerRef.value)
+ * })
+ */
 export const usePreventHandlingDrop = (element: HTMLElement = document.body) => {
   const handleDragOver = (event: DragEvent) => {
     if (!event.defaultPrevented) {

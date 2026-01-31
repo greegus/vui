@@ -3,7 +3,7 @@ import { type Meta, StoryObj } from "@storybook/vue3-vite";
 import Divider from "../components/Divider.vue";
 
 export default {
-  title: "Example/Divider",
+  title: "Components/Divider",
   component: Divider,
   parameters: {
     docs: {

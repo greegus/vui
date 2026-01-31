@@ -8,7 +8,7 @@ import { icons } from "./assets/icons";
 import { plainArrayOptions } from "./assets/options";
 
 export default {
-  title: "Example/Dropdown",
+  title: "Components/Dropdown",
   component: Dropdown,
   parameters: {
     layout: "centered",

@@ -6,7 +6,7 @@ import { objectOptions, plainObjectOptions } from "./assets/options";
 import DumpValue from "./helpers/components/DumpValue.vue";
 
 export default {
-  title: "Example/CheckboxGroup",
+  title: "Components/CheckboxGroup",
   component: CheckboxGroup,
   parameters: {
     docs: {

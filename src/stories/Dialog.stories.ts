@@ -9,7 +9,7 @@ import DialogStack from "../components/dialogStack/DialogStack.vue";
 import { useCloseDialog, useDialogStack } from "../dialogStack";
 
 export default {
-  title: "Example/Dialog",
+  title: "Components/Dialog",
   component: DialogStack,
   parameters: {
     docs: {

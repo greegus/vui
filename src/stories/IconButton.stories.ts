@@ -4,7 +4,7 @@ import IconButton from "../components/IconButton.vue";
 import { icons } from "./assets/icons";
 
 export default {
-  title: "Example/IconButton",
+  title: "Components/IconButton",
   component: IconButton,
   parameters: {
     layout: "centered",

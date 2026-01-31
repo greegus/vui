@@ -9,7 +9,7 @@ import { groupedOptions, objectOptions, plainArrayOptions, plainObjectOptions } 
 import DumpValue from "./helpers/components/DumpValue.vue";
 
 export default {
-  title: "Example/Autocomplete",
+  title: "Components/Autocomplete",
   component: Autocomplete,
   parameters: {
     docs: {

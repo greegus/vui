@@ -5,7 +5,7 @@ import { icons } from "./assets/icons";
 import { iconSizes } from "./assets/iconSizes";
 
 export default {
-  title: "Example/Icon",
+  title: "Components/Icon",
   component: Icon,
   parameters: {
     docs: {

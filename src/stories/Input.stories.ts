@@ -8,7 +8,7 @@ import { icons } from "./assets/icons";
 import { inputSizes } from "./assets/inputSizes";
 
 export default {
-  title: "Example/Input",
+  title: "Components/Input",
   component: Input,
   parameters: {
     docs: {

@@ -8,7 +8,7 @@ import { groupedOptions, plainArrayOptions, plainObjectOptions } from "./assets/
 import DumpValue from "./helpers/components/DumpValue.vue";
 
 export default {
-  title: "Example/Select",
+  title: "Components/Select",
   component: Select,
   parameters: {
     docs: {
