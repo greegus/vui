@@ -58,7 +58,7 @@
   },
   "peerDependencies": {
     "vue": "^3.5.26",
-    "vue-router": "^4.2.5"
+    "vue-router": "5.x"
   },
   "engines": {
     "node": ">=24.0.0"
