@@ -220,6 +220,7 @@ function handleInput(e: Event) {
 .Select__select {
   width: 100%;
   appearance: none;
+  cursor: default;
   text-overflow: ellipsis;
   align-self: stretch;
   padding-right: calc(var(--padding) + var(--vuiii-icon-size) + 0.5rem);
@@ -236,7 +237,7 @@ function handleInput(e: Event) {
   /* XXX: deal with vertical cropping of the label */
   line-height: 1.5;
 
-  /* XXX: targets only Firerefox to fix the vertical text alignment */
+  /* XXX: targets only Firefox to fix the vertical text alignment */
   @supports (-moz-appearance: none) {
     line-height: 3;
   }
