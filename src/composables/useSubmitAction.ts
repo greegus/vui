@@ -64,7 +64,7 @@ import { useSnackbar } from "@/snackbar";
  *
  * @example
  * // Accessing the result
- * const { submit, result, hasSubbmitted } = useSubmitAction(
+ * const { submit, result, hasSubmitted } = useSubmitAction(
  *   () => api.fetchData()
  * )
  * await submit()
@@ -106,7 +106,7 @@ export function useSubmitAction<D = unknown, S extends (...args: any[]) => D = (
 ): {
   submit: (...params: Parameters<typeof action>) => Promise<ReturnType<S> | undefined>;
   isSubmitting: Ref<boolean>;
-  hasSubbmitted: Ref<boolean>;
+  hasSubmitted: Ref<boolean>;
   result: Ref<Awaited<ReturnType<S>>>;
   error: Ref<Error | null>;
 } {
@@ -115,7 +115,7 @@ export function useSubmitAction<D = unknown, S extends (...args: any[]) => D = (
   const router = useRouter();
 
   const isSubmitting = ref<boolean>(false);
-  const hasSubbmitted = ref<boolean>(false);
+  const hasSubmitted = ref<boolean>(false);
   const error = ref<Error | null>(null);
   const result = ref<Awaited<ReturnType<S>>>(options.initialResultValue as Awaited<ReturnType<S>>) as Ref<
     Awaited<ReturnType<S>>
@@ -160,7 +160,7 @@ export function useSubmitAction<D = unknown, S extends (...args: any[]) => D = (
       throw e;
     }
 
-    hasSubbmitted.value = true;
+    hasSubmitted.value = true;
     isSubmitting.value = false;
 
     if (options.successMessage && snackbar) {
@@ -193,6 +193,6 @@ export function useSubmitAction<D = unknown, S extends (...args: any[]) => D = (
     result,
     error,
     isSubmitting,
-    hasSubbmitted,
+    hasSubmitted,
   };
 }

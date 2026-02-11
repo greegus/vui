@@ -101,7 +101,7 @@ export const useLoadData = <D = unknown, S extends (...args: any[]) => D = (...a
 } => {
   const {
     isSubmitting: isLoading,
-    hasSubbmitted: hasLoaded,
+    hasSubmitted: hasLoaded,
     submit: load,
     result: data,
     error,
