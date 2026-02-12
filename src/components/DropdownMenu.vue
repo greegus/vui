@@ -97,14 +97,14 @@ watch(
 
   &:first-child,
   &:first-child .DropdownMenu__button {
-    border-top-left-radius: var(--vuiii-dropdownMenu-borderRadius);
-    border-top-right-radius: var(--vuiii-dropdownMenu-borderRadius);
+    border-top-left-radius: calc(var(--vuiii-dropdownMenu-borderRadius) - var(--vuiii-dropdownMenu-borderWidth));
+    border-top-right-radius: calc(var(--vuiii-dropdownMenu-borderRadius) - var(--vuiii-dropdownMenu-borderWidth));
   }
 
   &:last-child,
   &:last-child .DropdownMenu__button {
-    border-bottom-left-radius: var(--vuiii-dropdownMenu-borderRadius);
-    border-bottom-right-radius: var(--vuiii-dropdownMenu-borderRadius);
+    border-bottom-left-radius: calc(var(--vuiii-dropdownMenu-borderRadius) - var(--vuiii-dropdownMenu-borderWidth));
+    border-bottom-right-radius: calc(var(--vuiii-dropdownMenu-borderRadius) - var(--vuiii-dropdownMenu-borderWidth));
   }
 
   &.DropdownMenu__item--withCursor {
