@@ -3,9 +3,6 @@
 Dynamic form generator that renders fields from a configuration array.
 Supports vertical/horizontal layouts, nested rows, dividers, and validation integration.
 
-
-  @example <template #field:email="{ name, label, index }">Custom email input</template>
-
 ## Import
 
 ```typescript
