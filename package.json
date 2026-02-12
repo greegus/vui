@@ -35,10 +35,10 @@
     "docs:generate": "npx jiti scripts/generate-vitepress-docs.ts"
   },
   "devDependencies": {
-    "@chromatic-com/storybook": "^5.0.0",
-    "@storybook/addon-docs": "^10.2.3",
-    "@storybook/addon-links": "^10.2.3",
-    "@storybook/vue3-vite": "^10.2.3",
+    "@chromatic-com/storybook": "^5.0.1",
+    "@storybook/addon-docs": "^10.2.8",
+    "@storybook/addon-links": "^10.2.8",
+    "@storybook/vue3-vite": "^10.2.8",
     "@tsconfig/node24": "^24.0.3",
     "@types/node": "^24.10.4",
     "@vitejs/plugin-vue": "^6.0.3",
@@ -47,7 +47,7 @@
     "npm-run-all2": "^8.0.4",
     "oxfmt": "^0.24.0",
     "oxlint": "^1.1.0",
-    "storybook": "^10.2.3",
+    "storybook": "^10.2.8",
     "typescript": "~5.9.3",
     "vite": "^7.3.1",
     "vite-plugin-dts": "^4.5.4",
