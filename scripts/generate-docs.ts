@@ -6,7 +6,7 @@
  * Run with: npx jiti scripts/generate-docs.ts
  */
 import { readFileSync, writeFileSync, readdirSync, statSync } from "fs";
-import { join, basename, extname } from "path";
+import { join, basename } from "path";
 
 const SRC_DIR = join(import.meta.dirname, "../src");
 const OUTPUT_FILE = join(import.meta.dirname, "../CLAUDE.md");
@@ -278,7 +278,7 @@ import 'vuiii/style.css'
   if (types.length > 0) {
     markdown += `## Types\n\n`;
     for (const doc of types) {
-      const { description, examples } = parseJSDoc(doc.jsdoc);
+      const { description } = parseJSDoc(doc.jsdoc);
       markdown += `### ${doc.name}\n\n`;
       markdown += `**File:** \`${doc.file}\`\n\n`;
       if (description) {

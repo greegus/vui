@@ -1,5 +1,5 @@
 import { ref } from "vue";
-import { type Meta, type StoryFn, type StoryObj } from "@storybook/vue3-vite";
+import { type Meta, type StoryObj } from "@storybook/vue3-vite";
 
 import Input from "../components/Input.vue";
 import { DateValueParser } from "../valueParsers/dateValueParser";

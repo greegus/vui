@@ -144,7 +144,6 @@ function getStorybookId(name: string): string {
  * Generate markdown for a component.
  */
 function generateComponentMarkdown(doc: DocEntry): string {
-  const kebabName = toKebabCase(doc.name)
   const storybookId = getStorybookId(doc.name)
   const safeDescription = escapeHtmlTags(doc.description)
 
