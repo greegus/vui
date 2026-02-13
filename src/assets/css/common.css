@@ -375,8 +375,8 @@
   --vuiii-dialog-dividerStyle: solid;
   --vuiii-dialog-dividerColor: var(--vuiii-divider-color);
   --vuiii-dialog-backdropBgColor: rgb(0 0 0 / 0.35);
-  --vuiii-dialog-closeButton-right: 0;
-  --vuiii-dialog-closeButton-top: 0;
+  --vuiii-dialog-closeButton-right: 0px;
+  --vuiii-dialog-closeButton-top: 0px;
   --vuiii-dialog-closeButton-size: 1.75rem;
 
   /* ------ */
@@ -386,9 +386,9 @@
   --vuiii-dropdownMenu-bgColor: var(--vuiii-field-bgColor);
   --vuiii-dropdownMenu-textColor: var(--vuiii-field-textColor);
   --vuiii-dropdownMenu-borderColor: var(--vuiii-field-bgColor);
-  --vuiii-dropdownMenu-borderWidth: var(--vuiii-field-borderWidth);
+  --vuiii-dropdownMenu-borderWidth: 0px;
   --vuiii-dropdownMenu-borderRadius: var(--vuiii-field-borderRadius);
-  --vuiii-dropdownMenu-boxShadow: var(--vuiii-shadow--large);
+  --vuiii-dropdownMenu-boxShadow: var(--vuiii-shadow--large), 0 0 1px 0 var(--vuiii-divider-color);
 
   --vuiii-dropdownMenu-dividerColor: var(--vuiii-divider-color);
   --vuiii-dropdownMenu-dividerWidth: var(--vuiii-divider-width);

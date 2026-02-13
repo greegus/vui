@@ -1,64 +1,66 @@
 <template>
-  <InputWrapper
-    ref="rootElement"
+  <Dropdown
+    ref="dropdownRef"
     class="Autocomplete"
-    :class="$attrs.class"
-    :size="$props.size"
-    :invalid="$props.invalid"
-    :disabled="$props.disabled"
-    :prefixIcon="$props.prefixIcon"
-    :suffixIcon="$props.suffixIcon"
-    :pill="$props.pill"
-    @click="inputElement?.focus()"
-    @prefix-icon-click="$emit('prefix-icon-click')"
-    @suffix-icon-click="$emit('suffix-icon-click')"
+    :dropdownPlacement="$props.dropdownPlacement"
+    fullDropdownWidth
+    block
+    @open="resetCursor"
   >
-    <template v-if="$slots.prefix" #prefix>
-      <slot name="prefix" />
+    <template #trigger="{ open: openDropdown, close: closeDropdown, isOpen: dropdownIsOpen }">
+      <InputWrapper
+        :class="$attrs.class"
+        :size="$props.size"
+        :invalid="$props.invalid"
+        :disabled="$props.disabled"
+        :prefixIcon="$props.prefixIcon"
+        :suffixIcon="$props.suffixIcon"
+        :pill="$props.pill"
+        @click="inputElement?.focus()"
+        @prefix-icon-click="$emit('prefix-icon-click')"
+        @suffix-icon-click="$emit('suffix-icon-click')"
+      >
+        <template v-if="$slots.prefix" #prefix>
+          <slot name="prefix" />
+        </template>
+
+        <input
+          ref="inputElement"
+          v-bind="attrsWithoutClass"
+          class="vuiii-input__nested Autocomplete__input"
+          :class="inputClass"
+          :placeholder="placeholder"
+          :disabled="disabled"
+          :value="modelValue"
+          @input="handleInput"
+          @click="handleClick"
+          @keydown="handleKeydown"
+        />
+
+        <template v-if="$slots.suffix" #suffix>
+          <slot name="suffix" />
+        </template>
+      </InputWrapper>
     </template>
 
-    <input
-      ref="inputElement"
-      v-bind="attrsWithoutClass"
-      class="vuiii-input__nested Autocomplete__input"
-      :class="inputClass"
-      :style="{ 'anchor-name': anchorName }"
-      :placeholder="placeholder"
-      :disabled="disabled"
-      :value="modelValue"
-      @input="handleInput"
-      @click="handleClick"
-      @keydown="handleKeydown"
-    />
-
-    <FadeTransition :duration="100">
-      <div
-          v-if="isOpen && displayOptions.length > 0"
-          class="Autocomplete__dropdown"
-          ref="dropdownElement"
-          :style="{ 'position-anchor': anchorName, 'position-area': positionArea }"
-        >
-        <DropdownMenu
-          class="Autocomplete__dropdownMenu"
-          :items="displayOptions"
-          :cursorIndex="cursorIndex"
-          @itemClick="handleOptionSelect"
-          @itemMouseenter="({ index }) => (cursorIndex = index)"
-        >
-          <template #itemLabel="{ item, index }">
-            <slot name="option" :option="item" :index="index" :isHighlighted="cursorIndex === index">
-              <div class="Autocomplete__optionLabel">{{ item.label }}</div>
-              <div v-if="item.description" class="Autocomplete__optionDescription">{{ item.description }}</div>
-            </slot>
-          </template>
-        </DropdownMenu>
-      </div>
-    </FadeTransition>
-
-    <template v-if="$slots.suffix" #suffix>
-      <slot name="suffix" />
+    <template #default="{ close: closeDropdown }">
+      <DropdownMenu
+        v-if="displayOptions.length > 0"
+        class="Autocomplete__dropdownMenu"
+        :items="displayOptions"
+        :cursorIndex="cursorIndex"
+        @itemClick="handleOptionSelect"
+        @itemMouseenter="({ index }) => (cursorIndex = index)"
+      >
+        <template #itemLabel="{ item, index }">
+          <slot name="option" :option="item" :index="index" :isHighlighted="cursorIndex === index">
+            <div class="Autocomplete__optionLabel">{{ item.label }}</div>
+            <div v-if="item.description" class="Autocomplete__optionDescription">{{ item.description }}</div>
+          </slot>
+        </template>
+      </DropdownMenu>
     </template>
-  </InputWrapper>
+  </Dropdown>
 </template>
 
 <script lang="ts">
@@ -146,18 +148,18 @@ export default {
 </script>
 
 <script lang="ts" setup generic="T = any">
-import { computed, ref, nextTick, useId } from "vue";
+import { computed, ref, nextTick } from "vue";
 
+import Dropdown from "@/components/Dropdown.vue";
+import type { DropdownRef } from "@/components/Dropdown.vue";
 import DropdownMenu from "@/components/DropdownMenu.vue";
 import InputWrapper, {
   type InputWrapperEmits,
   type InputWrapperProps,
   type InputWrapperSlots,
 } from "@/components/InputWrapper.vue";
-import FadeTransition from "@/components/transitions/FadeTransition.vue";
 import { useAttrsWithoutClass } from "@/composables/useAttrsWithoutClass";
 import { useCursor } from "@/composables/useCursor";
-import { useOnClickOutside } from "@/composables/useOnClickOutside";
 import type { Extractor, Option } from "@/types";
 import { normalizeGroups, normalizeOptions } from "@/utils/normalizeOptions";
 
@@ -202,19 +204,11 @@ defineSlots<
 
 const attrsWithoutClass = useAttrsWithoutClass();
 
-const rootElement = ref<InstanceType<typeof InputWrapper>>();
+const dropdownRef = ref<DropdownRef>();
 
 const inputElement = ref<HTMLInputElement>();
 
-const isOpen = ref(false);
-
-const anchorName = `--anchor-${useId()}`;
-
-const positionArea = computed(() => {
-  if (props.dropdownPlacement === "center") return "bottom";
-  if (props.dropdownPlacement === "right") return "bottom span-left";
-  return "bottom span-right";
-});
+const isOpen = computed(() => dropdownRef.value?.isOpen ?? false);
 
 // Normalize options (flat list)
 const normalizedOptions = computed<Option<T>[]>(() => {
@@ -267,32 +261,13 @@ const displayOptions = computed(() => filteredOptions.value);
 // Cursor navigation
 const { cursorIndex, cursorItem, moveCursorForward, moveCursorBack, resetCursor } = useCursor(displayOptions);
 
-// Computed ref for root element's $el
-const rootEl = computed(() => rootElement.value?.$el as HTMLElement | undefined);
-
-// Close on click outside
-useOnClickOutside(rootEl, (event: MouseEvent) => {
-  if (isOpen.value && !event.defaultPrevented) {
-    event.preventDefault();
-    close();
-  }
-});
-
 function open() {
-  if (isOpen.value || props.disabled) {
-    return;
-  }
-
-  isOpen.value = true;
-  resetCursor();
+  if (props.disabled) return;
+  dropdownRef.value?.open();
 }
 
 function close() {
-  if (!isOpen.value) {
-    return;
-  }
-
-  isOpen.value = false;
+  dropdownRef.value?.close();
 }
 
 function handleInput(event: Event) {
@@ -323,14 +298,6 @@ function handleKeydown(event: KeyboardEvent) {
       if (isOpen.value && cursorItem.value) {
         selectOption(cursorItem.value);
       }
-      break;
-
-    case "Escape":
-      if (isOpen.value) {
-        event.preventDefault();
-        close();
-      }
-
       break;
 
     case "Tab":
@@ -381,17 +348,6 @@ defineExpose({
   appearance: none;
   text-overflow: ellipsis;
   align-self: stretch;
-}
-
-.Autocomplete__dropdown {
-  margin-top: 1px;
-  position: absolute;
-  width: max-content;
-  min-width: 100%;
-  z-index: var(--vuiii-zIndex-dropdown);
-
-  position-try-fallbacks: flip-block, flip-inline;
-  position-visibility: anchors-visible;
 }
 
 .Autocomplete__dropdownMenu {

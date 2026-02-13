@@ -74,7 +74,7 @@ export const Placement: StoryObj<typeof Dropdown> = {
     components: { Dropdown, DropdownMenu },
     setup: () => ({ args, items: plainArrayOptions }),
     template: `
-      <div style="display: flex; gap: 24px;">
+      <div style="display: flex; gap: 64px;">
         <Dropdown v-bind="args" dropdown-placement="left" label="Left">
           <template #default="{ close }">
             <DropdownMenu :items="items" @item-click="close()" />
@@ -169,7 +169,7 @@ export const SearchSuggestions: StoryObj<typeof Dropdown> = {
       };
     },
     template: `
-      <Dropdown v-bind="args" ref="dropdown" @open="setCursor(0)">
+      <Dropdown v-bind="args" ref="dropdown" @open="setCursor(0)" fullDropdownWidth>
         <template #trigger="{ open, close, isOpen }">
           <Input
             placeholder="Search"

@@ -1,16 +1,18 @@
 <template>
-  <div class="Dropdown" :class="{ 'Dropdown--block': block }" ref="rootElement">
-    <div :style="{ 'anchor-name': anchorName }">
+  <div
+    ref="rootElement"
+    class="Dropdown"
+    :class="{ 'Dropdown--block': block }"
+    :style="{ '--anchor-id': anchorName, '--position-area': positionArea }"
+  >
+    <div class="Dropdown__trigger">
       <slot name="trigger" v-bind="{ open, close, toggle, isOpen }">
         <Button :label :variant :block :prefixIcon="icon" suffixIcon="chevron-down" @click="toggle()" />
       </slot>
     </div>
 
     <FadeTransition :duration="100">
-      <div v-if="isOpen" class="Dropdown__dropdown" :style="{
-        'position-anchor': anchorName,
-        'position-area': positionArea
-      }">
+      <div v-if="isOpen" class="Dropdown__dropdown" :class="{ 'Dropdown__dropdown--fullWidth': fullDropdownWidth }">
         <slot v-bind="{ close }" />
       </div>
     </FadeTransition>
@@ -84,7 +86,8 @@ export type DropdownProps = {
   variant?: ButtonVariant;
   block?: boolean;
   icon?: string;
-  dropdownPlacement?: 'left' | 'right' | 'center'
+  dropdownPlacement?: "left" | "right" | "center";
+  fullDropdownWidth?: boolean;
 };
 
 export type DropdownRef = {
@@ -96,7 +99,7 @@ export type DropdownRef = {
 </script>
 
 <script lang="ts" generic="Item extends any = any" setup>
-import { computed, ref, useId } from "vue";
+import { computed, ref, useId, useTemplateRef } from "vue";
 
 import Button from "@/components/Button.vue";
 import FadeTransition from "@/components/transitions/FadeTransition.vue";
@@ -112,7 +115,7 @@ const emit = defineEmits<{
 
 const isOpen = ref(false);
 
-const rootElement = ref<HTMLDivElement>();
+const rootElement = useTemplateRef("rootElement");
 
 const anchorName = `--anchor-${useId()}`;
 
@@ -181,7 +184,6 @@ defineExpose({
 
 <style>
 .Dropdown {
-  position: relative;
   display: inline-block;
 
   &.Dropdown--block {
@@ -190,14 +192,23 @@ defineExpose({
   }
 }
 
+.Dropdown__trigger {
+  anchor-name: var(--anchor-id);
+}
+
 .Dropdown__dropdown {
   margin-top: 1px;
   position: absolute;
-  width: max-content;
-  min-width: 100%;
-  z-index: 10;
+  min-width: max-content;
+  z-index: var(--vuiii-zIndex-dropdown);
 
+  position-anchor: var(--anchor-id);
+  position-area: var(--position-area);
   position-try-fallbacks: flip-block, flip-inline;
   position-visibility: anchors-visible;
+
+  &.Dropdown__dropdown--fullWidth {
+    min-width: anchor-size(var(--anchor-id) width);
+  }
 }
 </style>
