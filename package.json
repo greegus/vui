@@ -32,7 +32,8 @@
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
-    "docs:generate": "npx jiti scripts/generate-vitepress-docs.ts"
+    "docs:generate": "npx jiti scripts/generate-vitepress-docs.ts",
+    "deploy": "npx jiti scripts/deploy.ts"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^5.0.1",
