@@ -379,9 +379,9 @@
   --vuiii-dialog-closeButton-top: 0px;
   --vuiii-dialog-closeButton-size: 1.75rem;
 
-  /* ------ */
+  /* ------- */
   /* Dropdown menu */
-  /* ------ */
+  /* ------- */
 
   --vuiii-dropdownMenu-bgColor: var(--vuiii-field-bgColor);
   --vuiii-dropdownMenu-textColor: var(--vuiii-field-textColor);
@@ -411,15 +411,6 @@
   --vuiii-tooltip-boxShadow: var(--vuiii-shadow);
   --vuiii-tooltip-arrowSize: 6px;
   --vuiii-tooltip-gap: 6px;
-
-  /* ------------ */
-  /* ShortcutIcon */
-  /* ------------ */
-
-  --vuiii-shortcutIcon-fontSize: var(--vuiii-fontSize--tiny);
-  --vuiii-shortcutIcon-fontWeight: 500;
-  --vuiii-shortcutIcon-textColor: var(--vuiii-color-gray--darkest);
-  --vuiii-shortcutIcon-gap: 0.1em;
 
   /* ------- */
   /* Z-index */

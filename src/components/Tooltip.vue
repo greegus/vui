@@ -14,6 +14,7 @@
     </div>
 
     <div
+      v-if="label || $slots.label"
       class="Tooltip__bubble"
       :class="[
         `Tooltip__bubble--${placement}`,
@@ -129,7 +130,7 @@ const positionArea = computed(() => {
   --gap: var(--offset, var(--vuiii-tooltip-gap));
   --arrow-size: var(--vuiii-tooltip-arrowSize);
 
-  position: absolute;
+  position: fixed;
   position-anchor: var(--anchor-id);
   position-area: var(--position-area);
   position-try-fallbacks: flip-block, flip-inline;

@@ -32,9 +32,6 @@
  */
 import { computed } from "vue";
 
-import "@/assets/css/shortcut-icon.css";
-
-import Icon from "@/components/Icon.vue";
 import type { Shortcut } from "@/types";
 
 type KeyPart = {
@@ -74,3 +71,24 @@ const keys = computed<KeyPart[]>(() => {
   return parts;
 });
 </script>
+
+<style>
+.ShortcutIcon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15em;
+}
+
+.ShortcutIcon__key {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75em;
+  font-weight: 500;
+  font-family: inherit;
+  line-height: 1;
+  color: inherit;
+  white-space: nowrap;
+  opacity: 0.45;
+}
+</style>
