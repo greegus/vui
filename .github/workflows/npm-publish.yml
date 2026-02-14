@@ -3,11 +3,12 @@ name: Publish to NPM
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
+  workflow_dispatch:
 
 permissions:
-  contents: read
   id-token: write
+  contents: read
 
 jobs:
   publish:
@@ -22,7 +23,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "24"
-          registry-url: 'https://registry.npmjs.org'
+          registry-url: "https://registry.npmjs.org"
 
       - name: Install dependencies
         run: npm ci
@@ -34,7 +35,7 @@ jobs:
         run: npm run type-check
 
       - name: Build project
-        run: npm run build
+        run: npm run build --if-present
 
       - name: Publish to npm
         run: npm publish --tag beta
