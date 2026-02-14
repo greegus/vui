@@ -40,10 +40,10 @@ console.log(`\nVersion: ${oldVersion} → ${newVersion}`)
 // 4. Commit and tag
 const tag = `v${newVersion}`
 run('git add package.json')
-run(`git commit -m "Release ${tag}"`)
-run(`git tag ${tag}`)
+run(`git commit -m "${tag}"`)
+run(`git tag -a ${tag} -m "${tag}"`)
 
 // 5. Push with tag
-run(`git push origin HEAD --follow-tags`)
+run(`git push origin HEAD ${tag}`)
 
 console.log(`\nDeployed ${tag}`)
