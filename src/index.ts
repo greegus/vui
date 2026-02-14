@@ -27,6 +27,8 @@ export { default as SnackbarStack } from "./components/snackbar/SnackbarStack.vu
 export { default as Table } from "./components/Table.vue";
 export type { TextareaRef } from "./components/Textarea.vue";
 export { default as Textarea } from "./components/Textarea.vue";
+export type { TooltipPlacement, TooltipProps } from "./components/Tooltip.vue";
+export { default as Tooltip } from "./components/Tooltip.vue";
 export { default as FadeTransition } from "./components/transitions/FadeTransition.vue";
 export { useCursor } from "./composables/useCursor";
 export { useDropArea } from "./composables/useDropArea";

@@ -400,6 +400,19 @@
   --vuiii-dropdownMenu-button-bgColor--hover: color-mix(in srgb, var(--vuiii-color-black) 4%, transparent);
 
   /* ------- */
+  /* Tooltip */
+  /* ------- */
+
+  --vuiii-tooltip-bgColor: var(--vuiii-color-gray--darkest);
+  --vuiii-tooltip-textColor: var(--vuiii-color-white);
+  --vuiii-tooltip-fontSize: var(--vuiii-fontSize--small);
+  --vuiii-tooltip-padding: 0.35em 0.65em;
+  --vuiii-tooltip-borderRadius: var(--vuiii-field-borderRadius);
+  --vuiii-tooltip-boxShadow: var(--vuiii-shadow);
+  --vuiii-tooltip-arrowSize: 6px;
+  --vuiii-tooltip-gap: 6px;
+
+  /* ------- */
   /* Z-index */
   /* ------- */
 

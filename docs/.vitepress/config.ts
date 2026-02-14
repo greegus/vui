@@ -79,6 +79,7 @@ export default defineConfig({
             { text: 'Dropdown', link: '/components/dropdown' },
             { text: 'DropdownMenu', link: '/components/dropdown-menu' },
             { text: 'SnackbarStack', link: '/components/snackbar-stack' },
+            { text: 'Tooltip', link: '/components/tooltip' },
           ],
         },
         {
