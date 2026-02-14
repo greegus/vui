@@ -23,6 +23,7 @@ export { default as Input } from "./components/Input.vue";
 export { default as RadioButtonGroup } from "./components/RadioButtonGroup.vue";
 export { default as RadioGroup } from "./components/RadioGroup.vue";
 export { default as Select } from "./components/Select.vue";
+export { default as ShortcutIcon } from "./components/ShortcutIcon.vue";
 export { default as SnackbarStack } from "./components/snackbar/SnackbarStack.vue";
 export { default as Table } from "./components/Table.vue";
 export type { TextareaRef } from "./components/Textarea.vue";
@@ -57,6 +58,7 @@ export type {
   PaginatedData,
   PaginatedDataSource,
   Pagination,
+  Shortcut,
   TableColumn,
   ValidationResults,
   ValueParser,

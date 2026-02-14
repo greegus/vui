@@ -249,3 +249,12 @@ export type ValidationFieldResults = {
 };
 
 export type ElementRef = Readonly<Ref<HTMLElement | null | undefined>>;
+
+/** Keyboard shortcut definition for ShortcutIcon component */
+export type Shortcut = {
+  key: string;
+  shift?: boolean;
+  alt?: boolean;
+  mod?: boolean;
+  ctrl?: boolean;
+};
