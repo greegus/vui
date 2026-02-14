@@ -11,13 +11,13 @@ export default {
     layout: "centered",
     docs: {
       description: {
-        component: "Tooltip that wraps content and shows a label on hover. Uses CSS Anchor Positioning for placement.",
+        component: "Tooltip that wraps content and shows a title on hover. Uses CSS Anchor Positioning for placement.",
       },
     },
   },
   decorators: [() => ({ template: '<div style="padding: 80px;"><story /></div>' })],
   argTypes: {
-    label: {
+    title: {
       control: "text",
     },
     placement: {
@@ -38,7 +38,7 @@ export default {
     },
   },
   args: {
-    label: "Tooltip label",
+    title: "Tooltip title",
     placement: "top",
   },
 } as Meta<typeof Tooltip>;
@@ -61,19 +61,19 @@ export const Placements: StoryObj<typeof Tooltip> = {
     setup: () => ({ args }),
     template: `
       <div style="display: flex; flex-direction: column; gap: 48px; align-items: center;">
-        <Tooltip v-bind="args" placement="top" label="Top tooltip">
+        <Tooltip v-bind="args" placement="top" title="Top tooltip">
           <Button label="Top" variant="secondary" />
         </Tooltip>
 
-        <Tooltip v-bind="args" placement="bottom" label="Bottom tooltip">
+        <Tooltip v-bind="args" placement="bottom" title="Bottom tooltip">
           <Button label="Bottom" variant="secondary" />
         </Tooltip>
 
-        <Tooltip v-bind="args" placement="right" label="Right tooltip">
+        <Tooltip v-bind="args" placement="right" title="Right tooltip">
           <Button label="Right" variant="secondary" />
         </Tooltip>
 
-        <Tooltip v-bind="args" placement="left" label="Left tooltip">
+        <Tooltip v-bind="args" placement="left" title="Left tooltip">
           <Button label="Left" variant="secondary" />
         </Tooltip>
       </div>
@@ -94,19 +94,19 @@ export const WithArrow: StoryObj<typeof Tooltip> = {
     setup: () => ({ args }),
     template: `
       <div style="display: flex; flex-direction: column; gap: 48px; align-items: center;">
-        <Tooltip v-bind="args" placement="top" label="Top" withArrow>
+        <Tooltip v-bind="args" placement="top" title="Top" withArrow>
           <Button label="Top" variant="secondary" />
         </Tooltip>
 
-        <Tooltip v-bind="args" placement="bottom" label="Bottom" withArrow>
+        <Tooltip v-bind="args" placement="bottom" title="Bottom" withArrow>
           <Button label="Bottom" variant="secondary" />
         </Tooltip>
 
-        <Tooltip v-bind="args" placement="left" label="Left" withArrow>
+        <Tooltip v-bind="args" placement="left" title="Left" withArrow>
           <Button label="Left" variant="secondary" />
         </Tooltip>
 
-        <Tooltip v-bind="args" placement="right" label="Right" withArrow>
+        <Tooltip v-bind="args" placement="right" title="Right" withArrow>
           <Button label="Right" variant="secondary" />
         </Tooltip>
       </div>
@@ -123,7 +123,7 @@ export const WithArrow: StoryObj<typeof Tooltip> = {
 
 export const WithDelay: StoryObj<typeof Tooltip> = {
   args: {
-    label: "Delayed tooltip (500ms)",
+    title: "Delayed tooltip (500ms)",
     delay: 500,
   },
   render: (args) => ({
@@ -150,15 +150,15 @@ export const WithOffset: StoryObj<typeof Tooltip> = {
     setup: () => ({ args }),
     template: `
       <div style="display: flex; gap: 48px; align-items: center;">
-        <Tooltip v-bind="args" label="Default gap (4px)">
+        <Tooltip v-bind="args" title="Default gap (4px)">
           <Button label="Default" variant="secondary" />
         </Tooltip>
 
-        <Tooltip v-bind="args" label="12px offset" :offset="12">
+        <Tooltip v-bind="args" title="12px offset" :offset="12">
           <Button label="Offset 12" variant="secondary" />
         </Tooltip>
 
-        <Tooltip v-bind="args" label="24px offset" :offset="24" withArrow>
+        <Tooltip v-bind="args" title="24px offset" :offset="24" withArrow>
           <Button label="Offset 24" variant="secondary" />
         </Tooltip>
       </div>
@@ -178,7 +178,7 @@ export const ShowOnFocus: StoryObj<typeof Tooltip> = {
     components: { Tooltip, Input },
     setup: () => ({ args }),
     template: `
-      <Tooltip v-bind="args" label="Please enter your email address" showOnFocus>
+      <Tooltip v-bind="args" title="Please enter your email address" showOnFocus>
         <Input placeholder="Focus me" />
       </Tooltip>
     `,
@@ -192,23 +192,23 @@ export const ShowOnFocus: StoryObj<typeof Tooltip> = {
   },
 };
 
-export const CustomLabel: StoryObj<typeof Tooltip> = {
+export const CustomTitle: StoryObj<typeof Tooltip> = {
   render: (args) => ({
     components: { Tooltip, Button },
     setup: () => ({ args }),
     template: `
       <Tooltip v-bind="args" withArrow>
-        <template #label>
+        <template #title>
           <strong>Rich</strong> tooltip content
         </template>
-        <Button label="Custom label" variant="secondary" />
+        <Button label="Custom title" variant="secondary" />
       </Tooltip>
     `,
   }),
   parameters: {
     docs: {
       description: {
-        story: "Tooltip with custom rich content via the #label slot.",
+        story: "Tooltip with custom rich content via the #title slot.",
       },
     },
   },

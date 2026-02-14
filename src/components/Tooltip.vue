@@ -14,7 +14,7 @@
     </div>
 
     <div
-      v-if="label || $slots.label"
+      v-if="title || $slots.title"
       class="Tooltip__bubble"
       :class="[
         `Tooltip__bubble--${placement}`,
@@ -22,49 +22,49 @@
       ]"
       role="tooltip"
     >
-      <slot name="label">{{ label }}</slot>
+      <slot name="title">{{ title }}</slot>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 /**
- * Tooltip component that wraps content and shows a label on hover.
+ * Tooltip component that wraps content and shows a title on hover.
  * Uses CSS Anchor Positioning for placement relative to the trigger element.
- * Supports delay, focus trigger, arrow indicator, and custom label content via slot.
+ * Supports delay, focus trigger, arrow indicator, and custom title content via slot.
  *
  * @component Tooltip
  *
  * @example
- * // Basic usage with label prop
+ * // Basic usage with title prop
  * import { Tooltip } from 'vuiii'
  *
- * <Tooltip label="This is a tooltip">
+ * <Tooltip title="This is a tooltip">
  *   <Button label="Hover me" />
  * </Tooltip>
  *
  * @example
  * // With placement
- * <Tooltip label="Below the button" placement="bottom">
+ * <Tooltip title="Below the button" placement="bottom">
  *   <Button label="Hover me" />
  * </Tooltip>
  *
  * @example
  * // With arrow
- * <Tooltip label="With arrow" withArrow>
+ * <Tooltip title="With arrow" withArrow>
  *   <Button label="Hover me" />
  * </Tooltip>
  *
  * @example
  * // With delay
- * <Tooltip label="Delayed tooltip" :delay="500">
+ * <Tooltip title="Delayed tooltip" :delay="500">
  *   <Button label="Hover me" />
  * </Tooltip>
  *
  * @example
- * // With custom label slot
+ * // With custom title slot
  * <Tooltip>
- *   <template #label>
+ *   <template #title>
  *     <strong>Rich</strong> tooltip content
  *   </template>
  *   <Button label="Hover me" />
@@ -72,18 +72,18 @@
  *
  * @example
  * // Show on focus (for accessibility)
- * <Tooltip label="Accessible tooltip" showOnFocus>
+ * <Tooltip title="Accessible tooltip" showOnFocus>
  *   <Input placeholder="Focus me" />
  * </Tooltip>
  *
  * @slot default - The trigger content that the tooltip wraps
- * @slot label - Custom tooltip label content (alternative to label prop)
+ * @slot title - Custom tooltip title content (alternative to title prop)
  */
 
 export type TooltipPlacement = "top" | "bottom" | "left" | "right";
 
 export type TooltipProps = {
-  label?: string;
+  title?: string;
   placement?: TooltipPlacement;
   showOnFocus?: boolean;
   delay?: number;
@@ -101,7 +101,7 @@ const props = withDefaults(defineProps<TooltipProps>(), {
 
 defineSlots<{
   default?: () => any;
-  label?: () => any;
+  title?: () => any;
 }>();
 
 const anchorName = `--anchor-${useId()}`;
