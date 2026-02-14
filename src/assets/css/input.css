@@ -15,7 +15,6 @@
   --iconSize: var(--vuiii-icon-size);
   --ringSize: 0;
 
-  width: 100%;
   color: var(--textColor);
   background-color: var(--bgColor);
   border: var(--vuiii-input-borderWidth) solid var(--borderColor);
