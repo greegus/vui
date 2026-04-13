@@ -18,6 +18,8 @@ const icons = import.meta.glob('../assets/icons/*.svg', {
 
 let customIconResolver: IconResolver
 
+const componentCache = new Map<string, IconComponent>()
+
 /** @internal Default resolver for built-in SVG icons */
 function defaultIconResolver(name: string): IconComponent {
   const key = Object.keys(icons).find((path) => path.endsWith(`/${name}.svg`))
@@ -82,6 +84,10 @@ export function registerCustomIconResolver(resolver: IconResolver) {
 }
 
 export function resolveIconComponent(name: string): IconComponent {
+  if (componentCache.has(name)) {
+    return componentCache.get(name)
+  }
+
   let component
 
   if (customIconResolver) {
@@ -92,7 +98,9 @@ export function resolveIconComponent(name: string): IconComponent {
     component = defaultIconResolver(name)
   }
 
-  if (!component) {
+  if (component) {
+    componentCache.set(name, component)
+  } else {
     console.error('Unable to resolve icon component for name: ' + name)
   }
 
