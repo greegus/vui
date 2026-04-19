@@ -262,6 +262,7 @@ function handleInput(event: Event) {
 .Checkbox__switch {
   --ratio: 1.6;
 
+  box-sizing: content-box;
   align-self: flex-start;
   flex-shrink: 0;
   padding: 1px;
