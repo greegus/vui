@@ -4,6 +4,12 @@ import { ref, watch } from 'vue'
 type DropdownMenuProps = {
   items?: Item[]
   cursorIndex?: number
+  /** ARIA role for the list element. Set to `listbox` when used as a combobox popup. */
+  listRole?: 'listbox' | 'menu'
+  /** Id applied to the list element (referenced by a combobox via `aria-controls`). */
+  listId?: string
+  /** Prefix for per-option ids (`${optionIdPrefix}-${index}`), used for `aria-activedescendant`. */
+  optionIdPrefix?: string
 }
 
 type ItemWithIndex = { item: Item; index: number }
@@ -38,12 +44,15 @@ watch(
 
 <template>
   <div class="DropdownMenu">
-    <ul class="DropdownMenu__items" v-if="items?.length">
+    <ul class="DropdownMenu__items" v-if="items?.length" :role="listRole" :id="listId">
       <li
         v-for="(item, index) in items"
         :key="index"
         class="DropdownMenu__item"
         :class="{ 'DropdownMenu__item--withCursor': cursorIndex === index }"
+        :id="optionIdPrefix ? `${optionIdPrefix}-${index}` : undefined"
+        :role="listRole === 'listbox' ? 'option' : undefined"
+        :aria-selected="listRole === 'listbox' ? cursorIndex === index : undefined"
         ref="itemElements"
       >
         <slot name="item" v-bind="{ item, index, cursorIndex }">

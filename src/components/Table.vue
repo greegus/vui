@@ -8,6 +8,15 @@
           :style="{ textAlign: column.align || 'left' }"
           :width="column.width"
           :class="[column.headerClass, { 'vuiii-table__cell--noPadding': column.noPadding }]"
+          :aria-sort="
+            column.sortable
+              ? sortColumnName === column.name
+                ? sortDirection === 'asc'
+                  ? 'ascending'
+                  : 'descending'
+                : 'none'
+              : undefined
+          "
         >
           <slot :name="`header:${column.name}`" v-bind="{ column }">
             <div
@@ -15,6 +24,8 @@
               class="vuiii-table__label vuiii-table__label--sortable"
               :class="{ 'vuiii-table__label vuiii-table__label--activeSort': sortColumnName === column.name }"
               @click.prevent="setSortBy(column.name)"
+              @keydown.enter.prevent="setSortBy(column.name)"
+              @keydown.space.prevent="setSortBy(column.name)"
               role="button"
               tabindex="0"
             >

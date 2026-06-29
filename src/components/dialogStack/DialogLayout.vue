@@ -2,6 +2,10 @@
   <div
     ref="root"
     class="DialogLayout"
+    role="dialog"
+    aria-modal="true"
+    :aria-label="$props.title || $props.content || undefined"
+    tabindex="-1"
     :class="{
       hasHeader,
       hasFooter,
@@ -11,9 +15,9 @@
     }"
     :style="computedStyle"
   >
-    <div v-if="$props.withCloseButton" class="DialogLayout__close" @click="close()">
+    <button v-if="$props.withCloseButton" type="button" class="DialogLayout__close" aria-label="Close" @click="close()">
       <Icon name="x" class="DialogLayout__closeIcon" />
-    </div>
+    </button>
 
     <div v-if="hasHeader" class="DialogLayout__header">
       <slot name="header">
@@ -52,10 +56,11 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, type CSSProperties, onMounted, ref, useSlots } from 'vue'
+import { computed, type CSSProperties, ref, useSlots } from 'vue'
 
 import Button from '@/components/Button.vue'
 import Icon from '@/components/Icon.vue'
+import { useFocusTrap } from '@/composables/useFocusTrap'
 import { useCloseDialog } from '@/dialogStack'
 import type { DialogLayoutButton } from '@/types'
 
@@ -110,27 +115,23 @@ const computedStyle = computed<Partial<CSSProperties>>(() => {
   return {}
 })
 
-onMounted(() => {
-  // TODO fix focus management
-  const inputs = root.value?.querySelectorAll('input')
+useFocusTrap(root, {
+  initialFocus: () => {
+    const input = root.value?.querySelector<HTMLElement>('input')
 
-  if (inputs?.length) {
-    inputs[0]?.focus()
-    return
-  }
-
-  const buttons = root.value?.querySelectorAll('button')
-
-  if (buttons?.length) {
-    const primaryButton = Array.from(buttons).find((button) => button.classList.contains('vuiii-button--primary'))
-
-    if (primaryButton) {
-      primaryButton.focus()
-      return
+    if (input) {
+      return input
     }
 
-    buttons[0]?.focus()
-  }
+    const buttons = Array.from(root.value?.querySelectorAll<HTMLButtonElement>('button') ?? [])
+    const actionButtons = buttons.filter((button) => !button.classList.contains('DialogLayout__close'))
+
+    return (
+      actionButtons.find((button) => button.classList.contains('vuiii-button--primary')) ??
+      actionButtons[0] ??
+      buttons[0]
+    )
+  },
 })
 </script>
 
@@ -187,6 +188,10 @@ onMounted(() => {
   align-items: center;
   padding: var(--vuiii-dialog-padding);
 
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: inherit;
   opacity: 0.4;
 
   &:hover {

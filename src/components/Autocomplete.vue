@@ -32,6 +32,12 @@
           :placeholder="placeholder"
           :disabled="disabled"
           :value="modelValue"
+          role="combobox"
+          aria-autocomplete="list"
+          aria-haspopup="listbox"
+          :aria-expanded="dropdownIsOpen"
+          :aria-controls="listboxId"
+          :aria-activedescendant="activeDescendantId"
           @input="handleInput"
           @click="handleClick"
           @keydown="handleKeydown"
@@ -49,6 +55,9 @@
         class="Autocomplete__dropdownMenu"
         :items="displayOptions"
         :cursorIndex="cursorIndex"
+        listRole="listbox"
+        :listId="listboxId"
+        :optionIdPrefix="optionIdPrefix"
         @itemClick="handleOptionSelect"
         @itemMouseenter="({ index }) => (cursorIndex = index)"
       >
@@ -148,7 +157,7 @@ export default {
 </script>
 
 <script lang="ts" setup generic="T = any">
-import { computed, ref, nextTick } from 'vue'
+import { computed, ref, nextTick, useId } from 'vue'
 
 import Dropdown from '@/components/Dropdown.vue'
 import type { DropdownRef } from '@/components/Dropdown.vue'
@@ -210,6 +219,9 @@ const inputElement = ref<HTMLInputElement>()
 
 const isOpen = computed(() => dropdownRef.value?.isOpen ?? false)
 
+const listboxId = useId()
+const optionIdPrefix = `${listboxId}-option`
+
 // Normalize options (flat list)
 const normalizedOptions = computed<Option<T>[]>(() => {
   const extractors = {
@@ -260,6 +272,12 @@ const displayOptions = computed(() => filteredOptions.value)
 
 // Cursor navigation
 const { cursorIndex, cursorItem, moveCursorForward, moveCursorBack, resetCursor } = useCursor(displayOptions)
+
+const activeDescendantId = computed(() =>
+  isOpen.value && cursorIndex.value >= 0 && cursorIndex.value < displayOptions.value.length
+    ? `${optionIdPrefix}-${cursorIndex.value}`
+    : undefined,
+)
 
 function open() {
   if (props.disabled) return

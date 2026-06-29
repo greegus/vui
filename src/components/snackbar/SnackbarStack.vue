@@ -1,6 +1,6 @@
 <template>
   <Teleport to="body">
-    <div class="Snackbar">
+    <div class="Snackbar" role="status" aria-live="polite" aria-atomic="false">
       <TransitionGroup name="Snackbar__transition">
         <div v-for="(message, index) in messagesInReverse" :key="message.id" class="Snackbar__message">
           <div class="Snackbar__messageWrapper" :style="{ transform: `translateY(-${100 * index}%)` }">
@@ -9,9 +9,14 @@
                 {{ message.text }}
               </div>
 
-              <div class="Snackbar__messageClose" @click="removeMessage(message.id)">
+              <button
+                type="button"
+                class="Snackbar__messageClose"
+                aria-label="Close"
+                @click="removeMessage(message.id)"
+              >
                 <Icon class="Snackbar__messageCloseIcon" name="x" />
-              </div>
+              </button>
             </div>
           </div>
         </div>
@@ -100,6 +105,11 @@ const messagesInReverse = computed<Message[]>(() => [...messages.value].reverse(
   font-weight: 600;
   opacity: 0.5;
   cursor: pointer;
+
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: inherit;
 
   &:hover {
     opacity: 1;
