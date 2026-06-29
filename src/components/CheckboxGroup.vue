@@ -84,19 +84,16 @@ import { normalizeOptions } from '@/utils/normalizeOptions'
 
 const modelValue = defineModel<any[]>()
 
-const props = withDefaults(
-  defineProps<{
-    options: any[] | any
-    optionLabel?: Extractor
-    optionValue?: Extractor
-    optionDisabled?: Extractor
-    optionDescription?: Extractor
-    valueParser?: ValueParser
-    type?: 'string' | 'number' | 'boolean' | 'date'
-    inline?: boolean
-  }>(),
-  {},
-)
+const props = defineProps<{
+  options: any[] | any
+  optionLabel?: Extractor
+  optionValue?: Extractor
+  optionDisabled?: Extractor
+  optionDescription?: Extractor
+  valueParser?: ValueParser
+  type?: 'string' | 'number' | 'boolean' | 'date'
+  inline?: boolean
+}>()
 
 defineSlots<{
   default?: void

@@ -44,28 +44,32 @@ import { computed, type Ref, ref, unref, watch } from 'vue'
  */
 export function useCursor<T = unknown>(
   items: Ref<T[]> | T[],
-  options: { cycle?: boolean; onCursorMove?: () => void } = {},
+  options: { cycle?: boolean; initialIndex?: number; onCursorMove?: () => void } = {},
 ) {
-  const cursorIndex = ref(0)
+  const initialIndex = options.initialIndex ?? 0
 
-  const cursorItem = computed(() => unref(items)[cursorIndex.value])
+  const cursorIndex = ref(initialIndex)
+
+  const cursorItem = computed(() => cursorIndex.value === -1 ? undefined : unref(items)[cursorIndex.value])
 
   const moveCursorForward = () => {
-    const nextCursorIndex = cursorIndex.value + 1
+    const currentIndex = cursorIndex.value === -1 ? -1 : cursorIndex.value
+    const nextCursorIndex = currentIndex + 1
     const itemsLength = unref(items).length
 
     cursorIndex.value = options.cycle ? nextCursorIndex % itemsLength : Math.min(nextCursorIndex, itemsLength - 1)
   }
 
   const moveCursorBack = () => {
-    const nextCursorIndex = cursorIndex.value - 1
     const itemsLength = unref(items).length
+    const currentIndex = cursorIndex.value === -1 ? itemsLength : cursorIndex.value
+    const nextCursorIndex = currentIndex - 1
 
     cursorIndex.value = options.cycle ? (nextCursorIndex + itemsLength) % itemsLength : Math.max(nextCursorIndex, 0)
   }
 
   const resetCursor = () => {
-    cursorIndex.value = 0
+    cursorIndex.value = initialIndex
   }
 
   watch(cursorIndex, () => options.onCursorMove?.())

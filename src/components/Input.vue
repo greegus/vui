@@ -111,7 +111,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { ref, useAttrs, useSlots } from 'vue'
+import { ref, useSlots } from 'vue'
 
 import InputWrapper, {
   type InputWrapperEmits,

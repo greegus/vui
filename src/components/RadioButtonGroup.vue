@@ -54,7 +54,7 @@ import { computed } from 'vue'
 
 import Button from '@/components/Button.vue'
 import ButtonGroup from '@/components/ButtonGroup.vue'
-import type { ButtonVariant, Extractor, InputSize, Option, ValueParser } from '@/types'
+import type { ButtonVariant, Extractor, InputSize, Option } from '@/types'
 import { normalizeOptions } from '@/utils/normalizeOptions'
 
 const modelValue = defineModel<any>()
@@ -66,7 +66,6 @@ const props = defineProps<{
   optionDisabled?: Extractor
   optionIcon?: Extractor
   optionDescription?: Extractor
-  valueParser?: ValueParser<string>
   variant?: ButtonVariant
   disabled?: boolean
   size?: InputSize
