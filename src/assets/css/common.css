@@ -21,6 +21,10 @@
   --vuiii-color-primary--darker: oklch(from var(--vuiii-color-primary) calc(l * 0.95) c h);
   --vuiii-color-primary--darkest: oklch(from var(--vuiii-color-primary) calc(l * 0.85) c h);
 
+  /* Accent — used for form selection controls (checked checkbox, selected radio). Defaults to primary. */
+  --vuiii-color-accent: var(--vuiii-color-primary);
+  --vuiii-color-accent--darker: oklch(from var(--vuiii-color-accent) calc(l * 0.95) c h);
+
   --vuiii-color-danger: oklch(58.58% 0.222 17.58); /* rose.600 */
   --vuiii-color-danger--darker: oklch(from var(--vuiii-color-danger) calc(l * 0.95) c h);
 
@@ -184,7 +188,7 @@
 
   --vuiii-button-fontSize: var(--vuiii-field-fontSize);
   --vuiii-button-fontFamily: var(--vuiii-typeface-body);
-  --vuiii-button-fontWeight: normal;
+  --vuiii-button-fontWeight: 500;
   --vuiii-button-height: var(--vuiii-field-height);
   --vuiii-button-padding: var(--vuiii-field-padding);
   --vuiii-button-borderRadius: var(--vuiii-field-borderRadius);
@@ -301,7 +305,7 @@
   /* ------ */
   /* Checkboxes and radios */
   /* ------ */
-  --vuiii-checkbox-bgColor--checked: var(--vuiii-color-primary);
+  --vuiii-checkbox-bgColor--checked: var(--vuiii-color-accent);
   --vuiii-checkbox-borderColor--checked: var(--vuiii-checkbox-bgColor--checked);
   --vuiii-checkbox-iconColor--checked: var(--vuiii-color-white);
 

@@ -26,7 +26,7 @@ export default {
   argTypes: {
     variant: {
       control: { type: 'select' },
-      options: ['filled', 'outlined', 'text'],
+      options: ['filled', 'outlined'],
     },
     size: {
       control: { type: 'select' },
@@ -42,6 +42,7 @@ export default {
 
   args: {
     options: plainArrayOptions,
+    modelValue: 'First option',
   },
 } as Meta<typeof RadioButtonGroup>
 
@@ -68,12 +69,11 @@ export const Sizes: StoryObj<typeof RadioButtonGroup> = {
 export const Variants: StoryObj<typeof RadioButtonGroup> = {
   render: (args) => ({
     components: { RadioButtonGroup },
-    setup: () => ({ args, value: ref() }),
+    setup: () => ({ args, value: ref('First option') }),
     template: `
       <div style="display: flex; flex-flow: column; gap: 1rem;">
         <RadioButtonGroup v-bind="args" v-model="value" variant="filled" />
         <RadioButtonGroup v-bind="args" v-model="value" variant="outlined" />
-        <RadioButtonGroup v-bind="args" v-model="value" variant="text" />
       </div>
     `,
   }),
@@ -99,6 +99,7 @@ export const WithIcons: StoryObj<typeof RadioButtonGroup> = {
 export const OptionPropsMapping: StoryObj<typeof RadioButtonGroup> = {
   args: {
     options: objectOptions,
+    modelValue: 'first',
     optionValue: 'value',
     optionLabel: 'label',
     optionDisabled: 'disabled',
@@ -110,7 +111,7 @@ export const ValueCasting: StoryObj<typeof RadioButtonGroup> = {
   args: { options: plainObjectOptions },
   render: (args) => ({
     components: { RadioButtonGroup, DumpValue },
-    setup: () => ({ args, value: ref() }),
+    setup: () => ({ args, value: ref(1) }),
     template: `
       <RadioButtonGroup v-bind="args" v-model="value" />
       <DumpValue :value="value" />

@@ -23,7 +23,7 @@ export default {
     },
     color: {
       control: 'select',
-      options: ['primary', 'secondary', 'success', 'danger'],
+      options: ['primary', 'secondary', 'success', 'danger', 'accent'],
     },
     variant: {
       control: 'select',

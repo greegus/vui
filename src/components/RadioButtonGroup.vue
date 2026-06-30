@@ -5,8 +5,8 @@
       :key="option.value"
       role="radio"
       :aria-checked="option.isSelected"
-      :color="option.isSelected ? 'primary' : 'secondary'"
-      :variant="variant"
+      :color="option.isSelected ? 'accent' : 'secondary'"
+      :variant="option.isSelected ? variant : 'outlined'"
       :label="option.label"
       :disabled="$props.disabled || option.disabled"
       :title="option.description"
@@ -56,7 +56,7 @@ import { computed } from 'vue'
 
 import Button from '@/components/Button.vue'
 import ButtonGroup from '@/components/ButtonGroup.vue'
-import type { ButtonVariant, Extractor, InputSize, Option } from '@/types'
+import type { Extractor, InputSize, Option } from '@/types'
 import { normalizeOptions } from '@/utils/normalizeOptions'
 
 const modelValue = defineModel<any>()
@@ -69,7 +69,8 @@ const props = withDefaults(
     optionDisabled?: Extractor
     optionIcon?: Extractor
     optionDescription?: Extractor
-    variant?: ButtonVariant
+    /** Render variant of the active button. */
+    variant?: 'filled' | 'outlined'
     disabled?: boolean
     size?: InputSize
   }>(),

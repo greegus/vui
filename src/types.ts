@@ -32,8 +32,8 @@ export type InputSize = 'small' | 'normal' | 'large'
 /** Size variants for icons (same as InputSize) */
 export type IconSize = InputSize
 
-/** Button color palette: 'primary' | 'secondary' | 'success' | 'danger' */
-export type ButtonColor = 'primary' | 'secondary' | 'success' | 'danger'
+/** Button color palette: 'primary' | 'secondary' | 'success' | 'danger' | 'accent' */
+export type ButtonColor = 'primary' | 'secondary' | 'success' | 'danger' | 'accent'
 
 /** Button render variant: 'filled' | 'outlined' | 'text' */
 export type ButtonVariant = 'filled' | 'outlined' | 'text'

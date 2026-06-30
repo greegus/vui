@@ -138,6 +138,15 @@
     --ringColor: var(--vuiii-button-ringColor--danger);
   }
 
+  &.vuiii-button--color-accent {
+    --surface: var(--vuiii-color-accent);
+    --surface--hover: var(--vuiii-color-accent--darker);
+    --onSurface: var(--vuiii-color-white);
+    --accent: var(--vuiii-color-accent);
+    --accent--hover: var(--vuiii-color-accent--darker);
+    --ringColor: oklch(from var(--vuiii-color-accent) l c h / 0.1);
+  }
+
   /* Variants — map the palette to drawing tokens */
 
   &.vuiii-button--variant-filled {
