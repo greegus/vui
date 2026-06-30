@@ -177,7 +177,7 @@ const serializedModelValue = computed(() => optionParser.value.stringify(modelVa
 
 const groups = computed(() => {
   if (!props.groupOptions) {
-    return
+    return undefined
   }
 
   return normalizeGroups(
@@ -196,7 +196,7 @@ const groups = computed(() => {
 
 const options = computed(() => {
   if (groups.value) {
-    return
+    return undefined
   }
 
   return normalizeOptions(

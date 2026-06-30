@@ -9,12 +9,7 @@
         {{ item.label }}
       </router-link>
 
-      <Icon
-        v-if="index < breadcrumbs.length - 1"
-        name="chevron-right"
-        class="Breadcrumbs__arrow"
-        aria-hidden="true"
-      />
+      <Icon v-if="index < breadcrumbs.length - 1" name="chevron-right" class="Breadcrumbs__arrow" aria-hidden="true" />
     </div>
   </nav>
 </template>

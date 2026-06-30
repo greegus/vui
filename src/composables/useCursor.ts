@@ -50,7 +50,7 @@ export function useCursor<T = unknown>(
 
   const cursorIndex = ref(initialIndex)
 
-  const cursorItem = computed(() => cursorIndex.value === -1 ? undefined : unref(items)[cursorIndex.value])
+  const cursorItem = computed(() => (cursorIndex.value === -1 ? undefined : unref(items)[cursorIndex.value]))
 
   const moveCursorForward = () => {
     const currentIndex = cursorIndex.value === -1 ? -1 : cursorIndex.value

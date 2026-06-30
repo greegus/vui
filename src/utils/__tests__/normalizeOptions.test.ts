@@ -19,8 +19,24 @@ describe('retrieveValue', () => {
 describe('normalizeOptions', () => {
   it('normalizes a primitive string array', () => {
     expect(normalizeOptions(['Apple', 'Banana'])).toEqual([
-      { value: 'Apple', label: 'Apple', disabled: undefined, description: undefined, icon: undefined, isSelected: undefined, data: 'Apple' },
-      { value: 'Banana', label: 'Banana', disabled: undefined, description: undefined, icon: undefined, isSelected: undefined, data: 'Banana' },
+      {
+        value: 'Apple',
+        label: 'Apple',
+        disabled: undefined,
+        description: undefined,
+        icon: undefined,
+        isSelected: undefined,
+        data: 'Apple',
+      },
+      {
+        value: 'Banana',
+        label: 'Banana',
+        disabled: undefined,
+        description: undefined,
+        icon: undefined,
+        isSelected: undefined,
+        data: 'Banana',
+      },
     ])
   })
 
@@ -75,10 +91,12 @@ describe('normalizeOptions', () => {
 
 describe('normalizeGroups', () => {
   it('normalizes grouped arrays', () => {
-    const groups = normalizeGroups(
-      [{ category: 'Fruits', items: [{ id: 1, name: 'Apple' }] }],
-      { groupLabel: 'category', groupOptions: 'items', value: 'id', label: 'name' },
-    )
+    const groups = normalizeGroups([{ category: 'Fruits', items: [{ id: 1, name: 'Apple' }] }], {
+      groupLabel: 'category',
+      groupOptions: 'items',
+      value: 'id',
+      label: 'name',
+    })
 
     expect(groups[0]!.label).toBe('Fruits')
     expect(groups[0]!.options[0]).toMatchObject({ value: '1', label: 'Apple' })

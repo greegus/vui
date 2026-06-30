@@ -689,7 +689,11 @@ export const Inputs: StoryObj = {
         },
         { name: '--vuiii-input-textColor', value: 'inherit', description: 'Text color' },
         { name: '--vuiii-input-borderColor', value: 'var(--vuiii-field-borderColor)', description: 'Border color' },
-        { name: '--vuiii-input-borderColor--focus', value: 'oklch(from ... calc(l * 0.80))', description: 'Focus border color' },
+        {
+          name: '--vuiii-input-borderColor--focus',
+          value: 'oklch(from ... calc(l * 0.80))',
+          description: 'Focus border color',
+        },
         { name: '--vuiii-input-bgColor', value: 'var(--vuiii-color-white)', description: 'Background color' },
         {
           name: '--vuiii-input-placeholderColor',
@@ -816,7 +820,11 @@ export const Components: StoryObj = {
           description: 'Header text color',
         },
         { name: '--vuiii-table-rowBgColor', value: 'transparent', description: 'Row background' },
-        { name: '--vuiii-table-rowBgColor--hover', value: 'oklch(from ... l c h / 0.04)', description: 'Row hover background' },
+        {
+          name: '--vuiii-table-rowBgColor--hover',
+          value: 'oklch(from ... l c h / 0.04)',
+          description: 'Row hover background',
+        },
       ]
       const dialogTokens = [
         {
@@ -848,8 +856,16 @@ export const Components: StoryObj = {
           description: 'Corner radius',
         },
         { name: '--vuiii-dropdownMenu-boxShadow', value: 'var(--vuiii-shadow--large)', description: 'Drop shadow' },
-        { name: '--vuiii-dropdownMenu-cursor-bgColor', value: 'oklch(from ... l c h / 0.06)', description: 'Cursor highlight' },
-        { name: '--vuiii-dropdownMenu-button-bgColor--hover', value: 'oklch(from ... l c h / 0.04)', description: 'Item hover' },
+        {
+          name: '--vuiii-dropdownMenu-cursor-bgColor',
+          value: 'oklch(from ... l c h / 0.06)',
+          description: 'Cursor highlight',
+        },
+        {
+          name: '--vuiii-dropdownMenu-button-bgColor--hover',
+          value: 'oklch(from ... l c h / 0.04)',
+          description: 'Item hover',
+        },
       ]
       return { dividerTokens, checkboxTokens, iconTokens, tableTokens, dialogTokens, dropdownTokens }
     },
@@ -963,7 +979,10 @@ export const AllTokens: StoryObj = {
         { name: '--vuiii-color-success', value: 'oklch(53.22% 0.1405 131.59)' },
         { name: '--vuiii-color-success--darker', value: 'oklch(from var(--vuiii-color-success) calc(l * 0.95) c h)' },
         { name: '--vuiii-shadow', value: '0 1px 3px 0 oklch(0% 0 0 / 0.1), 0 1px 2px -1px oklch(0% 0 0 / 0.1)' },
-        { name: '--vuiii-shadow--large', value: '0 2px 15px 0 oklch(0% 0 0 / 0.2), 0 1px 2px -1px oklch(0% 0 0 / 0.1)' },
+        {
+          name: '--vuiii-shadow--large',
+          value: '0 2px 15px 0 oklch(0% 0 0 / 0.2), 0 1px 2px -1px oklch(0% 0 0 / 0.1)',
+        },
         // Typography
         { name: '--vuiii-typeface-body', value: '"Inter", "Helvetica Neue", Helvetica, Arial, sans-serif' },
         { name: '--vuiii-typeface-display', value: 'var(--vuiii-typeface-body)' },

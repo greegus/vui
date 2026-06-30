@@ -19,7 +19,9 @@ function buildResults(email: string): ValidationResults<FormData> {
 
 describe('useValidation', () => {
   it('returns true and exposes state for valid data', async () => {
-    const { validate, isValid, isInvalid, validatedFields } = useValidation((data: FormData) => buildResults(data.email))
+    const { validate, isValid, isInvalid, validatedFields } = useValidation((data: FormData) =>
+      buildResults(data.email),
+    )
 
     const result = await validate({ email: 'a@b.com' })
 
@@ -40,9 +42,7 @@ describe('useValidation', () => {
   })
 
   it('toggles isValidating around an async validation', async () => {
-    const { validate, isValidating } = useValidation(
-      (data: FormData) => Promise.resolve(buildResults(data.email)),
-    )
+    const { validate, isValidating } = useValidation((data: FormData) => Promise.resolve(buildResults(data.email)))
 
     const pending = validate({ email: 'a@b.com' })
     expect(isValidating.value).toBe(true)

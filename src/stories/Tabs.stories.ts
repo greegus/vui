@@ -95,7 +95,8 @@ export const KeepAlive: StoryObj<typeof Tabs> = {
   parameters: {
     docs: {
       description: {
-        story: 'With `keep-alive`, inactive panels stay mounted (hidden), so the text typed below survives tab switches.',
+        story:
+          'With `keep-alive`, inactive panels stay mounted (hidden), so the text typed below survives tab switches.',
       },
     },
   },

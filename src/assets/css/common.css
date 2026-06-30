@@ -21,7 +21,7 @@
   --vuiii-color-primary--darker: oklch(from var(--vuiii-color-primary) calc(l * 0.95) c h);
   --vuiii-color-primary--darkest: oklch(from var(--vuiii-color-primary) calc(l * 0.85) c h);
 
-  --vuiii-color-danger: oklch(58.58% 0.2220 17.58); /* rose.600 */
+  --vuiii-color-danger: oklch(58.58% 0.222 17.58); /* rose.600 */
   --vuiii-color-danger--darker: oklch(from var(--vuiii-color-danger) calc(l * 0.95) c h);
 
   --vuiii-color-warning: oklch(79.52% 0.1617 86.05); /* amber.400 */
@@ -154,7 +154,7 @@
   --vuiii-field-borderWidth: 1px;
   --vuiii-field-bgColor: var(--vuiii-color-white);
   --vuiii-field-borderColor: var(--vuiii-color-gray);
-  --vuiii-field-ringColor: oklch(from var(--vuiii-color-gray--dark) l c h / 0.10);
+  --vuiii-field-ringColor: oklch(from var(--vuiii-color-gray--dark) l c h / 0.1);
   --vuiii-field-ringSize: 0.25em;
 
   --vuiii-field-borderColor--active: var(--vuiii-color-gray--dark);
@@ -214,7 +214,7 @@
   --vuiii-button-borderColor: var(--vuiii-button-bgColor);
   --vuiii-button-borderColor--focus: var(--vuiii-button-borderColor);
   --vuiii-button-textColor: var(--vuiii-color-primary);
-  --vuiii-button-ringColor: oklch(from var(--vuiii-color-primary) l c h / 0.10);
+  --vuiii-button-ringColor: oklch(from var(--vuiii-color-primary) l c h / 0.1);
 
   --vuiii-button-bgColor--hover: transparent;
   --vuiii-button-borderColor--hover: var(--vuiii-button-bgColor--hover);
@@ -227,7 +227,7 @@
   --vuiii-button-bgColor--primary: var(--vuiii-color-primary);
   --vuiii-button-borderColor--primary: var(--vuiii-button-bgColor--primary);
   --vuiii-button-textColor--primary: white;
-  --vuiii-button-ringColor--primary: oklch(from var(--vuiii-color-primary) l c h / 0.10);
+  --vuiii-button-ringColor--primary: oklch(from var(--vuiii-color-primary) l c h / 0.1);
 
   --vuiii-button-bgColor--primary--hover: var(--vuiii-color-primary--darker);
 
@@ -238,7 +238,7 @@
   --vuiii-button-bgColor--secondary: var(--vuiii-color-gray--light);
   --vuiii-button-borderColor--secondary: var(--vuiii-button-bgColor--secondary);
   --vuiii-button-textColor--secondary: var(--vuiii-color-gray--darkest);
-  --vuiii-button-ringColor--secondary: oklch(from var(--vuiii-color-gray--darker) l c h / 0.10);
+  --vuiii-button-ringColor--secondary: oklch(from var(--vuiii-color-gray--darker) l c h / 0.1);
 
   --vuiii-button-bgColor--secondary--hover: var(--vuiii-color-gray);
   --vuiii-button-textColor--secondary--hover: var(--vuiii-color-black);
@@ -253,7 +253,7 @@
   --vuiii-button-bgColor--danger: var(--vuiii-color-danger);
   --vuiii-button-textColor--danger: white;
   --vuiii-button-borderColor--danger: var(--vuiii-color-danger);
-  --vuiii-button-ringColor--danger: oklch(from var(--vuiii-color-danger) l c h / 0.10);
+  --vuiii-button-ringColor--danger: oklch(from var(--vuiii-color-danger) l c h / 0.1);
 
   --vuiii-button-bgColor--danger--hover: var(--vuiii-color-danger--darker);
 
@@ -262,7 +262,7 @@
   --vuiii-button-bgColor--success: var(--vuiii-color-success);
   --vuiii-button-textColor--success: white;
   --vuiii-button-borderColor--success: var(--vuiii-color-success);
-  --vuiii-button-ringColor--success: oklch(from var(--vuiii-color-success) l c h / 0.10);
+  --vuiii-button-ringColor--success: oklch(from var(--vuiii-color-success) l c h / 0.1);
 
   --vuiii-button-bgColor--success--hover: var(--vuiii-color-success--darker);
 
@@ -278,7 +278,7 @@
 
   --vuiii-input-textColor: inherit;
   --vuiii-input-borderColor: var(--vuiii-field-borderColor);
-  --vuiii-input-borderColor--focus: oklch(from var(--vuiii-input-borderColor) calc(l * 0.80) c h);
+  --vuiii-input-borderColor--focus: oklch(from var(--vuiii-input-borderColor) calc(l * 0.8) c h);
   --vuiii-input-bgColor: var(--vuiii-color-white);
   --vuiii-input-bgColor--focus: var(--vuiii-input-bgColor);
   --vuiii-input-placeholderColor: color-mix(in oklch, currentColor 50%, transparent);
@@ -308,11 +308,11 @@
 
   --vuiii-input-textColor--valid: var(--vuiii-color-success);
   --vuiii-input-borderColor--valid: var(--vuiii-color-success);
-  --vuiii-input-ringColor--valid: oklch(from var(--vuiii-color-success) l c h / 0.10);
+  --vuiii-input-ringColor--valid: oklch(from var(--vuiii-color-success) l c h / 0.1);
 
   --vuiii-input-textColor--invalid: var(--vuiii-color-danger);
   --vuiii-input-borderColor--invalid: var(--vuiii-color-danger);
-  --vuiii-input-ringColor--invalid: oklch(from var(--vuiii-color-danger) l c h / 0.10);
+  --vuiii-input-ringColor--invalid: oklch(from var(--vuiii-color-danger) l c h / 0.1);
 
   /* ------- */
   /* Divider */

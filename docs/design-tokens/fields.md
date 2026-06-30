@@ -4,19 +4,19 @@ Field tokens provide shared styling for form inputs (Input, Select, Textarea, Au
 
 ## Base Tokens
 
-| Token                             | Value                                                                | Description            |
-| --------------------------------- | -------------------------------------------------------------------- | ---------------------- |
-| `--vuiii-field-height`            | `2.5em`                                                              | Default field height   |
-| `--vuiii-field-padding`           | `1.35em`                                                             | Horizontal padding     |
-| `--vuiii-field-borderRadius`      | `0.25em`                                                             | Corner radius          |
-| `--vuiii-field-fontSize`          | `var(--vuiii-fontSize)`                                              | Text size              |
-| `--vuiii-field-borderWidth`       | `1px`                                                                | Border thickness       |
-| `--vuiii-field-bgColor`           | `var(--vuiii-color-white)`                                           | Background color       |
-| `--vuiii-field-borderColor`       | `var(--vuiii-color-gray)`                                            | Border color           |
+| Token                             | Value                                                    | Description            |
+| --------------------------------- | -------------------------------------------------------- | ---------------------- |
+| `--vuiii-field-height`            | `2.5em`                                                  | Default field height   |
+| `--vuiii-field-padding`           | `1.35em`                                                 | Horizontal padding     |
+| `--vuiii-field-borderRadius`      | `0.25em`                                                 | Corner radius          |
+| `--vuiii-field-fontSize`          | `var(--vuiii-fontSize)`                                  | Text size              |
+| `--vuiii-field-borderWidth`       | `1px`                                                    | Border thickness       |
+| `--vuiii-field-bgColor`           | `var(--vuiii-color-white)`                               | Background color       |
+| `--vuiii-field-borderColor`       | `var(--vuiii-color-gray)`                                | Border color           |
 | `--vuiii-field-ringColor`         | `oklch(from var(--vuiii-color-gray--dark) l c h / 0.10)` | Focus ring color       |
-| `--vuiii-field-ringSize`          | `0.25em`                                                             | Focus ring width       |
-| `--vuiii-field-transition`        | `all 0.05s ease-in-out`                                              | Animation timing       |
-| `--vuiii-field-opacity--disabled` | `0.6`                                                                | Disabled state opacity |
+| `--vuiii-field-ringSize`          | `0.25em`                                                 | Focus ring width       |
+| `--vuiii-field-transition`        | `all 0.05s ease-in-out`                                  | Animation timing       |
+| `--vuiii-field-opacity--disabled` | `0.6`                                                    | Disabled state opacity |
 
 ## State Tokens
 
@@ -52,25 +52,25 @@ Field tokens provide shared styling for form inputs (Input, Select, Textarea, Au
 
 Input, Textarea, and other text inputs inherit from field tokens but add additional styling:
 
-| Token                            | Value                                               | Description      |
-| -------------------------------- | --------------------------------------------------- | ---------------- |
-| `--vuiii-input-textColor`        | `inherit`                                           | Text color       |
-| `--vuiii-input-bgColor`          | `var(--vuiii-color-white)`                          | Background       |
-| `--vuiii-input-bgColor--focus`   | `var(--vuiii-input-bgColor)`                        | Focus background |
+| Token                            | Value                                                | Description      |
+| -------------------------------- | ---------------------------------------------------- | ---------------- |
+| `--vuiii-input-textColor`        | `inherit`                                            | Text color       |
+| `--vuiii-input-bgColor`          | `var(--vuiii-color-white)`                           | Background       |
+| `--vuiii-input-bgColor--focus`   | `var(--vuiii-input-bgColor)`                         | Focus background |
 | `--vuiii-input-placeholderColor` | `color-mix(in oklch, currentColor 50%, transparent)` | Placeholder text |
 | `--vuiii-input-iconColor`        | `color-mix(in oklch, currentColor 50%, transparent)` | Icon color       |
-| `--vuiii-input-shadow`           | `0 0`                                               | Box shadow       |
-| `--vuiii-input-shadow--focus`    | `var(--vuiii-input-shadow)`                         | Focus shadow     |
+| `--vuiii-input-shadow`           | `0 0`                                                | Box shadow       |
+| `--vuiii-input-shadow--focus`    | `var(--vuiii-input-shadow)`                          | Focus shadow     |
 
 ### Validity States
 
-| Token                                | Value                                                             | Description        |
-| ------------------------------------ | ----------------------------------------------------------------- | ------------------ |
-| `--vuiii-input-textColor--valid`     | `var(--vuiii-color-success)`                                      | Valid text color   |
-| `--vuiii-input-borderColor--valid`   | `var(--vuiii-color-success)`                                      | Valid border       |
+| Token                                | Value                                                 | Description        |
+| ------------------------------------ | ----------------------------------------------------- | ------------------ |
+| `--vuiii-input-textColor--valid`     | `var(--vuiii-color-success)`                          | Valid text color   |
+| `--vuiii-input-borderColor--valid`   | `var(--vuiii-color-success)`                          | Valid border       |
 | `--vuiii-input-ringColor--valid`     | `oklch(from var(--vuiii-color-success) l c h / 0.10)` | Valid focus ring   |
-| `--vuiii-input-textColor--invalid`   | `var(--vuiii-color-danger)`                                       | Invalid text color |
-| `--vuiii-input-borderColor--invalid` | `var(--vuiii-color-danger)`                                       | Invalid border     |
+| `--vuiii-input-textColor--invalid`   | `var(--vuiii-color-danger)`                           | Invalid text color |
+| `--vuiii-input-borderColor--invalid` | `var(--vuiii-color-danger)`                           | Invalid border     |
 | `--vuiii-input-ringColor--invalid`   | `oklch(from var(--vuiii-color-danger) l c h / 0.10)`  | Invalid focus ring |
 
 ## Customization

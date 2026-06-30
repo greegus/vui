@@ -9,7 +9,9 @@ vi.mock('vue-router', () => ({
 
 describe('useSubmitAction', () => {
   it('runs the action and tracks success state', async () => {
-    const { submit, isSubmitting, hasSubmitted, result, error } = useSubmitAction((value: number) => Promise.resolve(value * 2))
+    const { submit, isSubmitting, hasSubmitted, result, error } = useSubmitAction((value: number) =>
+      Promise.resolve(value * 2),
+    )
 
     const returned = await submit(21)
 
