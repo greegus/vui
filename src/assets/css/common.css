@@ -357,6 +357,20 @@
   --vuiii-table-rowDividerColor: var(--vuiii-table-dividerColor);
   --vuiii-table-rowDividerWidth: var(--vuiii-table-dividerWidth);
 
+  /* ---- */
+  /* Card */
+  /* ---- */
+
+  --vuiii-card-bgColor: var(--vuiii-color-light);
+  --vuiii-card-textColor: var(--vuiii-color-dark);
+  --vuiii-card-padding: 1.5rem;
+  --vuiii-card-borderRadius: 0.5rem;
+  --vuiii-card-borderWidth: 1px;
+  --vuiii-card-borderColor: transparent;
+  --vuiii-card-title-fontSize: var(--vuiii-fontSize--large);
+  --vuiii-card-title-fontWeight: 600;
+  --vuiii-card-title-fontFamily: inherit;
+
   /* ------ */
   /* Dialog */
   /* ------ */
@@ -366,11 +380,11 @@
   --vuiii-dialog-title-fontFamily: inherit;
   --vuiii-dialog-bgColor: var(--vuiii-color-light);
   --vuiii-dialog-textColor: var(--vuiii-color-dark);
-  --vuiii-dialog-borderRadius: calc(var(--vuiii-button-borderRadius) + var(--vuiii-dialog-padding));
+  --vuiii-dialog-borderRadius: var(--vuiii-card-borderRadius);
   --vuiii-dialog-boxShadow: 0 2px 10px oklch(0% 0 0 / 0.1);
   --vuiii-dialog-borderColor: black;
   --vuiii-dialog-borderWidth: 1px;
-  --vuiii-dialog-padding: 1.5rem;
+  --vuiii-dialog-padding: var(--vuiii-card-padding);
   --vuiii-dialog-dividerWidth: var(--vuiii-divider-width);
   --vuiii-dialog-dividerStyle: solid;
   --vuiii-dialog-dividerColor: var(--vuiii-divider-color);
