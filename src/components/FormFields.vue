@@ -22,8 +22,7 @@
         :description="item.description"
         :hint="item.hint"
         :required="normalizeRequired(item)"
-        :invalid="props.validationResults?.[item.name]?.isInvalid"
-        :error-message="props.validationResults?.[item.name]?.errorMessage"
+        :error="props.validationResults?.[item.name]?.errorMessage || props.validationResults?.[item.name]?.isInvalid"
       >
         <slot :name="`field:${String(item.name)}`" v-bind="{ ...item, index }">
           <component
