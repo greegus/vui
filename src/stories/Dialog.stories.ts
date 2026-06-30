@@ -92,7 +92,7 @@ const SimpleModalDialog = defineComponent({
   },
 
   template: `
-    <DialogLayout title="Modal dialog" :buttons="[{ label: 'Close', variant: 'primary' }]">
+    <DialogLayout title="Modal dialog" :buttons="[{ label: 'Close', color: 'primary' }]">
       This modal cannot be closed by ESC or clicking outside.
     </DialogLayout>
   `,
@@ -142,23 +142,23 @@ const Template: StoryFn<typeof DialogStack> = () => ({
 
         <div style="display: flex; flex-flow: column; gap: 0.25rem">
             <div>
-                <Button variant="primary" label="Open simple dialog" @click="openSimpleDialog()" />
+                <Button color="primary" label="Open simple dialog" @click="openSimpleDialog()" />
             </div>
 
             <div>
-                <Button variant="primary" label="Open simple dialog with confirmation" @click="openSimpleDialogWithBeforeClose()" />
+                <Button color="primary" label="Open simple dialog with confirmation" @click="openSimpleDialogWithBeforeClose()" />
             </div>
 
             <div>
-                <Button variant="primary" label="Open confirmation dialog" @click="openConfirmationDialog()" />
+                <Button color="primary" label="Open confirmation dialog" @click="openConfirmationDialog()" />
             </div>
 
             <div>
-                <Button variant="primary" label="Open alert" @click="openAlert()" />
+                <Button color="primary" label="Open alert" @click="openAlert()" />
             </div>
 
             <div>
-                <Button variant="primary" label="Open modal dialog" @click="openModalDialog()" />
+                <Button color="primary" label="Open modal dialog" @click="openModalDialog()" />
             </div>
         </div>
     </div>

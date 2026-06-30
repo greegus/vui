@@ -49,7 +49,7 @@ export const Default: StoryObj<typeof Tooltip> = {
     setup: () => ({ args }),
     template: `
       <Tooltip v-bind="args">
-        <Button label="Hover me" variant="secondary" />
+        <Button label="Hover me" color="secondary" />
       </Tooltip>
     `,
   }),
@@ -62,19 +62,19 @@ export const Placements: StoryObj<typeof Tooltip> = {
     template: `
       <div style="display: flex; flex-direction: column; gap: 48px; align-items: center;">
         <Tooltip v-bind="args" placement="top" title="Top tooltip">
-          <Button label="Top" variant="secondary" />
+          <Button label="Top" color="secondary" />
         </Tooltip>
 
         <Tooltip v-bind="args" placement="bottom" title="Bottom tooltip">
-          <Button label="Bottom" variant="secondary" />
+          <Button label="Bottom" color="secondary" />
         </Tooltip>
 
         <Tooltip v-bind="args" placement="right" title="Right tooltip">
-          <Button label="Right" variant="secondary" />
+          <Button label="Right" color="secondary" />
         </Tooltip>
 
         <Tooltip v-bind="args" placement="left" title="Left tooltip">
-          <Button label="Left" variant="secondary" />
+          <Button label="Left" color="secondary" />
         </Tooltip>
       </div>
     `,
@@ -95,19 +95,19 @@ export const WithArrow: StoryObj<typeof Tooltip> = {
     template: `
       <div style="display: flex; flex-direction: column; gap: 48px; align-items: center;">
         <Tooltip v-bind="args" placement="top" title="Top" withArrow>
-          <Button label="Top" variant="secondary" />
+          <Button label="Top" color="secondary" />
         </Tooltip>
 
         <Tooltip v-bind="args" placement="bottom" title="Bottom" withArrow>
-          <Button label="Bottom" variant="secondary" />
+          <Button label="Bottom" color="secondary" />
         </Tooltip>
 
         <Tooltip v-bind="args" placement="left" title="Left" withArrow>
-          <Button label="Left" variant="secondary" />
+          <Button label="Left" color="secondary" />
         </Tooltip>
 
         <Tooltip v-bind="args" placement="right" title="Right" withArrow>
-          <Button label="Right" variant="secondary" />
+          <Button label="Right" color="secondary" />
         </Tooltip>
       </div>
     `,
@@ -131,7 +131,7 @@ export const WithDelay: StoryObj<typeof Tooltip> = {
     setup: () => ({ args }),
     template: `
       <Tooltip v-bind="args">
-        <Button label="Hover and wait" variant="secondary" />
+        <Button label="Hover and wait" color="secondary" />
       </Tooltip>
     `,
   }),
@@ -152,15 +152,15 @@ export const WithOffset: StoryObj<typeof Tooltip> = {
     template: `
       <div style="display: flex; gap: 48px; align-items: center;">
         <Tooltip v-bind="args" title="Default gap (4px)">
-          <Button label="Default" variant="secondary" />
+          <Button label="Default" color="secondary" />
         </Tooltip>
 
         <Tooltip v-bind="args" title="12px offset" :offset="12">
-          <Button label="Offset 12" variant="secondary" />
+          <Button label="Offset 12" color="secondary" />
         </Tooltip>
 
         <Tooltip v-bind="args" title="24px offset" :offset="24" withArrow>
-          <Button label="Offset 24" variant="secondary" />
+          <Button label="Offset 24" color="secondary" />
         </Tooltip>
       </div>
     `,
@@ -203,7 +203,7 @@ export const CustomTitle: StoryObj<typeof Tooltip> = {
         <template #title>
           <strong>Rich</strong> tooltip content
         </template>
-        <Button label="Custom title" variant="secondary" />
+        <Button label="Custom title" color="secondary" />
       </Tooltip>
     `,
   }),

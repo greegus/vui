@@ -9,13 +9,13 @@
  * import { IconButton } from 'vuiii'
  *
  * <IconButton icon="pencil" @click="edit()" />
- * <IconButton icon="trash" variant="danger" @click="remove()" />
+ * <IconButton icon="trash" color="danger" @click="remove()" />
  *
  * @example
- * // Different variants
- * <IconButton icon="plus" variant="primary" />
- * <IconButton icon="check" variant="secondary" />
- * <IconButton icon="x-mark" variant="danger" />
+ * // Different colors
+ * <IconButton icon="plus" color="primary" />
+ * <IconButton icon="check" color="secondary" />
+ * <IconButton icon="x-mark" color="danger" />
  *
  * @example
  * // Different sizes

@@ -5,12 +5,12 @@
       :key="option.value"
       role="radio"
       :aria-checked="option.isSelected"
-      :outlined="!option.isSelected"
+      :color="option.isSelected ? 'primary' : 'secondary'"
+      :variant="variant"
       :label="option.label"
       :disabled="$props.disabled || option.disabled"
       :title="option.description"
       :prefix-icon="option.icon"
-      :variant
       :size
       @click="modelValue = option.value"
     />
@@ -61,17 +61,22 @@ import { normalizeOptions } from '@/utils/normalizeOptions'
 
 const modelValue = defineModel<any>()
 
-const props = defineProps<{
-  options: any[] | Record<string, any>
-  optionLabel?: Extractor
-  optionValue?: Extractor
-  optionDisabled?: Extractor
-  optionIcon?: Extractor
-  optionDescription?: Extractor
-  variant?: ButtonVariant
-  disabled?: boolean
-  size?: InputSize
-}>()
+const props = withDefaults(
+  defineProps<{
+    options: any[] | Record<string, any>
+    optionLabel?: Extractor
+    optionValue?: Extractor
+    optionDisabled?: Extractor
+    optionIcon?: Extractor
+    optionDescription?: Extractor
+    variant?: ButtonVariant
+    disabled?: boolean
+    size?: InputSize
+  }>(),
+  {
+    variant: 'filled',
+  },
+)
 
 const normalizedOptions = computed<Option[]>(() =>
   normalizeOptions(
@@ -87,3 +92,10 @@ const normalizedOptions = computed<Option[]>(() =>
   ),
 )
 </script>
+
+<style scoped>
+/* Raise the active button so its (primary) border sits above the overlapping neighbours */
+:deep(.Button[aria-checked='true']) {
+  z-index: 1;
+}
+</style>

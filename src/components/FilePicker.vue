@@ -1,7 +1,7 @@
 <template>
   <button type="button" class="FilePicker" @click="openFilePicker" ref="pickerOpener" v-bind="$attrs">
     <slot>
-      <Button prefix-icon="arrow-up-tray" :label variant="primary" outlined />
+      <Button prefix-icon="arrow-up-tray" :label color="primary" variant="outlined" />
     </slot>
   </button>
 

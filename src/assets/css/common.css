@@ -208,63 +208,39 @@
   --vuiii-button-borderRadius--large: var(--vuiii-field-borderRadius--large);
   --vuiii-button-ringSize--large: var(--vuiii-field-ringSize--large);
 
-  /* Default button */
+  /* Color palette — surface = filled bg, onSurface = text on filled, accent = text/border for outlined & text */
 
-  --vuiii-button-bgColor: transparent;
-  --vuiii-button-borderColor: var(--vuiii-button-bgColor);
-  --vuiii-button-borderColor--focus: var(--vuiii-button-borderColor);
-  --vuiii-button-textColor: var(--vuiii-color-primary);
-  --vuiii-button-ringColor: oklch(from var(--vuiii-color-primary) l c h / 0.1);
-
-  --vuiii-button-bgColor--hover: transparent;
-  --vuiii-button-borderColor--hover: var(--vuiii-button-bgColor--hover);
-  --vuiii-button-textColor--hover: var(--vuiii-color-primary--darker);
-
-  --vuiii-button-textColor--focus: var(--vuiii-color-primary--darker);
-
-  /* Primary button variant */
-
-  --vuiii-button-bgColor--primary: var(--vuiii-color-primary);
-  --vuiii-button-borderColor--primary: var(--vuiii-button-bgColor--primary);
-  --vuiii-button-textColor--primary: white;
+  /* Primary */
+  --vuiii-button-surface--primary: var(--vuiii-color-primary);
+  --vuiii-button-surface--primary--hover: var(--vuiii-color-primary--darker);
+  --vuiii-button-onSurface--primary: white;
+  --vuiii-button-accent--primary: var(--vuiii-color-primary);
+  --vuiii-button-accent--primary--hover: var(--vuiii-color-primary--darker);
   --vuiii-button-ringColor--primary: oklch(from var(--vuiii-color-primary) l c h / 0.1);
 
-  --vuiii-button-bgColor--primary--hover: var(--vuiii-color-primary--darker);
-
-  --vuiii-button-textColor--primary--outlined--hover: var(--vuiii-color-primary--darkest);
-
-  /* Secondary button variant */
-
-  --vuiii-button-bgColor--secondary: var(--vuiii-color-gray--light);
-  --vuiii-button-borderColor--secondary: var(--vuiii-button-bgColor--secondary);
-  --vuiii-button-textColor--secondary: var(--vuiii-color-gray--darkest);
+  /* Secondary (neutral gray) */
+  --vuiii-button-surface--secondary: var(--vuiii-color-gray--light);
+  --vuiii-button-surface--secondary--hover: var(--vuiii-color-gray);
+  --vuiii-button-onSurface--secondary: var(--vuiii-color-gray--darkest);
+  --vuiii-button-accent--secondary: var(--vuiii-color-gray--darker);
+  --vuiii-button-accent--secondary--hover: var(--vuiii-color-gray--darkest);
   --vuiii-button-ringColor--secondary: oklch(from var(--vuiii-color-gray--darker) l c h / 0.1);
 
-  --vuiii-button-bgColor--secondary--hover: var(--vuiii-color-gray);
-  --vuiii-button-textColor--secondary--hover: var(--vuiii-color-black);
-
-  --vuiii-button-bgColor--secondary--outlined: var(--vuiii-color-gray--darker);
-  --vuiii-button-textColor--secondary--outlined: var(--vuiii-color-gray--darker);
-
-  --vuiii-button-textColor--secondary--outlined--hover: var(--vuiii-color-gray--darkest);
-
-  /* Danger button variant */
-
-  --vuiii-button-bgColor--danger: var(--vuiii-color-danger);
-  --vuiii-button-textColor--danger: white;
-  --vuiii-button-borderColor--danger: var(--vuiii-color-danger);
-  --vuiii-button-ringColor--danger: oklch(from var(--vuiii-color-danger) l c h / 0.1);
-
-  --vuiii-button-bgColor--danger--hover: var(--vuiii-color-danger--darker);
-
-  /* Success button variant */
-
-  --vuiii-button-bgColor--success: var(--vuiii-color-success);
-  --vuiii-button-textColor--success: white;
-  --vuiii-button-borderColor--success: var(--vuiii-color-success);
+  /* Success */
+  --vuiii-button-surface--success: var(--vuiii-color-success);
+  --vuiii-button-surface--success--hover: var(--vuiii-color-success--darker);
+  --vuiii-button-onSurface--success: white;
+  --vuiii-button-accent--success: var(--vuiii-color-success);
+  --vuiii-button-accent--success--hover: var(--vuiii-color-success--darker);
   --vuiii-button-ringColor--success: oklch(from var(--vuiii-color-success) l c h / 0.1);
 
-  --vuiii-button-bgColor--success--hover: var(--vuiii-color-success--darker);
+  /* Danger */
+  --vuiii-button-surface--danger: var(--vuiii-color-danger);
+  --vuiii-button-surface--danger--hover: var(--vuiii-color-danger--darker);
+  --vuiii-button-onSurface--danger: white;
+  --vuiii-button-accent--danger: var(--vuiii-color-danger);
+  --vuiii-button-accent--danger--hover: var(--vuiii-color-danger--darker);
+  --vuiii-button-ringColor--danger: oklch(from var(--vuiii-color-danger) l c h / 0.1);
 
   /* ------ */
   /* Inputs */

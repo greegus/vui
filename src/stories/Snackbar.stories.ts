@@ -47,11 +47,11 @@ const Template: StoryFn<typeof SnackbarStack> = () => ({
 
         <div style="display: flex; flex-flow: column; gap: 0.25rem">
             <div>
-                <Button variant="primary" label="Show success message" @click="showSuccessMessage()" />
+                <Button color="primary" label="Show success message" @click="showSuccessMessage()" />
             </div>
 
             <div>
-                <Button variant="primary" label="Show error message" @click="showErrorMessage()" />
+                <Button color="primary" label="Show error message" @click="showErrorMessage()" />
             </div>
         </div>
     </div>

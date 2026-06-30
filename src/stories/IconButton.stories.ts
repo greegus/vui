@@ -23,9 +23,13 @@ export default {
       control: 'select',
       options: ['small', 'normal', 'large'],
     },
+    color: {
+      control: 'select',
+      options: ['primary', 'secondary', 'success', 'danger'],
+    },
     variant: {
       control: 'select',
-      options: ['default', 'primary', 'secondary', 'danger', 'success'],
+      options: ['filled', 'outlined', 'text'],
     },
     block: {
       control: 'boolean',
@@ -35,7 +39,8 @@ export default {
     },
   },
   args: {
-    variant: 'primary',
+    color: 'primary',
+    variant: 'filled',
     icon: 'check',
   },
 } as Meta<typeof IconButton>
@@ -68,17 +73,30 @@ export const Sizes: StoryObj<typeof IconButton> = {
   }),
 }
 
+export const Colors: StoryObj<typeof IconButton> = {
+  render: (args) => ({
+    components: { IconButton },
+    setup: () => ({ args }),
+    template: `
+      <div style="display: flex; gap: 1rem;">
+        <IconButton v-bind="args" color="primary" />
+        <IconButton v-bind="args" color="secondary" />
+        <IconButton v-bind="args" color="success" />
+        <IconButton v-bind="args" color="danger" />
+      </div>
+    `,
+  }),
+}
+
 export const Variants: StoryObj<typeof IconButton> = {
   render: (args) => ({
     components: { IconButton },
     setup: () => ({ args }),
     template: `
-      <div style="display: flex; flex-flow: column;  gap: 1rem;">
-        <IconButton v-bind="args" variant="default" />
-        <IconButton v-bind="args" variant="primary" />
-        <IconButton v-bind="args" variant="secondary" />
-        <IconButton v-bind="args" variant="danger" />
-        <IconButton v-bind="args" variant="success" />
+      <div style="display: flex; gap: 1rem;">
+        <IconButton v-bind="args" variant="filled" />
+        <IconButton v-bind="args" variant="outlined" />
+        <IconButton v-bind="args" variant="text" />
       </div>
     `,
   }),

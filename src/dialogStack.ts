@@ -66,7 +66,7 @@
 import { type Component, computed, markRaw, ref } from 'vue'
 
 import { DialogLayout } from './index'
-import type { ButtonVariant, DialogLayoutButton } from './types'
+import type { ButtonColor, DialogLayoutButton } from './types'
 
 export type Dialog<ResultType = any, DialogComponentProps = Record<string, any>> = {
   id: number
@@ -95,7 +95,7 @@ export type AlertOptions =
       title?: string
       content?: string
       confirmLabel?: string
-      confirmVariant?: ButtonVariant
+      confirmColor?: ButtonColor
       confirmIcon?: string
       modal?: boolean
     }
@@ -106,10 +106,10 @@ export type ConfirmOptions =
       title?: string
       content?: string
       cancelLabel?: string
-      cancelVariant?: ButtonVariant
+      cancelColor?: ButtonColor
       cancelIcon?: string
       confirmLabel?: string
-      confirmVariant?: ButtonVariant
+      confirmColor?: ButtonColor
       confirmIcon?: string
       modal?: boolean
     }
@@ -183,7 +183,7 @@ export const openDialog = <ResultType = any, DialogComponentProps = Record<strin
  *   title: 'Success',
  *   content: 'Your changes have been saved.',
  *   confirmLabel: 'Great!',
- *   confirmVariant: 'primary'
+ *   confirmColor: 'primary'
  * })
  */
 export const openAlert = (options: AlertOptions): Promise<void> => {
@@ -193,7 +193,7 @@ export const openAlert = (options: AlertOptions): Promise<void> => {
     }
   }
 
-  const { title, content, confirmVariant, confirmLabel = config.confirmLabel, confirmIcon, modal } = options
+  const { title, content, confirmColor, confirmLabel = config.confirmLabel, confirmIcon, modal } = options
 
   return openDialog(DialogLayout, {
     title,
@@ -201,7 +201,7 @@ export const openAlert = (options: AlertOptions): Promise<void> => {
     modal,
     buttons: [
       {
-        variant: confirmVariant || 'primary',
+        color: confirmColor || 'primary',
         label: confirmLabel || '',
         icon: confirmIcon,
       },
@@ -226,7 +226,7 @@ export const openAlert = (options: AlertOptions): Promise<void> => {
  *   content: 'This action cannot be undone.',
  *   cancelLabel: 'Keep',
  *   confirmLabel: 'Delete',
- *   confirmVariant: 'danger'
+ *   confirmColor: 'danger'
  * })
  */
 export const openConfirm = (options: ConfirmOptions): Promise<boolean> => {
@@ -240,10 +240,10 @@ export const openConfirm = (options: ConfirmOptions): Promise<boolean> => {
     title,
     content,
     cancelLabel = config.cancelLabel,
-    cancelVariant,
+    cancelColor,
     cancelIcon,
     confirmLabel = config.confirmLabel,
-    confirmVariant,
+    confirmColor,
     confirmIcon,
     modal,
   } = options
@@ -254,13 +254,13 @@ export const openConfirm = (options: ConfirmOptions): Promise<boolean> => {
     modal,
     buttons: [
       {
-        variant: cancelVariant || 'secondary',
+        color: cancelColor || 'secondary',
         label: cancelLabel || '',
         icon: cancelIcon,
         value: false,
       },
       {
-        variant: confirmVariant || 'primary',
+        color: confirmColor || 'primary',
         label: confirmLabel || '',
         icon: confirmIcon,
         value: true,

@@ -26,7 +26,7 @@ export default {
   argTypes: {
     variant: {
       control: { type: 'select' },
-      options: ['default', 'primary', 'secondary', 'danger'],
+      options: ['filled', 'outlined', 'text'],
     },
     size: {
       control: { type: 'select' },
@@ -71,10 +71,9 @@ export const Variants: StoryObj<typeof RadioButtonGroup> = {
     setup: () => ({ args, value: ref() }),
     template: `
       <div style="display: flex; flex-flow: column; gap: 1rem;">
-        <RadioButtonGroup v-bind="args" v-model="value" variant="default" />
-        <RadioButtonGroup v-bind="args" v-model="value" variant="primary" />
-        <RadioButtonGroup v-bind="args" v-model="value" variant="secondary" />
-        <RadioButtonGroup v-bind="args" v-model="value" variant="danger" />
+        <RadioButtonGroup v-bind="args" v-model="value" variant="filled" />
+        <RadioButtonGroup v-bind="args" v-model="value" variant="outlined" />
+        <RadioButtonGroup v-bind="args" v-model="value" variant="text" />
       </div>
     `,
   }),

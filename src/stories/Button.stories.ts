@@ -21,9 +21,13 @@ export default {
       control: 'select',
       options: ['small', 'normal', 'large'],
     },
+    color: {
+      control: 'select',
+      options: ['primary', 'secondary', 'success', 'danger'],
+    },
     variant: {
       control: 'select',
-      options: ['default', 'primary', 'secondary', 'danger', 'success'],
+      options: ['filled', 'outlined', 'text'],
     },
     prefixIcon: {
       control: 'select',
@@ -41,7 +45,8 @@ export default {
     },
   },
   args: {
-    variant: 'primary',
+    color: 'primary',
+    variant: 'filled',
     label: 'Add to Cart',
   },
 } as Meta<typeof Button>
@@ -78,9 +83,9 @@ export const ButtonGroup: StoryObj<typeof Button> = {
     setup: () => ({ active: ref(0) }),
     template: `
       <ButtonGroup>
-        <Button variant="primary" :outlined="active !== 0" @click="active = 0" label="First" />
-        <Button variant="primary" :outlined="active !== 1" @click="active = 1" label="Second" />
-        <Button variant="primary" :outlined="active !== 2" @click="active = 2" label="Third" />
+        <Button color="primary" :variant="active === 0 ? 'filled' : 'outlined'" @click="active = 0" label="First" />
+        <Button color="primary" :variant="active === 1 ? 'filled' : 'outlined'" @click="active = 1" label="Second" />
+        <Button color="primary" :variant="active === 2 ? 'filled' : 'outlined'" @click="active = 2" label="Third" />
       </ButtonGroup>
     `,
   }),
@@ -100,17 +105,31 @@ export const Sizes: StoryObj<typeof Button> = {
   }),
 }
 
-export const Variants: StoryObj<typeof Button> = {
-  render: (args) => ({
+export const Colors: StoryObj<typeof Button> = {
+  render: () => ({
     components: { Button },
-    setup: () => ({ args }),
     template: `
-      <div style="display: flex; flex-flow: column;  gap: 1rem;">
-        <Button v-bind="args" variant="default" />
-        <Button v-bind="args" variant="primary" />
-        <Button v-bind="args" variant="secondary" />
-        <Button v-bind="args" variant="danger" />
-        <Button v-bind="args" variant="success" />
+      <div style="display: flex; gap: 1rem;">
+        <Button color="primary" label="Primary" />
+        <Button color="secondary" label="Secondary" />
+        <Button color="success" label="Success" />
+        <Button color="danger" label="Danger" />
+      </div>
+    `,
+  }),
+}
+
+export const Variants: StoryObj<typeof Button> = {
+  render: () => ({
+    components: { Button },
+    setup: () => ({ colors: ['primary', 'secondary', 'success', 'danger'] }),
+    template: `
+      <div style="display: flex; flex-flow: column; gap: 1rem;">
+        <div v-for="color in colors" :key="color" style="display: flex; gap: 1rem;">
+          <Button :color="color" variant="filled" label="Filled" />
+          <Button :color="color" variant="outlined" label="Outlined" />
+          <Button :color="color" variant="text" label="Text" />
+        </div>
       </div>
     `,
   }),

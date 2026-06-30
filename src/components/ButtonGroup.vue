@@ -18,7 +18,7 @@
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 
-    margin-right: calc(var(--vuiii-button-borderWidth, 1px) * -0.5);
+    margin-right: calc(var(--vuiii-button-borderWidth, 1px) * -1);
   }
 }
 </style>

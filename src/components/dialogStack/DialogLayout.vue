@@ -42,6 +42,7 @@
             <Button
               type="button"
               :label="button.label"
+              :color="button.color"
               :variant="button.variant"
               :prefix-icon="button.icon"
               :disabled="button.disabled"

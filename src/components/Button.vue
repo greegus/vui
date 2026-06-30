@@ -3,11 +3,11 @@
     :is="component"
     class="Button vuiii-button"
     :class="{
+      [`vuiii-button--color-${$props.color}`]: $props.color,
       [`vuiii-button--variant-${$props.variant}`]: $props.variant,
       [`vuiii-button--size-${$props.size}`]: $props.size,
       'vuiii-button--disabled': $props.disabled || $props.loading,
       'vuiii-button--loading': $props.loading,
-      'vuiii-button--outlined': $props.outlined && $props.variant,
       'vuiii-button--block': $props.block,
       'vuiii-button--pill': $props.pill,
     }"
@@ -52,8 +52,8 @@
  * import { Button } from 'vuiii'
  *
  * <Button label="Click me" />
- * <Button variant="primary" label="Submit" />
- * <Button variant="danger" label="Delete" />
+ * <Button color="primary" label="Submit" />
+ * <Button color="danger" label="Delete" />
  *
  * @example
  * // With icons
@@ -70,7 +70,7 @@
  * @example
  * // As router link (renders as <router-link>)
  * <Button :to="{ name: 'home' }" label="Go Home" />
- * <Button :to="'/about'" label="About" variant="secondary" />
+ * <Button :to="'/about'" label="About" color="secondary" />
  *
  * @example
  * // As external link (renders as <a>)
@@ -78,11 +78,13 @@
  *
  * @example
  * // Loading state (shows spinner, disables button)
- * <Button :loading="isSubmitting" label="Submit" variant="primary" />
+ * <Button :loading="isSubmitting" label="Submit" color="primary" />
  *
  * @example
- * // Outlined variant
- * <Button variant="primary" outlined label="Outlined Primary" />
+ * // Variants: filled (default), outlined, text
+ * <Button color="primary" variant="filled" label="Filled" />
+ * <Button color="primary" variant="outlined" label="Outlined" />
+ * <Button color="primary" variant="text" label="Text" />
  *
  * @example
  * // Full width and pill shape
@@ -91,7 +93,7 @@
  *
  * @example
  * // With custom slot content
- * <Button variant="primary">
+ * <Button color="primary">
  *   <template #prefix><CustomIcon /></template>
  *   Custom Content
  *   <template #suffix><Badge>3</Badge></template>
@@ -106,7 +108,7 @@ import { computed } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
 
 import Icon from '@/components/Icon.vue'
-import type { ButtonVariant, InputSize } from '@/types'
+import type { ButtonColor, ButtonVariant, InputSize } from '@/types'
 
 export type NativeButtonProps = {
   disabled?: boolean
@@ -115,13 +117,13 @@ export type NativeButtonProps = {
 
 export type ButtonProps = NativeButtonProps & {
   size?: InputSize
+  color?: ButtonColor
   variant?: ButtonVariant
   prefixIcon?: string
   suffixIcon?: string
   label?: string
   block?: boolean
   loading?: boolean
-  outlined?: boolean
   pill?: boolean
   to?: RouteLocationRaw
   href?: string
@@ -129,6 +131,8 @@ export type ButtonProps = NativeButtonProps & {
 
 const props = withDefaults(defineProps<ButtonProps>(), {
   type: 'button',
+  color: 'secondary',
+  variant: 'filled',
 })
 
 defineSlots<{

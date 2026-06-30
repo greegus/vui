@@ -9,7 +9,7 @@
       <slot name="trigger" v-bind="{ open, close, toggle, isOpen }">
         <Button
           :label
-          :variant
+          :color
           :block
           :prefixIcon="icon"
           suffixIcon="chevron-down"
@@ -39,7 +39,7 @@
  * // Basic dropdown with default button trigger
  * import { Dropdown, DropdownMenu } from 'vuiii'
  *
- * <Dropdown label="Options" variant="primary">
+ * <Dropdown label="Options" color="primary">
  *   <DropdownMenu :items="menuItems" @item-click="handleClick" />
  * </Dropdown>
  *
@@ -89,11 +89,11 @@
  */
 import type { ComputedRef } from 'vue'
 
-import type { ButtonVariant } from '@/types'
+import type { ButtonColor } from '@/types'
 
 export type DropdownProps = {
   label?: string
-  variant?: ButtonVariant
+  color?: ButtonColor
   block?: boolean
   icon?: string
   dropdownPlacement?: 'left' | 'right' | 'center'

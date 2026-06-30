@@ -50,6 +50,7 @@ export { useCloseDialog, useDialogStack } from './dialogStack'
 export { useSnackbar } from './snackbar'
 export type {
   BreadcrumbItems,
+  ButtonColor,
   ButtonVariant,
   DialogLayoutButton,
   Extractor,

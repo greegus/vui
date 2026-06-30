@@ -8,16 +8,28 @@
   --padding: var(--vuiii-button-padding);
   --borderRadius: var(--vuiii-button-borderRadius);
   --ringSize: 0;
-
-  --bgColor: var(--vuiii-button-bgColor);
-  --borderColor: var(--vuiii-button-borderColor);
-  --textColor: var(--vuiii-button-textColor);
   --borderWidth: var(--vuiii-button-borderWidth);
   --shadow: var(--vuiii-button-shadow, 0 0);
   --transition: var(--vuiii-button-transition);
-  --ringColor: var(--vuiii-button-ringColor);
   --gap: 0.5rem;
   --iconColor: var(--vuiii-button-iconColor, currentColor);
+
+  /* Palette (defaults to secondary; overridden by .vuiii-button--color-* classes) */
+  --surface: var(--vuiii-button-surface--secondary);
+  --surface--hover: var(--vuiii-button-surface--secondary--hover);
+  --onSurface: var(--vuiii-button-onSurface--secondary);
+  --accent: var(--vuiii-button-accent--secondary);
+  --accent--hover: var(--vuiii-button-accent--secondary--hover);
+  --ringColor: var(--vuiii-button-ringColor--secondary);
+  --tint--hover: oklch(from var(--accent) l c h / 0.08);
+
+  /* Drawing tokens (default = filled; overridden by .vuiii-button--variant-* classes) */
+  --bgColor: var(--surface);
+  --bgColor--hover: var(--surface--hover);
+  --textColor: var(--onSurface);
+  --textColor--hover: var(--onSurface);
+  --borderColor: var(--surface);
+  --borderColor--hover: var(--surface--hover);
 
   appearance: none;
   display: inline-flex;
@@ -48,23 +60,11 @@
 
   /* Focus state */
 
-  --bgColor--focus: var(--vuiii-button-bgColor--focus, var(--vuiii-button-bgColor));
-  --borderColor--focus: var(--vuiii-button-borderColor--focus, var(--vuiii-button-borderColor));
-  --textColor--focus: var(--vuiii-button-textColor--focus, var(--vuiii-button-textColor));
-
   &:focus-visible:not(:disabled):not(.vuiii-button--disabled) {
-    color: var(--textColor--focus);
-    border-color: var(--borderColor--focus);
-    background-color: var(--bgColor--focus);
-
     --ringSize: var(--vuiii-button-ringSize);
   }
 
   /* Hover state */
-
-  --bgColor--hover: var(--vuiii-button-bgColor--hover, var(--vuiii-button-bgColor));
-  --borderColor--hover: var(--vuiii-button-borderColor--hover, var(--vuiii-button-borderColor));
-  --textColor--hover: var(--vuiii-button-textColor--hover, var(--vuiii-button-textColor));
 
   &:hover:not(:disabled):not(.vuiii-button--disabled) {
     color: var(--textColor--hover);
@@ -100,136 +100,71 @@
     --padding: var(--vuiii-button-padding--large);
   }
 
-  /* Variants */
+  /* Colors — set the palette */
 
-  &.vuiii-button--variant-primary {
-    --bgColor: var(--vuiii-button-bgColor--primary);
-    --textColor: var(--vuiii-button-textColor--primary);
-    --borderColor: var(--vuiii-button-borderColor--primary);
+  &.vuiii-button--color-primary {
+    --surface: var(--vuiii-button-surface--primary);
+    --surface--hover: var(--vuiii-button-surface--primary--hover);
+    --onSurface: var(--vuiii-button-onSurface--primary);
+    --accent: var(--vuiii-button-accent--primary);
+    --accent--hover: var(--vuiii-button-accent--primary--hover);
     --ringColor: var(--vuiii-button-ringColor--primary);
-
-    --bgColor--focus: var(--vuiii-button-bgColor--primary--focus, var(--bgColor));
-    --textColor--focus: var(--vuiii-button-textColor--primary--focus, var(--textColor));
-    --borderColor--focus: var(--vuiii-button-borderColor--primary--focus, var(--borderColor));
-
-    --bgColor--hover: var(--vuiii-button-bgColor--primary--hover, var(--bgColor));
-    --textColor--hover: var(--vuiii-button-textColor--primary--hover, var(--textColor));
-    --borderColor--hover: var(--vuiii-button-borderColor--primary--hover, var(--borderColor));
-
-    &.vuiii-button--outlined {
-      --textColor: var(--vuiii-button-textColor--primary--outlined, var(--vuiii-button-bgColor--primary));
-      --borderColor: var(--vuiii-button-borderColor--primary--outlined, var(--vuiii-button-bgColor--primary));
-
-      --textColor--focus: var(--vuiii-button-textColor--primary--outlined--focus, var(--vuiii-button-bgColor--primary));
-      --borderColor--focus: var(
-        --vuiii-button-borderColor--primary--outlined--focus,
-        var(--vuiii-button-bgColor--primary)
-      );
-
-      --textColor--hover: var(
-        --vuiii-button-textColor--primary--outlined--hover,
-        var(--vuiii-button-bgColor--primary--hover)
-      );
-      --borderColor--hover: var(--vuiii-button-borderColor--primary--outlined--hover, var(--textColor--hover));
-    }
   }
 
-  &.vuiii-button--variant-secondary {
-    --bgColor: var(--vuiii-button-bgColor--secondary);
-    --borderColor: var(--vuiii-button-borderColor--secondary);
-    --textColor: var(--vuiii-button-textColor--secondary);
+  &.vuiii-button--color-secondary {
+    --surface: var(--vuiii-button-surface--secondary);
+    --surface--hover: var(--vuiii-button-surface--secondary--hover);
+    --onSurface: var(--vuiii-button-onSurface--secondary);
+    --accent: var(--vuiii-button-accent--secondary);
+    --accent--hover: var(--vuiii-button-accent--secondary--hover);
     --ringColor: var(--vuiii-button-ringColor--secondary);
-
-    --bgColor--focus: var(--vuiii-button-bgColor--secondary--focus, var(--bgColor));
-    --textColor--focus: var(--vuiii-button-textColor--secondary--focus, var(--textColor));
-    --borderColor--focus: var(--vuiii-button-borderColor--secondary--focus, var(--borderColor));
-
-    --bgColor--hover: var(--vuiii-button-bgColor--secondary--hover, var(--bgColor));
-    --textColor--hover: var(--vuiii-button-textColor--secondary--hover, var(--textColor));
-    --borderColor--hover: var(--vuiii-button-borderColor--secondary--hover, var(--borderColor));
-
-    &.vuiii-button--outlined {
-      --textColor: var(--vuiii-button-textColor--secondary--outlined, var(--vuiii-button-bgColor--secondary));
-      --borderColor: var(--vuiii-button-borderColor--secondary--outlined, var(--vuiii-button-bgColor--secondary));
-
-      --textColor--focus: var(--vuiii-button-textColor--secondary--outlined, var(--vuiii-button-bgColor--secondary));
-      --borderColor--focus: var(
-        --vuiii-button-borderColor--secondary--outlined,
-        var(--vuiii-button-bgColor--secondary)
-      );
-
-      --textColor--hover: var(
-        --vuiii-button-textColor--secondary--outlined--hover,
-        var(--vuiii-button-bgColor--secondary--hover)
-      );
-      --borderColor--hover: var(--vuiii-button-borderColor--secondary--outlined--hover, var(--textColor--hover));
-    }
   }
 
-  &.vuiii-button--variant-danger {
-    --bgColor: var(--vuiii-button-bgColor--danger);
-    --textColor: var(--vuiii-button-textColor--danger);
-    --borderColor: var(--vuiii-button-borderColor--danger);
-    --ringColor: var(--vuiii-button-ringColor--danger);
-
-    --bgColor--focus: var(--vuiii-button-bgColor--danger--focus, var(--bgColor));
-    --textColor--focus: var(--vuiii-button-textColor--danger--focus, var(--textColor));
-    --borderColor--focus: var(--vuiii-button-borderColor--danger--focus, var(--borderColor));
-
-    --bgColor--hover: var(--vuiii-button-bgColor--danger--hover, var(--bgColor));
-    --textColor--hover: var(--vuiii-button-textColor--danger--hover, var(--textColor));
-    --borderColor--hover: var(--vuiii-button-borderColor--danger--hover, var(--borderColor));
-
-    &.vuiii-button--outlined {
-      --textColor: var(--vuiii-button-textColor--danger--outlined, var(--vuiii-button-bgColor--danger));
-      --borderColor: var(--vuiii-button-borderColor--danger--outlined, var(--vuiii-button-bgColor--danger));
-
-      --textColor--focus: var(--vuiii-button-textColor--danger--outlined, var(--vuiii-button-bgColor--danger));
-      --borderColor--focus: var(--vuiii-button-borderColor--danger--outlined, var(--vuiii-button-bgColor--danger));
-
-      --textColor--hover: var(
-        --vuiii-button-textColor--danger--outlined--hover,
-        var(--vuiii-button-bgColor--danger--hover)
-      );
-      --borderColor--hover: var(--vuiii-button-borderColor--danger--outlined--hover, var(--textColor--hover));
-    }
-  }
-
-  &.vuiii-button--variant-success {
-    --bgColor: var(--vuiii-button-bgColor--success);
-    --textColor: var(--vuiii-button-textColor--success);
-    --borderColor: var(--vuiii-button-borderColor--success);
+  &.vuiii-button--color-success {
+    --surface: var(--vuiii-button-surface--success);
+    --surface--hover: var(--vuiii-button-surface--success--hover);
+    --onSurface: var(--vuiii-button-onSurface--success);
+    --accent: var(--vuiii-button-accent--success);
+    --accent--hover: var(--vuiii-button-accent--success--hover);
     --ringColor: var(--vuiii-button-ringColor--success);
-
-    --bgColor--focus: var(--vuiii-button-bgColor--success--focus, var(--bgColor));
-    --textColor--focus: var(--vuiii-button-textColor--success--focus, var(--textColor));
-    --borderColor--focus: var(--vuiii-button-borderColor--success--focus, var(--borderColor));
-
-    --bgColor--hover: var(--vuiii-button-bgColor--success--hover, var(--bgColor));
-    --textColor--hover: var(--vuiii-button-textColor--success--hover, var(--textColor));
-    --borderColor--hover: var(--vuiii-button-borderColor--success--hover, var(--borderColor));
-
-    &.vuiii-button--outlined {
-      --textColor: var(--vuiii-button-textColor--success--outlined, var(--vuiii-button-bgColor--success));
-      --borderColor: var(--vuiii-button-borderColor--success--outlined, var(--vuiii-button-bgColor--success));
-
-      --textColor--focus: var(--vuiii-button-textColor--success--outlined, var(--vuiii-button-bgColor--success));
-      --borderColor--focus: var(--vuiii-button-borderColor--success--outlined, var(--vuiii-button-bgColor--success));
-
-      --textColor--hover: var(
-        --vuiii-button-textColor--success--outlined--hover,
-        var(--vuiii-button-bgColor--success--hover)
-      );
-      --borderColor--hover: var(--vuiii-button-borderColor--success--outlined--hover, var(--textColor--hover));
-    }
   }
 
-  /* Outlined */
+  &.vuiii-button--color-danger {
+    --surface: var(--vuiii-button-surface--danger);
+    --surface--hover: var(--vuiii-button-surface--danger--hover);
+    --onSurface: var(--vuiii-button-onSurface--danger);
+    --accent: var(--vuiii-button-accent--danger);
+    --accent--hover: var(--vuiii-button-accent--danger--hover);
+    --ringColor: var(--vuiii-button-ringColor--danger);
+  }
 
-  &.vuiii-button--outlined {
+  /* Variants — map the palette to drawing tokens */
+
+  &.vuiii-button--variant-filled {
+    --bgColor: var(--surface);
+    --bgColor--hover: var(--surface--hover);
+    --textColor: var(--onSurface);
+    --textColor--hover: var(--onSurface);
+    --borderColor: var(--surface);
+    --borderColor--hover: var(--surface--hover);
+  }
+
+  &.vuiii-button--variant-outlined {
     --bgColor: transparent;
-    --bgColor--focus: transparent;
-    --bgColor--hover: transparent;
+    --bgColor--hover: var(--tint--hover);
+    --textColor: var(--accent);
+    --textColor--hover: var(--accent--hover);
+    --borderColor: var(--accent);
+    --borderColor--hover: var(--accent--hover);
+  }
+
+  &.vuiii-button--variant-text {
+    --bgColor: transparent;
+    --bgColor--hover: var(--tint--hover);
+    --textColor: var(--accent);
+    --textColor--hover: var(--accent--hover);
+    --borderColor: transparent;
+    --borderColor--hover: transparent;
   }
 
   /* Block */
@@ -247,10 +182,6 @@
 
 .vuiii-button__icon {
   color: var(--iconColor);
-
-  &.vuiii-button--outlined {
-    --iconColor: var(--textColor);
-  }
 }
 
 .vuiii-button__icon:first-child {

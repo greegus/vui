@@ -56,7 +56,7 @@ export const CustomSlot: StoryObj<typeof FilePicker> = {
     setup: () => ({ args }),
     template: `
       <FilePicker v-bind="args">
-        <IconButton icon="plus" variant="primary" />
+        <IconButton icon="plus" color="primary" />
       </FilePicker>
     `,
   }),

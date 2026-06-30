@@ -38,7 +38,7 @@ export const Default: StoryObj<typeof Card> = {
         This is the card body content.
 
         <div style="display: flex; justify-content: flex-end; margin-top: 1.5rem">
-          <Button variant="primary" label="Show more" />
+          <Button color="primary" label="Show more" />
         </div>
       </Card>
     `,

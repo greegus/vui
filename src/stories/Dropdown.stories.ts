@@ -31,9 +31,9 @@ export default {
       control: 'select',
       options: ['small', 'normal', 'large'],
     },
-    variant: {
+    color: {
       control: 'select',
-      options: ['default', 'primary', 'secondary', 'danger', 'success'],
+      options: ['primary', 'secondary', 'success', 'danger'],
     },
     block: {
       control: 'boolean',
@@ -43,7 +43,7 @@ export default {
     },
   },
   args: {
-    variant: 'primary',
+    color: 'primary',
     label: 'Dropdown',
   },
 } as Meta<typeof Dropdown>

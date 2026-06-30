@@ -32,8 +32,11 @@ export type InputSize = 'small' | 'normal' | 'large'
 /** Size variants for icons (same as InputSize) */
 export type IconSize = InputSize
 
-/** Button color variants: 'default' | 'primary' | 'secondary' | 'danger' */
-export type ButtonVariant = 'default' | 'primary' | 'secondary' | 'danger'
+/** Button color palette: 'primary' | 'secondary' | 'success' | 'danger' */
+export type ButtonColor = 'primary' | 'secondary' | 'success' | 'danger'
+
+/** Button render variant: 'filled' | 'outlined' | 'text' */
+export type ButtonVariant = 'filled' | 'outlined' | 'text'
 
 /** A single tab descriptor for the Tabs / TabsNav components. The `key` is the v-model value. */
 export type Tab<K extends string = string> = {
@@ -45,6 +48,7 @@ export type Tab<K extends string = string> = {
 
 /** Configuration for dialog action buttons */
 export type DialogLayoutButton = {
+  color?: ButtonColor
   variant?: ButtonVariant
   label: string
   icon?: string
