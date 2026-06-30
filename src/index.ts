@@ -26,6 +26,8 @@ export { default as Select } from './components/Select.vue'
 export { default as ShortcutIcon } from './components/ShortcutIcon.vue'
 export { default as SnackbarStack } from './components/snackbar/SnackbarStack.vue'
 export { default as Table } from './components/Table.vue'
+export { default as Tabs } from './components/Tabs.vue'
+export { default as TabsNav } from './components/TabsNav.vue'
 export type { TextareaRef } from './components/Textarea.vue'
 export { default as Textarea } from './components/Textarea.vue'
 export type { TooltipPlacement, TooltipProps } from './components/Tooltip.vue'
@@ -59,6 +61,7 @@ export type {
   PaginatedDataSource,
   Pagination,
   Shortcut,
+  Tab,
   TableColumn,
   ValidationResults,
   ValueParser,

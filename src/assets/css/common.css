@@ -366,7 +366,7 @@
   --vuiii-dialog-title-fontFamily: inherit;
   --vuiii-dialog-bgColor: var(--vuiii-color-light);
   --vuiii-dialog-textColor: var(--vuiii-color-dark);
-  --vuiii-dialog-borderRadius: var(--vuiii-button-borderRadius);
+  --vuiii-dialog-borderRadius: calc(var(--vuiii-button-borderRadius) + var(--vuiii-dialog-padding));
   --vuiii-dialog-boxShadow: 0 2px 10px oklch(0% 0 0 / 0.1);
   --vuiii-dialog-borderColor: black;
   --vuiii-dialog-borderWidth: 1px;
@@ -411,6 +411,20 @@
   --vuiii-tooltip-boxShadow: var(--vuiii-shadow);
   --vuiii-tooltip-arrowSize: 6px;
   --vuiii-tooltip-gap: 6px;
+
+  /* ---- */
+  /* Tabs */
+  /* ---- */
+
+  --vuiii-tabs-gap: 1.5rem;
+  --vuiii-tabs-borderColor: var(--vuiii-field-borderColor);
+  --vuiii-tabs-tab-padding: 0.75rem 0.25rem;
+  --vuiii-tabs-tab-textColor: inherit;
+  --vuiii-tabs-tab-textColor--hover: var(--vuiii-color-primary--darker);
+  --vuiii-tabs-tab-textColor--active: var(--vuiii-color-primary);
+  --vuiii-tabs-indicator-color: var(--vuiii-color-primary);
+  --vuiii-tabs-indicator-size: 2px;
+  --vuiii-tabs-panel-paddingTop: 1.5rem;
 
   /* ------- */
   /* Z-index */

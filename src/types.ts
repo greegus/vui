@@ -35,6 +35,14 @@ export type IconSize = InputSize
 /** Button color variants: 'default' | 'primary' | 'secondary' | 'danger' */
 export type ButtonVariant = 'default' | 'primary' | 'secondary' | 'danger'
 
+/** A single tab descriptor for the Tabs / TabsNav components. The `key` is the v-model value. */
+export type Tab<K extends string = string> = {
+  key: K
+  label: string
+  icon?: string
+  disabled?: boolean
+}
+
 /** Configuration for dialog action buttons */
 export type DialogLayoutButton = {
   variant?: ButtonVariant
