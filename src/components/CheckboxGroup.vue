@@ -85,7 +85,7 @@ import { normalizeOptions } from '@/utils/normalizeOptions'
 const modelValue = defineModel<any[]>()
 
 const props = defineProps<{
-  options: any[] | any
+  options: any[] | Record<string, any>
   optionLabel?: Extractor
   optionValue?: Extractor
   optionDisabled?: Extractor

@@ -6,12 +6,12 @@ export const transformInputAttrs = defineComponent({
   emits: ['update:model-value'],
 
   computed: {
-    normalizedAttrs(): any {
+    normalizedAttrs(): Record<string, unknown> {
       const { class: _class, ...attrs } = this.$attrs
 
       return {
         ...attrs,
-        onInput: (e: KeyboardEvent) => this.$emit('update:model-value', retrieveInputValue(e)),
+        onInput: (e: Event) => this.$emit('update:model-value', retrieveInputValue(e)),
       }
     },
   },

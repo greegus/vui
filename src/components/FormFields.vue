@@ -17,6 +17,7 @@
       <!-- Regular field rendering -->
       <FormGroup
         v-else
+        :for="fieldId(item.name)"
         :label="item.label"
         :description="item.description"
         :hint="item.hint"
@@ -27,6 +28,7 @@
         <slot :name="`field:${String(item.name)}`" v-bind="{ ...item, index }">
           <component
             :is="item.component"
+            :id="fieldId(item.name)"
             :model-value="getFieldValue(item.name)"
             v-bind="resolveIfComputed(item.name, item.props)"
             :required="normalizeRequired(item)"
@@ -128,7 +130,7 @@
  * @slot field:{fieldName} - Custom render slot for a specific field. Receives field config and index.
  *   @example <template #field:email="{ name, label, index }">Custom email input</template>
  */
-import { computed } from 'vue'
+import { computed, useId } from 'vue'
 
 import Divider from '@/components/Divider.vue'
 import FormGroup from '@/components/FormGroup.vue'
@@ -150,6 +152,10 @@ const modelValue = defineModel<Data>({ required: true })
 
 // Get opposite orientation for nested arrays
 const oppositeOrientation = computed(() => (props.orientation === 'vertical' ? 'horizontal' : 'vertical'))
+
+// Stable per-field id used to link FormGroup's label to the rendered input
+const idBase = useId()
+const fieldId = (name: FormField<Data>['name']): string => `${idBase}-${String(name)}`
 
 // Helper for Vue keys
 const getItemKey = (item: FormFieldOrRow<Data>, index: number): string => {
@@ -186,14 +192,15 @@ const fieldsByName = computed(() => {
 })
 
 const getFieldValue = (name: FormField<Data>['name']): unknown => {
-  const getter = fieldsByName.value.get(name)!.value?.getter || ((data: Data) => data[name as keyof Data])
+  const field = fieldsByName.value.get(name)
+  const getter = field?.value?.getter || ((data: Data) => data[name as keyof Data])
 
   return getter(modelValue.value)
 }
 
 const setFieldValue = (name: FormField<Data>['name'], value: unknown): void => {
-  const setter =
-    fieldsByName.value.get(name)!.value?.setter || ((value: unknown, data: Data) => ({ ...data, [name]: value }))
+  const field = fieldsByName.value.get(name)
+  const setter = field?.value?.setter || ((value: unknown, data: Data) => ({ ...data, [name]: value }))
 
   modelValue.value = setter(value, modelValue.value) as Data
 }

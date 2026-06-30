@@ -1,13 +1,22 @@
 <template>
-  <div class="Breadcrumbs">
+  <nav class="Breadcrumbs" aria-label="Breadcrumb">
     <div v-for="(item, index) in breadcrumbs" :key="index" class="Breadcrumbs__breadcrumb">
-      <router-link :to="item.link" class="Breadcrumbs__link">
+      <router-link
+        :to="item.link"
+        class="Breadcrumbs__link"
+        :aria-current="index === breadcrumbs.length - 1 ? 'page' : undefined"
+      >
         {{ item.label }}
       </router-link>
 
-      <Icon name="chevron-right" class="Breadcrumbs__arrow" />
+      <Icon
+        v-if="index < breadcrumbs.length - 1"
+        name="chevron-right"
+        class="Breadcrumbs__arrow"
+        aria-hidden="true"
+      />
     </div>
-  </div>
+  </nav>
 </template>
 
 <script lang="ts" setup>

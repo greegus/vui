@@ -1,11 +1,13 @@
-export const retrieveInputValue = (event: any) => {
-  if (event.target.getAttribute('type') === 'number') {
-    return event.target.valueAsNumber
+export const retrieveInputValue = (event: Event) => {
+  const target = event.target as HTMLInputElement
+
+  if (target.getAttribute('type') === 'number') {
+    return target.valueAsNumber
   }
 
-  if (event.target.getAttribute('type') === 'checkbox') {
-    return event.target.checked
+  if (target.getAttribute('type') === 'checkbox') {
+    return target.checked
   }
 
-  return event.target.value
+  return target.value
 }

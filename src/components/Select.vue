@@ -147,7 +147,7 @@ const attrsWithoutClass = useAttrsWithoutClass()
 
 const props = withDefaults(
   defineProps<{
-    options: any[] | any
+    options: any[] | Record<string, any>
     optionLabel?: Extractor
     optionValue?: Extractor
     optionDisabled?: Extractor

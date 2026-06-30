@@ -1,5 +1,5 @@
 <template>
-  <component :is="component" class="Icon" :class="{ [`Icon--${$props.size}`]: $props.size }" />
+  <component :is="component" class="Icon" :class="{ [`Icon--${$props.size}`]: $props.size }" aria-hidden="true" />
 </template>
 
 <script lang="ts" setup>

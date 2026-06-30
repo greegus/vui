@@ -1,8 +1,10 @@
 <template>
-  <ButtonGroup>
+  <ButtonGroup role="radiogroup">
     <Button
       v-for="option in normalizedOptions"
       :key="option.value"
+      role="radio"
+      :aria-checked="option.isSelected"
       :outlined="!option.isSelected"
       :label="option.label"
       :disabled="$props.disabled || option.disabled"
@@ -60,7 +62,7 @@ import { normalizeOptions } from '@/utils/normalizeOptions'
 const modelValue = defineModel<any>()
 
 const props = defineProps<{
-  options: any[] | any
+  options: any[] | Record<string, any>
   optionLabel?: Extractor
   optionValue?: Extractor
   optionDisabled?: Extractor

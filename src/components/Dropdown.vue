@@ -7,7 +7,16 @@
   >
     <div class="Dropdown__trigger">
       <slot name="trigger" v-bind="{ open, close, toggle, isOpen }">
-        <Button :label :variant :block :prefixIcon="icon" suffixIcon="chevron-down" @click="toggle()" />
+        <Button
+          :label
+          :variant
+          :block
+          :prefixIcon="icon"
+          suffixIcon="chevron-down"
+          aria-haspopup="true"
+          :aria-expanded="isOpen"
+          @click="toggle()"
+        />
       </slot>
     </div>
 
@@ -19,7 +28,7 @@
   </div>
 </template>
 
-<script lang="ts" type="module">
+<script lang="ts">
 /**
  * Popover dropdown component with customizable trigger and content.
  * Closes on click outside or Escape key. Supports programmatic control.

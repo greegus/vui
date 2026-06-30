@@ -1,5 +1,9 @@
 <template>
-  <hr class="Divider" :class="{ 'Divider--vertical': orientation === 'vertical' }" />
+  <hr
+    class="Divider"
+    :class="{ 'Divider--vertical': orientation === 'vertical' }"
+    :aria-orientation="orientation === 'vertical' ? 'vertical' : undefined"
+  />
 </template>
 
 <script lang="ts" setup>

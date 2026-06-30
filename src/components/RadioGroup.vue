@@ -1,5 +1,5 @@
 <template>
-  <div class="RadioGroup" :class="[$attrs.class, { 'RadioGroup--inline': inline }]">
+  <div class="RadioGroup" role="radiogroup" :class="[$attrs.class, { 'RadioGroup--inline': inline }]">
     <label
       v-for="option in normalizedOptions"
       :key="option.value"
@@ -133,7 +133,7 @@ const inputName = (attrs.name as string) || `RadioGroup-input-${useId()}`
 
 const props = withDefaults(
   defineProps<{
-    options: any[] | any
+    options: any[] | Record<string, any>
     optionLabel?: Extractor
     optionValue?: Extractor
     optionDisabled?: Extractor
@@ -241,7 +241,7 @@ function handleInput(value: any) {
     }
   }
 
-  input:focus:not(:checked) + & {
+  input:focus-visible:not(:checked) + & {
     --borderColor: var(--vuiii-input-borderColor--focus);
   }
 }

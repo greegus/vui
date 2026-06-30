@@ -1,7 +1,7 @@
 <template>
   <div class="FormGroup" :class="{ 'FormGroup--invalid': $props.error }">
     <div v-if="$props.label || $slots.label" class="FormGroup__header">
-      <label class="FormGroup__label" :for="$props.for">
+      <label class="FormGroup__label" :for="inputId">
         <slot name="label">
           {{ $props.label }}
         </slot>
@@ -16,7 +16,7 @@
       </slot>
     </div>
 
-    <slot />
+    <slot :id="inputId" />
 
     <div v-if="$slots.hint || $props.hint" class="FormGroup__hint">
       <slot name="hint">
@@ -86,7 +86,9 @@
  * @slot description - Custom description content (replaces description prop)
  * @slot hint - Custom hint content (replaces hint prop)
  */
-defineProps<{
+import { computed, useId } from 'vue'
+
+const props = defineProps<{
   label?: string
   for?: string
   required?: boolean
@@ -96,11 +98,16 @@ defineProps<{
 }>()
 
 defineSlots<{
-  default?: void
+  default?: (props: { id: string }) => any
   label?: void
   description?: void
   hint?: void
 }>()
+
+const generatedId = useId()
+
+/** Id linking the label to the input. Falls back to a generated id; exposed via the default slot. */
+const inputId = computed(() => props.for ?? generatedId)
 </script>
 
 <style scoped>

@@ -51,7 +51,13 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <Button class="vuiii-icon-button" :prefixIcon="icon" v-bind="buttonProps" @click="emit('click', $event)" />
+  <Button
+    class="vuiii-icon-button"
+    :prefixIcon="icon"
+    :aria-label="title || undefined"
+    v-bind="buttonProps"
+    @click="emit('click', $event)"
+  />
 </template>
 
 <style>

@@ -142,7 +142,7 @@ export function useSubmitAction<D = unknown, S extends (...args: any[]) => D = (
         snackbar.error(
           typeof options.errorMessage === 'function'
             ? options.errorMessage({ error: e as Error, params })
-            : options.errorMessage || (e as Error).message,
+            : options.errorMessage,
         )
       }
 

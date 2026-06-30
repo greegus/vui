@@ -86,7 +86,7 @@
       </tr>
 
       <tr v-if="!items?.length && ($props.noDataMessage || $slots.noDataMessage)">
-        <td :colspan="Object.keys(columns).length">
+        <td :colspan="normalizedColumns.length">
           <slot name="noDataMessage">
             <div class="vuiii-table__noDataMessage">
               {{ $props.noDataMessage }}
