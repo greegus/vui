@@ -4,12 +4,11 @@
       <!-- Recursive: Render nested array with opposite orientation -->
       <FormFields
         v-if="Array.isArray(item)"
+        v-model="modelValue"
         :fields="item"
-        :model-value="props.modelValue"
         :validation-results="props.validationResults"
         :orientation="oppositeOrientation"
         class="FormFields__row"
-        @update:model-value="emit('update:model-value', $event)"
       />
 
       <!-- Divider rendering -->
@@ -139,7 +138,6 @@ import { FORM_DIVIDER } from '@/types'
 const props = withDefaults(
   defineProps<{
     fields: FormFieldOrRow<Data>[]
-    modelValue: any
     validationResults?: Partial<Record<ObjectKeyOrAnyString<Data>, ValidationFieldResults>>
     orientation?: 'vertical' | 'horizontal'
   }>(),
@@ -148,9 +146,7 @@ const props = withDefaults(
   },
 )
 
-const emit = defineEmits<{
-  'update:model-value': [value: any]
-}>()
+const modelValue = defineModel<Data>({ required: true })
 
 // Get opposite orientation for nested arrays
 const oppositeOrientation = computed(() => (props.orientation === 'vertical' ? 'horizontal' : 'vertical'))
@@ -190,23 +186,21 @@ const fieldsByName = computed(() => {
 })
 
 const getFieldValue = (name: FormField<Data>['name']): unknown => {
-  const getter = fieldsByName.value.get(name)!.value?.getter || ((modelValue: Data) => modelValue[name as keyof Data])
+  const getter = fieldsByName.value.get(name)!.value?.getter || ((data: Data) => data[name as keyof Data])
 
-  return getter(props.modelValue)
+  return getter(modelValue.value)
 }
 
 const setFieldValue = (name: FormField<Data>['name'], value: unknown): void => {
   const setter =
-    fieldsByName.value.get(name)!.value?.setter ||
-    ((value: unknown, modelValue: Data) => ({ ...modelValue, [name]: value }))
-  const modelValue = setter(value, props.modelValue)
+    fieldsByName.value.get(name)!.value?.setter || ((value: unknown, data: Data) => ({ ...data, [name]: value }))
 
-  emit('update:model-value', modelValue)
+  modelValue.value = setter(value, modelValue.value) as Data
 }
 
 const resolveIfComputed = <T = any>(name: ObjectKeyOrAnyString<T>, property: any): T => {
   if (typeof property === 'function') {
-    return (property as any)?.(props.modelValue[name])
+    return (property as any)?.((modelValue.value as any)[name])
   }
 
   return property as T

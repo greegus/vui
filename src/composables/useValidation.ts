@@ -90,11 +90,13 @@ export function useValidation<Data extends {} = any, Rules extends Data = any>(
   const validate = async (data: Partial<Data>): Promise<boolean> => {
     isValidating.value = true
 
-    results.value = await validation(data)
+    try {
+      results.value = await validation(data)
 
-    isValidating.value = false
-
-    return isValid.value
+      return isValid.value
+    } finally {
+      isValidating.value = false
+    }
   }
 
   const isValid = computed<boolean>(() => results.value?.isValid ?? false)

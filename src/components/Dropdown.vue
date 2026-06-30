@@ -31,7 +31,7 @@
  * import { Dropdown, DropdownMenu } from 'vuiii'
  *
  * <Dropdown label="Options" variant="primary">
- *   <DropdownMenu :items="menuItems" @itemClick="handleClick" />
+ *   <DropdownMenu :items="menuItems" @item-click="handleClick" />
  * </Dropdown>
  *
  * @example

@@ -17,9 +17,9 @@ type ItemWithIndex = { item: Item; index: number }
 const props = defineProps<DropdownMenuProps>()
 
 const emit = defineEmits<{
-  'itemClick': [ItemWithIndex]
-  'itemMouseenter': [ItemWithIndex]
-  'itemMouseleave': [ItemWithIndex]
+  'item-click': [ItemWithIndex]
+  'item-mouseenter': [ItemWithIndex]
+  'item-mouseleave': [ItemWithIndex]
 }>()
 
 defineSlots<{
@@ -58,9 +58,9 @@ watch(
         <slot name="item" v-bind="{ item, index, cursorIndex }">
           <button
             class="DropdownMenu__button"
-            @click="emit('itemClick', { item, index })"
-            @mouseenter="emit('itemMouseenter', { item, index })"
-            @mouseleave="emit('itemMouseleave', { item, index })"
+            @click="emit('item-click', { item, index })"
+            @mouseenter="emit('item-mouseenter', { item, index })"
+            @mouseleave="emit('item-mouseleave', { item, index })"
           >
             <slot name="itemLabel" v-bind="{ item, index, cursorIndex }">
               {{ item }}

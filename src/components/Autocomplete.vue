@@ -58,8 +58,8 @@
         listRole="listbox"
         :listId="listboxId"
         :optionIdPrefix="optionIdPrefix"
-        @itemClick="handleOptionSelect"
-        @itemMouseenter="({ index }) => (cursorIndex = index)"
+        @item-click="handleOptionSelect"
+        @item-mouseenter="({ index }) => (cursorIndex = index)"
       >
         <template #itemLabel="{ item, index }">
           <slot name="option" :option="item" :index="index" :isHighlighted="cursorIndex === index">
