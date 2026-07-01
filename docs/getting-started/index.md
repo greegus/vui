@@ -62,7 +62,7 @@ const name = ref('')
 
 <template>
   <Input v-model="name" placeholder="Enter your name" />
-  <Button variant="primary" label="Submit" />
+  <Button color="primary" label="Submit" />
 </template>
 ```
 

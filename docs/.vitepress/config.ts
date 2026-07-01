@@ -65,12 +65,20 @@ export default defineConfig({
         {
           text: 'Forms & Layout',
           items: [
+            { text: 'Card', link: '/components/card' },
             { text: 'FormFields', link: '/components/form-fields' },
             { text: 'FormGroup', link: '/components/form-group' },
             { text: 'Table', link: '/components/table' },
             { text: 'Divider', link: '/components/divider' },
             { text: 'Typography', link: '/components/typography' },
             { text: 'Breadcrumbs', link: '/components/breadcrumbs' },
+          ],
+        },
+        {
+          text: 'Navigation',
+          items: [
+            { text: 'Tabs', link: '/components/tabs' },
+            { text: 'Tabs Nav', link: '/components/tabs-nav' },
           ],
         },
         {
@@ -114,6 +122,7 @@ export default defineConfig({
             { text: 'useOnFocusOutside', link: '/composables/use-on-focus-outside' },
             { text: 'useOnKeyPress', link: '/composables/use-on-key-press' },
             { text: 'useCursor', link: '/composables/use-cursor' },
+            { text: 'useFocusTrap', link: '/composables/use-focus-trap' },
           ],
         },
         {

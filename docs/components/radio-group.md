@@ -16,7 +16,7 @@ import { ref } from 'vue'
 import { RadioGroup } from '../../src'
 </script>
 
-<ComponentDemo storybook="example-radiogroup--default">
+<ComponentDemo storybook="components-radiogroup--default">
   <!-- Add live demo here -->
 </ComponentDemo>
 
@@ -25,6 +25,34 @@ import { RadioGroup } from '../../src'
 
 <RadioGroup v-model="color" :options="['Red', 'Green', 'Blue']" />
 ```
+
+## Props
+
+| Prop                | Type                                            | Default    | Description                                    |
+| ------------------- | ----------------------------------------------- | ---------- | ---------------------------------------------- |
+| `modelValue`        | `any`                                            | -          | Selected value (`v-model`)                     |
+| `options`           | `any[] \| Record<string, any>`                  | -          | Options to render as radio buttons             |
+| `optionLabel`       | `string \| ((item) => any)`                     | -          | Key or function to extract the display label   |
+| `optionValue`       | `string \| ((item) => any)`                     | -          | Key or function to extract the option value    |
+| `optionDisabled`    | `string \| ((item) => any)`                     | -          | Key or function to mark an option as disabled  |
+| `optionDescription` | `string \| ((item) => any)`                     | -          | Key or function to extract description text     |
+| `valueParser`       | `ValueParser<string>`                           | -          | Custom parser for option values                |
+| `disabled`          | `boolean`                                        | `false`    | Disables all radio options                     |
+| `readonly`          | `boolean`                                        | `false`    | Renders the group as read-only                 |
+| `inline`            | `boolean`                                        | `false`    | Renders radio options horizontally             |
+| `type`              | `'string' \| 'number' \| 'boolean' \| 'date'`   | `'string'` | Type used to parse option values               |
+
+## Slots
+
+| Slot      | Description                                        |
+| --------- | ------------------------------------------------- |
+| `default` | Custom option content. Props: `{ option }`        |
+| `symbol`  | Custom radio symbol. Props: `{ checked, disabled }` |
+
+## Events
+
+The RadioGroup exposes the selected value through `v-model` (`update:modelValue`). It emits no other
+custom events.
 
 ## More Examples
 
@@ -46,5 +74,5 @@ import { RadioGroup } from '../../src'
 ```
 
 ::: tip Storybook
-For interactive examples with all variants, see [RadioGroup in Storybook](https://greegus.github.io/vuiii/storybook/?path=/docs/example-radiogroup--docs).
+For interactive examples with all variants, see [RadioGroup in Storybook](https://greegus.github.io/vuiii/storybook/?path=/docs/components-radiogroup--docs).
 :::

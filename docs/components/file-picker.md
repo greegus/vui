@@ -16,7 +16,7 @@ import { ref } from 'vue'
 import { FilePicker } from '../../src'
 </script>
 
-<ComponentDemo storybook="example-filepicker--default">
+<ComponentDemo storybook="components-filepicker--default">
   <!-- Add live demo here -->
 </ComponentDemo>
 
@@ -49,5 +49,5 @@ import { FilePicker } from '../../src'
 ```
 
 ::: tip Storybook
-For interactive examples with all variants, see [FilePicker in Storybook](https://greegus.github.io/vuiii/storybook/?path=/docs/example-filepicker--docs).
+For interactive examples with all variants, see [FilePicker in Storybook](https://greegus.github.io/vuiii/storybook/?path=/docs/components-filepicker--docs).
 :::

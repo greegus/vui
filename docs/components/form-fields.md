@@ -16,7 +16,7 @@ import { ref } from 'vue'
 import { FormFields } from '../../src'
 </script>
 
-<ComponentDemo storybook="example-formfields--default">
+<ComponentDemo storybook="components-formfields--default">
   <!-- Add live demo here -->
 </ComponentDemo>
 
@@ -64,5 +64,5 @@ const fields: FormFieldOrRow<UserData>[] = [
 ```
 
 ::: tip Storybook
-For interactive examples with all variants, see [FormFields in Storybook](https://greegus.github.io/vuiii/storybook/?path=/docs/example-formfields--docs).
+For interactive examples with all variants, see [FormFields in Storybook](https://greegus.github.io/vuiii/storybook/?path=/docs/components-formfields--docs).
 :::

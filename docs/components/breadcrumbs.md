@@ -15,7 +15,7 @@ import { ref } from 'vue'
 import { Breadcrumbs } from '../../src'
 </script>
 
-<ComponentDemo storybook="example-breadcrumbs--default">
+<ComponentDemo storybook="components-breadcrumbs--default">
   <!-- Add live demo here -->
 </ComponentDemo>
 
@@ -35,5 +35,5 @@ label: 'Users', link: { name: 'users' } }, { label: 'John Doe', link: { name: 'u
 ```
 
 ::: tip Storybook
-For interactive examples with all variants, see [Breadcrumbs in Storybook](https://greegus.github.io/vuiii/storybook/?path=/docs/example-breadcrumbs--docs).
+For interactive examples with all variants, see [Breadcrumbs in Storybook](https://greegus.github.io/vuiii/storybook/?path=/docs/components-breadcrumbs--docs).
 :::

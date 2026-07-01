@@ -2,6 +2,13 @@
  * VitePress documentation generator for vuiii library.
  * Generates markdown files from JSDoc comments in source files.
  *
+ * ⚠️  WARNING — DO NOT RUN AS-IS.
+ * The committed `docs/components/*.md` and `docs/composables/*.md` pages have been HAND-EXTENDED
+ * with Props / Slots / Events tables and `<ComponentDemo>` blocks that this script does NOT produce
+ * (it only emits description + `@example` blocks). Running it will OVERWRITE and regress those pages.
+ * The deploy workflow builds the committed markdown (`docs:build`) and never runs this generator.
+ * Upgrade this script to emit the richer format before using it again.
+ *
  * Run with: npx jiti scripts/generate-vitepress-docs.ts
  */
 import { readFileSync, writeFileSync, readdirSync, statSync, mkdirSync, existsSync } from 'fs'

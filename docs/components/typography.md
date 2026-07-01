@@ -16,7 +16,7 @@ import { ref } from 'vue'
 import { Typography } from '../../src'
 </script>
 
-<ComponentDemo storybook="example-typography--default">
+<ComponentDemo storybook="components-typography--default">
   <!-- Add live demo here -->
 </ComponentDemo>
 
@@ -53,5 +53,5 @@ heading4 -> h4 // heading5 -> h5 // heading6 -> h6 // body1 -> p // body2 -> p /
 ```
 
 ::: tip Storybook
-For interactive examples with all variants, see [Typography in Storybook](https://greegus.github.io/vuiii/storybook/?path=/docs/example-typography--docs).
+For interactive examples with all variants, see [Typography in Storybook](https://greegus.github.io/vuiii/storybook/?path=/docs/components-typography--docs).
 :::

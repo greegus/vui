@@ -15,7 +15,7 @@ import { ref } from 'vue'
 import { IconButton } from '../../src'
 </script>
 
-<ComponentDemo storybook="example-iconbutton--default">
+<ComponentDemo storybook="components-iconbutton--default">
   <!-- Add live demo here -->
 </ComponentDemo>
 
@@ -23,16 +23,16 @@ import { IconButton } from '../../src'
 // Basic usage import { IconButton } from 'vuiii'
 
 <IconButton icon="pencil" @click="edit()" />
-<IconButton icon="trash" variant="danger" @click="remove()" />
+<IconButton icon="trash" color="danger" @click="remove()" />
 ```
 
 ## More Examples
 
 ```vue
-// Different variants
-<IconButton icon="plus" variant="primary" />
-<IconButton icon="check" variant="secondary" />
-<IconButton icon="x-mark" variant="danger" />
+// Different colors
+<IconButton icon="plus" color="primary" />
+<IconButton icon="check" color="secondary" />
+<IconButton icon="x-mark" color="danger" />
 ```
 
 ```vue
@@ -48,5 +48,5 @@ import { IconButton } from '../../src'
 ```
 
 ::: tip Storybook
-For interactive examples with all variants, see [IconButton in Storybook](https://greegus.github.io/vuiii/storybook/?path=/docs/example-iconbutton--docs).
+For interactive examples with all variants, see [IconButton in Storybook](https://greegus.github.io/vuiii/storybook/?path=/docs/components-iconbutton--docs).
 :::

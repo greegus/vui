@@ -16,14 +16,14 @@ import { ref } from 'vue'
 import { Dropdown } from '../../src'
 </script>
 
-<ComponentDemo storybook="example-dropdown--default">
+<ComponentDemo storybook="components-dropdown--default">
   <!-- Add live demo here -->
 </ComponentDemo>
 
 ```vue
 // Basic dropdown with default button trigger import { Dropdown, DropdownMenu } from 'vuiii'
 
-<Dropdown label="Options" variant="primary">
+<Dropdown label="Options" color="primary">
   <DropdownMenu :items="menuItems" @itemClick="handleClick" />
 </Dropdown>
 ```
@@ -66,5 +66,5 @@ if (dropdownRef.value?.isOpen.value) { ... }
 ```
 
 ::: tip Storybook
-For interactive examples with all variants, see [Dropdown in Storybook](https://greegus.github.io/vuiii/storybook/?path=/docs/example-dropdown--docs).
+For interactive examples with all variants, see [Dropdown in Storybook](https://greegus.github.io/vuiii/storybook/?path=/docs/components-dropdown--docs).
 :::

@@ -16,7 +16,7 @@ import { ref } from 'vue'
 import { Select } from '../../src'
 </script>
 
-<ComponentDemo storybook="example-select--default">
+<ComponentDemo storybook="components-select--default">
   <!-- Add live demo here -->
 </ComponentDemo>
 
@@ -25,6 +25,31 @@ import { Select } from '../../src'
 
 <Select v-model="color" :options="['Red', 'Green', 'Blue']" />
 ```
+
+## Props
+
+| Prop             | Type                                          | Default    | Description                                        |
+| ---------------- | --------------------------------------------- | ---------- | ------------------------------------------------- |
+| `modelValue`     | `any`                                         | -          | Selected value (use with `v-model`)               |
+| `options`        | `any[] \| Record<string, any>`                | -          | Options to display (see Option Parsing)           |
+| `optionLabel`    | `string \| ((item) => any)`                   | -          | Key or function to extract the display label      |
+| `optionValue`    | `string \| ((item) => any)`                   | -          | Key or function to extract the option value       |
+| `optionDisabled` | `string \| ((item) => any)`                   | -          | Key or function to determine if option is disabled |
+| `groupLabel`     | `string \| ((item) => any)`                   | -          | Key or function to extract the group label        |
+| `groupOptions`   | `string \| ((item) => any)`                   | -          | Key or function to extract the group's options    |
+| `valueParser`    | `ValueParser<string>`                         | -          | Custom parser to serialize/deserialize the value  |
+| `type`           | `'string' \| 'number' \| 'boolean' \| 'date'` | `'string'` | Built-in value type parsing                       |
+| `placeholder`    | `string`                                      | -          | Placeholder option text                           |
+| `size`           | `'small' \| 'normal' \| 'large'`              | `'normal'` | Select size                                       |
+| `required`       | `boolean`                                     | `false`    | Marks the select as required                      |
+| `invalid`        | `boolean`                                     | `false`    | Applies the invalid/error styling                 |
+| `disabled`       | `boolean`                                     | `false`    | Disables the select                               |
+| `pill`           | `boolean`                                     | `false`    | Rounded pill shape                                |
+| `inputClass`     | `any`                                         | -          | Class applied to the nested `<select>` element    |
+
+## Events
+
+The Select uses `v-model` and emits no custom events.
 
 ## More Examples
 
@@ -56,5 +81,5 @@ name: 'SUV' }] }, { category: 'Bikes', items: [{ id: 3, name: 'Mountain' }, { id
 ```
 
 ::: tip Storybook
-For interactive examples with all variants, see [Select in Storybook](https://greegus.github.io/vuiii/storybook/?path=/docs/example-select--docs).
+For interactive examples with all variants, see [Select in Storybook](https://greegus.github.io/vuiii/storybook/?path=/docs/components-select--docs).
 :::

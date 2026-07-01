@@ -33,6 +33,25 @@ Color tokens define the visual palette for VUIII components.
 | `--vuiii-color-primary--darker`  | `oklch(from var(--vuiii-color-primary) calc(l * 0.95) c h)` | Hover state                  |
 | `--vuiii-color-primary--darkest` | `oklch(from var(--vuiii-color-primary) calc(l * 0.85) c h)` | Active state                 |
 
+### Accent
+
+The accent color drives **form-selection controls** (checked checkbox, selected radio, active `RadioButtonGroup` button) and the `accent` [Button](/design-tokens/buttons) color. It defaults to the primary color, but can be overridden independently so selection UI can differ from the primary brand color.
+
+<DesignToken cssVar="--vuiii-color-accent" type="color" />
+
+| Token                           | Value                                                      | Description                              |
+| ------------------------------- | ---------------------------------------------------------- | ---------------------------------------- |
+| `--vuiii-color-accent`          | `var(--vuiii-color-primary)`                               | Accent color (defaults to primary)       |
+| `--vuiii-color-accent--darker`  | `oklch(from var(--vuiii-color-accent) calc(l * 0.95) c h)` | Hover state                              |
+
+Override it to give selection controls a distinct color:
+
+```css
+:root {
+  --vuiii-color-accent: #16a34a;
+}
+```
+
 ### Danger
 
 | Token                          | Value                                                      | Description                       |

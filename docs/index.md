@@ -36,6 +36,6 @@ Use in your Vue app:
 
 ```vue
 <template>
-  <Button variant="primary" label="Click me" />
+  <Button color="primary" label="Click me" />
 </template>
 ```

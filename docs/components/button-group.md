@@ -34,15 +34,15 @@ import { ButtonGroup, Button } from '../../src'
 
 <ComponentDemo>
   <ButtonGroup>
-    <Button variant="primary" label="Save" />
-    <Button variant="primary" label="Save & Close" />
+    <Button color="primary" label="Save" />
+    <Button color="primary" label="Save & Close" />
   </ButtonGroup>
 </ComponentDemo>
 
 ```vue
 <ButtonGroup>
-  <Button variant="primary" label="Save" />
-  <Button variant="primary" label="Save & Close" />
+  <Button color="primary" label="Save" />
+  <Button color="primary" label="Save & Close" />
 </ButtonGroup>
 ```
 

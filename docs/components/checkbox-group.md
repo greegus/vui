@@ -16,7 +16,7 @@ import { ref } from 'vue'
 import { CheckboxGroup } from '../../src'
 </script>
 
-<ComponentDemo storybook="example-checkboxgroup--default">
+<ComponentDemo storybook="components-checkboxgroup--default">
   <!-- Add live demo here -->
 </ComponentDemo>
 
@@ -25,6 +25,32 @@ import { CheckboxGroup } from '../../src'
 
 <CheckboxGroup v-model="selectedFruits" :options="['Apple', 'Banana', 'Cherry']" />
 ```
+
+## Props
+
+| Prop                | Type                                            | Default | Description                                     |
+| ------------------- | ----------------------------------------------- | ------- | ----------------------------------------------- |
+| `modelValue`        | `any[]`                                          | -       | Array of selected values (`v-model`)            |
+| `options`           | `any[] \| Record<string, any>`                  | -       | Options to render as checkboxes                 |
+| `optionLabel`       | `string \| ((item) => any)`                     | -       | Key or function to extract the display label    |
+| `optionValue`       | `string \| ((item) => any)`                     | -       | Key or function to extract the option value     |
+| `optionDisabled`    | `string \| ((item) => any)`                     | -       | Key or function to mark an option as disabled   |
+| `optionDescription` | `string \| ((item) => any)`                     | -       | Key or function to extract description text      |
+| `valueParser`       | `ValueParser`                                   | -       | Custom parser for option values                 |
+| `type`              | `'string' \| 'number' \| 'boolean' \| 'date'`   | -       | Type used to parse option values                |
+| `inline`            | `boolean`                                        | `false` | Renders checkboxes horizontally                 |
+
+## Slots
+
+| Slot      | Description                                          |
+| --------- | --------------------------------------------------- |
+| `default` | Reserved default slot                               |
+| `symbol`  | Custom checkbox symbol. Props: `{ checked, disabled }` |
+
+## Events
+
+The CheckboxGroup exposes the selected values through `v-model` (`update:modelValue`). It emits no
+other custom events.
 
 ## More Examples
 
@@ -61,5 +87,5 @@ import { CheckboxGroup } from '../../src'
 ```
 
 ::: tip Storybook
-For interactive examples with all variants, see [CheckboxGroup in Storybook](https://greegus.github.io/vuiii/storybook/?path=/docs/example-checkboxgroup--docs).
+For interactive examples with all variants, see [CheckboxGroup in Storybook](https://greegus.github.io/vuiii/storybook/?path=/docs/components-checkboxgroup--docs).
 :::

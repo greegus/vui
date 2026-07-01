@@ -28,12 +28,20 @@ VUIII provides a comprehensive set of Vue 3 components for building modern web a
 
 | Component                              | Description                                     |
 | -------------------------------------- | ----------------------------------------------- |
+| [Card](/components/card)               | Content container with optional header and body |
 | [FormFields](/components/form-fields)  | Dynamic form generator from configuration       |
 | [FormGroup](/components/form-group)    | Form field wrapper with label and error support |
 | [Table](/components/table)             | Data table with sorting and custom columns      |
 | [Divider](/components/divider)         | Visual separator line                           |
 | [Typography](/components/typography)   | Consistent text styling                         |
 | [Breadcrumbs](/components/breadcrumbs) | Navigation breadcrumbs                          |
+
+## Navigation
+
+| Component                         | Description                                   |
+| --------------------------------- | --------------------------------------------- |
+| [Tabs](/components/tabs)          | Tabbed interface with per-tab content panels  |
+| [TabsNav](/components/tabs-nav)   | Standalone tab switcher (tablist of buttons)  |
 
 ## Feedback & Overlays
 

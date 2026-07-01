@@ -16,7 +16,7 @@ import { ref } from 'vue'
 import { Input } from '../../src'
 </script>
 
-<ComponentDemo storybook="example-input--default">
+<ComponentDemo storybook="components-input--default">
   <!-- Add live demo here -->
 </ComponentDemo>
 
@@ -25,6 +25,37 @@ import { Input } from '../../src'
 
 <Input v-model="name" placeholder="Enter your name" />
 ```
+
+## Props
+
+| Prop            | Type                             | Default   | Description                                       |
+| --------------- | -------------------------------- | --------- | ------------------------------------------------- |
+| `modelValue`    | `string \| number \| Date \| null` | -         | Bound value (use with `v-model`)                  |
+| `prefixIcon`    | `string`                         | -         | Icon name to show before the input                |
+| `suffixIcon`    | `string`                         | -         | Icon name to show after the input                 |
+| `size`          | `'small' \| 'normal' \| 'large'` | `'normal'` | Input size                                        |
+| `invalid`       | `boolean`                        | `false`   | Applies the invalid/error styling                 |
+| `pill`          | `boolean`                        | `false`   | Rounded pill shape                                |
+| `disabled`      | `boolean`                        | `false`   | Disables the input (native attribute)             |
+| `placeholder`   | `string`                         | -         | Placeholder text (native attribute)               |
+| `type`          | `string`                         | `'text'`  | Native input type (native attribute)              |
+| `valueAsNumber` | `boolean`                        | `false`   | Emits the value as a number (for `type="number"`) |
+| `valueAsDate`   | `boolean`                        | `false`   | Emits the value as a Date (for `type="date"`)     |
+| `inputClass`    | `any`                            | -         | Class applied to the nested `<input>` element     |
+
+## Slots
+
+| Slot     | Description                                  |
+| -------- | -------------------------------------------- |
+| `prefix` | Content before the input (replaces prefixIcon) |
+| `suffix` | Content after the input (replaces suffixIcon)  |
+
+## Events
+
+| Event               | Payload | Description                |
+| ------------------- | ------- | ------------------------- |
+| `prefix-icon-click` | -       | When the prefix icon is clicked |
+| `suffix-icon-click` | -       | When the suffix icon is clicked |
 
 ## More Examples
 
@@ -52,5 +83,5 @@ import { Input } from '../../src'
 ```
 
 ::: tip Storybook
-For interactive examples with all variants, see [Input in Storybook](https://greegus.github.io/vuiii/storybook/?path=/docs/example-input--docs).
+For interactive examples with all variants, see [Input in Storybook](https://greegus.github.io/vuiii/storybook/?path=/docs/components-input--docs).
 :::

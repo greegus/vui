@@ -16,9 +16,9 @@ import { Tooltip } from 'vuiii'
 import { Tooltip, Button, Input } from '../../src'
 </script>
 
-<ComponentDemo storybook="example-tooltip--default">
+<ComponentDemo storybook="components-tooltip--default">
   <Tooltip label="This is a tooltip">
-    <Button label="Hover me" variant="secondary" />
+    <Button label="Hover me" color="secondary" />
   </Tooltip>
 </ComponentDemo>
 
@@ -32,19 +32,19 @@ import { Tooltip, Button, Input } from '../../src'
 
 Use the `placement` prop to control where the tooltip appears relative to the trigger.
 
-<ComponentDemo storybook="example-tooltip--placements">
+<ComponentDemo storybook="components-tooltip--placements">
   <div style="display: flex; gap: 48px; align-items: center;">
     <Tooltip label="Top" placement="top">
-      <Button label="Top" variant="secondary" />
+      <Button label="Top" color="secondary" />
     </Tooltip>
     <Tooltip label="Bottom" placement="bottom">
-      <Button label="Bottom" variant="secondary" />
+      <Button label="Bottom" color="secondary" />
     </Tooltip>
     <Tooltip label="Left" placement="left">
-      <Button label="Left" variant="secondary" />
+      <Button label="Left" color="secondary" />
     </Tooltip>
     <Tooltip label="Right" placement="right">
-      <Button label="Right" variant="secondary" />
+      <Button label="Right" color="secondary" />
     </Tooltip>
   </div>
 </ComponentDemo>
@@ -71,9 +71,9 @@ Use the `placement` prop to control where the tooltip appears relative to the tr
 
 Add the `withArrow` prop to display an arrow pointing towards the trigger element.
 
-<ComponentDemo storybook="example-tooltip--with-arrow">
+<ComponentDemo storybook="components-tooltip--with-arrow">
   <Tooltip label="Tooltip with arrow" withArrow>
-    <Button label="Hover me" variant="secondary" />
+    <Button label="Hover me" color="secondary" />
   </Tooltip>
 </ComponentDemo>
 
@@ -147,5 +147,5 @@ Enable `showOnFocus` to also show the tooltip when the trigger element receives 
 | `label`   | Custom tooltip label content (alternative to `label` prop) |
 
 ::: tip Storybook
-For interactive examples with all variants, see [Tooltip in Storybook](https://greegus.github.io/vuiii/storybook/?path=/docs/example-tooltip--docs).
+For interactive examples with all variants, see [Tooltip in Storybook](https://greegus.github.io/vuiii/storybook/?path=/docs/components-tooltip--docs).
 :::

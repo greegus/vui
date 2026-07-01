@@ -16,7 +16,7 @@ import { ref } from 'vue'
 import { Divider } from '../../src'
 </script>
 
-<ComponentDemo storybook="example-divider--default">
+<ComponentDemo storybook="components-divider--default">
   <!-- Add live demo here -->
 </ComponentDemo>
 
@@ -45,5 +45,5 @@ component: Input, label: 'Name' }, FORM_DIVIDER, { name: 'email', component: Inp
 ```
 
 ::: tip Storybook
-For interactive examples with all variants, see [Divider in Storybook](https://greegus.github.io/vuiii/storybook/?path=/docs/example-divider--docs).
+For interactive examples with all variants, see [Divider in Storybook](https://greegus.github.io/vuiii/storybook/?path=/docs/components-divider--docs).
 :::

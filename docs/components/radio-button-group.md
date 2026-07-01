@@ -32,21 +32,18 @@ const varianted = ref()
 
 ## Variants
 
-Use the `variant` prop to change the button style. Available variants: `default`, `primary`, `secondary`, `danger`.
+The colors are fixed: the active button uses the `accent` color and inactive buttons use `secondary`. Use the `variant` prop to control the render style of the active button. Available variants: `filled` (default) and `outlined`.
 
 <ComponentDemo storybook="components-radiobuttongroup--variants">
   <div style="display: flex; flex-flow: column; gap: 1rem;">
-    <RadioButtonGroup v-model="varianted" :options="['List', 'Grid', 'Table']" variant="default" />
-    <RadioButtonGroup v-model="varianted" :options="['List', 'Grid', 'Table']" variant="primary" />
-    <RadioButtonGroup v-model="varianted" :options="['List', 'Grid', 'Table']" variant="secondary" />
-    <RadioButtonGroup v-model="varianted" :options="['List', 'Grid', 'Table']" variant="danger" />
+    <RadioButtonGroup v-model="varianted" :options="['List', 'Grid', 'Table']" variant="filled" />
+    <RadioButtonGroup v-model="varianted" :options="['List', 'Grid', 'Table']" variant="outlined" />
   </div>
 </ComponentDemo>
 
 ```vue
-<RadioButtonGroup v-model="view" :options="options" variant="primary" />
-<RadioButtonGroup v-model="view" :options="options" variant="secondary" />
-<RadioButtonGroup v-model="view" :options="options" variant="danger" />
+<RadioButtonGroup v-model="view" :options="['List', 'Grid', 'Table']" variant="filled" />
+<RadioButtonGroup v-model="view" :options="['List', 'Grid', 'Table']" variant="outlined" />
 ```
 
 ## Sizes

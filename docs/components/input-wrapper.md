@@ -16,7 +16,7 @@ import { ref } from 'vue'
 import { InputWrapper } from '../../src'
 </script>
 
-<ComponentDemo storybook="example-inputwrapper--default">
+<ComponentDemo storybook="components-inputwrapper--default">
   <!-- Add live demo here -->
 </ComponentDemo>
 
@@ -45,5 +45,5 @@ import { InputWrapper } from '../../src'
 ```
 
 ::: tip Storybook
-For interactive examples with all variants, see [InputWrapper in Storybook](https://greegus.github.io/vuiii/storybook/?path=/docs/example-inputwrapper--docs).
+For interactive examples with all variants, see [InputWrapper in Storybook](https://greegus.github.io/vuiii/storybook/?path=/docs/components-inputwrapper--docs).
 :::

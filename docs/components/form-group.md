@@ -16,7 +16,7 @@ import { ref } from 'vue'
 import { FormGroup } from '../../src'
 </script>
 
-<ComponentDemo storybook="example-formgroup--default">
+<ComponentDemo storybook="components-formgroup--default">
   <!-- Add live demo here -->
 </ComponentDemo>
 
@@ -60,5 +60,5 @@ import { FormGroup } from '../../src'
 ```
 
 ::: tip Storybook
-For interactive examples with all variants, see [FormGroup in Storybook](https://greegus.github.io/vuiii/storybook/?path=/docs/example-formgroup--docs).
+For interactive examples with all variants, see [FormGroup in Storybook](https://greegus.github.io/vuiii/storybook/?path=/docs/components-formgroup--docs).
 :::

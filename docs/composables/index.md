@@ -24,6 +24,7 @@ VUIII provides a set of Vue 3 composables for common application patterns.
 | [useOnFocusOutside](/composables/use-on-focus-outside) | Detect focus leaving an element              |
 | [useOnKeyPress](/composables/use-on-key-press)         | Handle keyboard events                       |
 | [useCursor](/composables/use-cursor)                   | Navigate through arrays with cursor position |
+| [useFocusTrap](/composables/use-focus-trap)            | Trap keyboard focus within an element        |
 
 ## File Handling
 

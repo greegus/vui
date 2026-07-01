@@ -16,7 +16,7 @@ import { ref } from 'vue'
 import { Icon } from '../../src'
 </script>
 
-<ComponentDemo storybook="example-icon--default">
+<ComponentDemo storybook="components-icon--default">
   <!-- Add live demo here -->
 </ComponentDemo>
 
@@ -53,5 +53,5 @@ pascalName = name.split('-').map(s => s[0].toUpperCase() + s.slice(1)).join('') 
 ```
 
 ::: tip Storybook
-For interactive examples with all variants, see [Icon in Storybook](https://greegus.github.io/vuiii/storybook/?path=/docs/example-icon--docs).
+For interactive examples with all variants, see [Icon in Storybook](https://greegus.github.io/vuiii/storybook/?path=/docs/components-icon--docs).
 :::
