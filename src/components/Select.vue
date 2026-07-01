@@ -229,15 +229,15 @@ function handleInput(e: Event) {
     color: var(--vuiii-input-placeholderColor);
   }
 
-  /* XXX: When placeholder is selected, we need to reset the color of individual option to the default one provided by vuiii-input */
+  /* Note:When placeholder is selected, we need to reset the color of individual option to the default one provided by vuiii-input */
   option {
     color: var(--textColor);
   }
 
-  /* XXX: deal with vertical cropping of the label */
+  /* Note:deal with vertical cropping of the label */
   line-height: 1.5;
 
-  /* XXX: targets only Firefox to fix the vertical text alignment */
+  /* Note:targets only Firefox to fix the vertical text alignment */
   @supports (-moz-appearance: none) {
     line-height: 3;
   }

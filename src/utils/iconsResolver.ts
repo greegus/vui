@@ -100,8 +100,8 @@ export function resolveIconComponent(name: string): IconComponent {
 
   if (component) {
     componentCache.set(name, component)
-  } else {
-    console.error('Unable to resolve icon component for name: ' + name)
+  } else if (import.meta.env.DEV) {
+    console.warn('[vuiii] Unable to resolve icon component for name: ' + name)
   }
 
   return component

@@ -19,7 +19,9 @@ import { onBeforeUnmount, onMounted } from 'vue'
  *   usePreventHandlingDrop(containerRef.value)
  * })
  */
-export const usePreventHandlingDrop = (element: HTMLElement = document.body) => {
+export const usePreventHandlingDrop = (element?: HTMLElement) => {
+  let target: HTMLElement
+
   const handleDragOver = (event: DragEvent) => {
     if (!event.defaultPrevented) {
       event.dataTransfer!.dropEffect = 'none'
@@ -32,16 +34,17 @@ export const usePreventHandlingDrop = (element: HTMLElement = document.body) => 
   }
 
   onMounted(() => {
-    element.addEventListener('dragenter', preventDefault, false)
-    element.addEventListener('dragover', handleDragOver, false)
-    element.addEventListener('dragleave', preventDefault, false)
-    element.addEventListener('drop', preventDefault, false)
+    target = element ?? document.body
+    target.addEventListener('dragenter', preventDefault, false)
+    target.addEventListener('dragover', handleDragOver, false)
+    target.addEventListener('dragleave', preventDefault, false)
+    target.addEventListener('drop', preventDefault, false)
   })
 
   onBeforeUnmount(() => {
-    element.removeEventListener('dragenter', preventDefault, false)
-    element.removeEventListener('dragover', handleDragOver, false)
-    element.removeEventListener('dragleave', preventDefault, false)
-    element.removeEventListener('drop', preventDefault, false)
+    target?.removeEventListener('dragenter', preventDefault, false)
+    target?.removeEventListener('dragover', handleDragOver, false)
+    target?.removeEventListener('dragleave', preventDefault, false)
+    target?.removeEventListener('drop', preventDefault, false)
   })
 }

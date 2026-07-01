@@ -1,4 +1,4 @@
-import { onUnmounted, type Ref } from 'vue'
+import { onMounted, onUnmounted, type Ref } from 'vue'
 
 /**
  * Detects when focus moves outside an element and triggers a callback.
@@ -31,7 +31,9 @@ export function useOnFocusOutside(element: Ref<HTMLElement | undefined>, callbac
     }
   }
 
-  window.addEventListener('focus', handler)
+  onMounted(() => {
+    window.addEventListener('focus', handler)
+  })
 
   onUnmounted(() => {
     window.removeEventListener('focus', handler)
