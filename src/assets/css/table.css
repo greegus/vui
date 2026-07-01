@@ -5,6 +5,7 @@
   --headFontSize: var(--vuiii-table-headFontSize);
   --headFontWeight: var(--vuiii-table-headFontWeight);
   --headTextTransform: var(--vuiii-table-headTextTransform);
+  --headTextColor: var(--vuiii-table-headTextColor);
   --rowDividerWidth: var(--vuiii-table-rowDividerWidth);
   --rowDividerColor: var(--vuiii-table-rowDividerColor);
   --rowBgColor: var(--vuiii-table-rowBgColor);
@@ -21,7 +22,7 @@
 
     & th {
       padding: 0.75rem 1.5rem;
-      color: var(--labelColor);
+      color: var(--headTextColor);
       text-align: left;
       font-size: var(--headFontSize);
       font-weight: var(--headFontWeight);

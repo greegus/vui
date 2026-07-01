@@ -34,27 +34,48 @@ import './my-theme.css'
 
 ## Dark Mode
 
-VUIII supports dark mode through CSS custom properties. Define dark mode overrides:
+VUIII ships with a **built-in dark theme** — no setup required.
 
-```css
-@media (prefers-color-scheme: dark) {
-  :root {
-    --vuiii-color-text: #f9fafb;
-    --vuiii-color-text-secondary: #d1d5db;
-    --vuiii-color-background: #111827;
-    --vuiii-color-background-soft: #1f2937;
-  }
-}
+- **Auto-detect:** the theme follows the operating system via `prefers-color-scheme`.
+- **Force a theme:** add `vuiii-dark` or `vuiii-light` to the document root (`<html>`).
+
+```html
+<!-- Follow the OS (default) -->
+<html>
+
+<!-- Always dark -->
+<html class="vuiii-dark">
+
+<!-- Always light (even on a dark OS) -->
+<html class="vuiii-light">
 ```
 
-Or with a class-based approach:
+Toggle it at runtime by setting the class on `document.documentElement`:
+
+```ts
+document.documentElement.classList.toggle('vuiii-dark', isDark)
+```
+
+### How it works
+
+Only the **neutral ramp** flips between themes — surfaces, text and borders
+(`--vuiii-color-light`, `--vuiii-color-dark`, the `--vuiii-color-gray*` scale, and the two surface
+tokens `--vuiii-color-background` (page) and `--vuiii-color-paper` (cards, dropdowns, panels, inputs —
+slightly raised in dark mode)). **Brand colors**
+(`primary`, `danger`, `success`, `warning`, `accent`) stay the same in both themes, and text on filled
+brand surfaces stays white. Because every component token derives from these neutrals, the whole library
+re-themes automatically.
+
+### Customizing the dark palette
+
+Override the neutral tokens inside a `.vuiii-dark` selector (and, if you also support forced light,
+`.vuiii-light`):
 
 ```css
-.dark {
-  --vuiii-color-text: #f9fafb;
-  --vuiii-color-text-secondary: #d1d5db;
-  --vuiii-color-background: #111827;
-  --vuiii-color-background-soft: #1f2937;
+.vuiii-dark {
+  --vuiii-color-light: oklch(18% 0 0); /* page / surface background */
+  --vuiii-color-dark: oklch(97% 0 0); /* primary text */
+  /* …and the --vuiii-color-gray* ramp */
 }
 ```
 

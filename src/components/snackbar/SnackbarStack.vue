@@ -80,7 +80,7 @@ const messagesInReverse = computed<Message[]>(() => [...messages.value].reverse(
   display: inline-flex;
   align-items: flex-start;
   padding: 0.75rem 1.5rem;
-  color: white;
+  color: var(--vuiii-snackbar-textColor);
   border-radius: 0.25rem;
   cursor: default;
   pointer-events: auto;
@@ -88,11 +88,12 @@ const messagesInReverse = computed<Message[]>(() => [...messages.value].reverse(
 }
 
 .Snackbar__messageBlock--success {
-  background-color: black;
+  background-color: var(--vuiii-snackbar-bgColor);
 }
 
 .Snackbar__messageBlock--error {
-  background-color: var(--vuiii-color-danger);
+  background-color: var(--vuiii-snackbar-bgColor--error);
+  color: var(--vuiii-snackbar-textColor--error);
 }
 
 .Snackbar__messageClose {

@@ -6,7 +6,16 @@ defineProps<{
 </script>
 
 <template>
-  <code style="display: block; margin-top: 1rem; padding: 1rem; background-color: lightgray">
+  <code
+    style="
+      display: block;
+      margin-top: 1rem;
+      padding: 1rem;
+      background-color: var(--vuiii-color-gray--light);
+      color: var(--vuiii-color-dark);
+      border-radius: var(--vuiii-field-borderRadius);
+    "
+  >
     value:
 
     <span v-if="value === undefined" style="font-style: italic">undefined</span>

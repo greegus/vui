@@ -1,0 +1,61 @@
+/**
+ * Dark theme.
+ *
+ * Autodetected via `prefers-color-scheme: dark`. Force a theme by adding `vuiii-dark` or `vuiii-light`
+ * to the document root (`<html>`): `vuiii-dark` forces dark even on a light OS, `vuiii-light` forces
+ * light even on a dark OS.
+ *
+ * Only the neutral ramp flips (surfaces / text / borders). Brand colors (primary, danger, success,
+ * warning, accent) stay the same, and text on filled brand surfaces stays white in both themes.
+ * Every component token derives from these neutrals, so overriding them here re-themes the whole library.
+ *
+ * The `:root.vuiii-*` selectors have higher specificity than the `:root` defaults, so this file may be
+ * imported before them without an ordering issue.
+ */
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.vuiii-light) {
+    --vuiii-color-light: oklch(20% 0 0);
+    --vuiii-color-dark: oklch(96% 0 0);
+    --vuiii-color-paper: oklch(23% 0 0);
+
+    --vuiii-color-gray--lightest: oklch(24% 0 0);
+    --vuiii-color-gray--lighter: oklch(27% 0 0);
+    --vuiii-color-gray--light: oklch(32% 0 0);
+    --vuiii-color-gray: oklch(42% 0.0055 286.29);
+    --vuiii-color-gray--dark: oklch(55% 0 0);
+    --vuiii-color-gray--darker: oklch(70% 0 0);
+    --vuiii-color-gray--darkest: oklch(85% 0 0);
+  }
+}
+
+:root.vuiii-dark,
+.vuiii-dark {
+  --vuiii-color-light: oklch(20% 0 0);
+  --vuiii-color-dark: oklch(96% 0 0);
+  --vuiii-color-paper: oklch(23% 0 0);
+
+  --vuiii-color-gray--lightest: oklch(24% 0 0);
+  --vuiii-color-gray--lighter: oklch(27% 0 0);
+  --vuiii-color-gray--light: oklch(32% 0 0);
+  --vuiii-color-gray: oklch(42% 0.0055 286.29);
+  --vuiii-color-gray--dark: oklch(55% 0 0);
+  --vuiii-color-gray--darker: oklch(70% 0 0);
+  --vuiii-color-gray--darkest: oklch(85% 0 0);
+}
+
+/* Restate the light defaults so forcing light works even inside a dark OS / nested container. */
+:root.vuiii-light,
+.vuiii-light {
+  --vuiii-color-light: var(--vuiii-color-white);
+  --vuiii-color-dark: var(--vuiii-color-black);
+  --vuiii-color-paper: var(--vuiii-color-light);
+
+  --vuiii-color-gray--lightest: oklch(98.51% 0 0);
+  --vuiii-color-gray--lighter: oklch(97.02% 0 0);
+  --vuiii-color-gray--light: oklch(92.19% 0 0);
+  --vuiii-color-gray: oklch(87.11% 0.0055 286.29);
+  --vuiii-color-gray--dark: oklch(71.55% 0 0);
+  --vuiii-color-gray--darker: oklch(55.55% 0 0);
+  --vuiii-color-gray--darkest: oklch(43.86% 0 0);
+}

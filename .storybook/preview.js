@@ -23,4 +23,39 @@ export const initialGlobals = {
   backgrounds: { value: 'light' },
 }
 
+export const globalTypes = {
+  theme: {
+    description: 'vuiii color theme',
+    defaultValue: 'light',
+    toolbar: {
+      title: 'Theme',
+      icon: 'contrast',
+      dynamicTitle: true,
+      items: [
+        { value: 'light', title: 'Light' },
+        { value: 'dark', title: 'Dark' },
+        { value: 'auto', title: 'Auto (OS)' },
+      ],
+    },
+  },
+}
+
+// Apply the `vuiii-dark`/`vuiii-light` class to the preview root so the neutral tokens flip, without
+// wrapping the story (which would break `layout: 'centered'` etc.). Pick a matching canvas colour via
+// the Backgrounds toolbar. `auto` follows the OS via prefers-color-scheme.
+export const decorators = [
+  (story, context) => ({
+    components: { story },
+    setup() {
+      const theme = context.globals.theme
+      const root = document.documentElement
+      root.classList.remove('vuiii-dark', 'vuiii-light')
+      if (theme === 'dark') root.classList.add('vuiii-dark')
+      else if (theme === 'light') root.classList.add('vuiii-light')
+      return {}
+    },
+    template: '<story />',
+  }),
+]
+
 export const tags = ['autodocs']

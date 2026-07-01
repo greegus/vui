@@ -1,3 +1,5 @@
+@import './dark.css';
+
 :root {
   /* ------ */
   /* Colors */
@@ -8,6 +10,10 @@
 
   --vuiii-color-light: var(--vuiii-color-white);
   --vuiii-color-dark: var(--vuiii-color-black);
+
+  /* Surfaces: background = page, paper = raised surfaces (cards, dropdowns, panels, inputs). */
+  --vuiii-color-background: var(--vuiii-color-light);
+  --vuiii-color-paper: var(--vuiii-color-light);
 
   --vuiii-color-gray: oklch(87.11% 0.0055 286.29); /* neutral.300 */
   --vuiii-color-gray--light: oklch(92.19% 0 0); /* neutral.200 */
@@ -156,7 +162,7 @@
   --vuiii-field-fontSize: var(--vuiii-fontSize);
 
   --vuiii-field-borderWidth: 1px;
-  --vuiii-field-bgColor: var(--vuiii-color-white);
+  --vuiii-field-bgColor: var(--vuiii-color-paper);
   --vuiii-field-borderColor: var(--vuiii-color-gray);
   --vuiii-field-ringColor: oklch(from var(--vuiii-color-gray--dark) l c h / 0.1);
   --vuiii-field-ringSize: 0.25em;
@@ -259,7 +265,7 @@
   --vuiii-input-textColor: inherit;
   --vuiii-input-borderColor: var(--vuiii-field-borderColor);
   --vuiii-input-borderColor--focus: oklch(from var(--vuiii-input-borderColor) calc(l * 0.8) c h);
-  --vuiii-input-bgColor: var(--vuiii-color-white);
+  --vuiii-input-bgColor: var(--vuiii-color-paper);
   --vuiii-input-bgColor--focus: var(--vuiii-input-bgColor);
   --vuiii-input-placeholderColor: color-mix(in oklch, currentColor 50%, transparent);
   --vuiii-input-ringColor: var(--vuiii-field-ringColor);
@@ -341,7 +347,7 @@
   /* Card */
   /* ---- */
 
-  --vuiii-card-bgColor: var(--vuiii-color-light);
+  --vuiii-card-bgColor: var(--vuiii-color-paper);
   --vuiii-card-textColor: var(--vuiii-color-dark);
   --vuiii-card-padding: 1.5rem;
   --vuiii-card-borderRadius: 0.5rem;
@@ -358,11 +364,11 @@
   --vuiii-dialog-title-fontSize: var(--vuiii-fontSize--x-large);
   --vuiii-dialog-title-fontWeight: inherit;
   --vuiii-dialog-title-fontFamily: inherit;
-  --vuiii-dialog-bgColor: var(--vuiii-color-light);
+  --vuiii-dialog-bgColor: var(--vuiii-color-paper);
   --vuiii-dialog-textColor: var(--vuiii-color-dark);
   --vuiii-dialog-borderRadius: var(--vuiii-card-borderRadius);
   --vuiii-dialog-boxShadow: 0 2px 10px oklch(0% 0 0 / 0.1);
-  --vuiii-dialog-borderColor: black;
+  --vuiii-dialog-borderColor: var(--vuiii-color-dark);
   --vuiii-dialog-borderWidth: 1px;
   --vuiii-dialog-padding: var(--vuiii-card-padding);
   --vuiii-dialog-dividerWidth: var(--vuiii-divider-width);
@@ -377,7 +383,7 @@
   /* Dropdown menu */
   /* ------- */
 
-  --vuiii-dropdownMenu-bgColor: var(--vuiii-field-bgColor);
+  --vuiii-dropdownMenu-bgColor: var(--vuiii-color-paper);
   --vuiii-dropdownMenu-textColor: var(--vuiii-field-textColor);
   --vuiii-dropdownMenu-borderColor: var(--vuiii-field-bgColor);
   --vuiii-dropdownMenu-borderWidth: 0px;
@@ -388,23 +394,32 @@
   --vuiii-dropdownMenu-dividerWidth: var(--vuiii-divider-width);
 
   --vuiii-dropdownMenu-cursor-textColor: inherit;
-  --vuiii-dropdownMenu-cursor-bgColor: oklch(from var(--vuiii-color-black) l c h / 0.06);
+  --vuiii-dropdownMenu-cursor-bgColor: oklch(from var(--vuiii-color-dark) l c h / 0.06);
 
   --vuiii-dropdownMenu-button-textColor--hover: inherit;
-  --vuiii-dropdownMenu-button-bgColor--hover: oklch(from var(--vuiii-color-black) l c h / 0.04);
+  --vuiii-dropdownMenu-button-bgColor--hover: oklch(from var(--vuiii-color-dark) l c h / 0.04);
 
   /* ------- */
   /* Tooltip */
   /* ------- */
 
   --vuiii-tooltip-bgColor: var(--vuiii-color-gray--darkest);
-  --vuiii-tooltip-textColor: var(--vuiii-color-white);
+  --vuiii-tooltip-textColor: var(--vuiii-color-light);
   --vuiii-tooltip-fontSize: var(--vuiii-fontSize--small);
   --vuiii-tooltip-padding: 0.35em 0.65em;
   --vuiii-tooltip-borderRadius: var(--vuiii-field-borderRadius);
   --vuiii-tooltip-boxShadow: var(--vuiii-shadow);
   --vuiii-tooltip-arrowSize: 6px;
   --vuiii-tooltip-gap: 6px;
+
+  /* -------- */
+  /* Snackbar */
+  /* -------- */
+
+  --vuiii-snackbar-bgColor: var(--vuiii-color-dark);
+  --vuiii-snackbar-textColor: var(--vuiii-color-light);
+  --vuiii-snackbar-bgColor--error: var(--vuiii-color-danger);
+  --vuiii-snackbar-textColor--error: white;
 
   /* ---- */
   /* Tabs */
