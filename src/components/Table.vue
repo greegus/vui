@@ -1,5 +1,11 @@
 <template>
-  <table class="vuiii-table" :class="{ 'vuiii-table--hover': $props.highlightOnHover && items?.length }">
+  <table
+    class="vuiii-table"
+    :class="[
+      { 'vuiii-table--hover': $props.highlightOnHover && items?.length },
+      { [`vuiii-table--size-${$props.size}`]: $props.size },
+    ]"
+  >
     <thead v-if="hasHeader">
       <tr>
         <th
@@ -208,7 +214,7 @@ import '@/assets/css/typography.css'
 import { computed } from 'vue'
 
 import Icon from '@/components/Icon.vue'
-import type { TableColumn } from '@/types'
+import type { InputSize, TableColumn } from '@/types'
 
 type TableCell = {
   column: TableColumn<T>
@@ -238,6 +244,7 @@ const props = defineProps<{
   rowClass?: string | ((row: { item: T; index: number }) => any)
   highlightOnHover?: boolean
   noDataMessage?: string
+  size?: InputSize
 }>()
 
 const emit = defineEmits<{

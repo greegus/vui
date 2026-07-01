@@ -2,6 +2,7 @@ import { type Meta, type StoryObj } from '@storybook/vue3-vite'
 import { ref } from 'vue'
 
 import Button from '../components/Button.vue'
+import IconButton from '../components/IconButton.vue'
 import Table from '../components/Table.vue'
 import type { TableColumn } from '../types'
 import { type TableItem, tableItems } from './assets/tableItems'
@@ -76,6 +77,10 @@ const meta: Meta<typeof Table<TableItem>> = {
       control: 'text',
       defaultValue: 'No items',
     },
+    size: {
+      control: 'select',
+      options: ['small', 'normal', 'large'],
+    },
   },
   args: {
     items: tableItems,
@@ -90,6 +95,35 @@ export default meta
 type Story = StoryObj<typeof Table<TableItem>>
 
 export const Default: Story = {}
+
+export const Sizes: Story = {
+  render: (args) => ({
+    components: { Table, IconButton },
+    setup: () => ({ args }),
+    template: `
+      <div style="display: flex; flex-flow: column; gap: 2rem;">
+        <Table v-bind="args" size="small">
+          <template #rowOptions>
+            <IconButton icon="pencil" size="small" variant="text" />
+            <IconButton icon="trash" size="small" color="danger" variant="text" />
+          </template>
+        </Table>
+        <Table v-bind="args" size="normal">
+          <template #rowOptions>
+            <IconButton icon="pencil" size="normal" variant="text" />
+            <IconButton icon="trash" size="normal" color="danger" variant="text" />
+          </template>
+        </Table>
+        <Table v-bind="args" size="large">
+          <template #rowOptions>
+            <IconButton icon="pencil" size="large" variant="text" />
+            <IconButton icon="trash" size="large" color="danger" variant="text" />
+          </template>
+        </Table>
+      </div>
+    `,
+  }),
+}
 
 export const HoverableRows: Story = {
   args: {

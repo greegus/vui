@@ -327,6 +327,9 @@
   /* Table */
   /* ----- */
   --vuiii-table-fontSize: var(--vuiii-fontSize);
+  --vuiii-table-cellPaddingX: 1.5rem;
+  --vuiii-table-cellPaddingY: 1rem;
+  --vuiii-table-headPaddingY: 0.75rem;
   --vuiii-table-dividerColor: var(--vuiii-divider-color);
   --vuiii-table-dividerWidth: var(--vuiii-divider-width);
 

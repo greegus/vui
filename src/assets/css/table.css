@@ -1,5 +1,8 @@
 .vuiii-table {
   --fontSize: var(--vuiii-table-fontSize);
+  --cellPaddingX: var(--vuiii-table-cellPaddingX);
+  --cellPaddingY: var(--vuiii-table-cellPaddingY);
+  --headPaddingY: var(--vuiii-table-headPaddingY);
   --headDividerWidth: var(--vuiii-table-headDividerWidth);
   --headDividerColor: var(--vuiii-table-headDividerColor);
   --headFontSize: var(--vuiii-table-headFontSize);
@@ -21,7 +24,7 @@
     }
 
     & th {
-      padding: 0.75rem 1.5rem;
+      padding: var(--headPaddingY) var(--cellPaddingX);
       color: var(--headTextColor);
       text-align: left;
       font-size: var(--headFontSize);
@@ -37,12 +40,30 @@
 
     & td {
       background-color: var(--rowBgColor);
-      padding: 1rem 1.5rem;
+      padding: var(--cellPaddingY) var(--cellPaddingX);
     }
   }
 
   &.vuiii-table--hover tbody tr:hover td {
     background-color: var(--rowBgColor--hover);
+  }
+
+  /* Sizes scale font + padding by the same ratio as the shared font scale (small ≈ 0.85×, large ≈ 1.25×),
+     matching field/button/input sizing. Padding stays in rem so header/body columns keep aligned. */
+  &.vuiii-table--size-small {
+    --fontSize: var(--vuiii-fontSize--small);
+    --headFontSize: var(--vuiii-fontSize--tiny);
+    --cellPaddingX: 1.25rem;
+    --cellPaddingY: 0.85rem;
+    --headPaddingY: 0.65rem;
+  }
+
+  &.vuiii-table--size-large {
+    --fontSize: var(--vuiii-fontSize--large);
+    --headFontSize: var(--vuiii-fontSize);
+    --cellPaddingX: 1.875rem;
+    --cellPaddingY: 1.25rem;
+    --headPaddingY: 0.95rem;
   }
 }
 
