@@ -51,7 +51,7 @@ watch(
         class="DropdownMenu__item"
         :class="{ 'DropdownMenu__item--withCursor': cursorIndex === index }"
         :id="optionIdPrefix ? `${optionIdPrefix}-${index}` : undefined"
-        :role="listRole === 'listbox' ? 'option' : undefined"
+        :role="listRole === 'listbox' ? 'option' : listRole === 'menu' ? 'menuitem' : undefined"
         :aria-selected="listRole === 'listbox' ? cursorIndex === index : undefined"
         ref="itemElements"
       >

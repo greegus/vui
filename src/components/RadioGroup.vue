@@ -114,7 +114,7 @@ export default {
 import { computed, useAttrs, useId } from 'vue'
 
 import { useAttrsWithoutClass } from '@/composables/useAttrsWithoutClass'
-import type { Extractor, Option, ValueParser } from '@/types'
+import type { Extractor, Option, OptionsProp, ValueParser } from '@/types'
 import { createTypeParser } from '@/utils/createTypeParser'
 import { normalizeOptions } from '@/utils/normalizeOptions'
 
@@ -133,7 +133,7 @@ const inputName = (attrs.name as string) || `RadioGroup-input-${useId()}`
 
 const props = withDefaults(
   defineProps<{
-    options: any[] | Record<string, any>
+    options: OptionsProp
     optionLabel?: Extractor
     optionValue?: Extractor
     optionDisabled?: Extractor

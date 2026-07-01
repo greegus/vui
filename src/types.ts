@@ -101,6 +101,13 @@ export type TableColumn<T = any> = {
 export type Extractor = string | number | ((item: any) => string | number)
 
 /**
+ * Options input accepted by option-based components (Select, Autocomplete, RadioGroup,
+ * CheckboxGroup, RadioButtonGroup). Either an array (primitives, objects, or option groups)
+ * or a key-value object where keys become values and values become labels.
+ */
+export type OptionsProp = any[] | Record<string | number, any>
+
+/**
  * Normalized option structure used by Select, Autocomplete, RadioGroup, CheckboxGroup.
  *
  * @template T - The original data type of the option

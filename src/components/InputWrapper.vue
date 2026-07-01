@@ -17,7 +17,8 @@
         :is="isPrefixIconClickable ? 'button' : 'div'"
         class="vuiii-input__prefix-icon"
         :class="{ 'InputWrapper__icon': isPrefixIconClickable }"
-        tabindex="-1"
+        :type="isPrefixIconClickable ? 'button' : undefined"
+        :aria-label="isPrefixIconClickable ? $props.prefixIconLabel || $props.prefixIcon : undefined"
         @click.prevent="$emit('prefix-icon-click')"
       >
         <Icon v-if="$props.prefixIcon" :name="$props.prefixIcon || ''" :size="$props.size" />
@@ -31,7 +32,8 @@
         :is="isSuffixIconClickable ? 'button' : 'div'"
         class="vuiii-input__suffix-icon"
         :class="{ 'InputWrapper__icon': isSuffixIconClickable }"
-        tabindex="-1"
+        :type="isSuffixIconClickable ? 'button' : undefined"
+        :aria-label="isSuffixIconClickable ? $props.suffixIconLabel || $props.suffixIcon : undefined"
         @click.prevent="$emit('suffix-icon-click')"
       >
         <Icon v-if="$props.suffixIcon" :name="$props.suffixIcon || ''" :size="$props.size" />
@@ -83,6 +85,10 @@ import type { InputSize } from '@/types'
 export type InputWrapperProps = {
   prefixIcon?: string
   suffixIcon?: string
+  /** Accessible label for a clickable prefix icon (falls back to the icon name). */
+  prefixIconLabel?: string
+  /** Accessible label for a clickable suffix icon (falls back to the icon name). */
+  suffixIconLabel?: string
   size?: InputSize
   invalid?: boolean
   pill?: boolean

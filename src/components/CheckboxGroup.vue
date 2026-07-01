@@ -1,5 +1,5 @@
 <template>
-  <div class="CheckboxGroup" :class="{ 'CheckboxGroup--inline': $props.inline }">
+  <div class="CheckboxGroup" role="group" :class="{ 'CheckboxGroup--inline': $props.inline }">
     <div v-for="option in normalizedOptions" :key="option.value">
       <Checkbox
         :disabled="option.disabled"
@@ -78,14 +78,14 @@
 import { computed } from 'vue'
 
 import Checkbox from '@/components/Checkbox.vue'
-import type { Extractor, Option, ValueParser } from '@/types'
+import type { Extractor, Option, OptionsProp, ValueParser } from '@/types'
 import { createTypeParser } from '@/utils/createTypeParser'
 import { normalizeOptions } from '@/utils/normalizeOptions'
 
 const modelValue = defineModel<any[]>()
 
 const props = defineProps<{
-  options: any[] | Record<string, any>
+  options: OptionsProp
   optionLabel?: Extractor
   optionValue?: Extractor
   optionDisabled?: Extractor

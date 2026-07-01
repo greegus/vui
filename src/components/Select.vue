@@ -137,7 +137,7 @@ import { computed } from 'vue'
 import Icon from '@/components/Icon.vue'
 import InputWrapper from '@/components/InputWrapper.vue'
 import { useAttrsWithoutClass } from '@/composables/useAttrsWithoutClass'
-import type { Extractor, InputSize, ValueParser } from '@/types'
+import type { Extractor, InputSize, OptionsProp, ValueParser } from '@/types'
 import { createTypeParser } from '@/utils/createTypeParser'
 import { normalizeGroups, normalizeOptions } from '@/utils/normalizeOptions'
 
@@ -147,7 +147,7 @@ const attrsWithoutClass = useAttrsWithoutClass()
 
 const props = withDefaults(
   defineProps<{
-    options: any[] | Record<string, any>
+    options: OptionsProp
     optionLabel?: Extractor
     optionValue?: Extractor
     optionDisabled?: Extractor

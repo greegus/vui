@@ -35,6 +35,7 @@ export type { TooltipPlacement, TooltipProps } from './components/Tooltip.vue'
 export { default as Tooltip } from './components/Tooltip.vue'
 export { default as FadeTransition } from './components/transitions/FadeTransition.vue'
 export { useCursor } from './composables/useCursor'
+export { useFocusTrap } from './composables/useFocusTrap'
 export { useDropArea } from './composables/useDropArea'
 export { usePreventHandlingDrop } from './composables/usePreventHandlingDrop'
 export { useLoadData } from './composables/useLoadData'
@@ -59,6 +60,7 @@ export type {
   IconSize,
   InputSize,
   Option,
+  OptionsProp,
   PaginatedData,
   PaginatedDataSource,
   Pagination,

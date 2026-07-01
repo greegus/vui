@@ -9,12 +9,13 @@
       '--delay': delay != null ? `${delay}ms` : undefined,
     }"
   >
-    <div class="Tooltip__trigger">
+    <div class="Tooltip__trigger" :aria-describedby="hasTooltip ? tooltipId : undefined">
       <slot />
     </div>
 
     <div
-      v-if="title || $slots.title"
+      v-if="hasTooltip"
+      :id="tooltipId"
       class="Tooltip__bubble"
       :class="[`Tooltip__bubble--${placement}`, { 'Tooltip__bubble--withArrow': withArrow }]"
       role="tooltip"
@@ -90,7 +91,7 @@ export type TooltipProps = {
 </script>
 
 <script lang="ts" setup>
-import { computed, useId } from 'vue'
+import { computed, useId, useSlots } from 'vue'
 
 const props = withDefaults(defineProps<TooltipProps>(), {
   placement: 'top',
@@ -100,6 +101,12 @@ defineSlots<{
   default?: () => any
   title?: () => any
 }>()
+
+const slots = useSlots()
+
+const tooltipId = useId()
+
+const hasTooltip = computed<boolean>(() => Boolean(props.title || slots.title))
 
 const anchorName = `--anchor-${useId()}`
 
