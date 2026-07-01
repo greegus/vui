@@ -15,6 +15,12 @@ Key features:
 
 [Documentation and examples](https://greegus.github.io/vuiii/)
 
+## Requirements
+
+- **Vue 3.5+** (peer dependency). `vue-router` (`^4.2.5 || ^5.0.0`) is a peer dependency too, required only if
+  you use router-aware components (e.g. `Button`'s `to` prop).
+- **ESM-only** package — use a modern bundler (Vite, webpack 5, Rollup, Nuxt). There is no CommonJS build.
+
 ## Installation
 
 ```sh
