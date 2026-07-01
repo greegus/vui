@@ -44,6 +44,7 @@ const columns: TableColumn<User>[] = [
 | `rowClass`         | `string \| ((row: { item, index }) => any)`       | -       | Class applied to each row (static or per-row)        |
 | `highlightOnHover` | `boolean`                                         | `false` | Highlights rows on hover                             |
 | `noDataMessage`    | `string`                                          | -       | Message shown when `items` is empty                  |
+| `size`             | `'small' \| 'normal' \| 'large'`                  | `'normal'` | Row/cell density (padding + font size)            |
 | `sortColumnName`   | `string \| null`                                  | `null`  | Currently sorted column (use with `v-model:sort-column-name`) |
 | `sortDirection`    | `'asc' \| 'desc'`                                 | `'asc'` | Sort direction (use with `v-model:sort-direction`)   |
 
