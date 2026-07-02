@@ -40,18 +40,19 @@ export const globalTypes = {
   },
 }
 
-// Apply the `vuiii-dark`/`vuiii-light` class to the preview root so the neutral tokens flip, without
-// wrapping the story (which would break `layout: 'centered'` etc.). Pick a matching canvas colour via
-// the Backgrounds toolbar. `auto` follows the OS via prefers-color-scheme.
+// Apply a `vuiii-mode-*` class to the preview root so the neutral tokens flip, without wrapping the
+// story (which would break `layout: 'centered'` etc.). Pick a matching canvas colour via the
+// Backgrounds toolbar. `auto` follows the OS via prefers-color-scheme (opt-in via `vuiii-mode-auto`).
 export const decorators = [
   (story, context) => ({
     components: { story },
     setup() {
       const theme = context.globals.theme
       const root = document.documentElement
-      root.classList.remove('vuiii-dark', 'vuiii-light')
-      if (theme === 'dark') root.classList.add('vuiii-dark')
-      else if (theme === 'light') root.classList.add('vuiii-light')
+      root.classList.remove('vuiii-mode-dark', 'vuiii-mode-light', 'vuiii-mode-auto')
+      if (theme === 'dark') root.classList.add('vuiii-mode-dark')
+      else if (theme === 'light') root.classList.add('vuiii-mode-light')
+      else if (theme === 'auto') root.classList.add('vuiii-mode-auto')
       return {}
     },
     template: '<story />',

@@ -1,20 +1,26 @@
 /**
  * Dark theme.
  *
- * Autodetected via `prefers-color-scheme: dark`. Force a theme by adding `vuiii-dark` or `vuiii-light`
- * to the document root (`<html>`): `vuiii-dark` forces dark even on a light OS, `vuiii-light` forces
- * light even on a dark OS.
+ * Opt in explicitly by adding a mode class to the document root (`<html>`):
+ *   - `vuiii-mode-auto`  — follow the OS via `prefers-color-scheme` (dark on a dark OS, light otherwise).
+ *   - `vuiii-mode-dark`  — force dark regardless of the OS.
+ *   - `vuiii-mode-light` — force light regardless of the OS.
+ *
+ * With no mode class the library stays in light mode (the `:root` defaults in common.css). Auto-detection
+ * never happens implicitly — a page must opt in with `vuiii-mode-auto`.
  *
  * Only the neutral ramp flips (surfaces / text / borders). Brand colors (primary, danger, success,
  * warning, accent) stay the same, and text on filled brand surfaces stays white in both themes.
  * Every component token derives from these neutrals, so overriding them here re-themes the whole library.
  *
- * The `:root.vuiii-*` selectors have higher specificity than the `:root` defaults, so this file may be
- * imported before them without an ordering issue.
+ * The `:root.vuiii-mode-*` selectors have higher specificity than the `:root` defaults, so this file may
+ * be imported before them without an ordering issue.
  */
 
+/* Auto: follow the OS, but only when the page explicitly opts in with `vuiii-mode-auto`. */
 @media (prefers-color-scheme: dark) {
-  :root:not(.vuiii-light) {
+  :root.vuiii-mode-auto,
+  .vuiii-mode-auto {
     --vuiii-color-light: oklch(20% 0 0);
     --vuiii-color-dark: oklch(96% 0 0);
     --vuiii-color-paper: oklch(23% 0 0);
@@ -29,8 +35,9 @@
   }
 }
 
-:root.vuiii-dark,
-.vuiii-dark {
+/* Force dark regardless of the OS. */
+:root.vuiii-mode-dark,
+.vuiii-mode-dark {
   --vuiii-color-light: oklch(20% 0 0);
   --vuiii-color-dark: oklch(96% 0 0);
   --vuiii-color-paper: oklch(23% 0 0);
@@ -45,8 +52,8 @@
 }
 
 /* Restate the light defaults so forcing light works even inside a dark OS / nested container. */
-:root.vuiii-light,
-.vuiii-light {
+:root.vuiii-mode-light,
+.vuiii-mode-light {
   --vuiii-color-light: var(--vuiii-color-white);
   --vuiii-color-dark: var(--vuiii-color-black);
   --vuiii-color-paper: var(--vuiii-color-light);

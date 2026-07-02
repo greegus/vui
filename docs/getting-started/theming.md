@@ -34,26 +34,30 @@ import './my-theme.css'
 
 ## Dark Mode
 
-VUIII ships with a **built-in dark theme** — no setup required.
+VUIII ships with a **built-in dark theme**. It is **opt-in** — you enable it with a mode class on the
+document root (`<html>`). With no class the library stays in **light mode**.
 
-- **Auto-detect:** the theme follows the operating system via `prefers-color-scheme`.
-- **Force a theme:** add `vuiii-dark` or `vuiii-light` to the document root (`<html>`).
+- **Auto-detect:** add `vuiii-mode-auto` to follow the operating system via `prefers-color-scheme`.
+- **Force a theme:** add `vuiii-mode-dark` or `vuiii-mode-light`.
 
 ```html
-<!-- Follow the OS (default) -->
+<!-- Light (default — no class needed) -->
 <html>
 
+<!-- Follow the OS -->
+<html class="vuiii-mode-auto">
+
 <!-- Always dark -->
-<html class="vuiii-dark">
+<html class="vuiii-mode-dark">
 
 <!-- Always light (even on a dark OS) -->
-<html class="vuiii-light">
+<html class="vuiii-mode-light">
 ```
 
 Toggle it at runtime by setting the class on `document.documentElement`:
 
 ```ts
-document.documentElement.classList.toggle('vuiii-dark', isDark)
+document.documentElement.classList.toggle('vuiii-mode-dark', isDark)
 ```
 
 ### How it works
@@ -68,11 +72,11 @@ re-themes automatically.
 
 ### Customizing the dark palette
 
-Override the neutral tokens inside a `.vuiii-dark` selector (and, if you also support forced light,
-`.vuiii-light`):
+Override the neutral tokens inside a `.vuiii-mode-dark` selector (and, if you also support forced light,
+`.vuiii-mode-light`):
 
 ```css
-.vuiii-dark {
+.vuiii-mode-dark {
   --vuiii-color-light: oklch(18% 0 0); /* page / surface background */
   --vuiii-color-dark: oklch(97% 0 0); /* primary text */
   /* …and the --vuiii-color-gray* ramp */
