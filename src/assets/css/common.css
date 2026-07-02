@@ -414,6 +414,7 @@
   --vuiii-tooltip-boxShadow: var(--vuiii-shadow);
   --vuiii-tooltip-arrowSize: 6px;
   --vuiii-tooltip-gap: 6px;
+  --vuiii-tooltip-delay: 500ms;
 
   /* -------- */
   /* Snackbar */

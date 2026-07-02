@@ -85,10 +85,24 @@ Add the `withArrow` prop to display an arrow pointing towards the trigger elemen
 
 ## With Delay
 
-Use the `delay` prop (in milliseconds) to delay showing the tooltip on hover. Moving the mouse away before the delay cancels the tooltip.
+Add the `delayed` flag to show the tooltip after a short default delay (the `--vuiii-tooltip-delay` token, 500ms). Moving the mouse away before the delay cancels the tooltip.
+
+<ComponentDemo storybook="components-tooltip--delayed">
+  <Tooltip label="Delayed tooltip" delayed>
+    <Button label="Hover and wait" color="secondary" />
+  </Tooltip>
+</ComponentDemo>
 
 ```vue
-<Tooltip label="Delayed tooltip" :delay="500">
+<Tooltip label="Delayed tooltip" delayed>
+  <Button label="Hover and wait" />
+</Tooltip>
+```
+
+For a custom delay, use the `delay` prop (in milliseconds). It takes precedence over `delayed`.
+
+```vue
+<Tooltip label="Delayed tooltip" :delay="800">
   <Button label="Hover and wait" />
 </Tooltip>
 ```
@@ -135,7 +149,8 @@ Enable `showOnFocus` to also show the tooltip when the trigger element receives 
 | `label`       | `string`                                 | —       | Text content of the tooltip                                           |
 | `placement`   | `'top' \| 'bottom' \| 'left' \| 'right'` | `'top'` | Position of the tooltip relative to the trigger                       |
 | `withArrow`   | `boolean`                                | `false` | Show an arrow pointing towards the trigger                            |
-| `delay`       | `number`                                 | —       | Delay in milliseconds before showing the tooltip on hover             |
+| `delayed`     | `boolean`                                | `false` | Show after a short default delay (`--vuiii-tooltip-delay`, 500ms)     |
+| `delay`       | `number`                                 | —       | Explicit delay in milliseconds before showing (overrides `delayed`)   |
 | `offset`      | `number`                                 | —       | Gap in pixels between the trigger and tooltip (overrides default 4px) |
 | `showOnFocus` | `boolean`                                | `false` | Also show the tooltip when the trigger receives focus                 |
 

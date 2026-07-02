@@ -1,7 +1,7 @@
 <template>
   <div
     class="Tooltip"
-    :class="{ 'Tooltip--showOnFocus': showOnFocus }"
+    :class="{ 'Tooltip--showOnFocus': showOnFocus, 'Tooltip--delayed': delayed }"
     :style="{
       '--anchor-id': anchorName,
       '--position-area': positionArea,
@@ -54,8 +54,14 @@
  * </Tooltip>
  *
  * @example
- * // With delay
- * <Tooltip title="Delayed tooltip" :delay="500">
+ * // With a short default delay before showing
+ * <Tooltip title="Delayed tooltip" delayed>
+ *   <Button label="Hover me" />
+ * </Tooltip>
+ *
+ * @example
+ * // With a custom delay (ms) — overrides `delayed`
+ * <Tooltip title="Delayed tooltip" :delay="800">
  *   <Button label="Hover me" />
  * </Tooltip>
  *
@@ -84,6 +90,9 @@ export type TooltipProps = {
   title?: string
   placement?: TooltipPlacement
   showOnFocus?: boolean
+  /** Show the tooltip after a short default delay (`--vuiii-tooltip-delay`, 500ms). Overridden by `delay`. */
+  delayed?: boolean
+  /** Explicit delay in milliseconds before the tooltip appears. Takes precedence over `delayed`. */
   delay?: number
   withArrow?: boolean
   offset?: number
@@ -129,6 +138,11 @@ const positionArea = computed(() => {
 <style>
 .Tooltip {
   display: inline-block;
+}
+
+/* `delayed` opts into the default delay token; an explicit `delay` prop (inline --delay) overrides it. */
+.Tooltip--delayed {
+  --delay: var(--vuiii-tooltip-delay);
 }
 
 .Tooltip__trigger {

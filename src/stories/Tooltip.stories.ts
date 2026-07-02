@@ -30,6 +30,9 @@ export default {
     showOnFocus: {
       control: 'boolean',
     },
+    delayed: {
+      control: 'boolean',
+    },
     delay: {
       control: 'number',
     },
@@ -121,10 +124,10 @@ export const WithArrow: StoryObj<typeof Tooltip> = {
   },
 }
 
-export const WithDelay: StoryObj<typeof Tooltip> = {
+export const Delayed: StoryObj<typeof Tooltip> = {
   args: {
-    title: 'Delayed tooltip (500ms)',
-    delay: 500,
+    title: 'Delayed tooltip',
+    delayed: true,
   },
   render: (args) => ({
     components: { Tooltip, Button },
@@ -139,7 +142,30 @@ export const WithDelay: StoryObj<typeof Tooltip> = {
     docs: {
       description: {
         story:
-          'Tooltip with a 500ms delay before appearing. Moving the mouse away before the delay cancels the tooltip.',
+          'The `delayed` flag applies a short default delay (`--vuiii-tooltip-delay`, 500ms) before the tooltip appears. Moving the mouse away before the delay cancels it.',
+      },
+    },
+  },
+}
+
+export const WithCustomDelay: StoryObj<typeof Tooltip> = {
+  args: {
+    title: 'Delayed tooltip (800ms)',
+    delay: 800,
+  },
+  render: (args) => ({
+    components: { Tooltip, Button },
+    setup: () => ({ args }),
+    template: `
+      <Tooltip v-bind="args">
+        <Button label="Hover and wait" color="secondary" />
+      </Tooltip>
+    `,
+  }),
+  parameters: {
+    docs: {
+      description: {
+        story: 'An explicit `delay` (in milliseconds) sets the delay manually and takes precedence over `delayed`.',
       },
     },
   },
