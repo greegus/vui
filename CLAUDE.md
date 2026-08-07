@@ -93,7 +93,7 @@ const breadcrumbs: BreadcrumbItems = [
 const breadcrumbs: BreadcrumbItems = [
   { label: 'Dashboard', link: { name: 'dashboard' } },
   { label: 'Users', link: { name: 'users' } },
-  { label: 'John Doe', link: { name: 'user', params: { id: 123 } } },
+  { label: 'John Doe', link: { name: 'user', params: { id: 123 } } }
 ]
 ```
 
@@ -111,8 +111,8 @@ Supports multiple variants, sizes, icons, and loading states.
 import { Button } from 'vuiii'
 
 <Button label="Click me" />
-<Button variant="primary" label="Submit" />
-<Button variant="danger" label="Delete" />
+<Button color="primary" label="Submit" />
+<Button color="danger" label="Delete" />
 ```
 
 ```typescript
@@ -127,6 +127,42 @@ import { Button } from 'vuiii'
 <Button size="small" label="Small" />
 <Button size="normal" label="Normal" />
 <Button size="large" label="Large" />
+```
+
+### Card
+
+**File:** `src/components/Card.vue`
+
+Simple content container with an optional header (title + tools) and a body.
+Shares its padding and border-radius tokens with Dialog (`--vuiii-card-*`).
+
+**Examples:**
+
+```typescript
+// Basic usage
+import { Card } from 'vuiii'
+
+<Card title="Profile">
+  Card body content
+</Card>
+```
+
+```typescript
+// With header tools (rendered on the right)
+<Card title="Members">
+  <template #tools>
+    <IconButton icon="plus" @click="add()" />
+  </template>
+  ...
+</Card>
+```
+
+```typescript
+// Custom title / full header
+<Card>
+  <template #title><Icon name="star" /> Featured</template>
+  ...
+</Card>
 ```
 
 ### Checkbox
@@ -235,7 +271,7 @@ import { FORM_DIVIDER } from 'vuiii'
 const fields = [
   { name: 'name', component: Input, label: 'Name' },
   FORM_DIVIDER,
-  { name: 'email', component: Input, label: 'Email' },
+  { name: 'email', component: Input, label: 'Email' }
 ]
 ```
 
@@ -252,8 +288,8 @@ Closes on click outside or Escape key. Supports programmatic control.
 // Basic dropdown with default button trigger
 import { Dropdown, DropdownMenu } from 'vuiii'
 
-<Dropdown label="Options" variant="primary">
-  <DropdownMenu :items="menuItems" @itemClick="handleClick" />
+<Dropdown label="Options" color="primary">
+  <DropdownMenu :items="menuItems" @item-click="handleClick" />
 </Dropdown>
 ```
 
@@ -284,6 +320,12 @@ dropdownRef.value?.toggle()
 // Check state
 if (dropdownRef.value?.isOpen.value) { ... }
 ```
+
+### DropdownMenu
+
+**File:** `src/components/DropdownMenu.vue`
+
+ARIA role for the list element. Set to `listbox` when used as a combobox popup.
 
 ### FilePicker
 
@@ -327,7 +369,8 @@ import { FilePicker } from 'vuiii'
 Dynamic form generator that renders fields from a configuration array.
 Supports vertical/horizontal layouts, nested rows, dividers, and validation integration.
 
-@example <template #field:email="{ name, label, index }">Custom email input</template>
+
+  @example <template #field:email="{ name, label, index }">Custom email input</template>
 
 **Examples:**
 
@@ -349,9 +392,9 @@ const fields: FormField<UserData>[] = [
 const fields: FormFieldOrRow<UserData>[] = [
   [
     { name: 'firstName', component: Input, label: 'First Name' },
-    { name: 'lastName', component: Input, label: 'Last Name' },
+    { name: 'lastName', component: Input, label: 'Last Name' }
   ],
-  { name: 'email', component: Input, label: 'Email' },
+  { name: 'email', component: Input, label: 'Email' }
 ]
 ```
 
@@ -362,7 +405,7 @@ import { FORM_DIVIDER } from 'vuiii'
 const fields: FormFieldOrRow<UserData>[] = [
   { name: 'name', component: Input, label: 'Name' },
   FORM_DIVIDER,
-  { name: 'email', component: Input, label: 'Email' },
+  { name: 'email', component: Input, label: 'Email' }
 ]
 ```
 
@@ -453,14 +496,14 @@ Icon-only button. A simplified Button wrapper for actions that only need an icon
 import { IconButton } from 'vuiii'
 
 <IconButton icon="pencil" @click="edit()" />
-<IconButton icon="trash" variant="danger" @click="remove()" />
+<IconButton icon="trash" color="danger" @click="remove()" />
 ```
 
 ```typescript
-// Different variants
-<IconButton icon="plus" variant="primary" />
-<IconButton icon="check" variant="secondary" />
-<IconButton icon="x-mark" variant="danger" />
+// Different colors
+<IconButton icon="plus" color="primary" />
+<IconButton icon="check" color="secondary" />
+<IconButton icon="x-mark" color="danger" />
 ```
 
 ```typescript
@@ -653,6 +696,35 @@ const statuses = { draft: 'Draft', published: 'Published', archived: 'Archived' 
 <Select v-model="status" :options="statuses" />
 ```
 
+### ShortcutIcon
+
+**File:** `src/components/ShortcutIcon.vue`
+
+Renders a keyboard shortcut as styled keycap badges.
+Handles cross-platform differences between macOS and Windows/Linux.
+
+**Examples:**
+
+```typescript
+// Basic modifier + key
+import { ShortcutIcon } from 'vuiii'
+
+<ShortcutIcon :shortcut="{ key: 'k', mod: true }" />
+// macOS: [⌘] [K]  |  Windows: [Ctrl] [K]
+```
+
+```typescript
+// Multiple modifiers
+<ShortcutIcon :shortcut="{ key: 's', mod: true, shift: true }" />
+// macOS: [⇧] [⌘] [S]  |  Windows: [Ctrl] [Shift] [S]
+```
+
+```typescript
+// Alt/Option modifier
+<ShortcutIcon :shortcut="{ key: 'p', alt: true }" />
+// macOS: [⌥] [P]  |  Windows: [Alt] [P]
+```
+
 ### Table
 
 **File:** `src/components/Table.vue`
@@ -701,6 +773,78 @@ const columns: TableColumn<User>[] = [
 </Table>
 ```
 
+### Tabs
+
+**File:** `src/components/Tabs.vue`
+
+Tabbed interface: a tab switcher plus per-tab content panels rendered via `tab:{key}` slots.
+The active tab is controlled by an optional v-model whose value is the tab's `key`.
+
+**Examples:**
+
+```typescript
+// Basic usage
+import { Tabs } from 'vuiii'
+import type { Tab } from 'vuiii'
+
+const tabs: Tab[] = [
+  { key: 'profile', label: 'Profile' },
+  { key: 'settings', label: 'Settings', icon: 'cog' },
+]
+
+<Tabs :tabs="tabs" v-model="active">
+  <template #tab:profile>Profile content</template>
+  <template #tab:settings>Settings content</template>
+</Tabs>
+```
+
+```typescript
+// Keep inactive panels mounted (preserve their state)
+<Tabs :tabs="tabs" keep-alive>
+  <template #tab:profile><ProfileForm /></template>
+  <template #tab:settings><SettingsForm /></template>
+</Tabs>
+```
+
+```typescript
+// Custom tab button label
+<Tabs :tabs="tabs">
+  <template #label:settings>Settings <Badge>3</Badge></template>
+  <template #tab:settings>...</template>
+</Tabs>
+```
+
+### TabsNav
+
+**File:** `src/components/TabsNav.vue`
+
+Tab switcher — a standalone `role="tablist"` of buttons driven by a `tabs` array and v-model
+(whose value is the active tab's `key`). Used internally by Tabs, but can be used on its own.
+
+**Examples:**
+
+```typescript
+// Standalone usage
+import { TabsNav } from 'vuiii'
+import type { Tab } from 'vuiii'
+
+const tabs: Tab[] = [
+  { key: 'profile', label: 'Profile' },
+  { key: 'settings', label: 'Settings', icon: 'cog' },
+]
+
+<TabsNav v-model="active" :tabs="tabs" />
+```
+
+```typescript
+// Custom tab button label
+<TabsNav v-model="active" :tabs="tabs">
+  <template #label:settings="{ active }">
+    <Icon name="cog" /> Settings <Badge>3</Badge>
+  </template>
+</TabsNav>
+```
+
 ### Textarea
 
 **File:** `src/components/Textarea.vue`
@@ -729,6 +873,39 @@ import { Textarea } from 'vuiii'
 ```typescript
 // With prefix icon
 <Textarea v-model="notes" prefix-icon="document-text" placeholder="Notes..." />
+```
+
+### Tooltip
+
+**File:** `src/components/Tooltip.vue`
+
+Tooltip component that wraps content and shows a title on hover.
+Uses CSS Anchor Positioning for placement relative to the trigger element.
+Supports delay, focus trigger, arrow indicator, and custom title content via slot.
+
+**Examples:**
+
+```typescript
+// Basic usage with title prop
+import { Tooltip } from 'vuiii'
+
+<Tooltip title="This is a tooltip">
+  <Button label="Hover me" />
+</Tooltip>
+```
+
+```typescript
+// With placement
+<Tooltip title="Below the button" placement="bottom">
+  <Button label="Hover me" />
+</Tooltip>
+```
+
+```typescript
+// With arrow
+<Tooltip title="With arrow" withArrow>
+  <Button label="Hover me" />
+</Tooltip>
 ```
 
 ### Typography
@@ -829,7 +1006,7 @@ snackbar.success('Item saved!')
 **File:** `src/composables/useCursor.ts`
 
 Manages cursor position for navigating through arrays.
-Used internally by Autocomplete for keyboard navigation.
+Used internally by [Autocomplete](/components/autocomplete) for keyboard navigation.
 
 **Examples:**
 
@@ -839,7 +1016,13 @@ import { useCursor } from 'vuiii'
 
 const items = ref(['Apple', 'Banana', 'Cherry'])
 
-const { cursorIndex, cursorItem, moveCursorForward, moveCursorBack, resetCursor } = useCursor(items)
+const {
+  cursorIndex,
+  cursorItem,
+  moveCursorForward,
+  moveCursorBack,
+  resetCursor
+} = useCursor(items)
 
 console.log(cursorItem.value) // 'Apple'
 moveCursorForward()
@@ -883,7 +1066,27 @@ const { isDropzoneActive } = useDropArea(
 
 ```typescript
 // With file type filter
-useDropArea(dropElement, handleFiles, { accept: 'image/*' })
+useDropArea(
+  dropElement,
+  handleFiles,
+  { accept: 'image/*' }
+)
+```
+
+### useFocusTrap
+
+**File:** `src/composables/useFocusTrap.ts`
+
+Traps keyboard focus within an element (e.g. a modal dialog) and restores
+focus to the previously focused element when the trap is torn down.
+
+  Defaults to the first focusable descendant, falling back to the container itself.
+
+**Examples:**
+
+```typescript
+const root = ref<HTMLElement>()
+useFocusTrap(root)
 ```
 
 ### useLoadData
@@ -912,7 +1115,10 @@ onMounted(load)
 
 ```typescript
 // With immediate loading
-const { isLoading, data } = useLoadData(() => api.fetchUsers(), { immediate: true })
+const { isLoading, data } = useLoadData(
+  () => api.fetchUsers(),
+  { immediate: true }
+)
 ```
 
 ### useLoadPaginatedData
@@ -930,8 +1136,8 @@ and optional append mode for infinite scroll.
 import { useLoadPaginatedData } from 'vuiii'
 import type { PaginatedData } from 'vuiii'
 
-const { items, pagination, loadPage, isLoading } = useLoadPaginatedData(({ page, itemsPerPage }) =>
-  api.getUsers({ page, itemsPerPage }),
+const { items, pagination, loadPage, isLoading } = useLoadPaginatedData(
+  ({ page, itemsPerPage }) => api.getUsers({ page, itemsPerPage })
 )
 
 onMounted(() => loadPage(1))
@@ -939,8 +1145,195 @@ onMounted(() => loadPage(1))
 
 ```typescript
 // With immediate loading
-const { items, pagination } = useLoadPaginatedData(({ page, itemsPerPage }) => api.getItems({ page, itemsPerPage }), {
-  immediate: true,
+const { items, pagination } = useLoadPaginatedData(
+  ({ page, itemsPerPage }) => api.getItems({ page, itemsPerPage }),
+  { immediate: true }
+)
+```
+
+### useOnClickOutside
+
+**File:** `src/composables/useOnClickOutside.ts`
+
+Detects clicks outside an element and triggers a callback.
+Useful for closing dropdowns, modals, or popovers when clicking outside.
+Automatically cleans up the event listener when the component unmounts.
+
+**Examples:**
+
+```typescript
+// Basic usage - close dropdown on outside click
+import { useOnClickOutside } from 'vuiii'
+
+const dropdownRef = ref<HTMLElement>()
+const isOpen = ref(false)
+
+useOnClickOutside(dropdownRef, () => {
+  isOpen.value = false
+})
+
+// In template
+<div ref="dropdownRef" v-if="isOpen">
+  Dropdown content
+</div>
+```
+
+```typescript
+// With modal dialog
+const modalRef = ref<HTMLElement>()
+
+useOnClickOutside(modalRef, (event) => {
+  // Access the click event if needed
+  console.log('Clicked outside at:', event.clientX, event.clientY)
+  closeModal()
+})
+```
+
+### useOnFocusOutside
+
+**File:** `src/composables/useOnFocusOutside.ts`
+
+Detects when focus moves outside an element and triggers a callback.
+Useful for closing dropdowns or popovers when the user tabs away.
+Automatically cleans up the event listener when the component unmounts.
+
+**Examples:**
+
+```typescript
+// Basic usage - close dropdown when focus leaves
+import { useOnFocusOutside } from 'vuiii'
+
+const dropdownRef = ref<HTMLElement>()
+const isOpen = ref(false)
+
+useOnFocusOutside(dropdownRef, () => {
+  isOpen.value = false
+})
+```
+
+```typescript
+// With form validation on blur
+const formRef = ref<HTMLElement>()
+
+useOnFocusOutside(formRef, (event) => {
+  validateForm()
+})
+```
+
+### useOnKeyPress
+
+**File:** `src/composables/useOnKeyPress.ts`
+
+Listens for a specific keyboard key press and triggers a callback.
+Automatically sets up the listener on mount and cleans up on unmount.
+
+**Examples:**
+
+```typescript
+// Basic usage - close modal on Escape
+import { useOnKeyPress } from 'vuiii'
+
+useOnKeyPress('Escape', () => {
+  closeModal()
+})
+```
+
+```typescript
+// Save on Ctrl+S with event handling
+useOnKeyPress('s', (event) => {
+  if (event.ctrlKey || event.metaKey) {
+    event.preventDefault()
+    saveDocument()
+  }
+})
+```
+
+### usePageFromRouteQuery
+
+**File:** `src/composables/usePageFromRouteQuery.ts`
+
+Simplified composable for pagination via URL query parameter.
+Built on top of useRouteQuery, specifically for managing a 'page' parameter.
+
+**Examples:**
+
+```typescript
+// Basic pagination
+import { usePageFromRouteQuery } from 'vuiii'
+
+const { page, setPage } = usePageFromRouteQuery({
+  onChange: (page) => loadPage(page),
+  immediate: true
+})
+
+// In template
+<Pagination :current="page" @change="setPage" />
+```
+
+### usePreventHandlingDrop
+
+**File:** `src/composables/usePreventHandlingDrop.ts`
+
+Prevents the browser's default drag-and-drop file handling on an element.
+Useful when you want to disable file drops on the page or specific areas.
+By default, applies to document.body to prevent accidental file navigation.
+
+**Examples:**
+
+```typescript
+// Prevent file drops on the entire page
+import { usePreventHandlingDrop } from 'vuiii'
+
+usePreventHandlingDrop()
+```
+
+```typescript
+// Prevent drops on a specific element
+const containerRef = ref<HTMLElement>()
+
+onMounted(() => {
+  usePreventHandlingDrop(containerRef.value)
+})
+```
+
+### useRouteQuery
+
+**File:** `src/composables/useRouteQuery.ts`
+
+Reactive binding for URL query parameters with Vue Router.
+Supports filtering, parsing, serialization, and default values.
+
+**Examples:**
+
+```typescript
+// Basic usage - sync filters with URL
+import { useRouteQuery } from 'vuiii'
+
+const { queryParams, setQuery, setQueryParam } = useRouteQuery<{
+  search: string
+  category: string
+}>({
+  filter: ['search', 'category'],
+  defaults: { category: 'all' }
+})
+
+// Read current params
+console.log(queryParams.value.search)
+
+// Update single param
+setQueryParam('search', 'hello')
+
+// Update multiple params
+setQuery({ search: 'hello', category: 'books' })
+```
+
+```typescript
+// With onChange callback for data fetching
+const { queryParams } = useRouteQuery({
+  filter: ['page', 'sort'],
+  parse: { page: (v) => Number(v) || 1 },
+  onChange: (params) => fetchData(params),
+  immediate: true
 })
 ```
 
@@ -972,12 +1365,15 @@ const { submit, isSubmitting } = useSubmitAction(
 
 ```typescript
 // With confirmation before submit
-const { submit, isSubmitting } = useSubmitAction((id) => api.deleteUser(id), {
-  onBeforeSubmit: async ({ dialog }) => {
-    return await dialog.confirm('Are you sure?')
-  },
-  successMessage: 'User deleted',
-})
+const { submit, isSubmitting } = useSubmitAction(
+  (id) => api.deleteUser(id),
+  {
+    onBeforeSubmit: async ({ dialog }) => {
+      return await dialog.confirm('Are you sure?')
+    },
+    successMessage: 'User deleted'
+  }
+)
 ```
 
 ### useValidation
@@ -1008,8 +1404,8 @@ function validateForm(data: FormData): ValidationResults<FormData> {
     errorMessages: errors,
     validatedFields: {
       email: { isInvalid: !!errors.email, errorMessage: errors.email },
-      password: { isInvalid: !!errors.password, errorMessage: errors.password },
-    },
+      password: { isInvalid: !!errors.password, errorMessage: errors.password }
+    }
   }
 }
 
@@ -1047,6 +1443,7 @@ Allows registering custom icon libraries (Heroicons, FontAwesome, etc.)
 Utilities for normalizing various option formats into a consistent Option[] structure.
 Used by Select, Autocomplete, RadioGroup, CheckboxGroup, and RadioButtonGroup components.
 
+
 ## Option Parsing
 
 Components that display selectable options (Select, Autocomplete, RadioGroup, CheckboxGroup,
@@ -1055,27 +1452,25 @@ are parsed:
 
 ### Extractor Props
 
-| Prop                 | Description                                        | Components                                                |
-| -------------------- | -------------------------------------------------- | --------------------------------------------------------- |
-| `option-value`       | Key or function to extract the option's value      | All                                                       |
-| `option-label`       | Key or function to extract the display label       | All                                                       |
-| `option-disabled`    | Key or function to determine if option is disabled | All                                                       |
-| `option-description` | Key or function to extract description text        | RadioGroup, CheckboxGroup, Autocomplete, RadioButtonGroup |
-| `option-icon`        | Key or function to extract icon name               | Autocomplete, RadioButtonGroup                            |
-| `group-label`        | Key or function to extract group label             | Select, Autocomplete                                      |
-| `group-options`      | Key or function to extract group's options array   | Select, Autocomplete                                      |
+| Prop | Description | Components |
+|------|-------------|------------|
+| `option-value` | Key or function to extract the option's value | All |
+| `option-label` | Key or function to extract the display label | All |
+| `option-disabled` | Key or function to determine if option is disabled | All |
+| `option-description` | Key or function to extract description text | RadioGroup, CheckboxGroup, Autocomplete, RadioButtonGroup |
+| `option-icon` | Key or function to extract icon name | Autocomplete, RadioButtonGroup |
+| `group-label` | Key or function to extract group label | Select, Autocomplete |
+| `group-options` | Key or function to extract group's options array | Select, Autocomplete |
 
 ### Supported Option Formats
 
 **1. Primitive Array** - Value and label are the same
-
 ```ts
 :options="['Apple', 'Banana', 'Cherry']"
 :options="[1, 2, 3, 4, 5]"
 ```
 
 **2. Object Array** - Use extractors to specify which properties to use
-
 ```ts
 :options="[{ id: 1, name: 'Apple' }, { id: 2, name: 'Banana' }]"
 option-value="id"
@@ -1083,13 +1478,11 @@ option-label="name"
 ```
 
 **3. Key-Value Object** - Keys become values, values become labels
-
 ```ts
 :options="{ draft: 'Draft', published: 'Published', archived: 'Archived' }"
 ```
 
 **4. Grouped Options** - For Select and Autocomplete with optgroup support
-
 ```ts
 :options="[
   { category: 'Fruits', items: [{ id: 1, name: 'Apple' }] },
@@ -1104,7 +1497,6 @@ option-label="name"
 ### Function Extractors
 
 Instead of property keys, you can use functions for complex extraction:
-
 ```ts
 :option-label="(user) => `${user.firstName} ${user.lastName}`"
 :option-value="(item) => item.id"
@@ -1119,3 +1511,4 @@ Instead of property keys, you can use functions for complex extraction:
 
 Core type definitions for vuiii components.
 Import these types for TypeScript support in your application.
+
