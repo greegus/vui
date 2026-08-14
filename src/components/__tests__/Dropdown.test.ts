@@ -201,6 +201,32 @@ describe('Dropdown', () => {
     expect(wrapper.emitted('close')).toBeUndefined()
   })
 
+  it('closes every open dropdown on a single outside mousedown', async () => {
+    const first = mountDropdown({ props: { label: 'First' } })
+    const second = mountDropdown({ props: { label: 'Second' } })
+
+    await first.find('button').trigger('click')
+    await second.find('button').trigger('click')
+
+    mousedownOn(document.body)
+    await first.vm.$nextTick()
+
+    expect(first.find(DROPDOWN).exists()).toBe(false)
+    expect(second.find(DROPDOWN).exists()).toBe(false)
+  })
+
+  it('leaves an outside mousedown usable by the page underneath', async () => {
+    const wrapper = mountDropdown({ props: { label: 'Options' } })
+    await wrapper.find('button').trigger('click')
+
+    const event = new MouseEvent('mousedown', { bubbles: true, cancelable: true })
+    document.body.dispatchEvent(event)
+    await wrapper.vm.$nextTick()
+
+    expect(wrapper.find(DROPDOWN).exists()).toBe(false)
+    expect(event.defaultPrevented).toBe(false)
+  })
+
   it('ignores outside mousedowns while closed', async () => {
     const wrapper = mountDropdown({ props: { label: 'Options' } })
 

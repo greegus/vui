@@ -55,7 +55,7 @@ dropdownRef.value?.close()
 dropdownRef.value?.toggle()
 
 // Check state
-if (dropdownRef.value?.isOpen.value) { ... }
+if (dropdownRef.value?.isOpen) { ... }
 ```
 
 ```vue

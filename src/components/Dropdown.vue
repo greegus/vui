@@ -66,8 +66,8 @@
  * dropdownRef.value?.close()
  * dropdownRef.value?.toggle()
  *
- * // Check state
- * if (dropdownRef.value?.isOpen.value) { ... }
+ * // Check state (already unwrapped — `defineExpose` passes the object through proxyRefs)
+ * if (dropdownRef.value?.isOpen) { ... }
  *
  * @example
  * // With dropdown placement control
@@ -87,8 +87,6 @@
  * @emits open - When dropdown opens
  * @emits close - When dropdown closes
  */
-import type { ComputedRef } from 'vue'
-
 import type { ButtonColor } from '@/types'
 
 export type DropdownProps = {
@@ -104,7 +102,8 @@ export type DropdownRef = {
   open: () => void
   close: () => void
   toggle: (state?: boolean) => void
-  isOpen: ComputedRef<boolean>
+  /** Already unwrapped: Vue passes the exposed object through `proxyRefs`. */
+  isOpen: boolean
 }
 </script>
 
@@ -163,10 +162,12 @@ function toggle(state?: boolean) {
   }
 }
 
-// Close by click outside
-useOnClickOutside(rootElement, (event: MouseEvent) => {
-  if (isOpen.value && !event.defaultPrevented) {
-    event.preventDefault()
+// Close by click outside.
+// The event is deliberately neither gated on `defaultPrevented` nor prevented here: gating would
+// let the first dropdown to handle the mousedown keep every other open one open, and preventing
+// it would swallow the click for the page underneath (focusing an input, selecting text).
+useOnClickOutside(rootElement, () => {
+  if (isOpen.value) {
     close()
   }
 })
