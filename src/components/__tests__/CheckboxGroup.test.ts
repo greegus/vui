@@ -238,9 +238,7 @@ describe('CheckboxGroup', () => {
     expect(wrapper.emitted('update:modelValue')![0]).toEqual([['id:a']])
   })
 
-  // BUG: checkedValues compares the raw model value against the stringified option value,
-  // so numeric model values are never reported as checked when type="number".
-  it.skip('checks the options whose numeric model value matches when type="number"', () => {
+  it('checks the options whose numeric model value matches when type="number"', () => {
     const wrapper = mount(CheckboxGroup, {
       props: {
         modelValue: [2],

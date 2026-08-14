@@ -3,7 +3,7 @@
     <div v-for="option in normalizedOptions" :key="option.value">
       <Checkbox
         :disabled="option.disabled"
-        :model-value="checkedValues.has(option.value)"
+        :model-value="isOptionChecked(option)"
         :label="option.label"
         :description="option.description"
         @update:model-value="toggleCheckedValue(option.value, $event)"
@@ -114,21 +114,32 @@ const normalizedOptions = computed<Option[]>(() => {
   })
 })
 
-const checkedValues = computed<Set<string | number>>(() => {
-  return new Set(modelValue.value)
+/**
+ * Kept in the stringified domain so it can be compared against `option.value`, which
+ * `normalizeOptions` also stringifies. Comparing against the raw model value would never
+ * match for non-string types (e.g. `1 !== '1'` with `type="number"`).
+ */
+const checkedValues = computed<Set<string>>(() => {
+  return new Set((modelValue.value ?? []).map((value) => valueParser.value.stringify(value)))
 })
 
-const toggleCheckedValue = (value: any, checked: boolean) => {
-  const newCheckedValues = new Set(checkedValues.value.values())
-  const parsedValue = valueParser.value.parse(value)
+/**
+ * `Option.value` is typed `string | number` but `normalizeOptions` always stringifies it, so both
+ * sides of the comparison are brought into the stringified domain here.
+ */
+const isOptionChecked = (option: Option): boolean => checkedValues.value.has(String(option.value))
+
+const toggleCheckedValue = (value: string | number, checked: boolean) => {
+  const newCheckedValues = new Set(checkedValues.value)
+  const stringifiedValue = String(value)
 
   if (checked) {
-    newCheckedValues.add(parsedValue)
+    newCheckedValues.add(stringifiedValue)
   } else {
-    newCheckedValues.delete(parsedValue)
+    newCheckedValues.delete(stringifiedValue)
   }
 
-  modelValue.value = Array.from(newCheckedValues)
+  modelValue.value = Array.from(newCheckedValues, (checkedValue) => valueParser.value.parse(checkedValue))
 }
 </script>
 
