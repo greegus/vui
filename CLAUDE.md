@@ -317,8 +317,8 @@ dropdownRef.value?.open()
 dropdownRef.value?.close()
 dropdownRef.value?.toggle()
 
-// Check state
-if (dropdownRef.value?.isOpen.value) { ... }
+// Check state (already unwrapped — `defineExpose` passes the object through proxyRefs)
+if (dropdownRef.value?.isOpen) { ... }
 ```
 
 ### DropdownMenu
@@ -1435,6 +1435,14 @@ async function submit() {
 
 Icon resolution system for the Icon component.
 Allows registering custom icon libraries (Heroicons, FontAwesome, etc.)
+
+### matchesAccept
+
+**File:** `src/utils/matchesAccept.ts`
+
+Matching for the `accept` filter, mirroring the three forms the HTML `accept` attribute
+allows: an exact MIME type (`image/png`), a MIME wildcard such as `image/*`, and a
+file extension (`.pdf`). A bare `*` and the catch-all wildcard accept anything.
 
 ### normalizeOptions
 

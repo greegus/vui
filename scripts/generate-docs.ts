@@ -108,8 +108,16 @@ function scanDirectory(dir: string, extensions: string[]): string[] {
       const fullPath = join(dir, entry)
       const stat = statSync(fullPath)
 
+      // Tests and stories describe how the library is exercised, not its public API, and a
+      // block comment in one of them would otherwise be published as an API entry.
+      if (entry === '__tests__') {
+        continue
+      }
+
       if (stat.isDirectory()) {
         files.push(...scanDirectory(fullPath, extensions))
+      } else if (entry.endsWith('.test.ts') || entry.endsWith('.spec.ts') || entry.endsWith('.stories.ts')) {
+        continue
       } else if (extensions.some((ext) => entry.endsWith(ext))) {
         files.push(fullPath)
       }
