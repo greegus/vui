@@ -212,9 +212,7 @@ describe('FilePicker', () => {
     expect(wrapper.emitted('files')).toBeUndefined()
   })
 
-  // BUG: a wildcard accept never matches — the filter uses `file.type.startsWith('image/*')`,
-  // so `accept="image/*"` (the form the component docs recommend) rejects every dropped file.
-  it.skip('accepts any file of the family when accept uses a wildcard', async () => {
+  it('accepts any file of the family when accept uses a wildcard', async () => {
     const wrapper = mount(FilePicker, { props: { accept: 'image/*' } })
     const png = createFile('photo.png', 'image/png')
 
@@ -276,11 +274,7 @@ describe('FilePicker', () => {
     expect(wrapper.emitted('files')).toBeUndefined()
   })
 
-  // BUG: `useDropArea` only accepts items whose `kind` is 'file' or 'text/html', but the DOM
-  // spec allows `kind` to be 'string' or 'file' only — an HTML fragment arrives as
-  // { kind: 'string', type: 'text/html' }. Dragging an image out of another page is therefore
-  // rejected by `hasValidItems` and the `retrieveFilesFromDataTransfer` HTML branch is dead.
-  it.skip('emits a file fetched from an image dragged in as HTML', async () => {
+  it('emits a file fetched from an image dragged in as HTML', async () => {
     vi.stubGlobal(
       'fetch',
       vi.fn().mockResolvedValue({ blob: async () => new Blob(['binary'], { type: 'image/png' }) }),

@@ -104,13 +104,22 @@ function openFilePicker() {
 function handleFileChange(event: Event) {
   const input = event.target as HTMLInputElement
   const files = input.files ? Array.from(input.files) : []
+
+  // An empty list is emitted deliberately, so consumers can react to a cleared selection.
   emit('files', files)
+
   input.value = ''
 }
 
+// Exposed as getters so that `accept` / `multiple` are read at drop time rather than
+// snapshotted here at setup, which would ignore any later prop change.
 useDropArea(pickerOpener, (files) => emit('files', files), {
-  accept: props.accept,
-  multiple: props.multiple,
+  get accept() {
+    return props.accept
+  },
+  get multiple() {
+    return props.multiple
+  },
 })
 </script>
 

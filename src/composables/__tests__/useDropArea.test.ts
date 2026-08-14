@@ -84,11 +84,7 @@ describe('useDropArea', () => {
     expect(wrapper.classes()).not.toContain('active')
   })
 
-  // BUG: `hasValidItems` matches `item.kind` against 'file' or 'text/html', but per the DOM spec
-  // `kind` is only ever 'file' or 'string' - an HTML fragment arrives as
-  // { kind: 'string', type: 'text/html' }. Dragging an image out of another page is therefore
-  // rejected, and the `text/html` branch of retrieveFilesFromDataTransfer is unreachable.
-  it.skip('accepts a drag carrying html instead of files', async () => {
+  it('accepts a drag carrying html instead of files', async () => {
     const wrapper = mountDropArea(vi.fn())
 
     wrapper.element.dispatchEvent(dragEvent('dragover', { items: [htmlItem] }))
@@ -247,9 +243,7 @@ describe('useDropArea', () => {
     expect((event as any).dataTransfer.dropEffect).toBe('none')
   })
 
-  // BUG: `accept` is matched with String.startsWith, so the documented wildcard form
-  // 'image/*' never matches a real MIME type such as 'image/png'.
-  it.skip('accepts a wildcard type', async () => {
+  it('accepts a wildcard type', async () => {
     const onFiles = vi.fn()
     const wrapper = mountDropArea(onFiles, { accept: 'image/*' })
 
@@ -259,9 +253,7 @@ describe('useDropArea', () => {
     expect(onFiles).toHaveBeenCalledWith([pngFile])
   })
 
-  // BUG: `accept` is matched against `file.type`, so the file-extension form documented for
-  // FilePicker (`:accept="['image/png', '.pdf']"`) silently rejects every matching file.
-  it.skip('accepts a file matched by its extension', async () => {
+  it('accepts a file matched by its extension', async () => {
     const onFiles = vi.fn()
     const wrapper = mountDropArea(onFiles, { accept: ['.pdf'] })
 

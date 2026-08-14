@@ -1,6 +1,7 @@
 import { computed, onBeforeUnmount, onMounted, type Ref, ref } from 'vue'
 
 import { debounce } from '@/utils/debounce'
+import { matchesAccept } from '@/utils/matchesAccept'
 import { retrieveFilesFromDataTransfer } from '@/utils/retrieveFilesFromDataTransfer'
 
 /**
@@ -82,8 +83,15 @@ export function useDropArea(
 
   const setDropzoneActive = debounce((value: boolean) => (isDropzoneActive.value = value), 1)
 
+  /**
+   * `DataTransferItem.kind` is only ever 'file' or 'string', so an HTML fragment dragged out
+   * of another page arrives as `{ kind: 'string', type: 'text/html' }` — that is the case
+   * `retrieveFilesFromDataTransfer` resolves into a real file.
+   */
   const hasValidItems = (e: DragEvent): boolean => {
-    return Array.from(e.dataTransfer?.items || []).some((item) => ['file', 'text/html'].includes(item.kind))
+    return Array.from(e.dataTransfer?.items || []).some(
+      (item) => item.kind === 'file' || (item.kind === 'string' && item.type === 'text/html'),
+    )
   }
 
   const onDragOver = (e: DragEvent) => {
@@ -108,6 +116,8 @@ export function useDropArea(
     e.stopPropagation()
 
     e.dataTransfer!.dropEffect = 'copy'
+
+    setDropzoneActive(true)
   }
 
   const onDragLeave = (e: DragEvent) => {
@@ -139,7 +149,7 @@ export function useDropArea(
       let files = await retrieveFilesFromDataTransfer(e.dataTransfer!)
 
       if (options.accept) {
-        files = files.filter((file) => normalizedAccept.value?.some((type) => file.type.startsWith(type)))
+        files = files.filter((file) => matchesAccept(file, normalizedAccept.value))
       }
 
       if (!options.multiple) {
