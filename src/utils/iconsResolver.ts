@@ -81,6 +81,10 @@ function defaultIconResolver(name: string): IconComponent {
  */
 export function registerCustomIconResolver(resolver: IconResolver) {
   customIconResolver = resolver
+
+  // Drop already-resolved components, otherwise registering (or replacing) a resolver after any
+  // icon has rendered would silently keep serving the previously resolved one.
+  componentCache.clear()
 }
 
 export function resolveIconComponent(name: string): IconComponent {

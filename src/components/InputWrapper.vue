@@ -112,7 +112,7 @@ export default {
 
 <script lang="ts" setup>
 import '@/assets/css/input.css'
-import { computed, useAttrs, useSlots } from 'vue'
+import { computed, getCurrentInstance, useAttrs, useSlots } from 'vue'
 
 import Icon from '@/components/Icon.vue'
 
@@ -132,9 +132,15 @@ defineSlots<{
 
 const attrs = useAttrs()
 const slots = useSlots()
+const instance = getCurrentInstance()
 
-const isPrefixIconClickable = computed<boolean>(() => Boolean(attrs.onPrefixIconClick))
-const isSuffixIconClickable = computed<boolean>(() => Boolean(attrs.onSuffixIconClick))
+/**
+ * Read off the raw vnode props rather than `useAttrs()`: because both events are declared in
+ * `defineEmits`, Vue removes their listeners from `$attrs`, which would leave these flags
+ * permanently false and the icons rendered as plain, unfocusable elements.
+ */
+const isPrefixIconClickable = computed<boolean>(() => Boolean(instance?.vnode.props?.onPrefixIconClick))
+const isSuffixIconClickable = computed<boolean>(() => Boolean(instance?.vnode.props?.onSuffixIconClick))
 </script>
 
 <style scoped>

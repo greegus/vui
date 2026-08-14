@@ -135,9 +135,7 @@ describe('InputWrapper', () => {
     expect(wrapper.find('.custom-suffix').exists()).toBe(true)
   })
 
-  // Skipped: `defineEmits` strips declared listeners from `$attrs`, so `attrs.onSuffixIconClick`
-  // is always undefined and the icon never renders as an accessible <button>.
-  it.skip('renders a clickable suffix icon as a labelled button when a listener is attached', () => {
+  it('renders a clickable suffix icon as a labelled button when a listener is attached', () => {
     const wrapper = mount(InputWrapper, {
       props: { suffixIcon: 'x', suffixIconLabel: 'Clear', onSuffixIconClick: () => {} },
       slots,
