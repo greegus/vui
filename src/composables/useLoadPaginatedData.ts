@@ -143,7 +143,7 @@ export function useLoadPaginatedData<Item = unknown>(
   }
 
   if (immediate) {
-    onMounted(loadPage)
+    onMounted(() => loadPage(options.startingPage ?? 1))
   }
 
   return {

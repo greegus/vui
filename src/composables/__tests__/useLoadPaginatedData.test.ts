@@ -220,9 +220,7 @@ describe('useLoadPaginatedData', () => {
     expect(source).not.toHaveBeenCalled()
   })
 
-  // BUG: the documented `startingPage` option is accepted but never used - the immediate
-  // load always requests page 1.
-  it.skip('loads the configured startingPage on mount when immediate is set', async () => {
+  it('loads the configured startingPage on mount when immediate is set', async () => {
     const source = createSource()
     const Host = defineComponent({
       setup: () => useLoadPaginatedData(source, { itemsPerPage: 2, startingPage: 3, immediate: true }),

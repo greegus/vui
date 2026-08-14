@@ -155,9 +155,7 @@ describe('useRouteQuery', () => {
     expect(onChange).toHaveBeenCalledWith({ search: 'hello' })
   })
 
-  // BUG: queryParams is a computed rebuilding a fresh object on every route change, so the
-  // watcher fires even when none of the filtered parameters actually changed.
-  it.skip('does not call onChange for query changes outside of the filter', async () => {
+  it('does not call onChange for query changes outside of the filter', async () => {
     const onChange = vi.fn()
     const { result } = await withRouteQuery(() => useRouteQuery({ onChange, filter: ['search'] }), { search: 'hello' })
 

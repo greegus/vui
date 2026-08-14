@@ -78,25 +78,19 @@ describe('usePageFromRouteQuery', () => {
     expect(onChange).toHaveBeenCalledOnce()
   })
 
-  // BUG: useRouteQuery pipes every parsed value through decodeURIComponent, which turns the
-  // parsed number back into a string, so `page` is '2' instead of 2.
-  it.skip('exposes the page from the query string as a number', async () => {
+  it('exposes the page from the query string as a number', async () => {
     const { result } = await withPageFromRouteQuery({}, { page: '2' })
 
     expect(result.page.value).toBe(2)
   })
 
-  // BUG: the `parse` fallback (`Number(page) || 1`) only runs for parameters present in the
-  // query, so `page` is undefined instead of the documented default of 1.
-  it.skip('falls back to the first page when the query string has no page', async () => {
+  it('falls back to the first page when the query string has no page', async () => {
     const { result } = await withPageFromRouteQuery()
 
     expect(result.page.value).toBe(1)
   })
 
-  // BUG: setPage goes through setQuery, which replaces the whole query string and therefore
-  // wipes unrelated parameters such as active filters.
-  it.skip('keeps unrelated query parameters when setting the page', async () => {
+  it('keeps unrelated query parameters when setting the page', async () => {
     const { result, router } = await withPageFromRouteQuery({}, { search: 'hello' })
 
     result.setPage(2)

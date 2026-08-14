@@ -64,11 +64,15 @@ export function useRouteQuery<QueryParams extends Record<string, unknown> = Reco
       ) as QueryParams
     }
 
+    // Decode before parsing: the other way around feeds the parsed value back through
+    // decodeURIComponent, which coerces it to a string and silently undoes any parser
+    // returning a number, boolean or array.
     params = Object.fromEntries(
-      Object.entries(params).map(([key, value]) => [
-        key,
-        decodeURIComponent(options.parse?.[key] ? options.parse[key](value as string) : value),
-      ]),
+      Object.entries(params).map(([key, value]) => {
+        const decodedValue = typeof value === 'string' ? decodeURIComponent(value) : value
+
+        return [key, options.parse?.[key] ? options.parse[key](decodedValue as string) : decodedValue]
+      }),
     ) as QueryParams
 
     if (options.defaults) {
@@ -108,7 +112,12 @@ export function useRouteQuery<QueryParams extends Record<string, unknown> = Reco
     return router.push({ query: newQueryParams })
   }
 
-  watch(queryParams, () => options.onChange?.(queryParams.value), { immediate: options.immediate })
+  // Watched through a serialized snapshot, because `queryParams` is a computed that rebuilds a
+  // fresh object on every route change — watching it directly would fire onChange (and so
+  // typically refetch) even when no filtered parameter actually changed.
+  watch(() => JSON.stringify(queryParams.value), () => options.onChange?.(queryParams.value), {
+    immediate: options.immediate,
+  })
 
   return {
     queryParams,
