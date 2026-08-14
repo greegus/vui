@@ -52,7 +52,18 @@ export function useCursor<T = unknown>(
 
   const cursorItem = computed(() => (cursorIndex.value === -1 ? undefined : unref(items)[cursorIndex.value]))
 
+  /**
+   * An empty list leaves the cursor unset. Without this guard the cycling branch would divide
+   * by zero and latch cursorIndex to NaN, which never recovers on subsequent moves.
+   */
+  const hasNoItems = () => unref(items).length === 0
+
   const moveCursorForward = () => {
+    if (hasNoItems()) {
+      cursorIndex.value = -1
+      return
+    }
+
     const currentIndex = cursorIndex.value === -1 ? -1 : cursorIndex.value
     const nextCursorIndex = currentIndex + 1
     const itemsLength = unref(items).length
@@ -61,6 +72,11 @@ export function useCursor<T = unknown>(
   }
 
   const moveCursorBack = () => {
+    if (hasNoItems()) {
+      cursorIndex.value = -1
+      return
+    }
+
     const itemsLength = unref(items).length
     const currentIndex = cursorIndex.value === -1 ? itemsLength : cursorIndex.value
     const nextCursorIndex = currentIndex - 1

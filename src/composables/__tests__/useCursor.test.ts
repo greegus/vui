@@ -211,9 +211,7 @@ describe('useCursor', () => {
     expect(cursorItem.value).toBeUndefined()
   })
 
-  // Skipped: with `cycle` enabled on an empty list the modulo by zero makes
-  // cursorIndex NaN instead of leaving it unset. See reported bug.
-  it.skip('keeps the cursor unset when cycling over an empty list', () => {
+  it('keeps the cursor unset when cycling over an empty list', () => {
     const { cursorIndex, moveCursorForward } = useCursor([] as string[], { cycle: true })
 
     moveCursorForward()

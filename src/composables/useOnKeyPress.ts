@@ -26,7 +26,8 @@ import { onBeforeUnmount, onMounted } from 'vue'
  * useOnKeyPress('Enter', handleSubmit, { capture: true })
  */
 export function useOnKeyPress(
-  key: KeyboardEvent['code'],
+  // Matched against `event.key` ('Escape', 'Enter', 's'), not against `event.code` ('KeyS').
+  key: KeyboardEvent['key'],
   callback: (event: KeyboardEvent) => boolean | void,
   options?: AddEventListenerOptions,
 ) {

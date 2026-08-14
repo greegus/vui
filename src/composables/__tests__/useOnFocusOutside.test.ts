@@ -27,8 +27,8 @@ function mountHost(callback: (e: FocusEvent) => void, props: Record<string, unkn
   return mount(Host, { props: { callback, ...props }, attachTo: document.body })
 }
 
-// The composable subscribes to `focus` on `window`, so the event has to reach
-// the window to be observed at all (see the skipped test below).
+// The composable subscribes to `focus` on `window` with capture, so both a real focus
+// change and an artificially bubbling event reach the handler.
 function focusEventOn(element: Element) {
   element.dispatchEvent(new FocusEvent('focus', { bubbles: true }))
 }
@@ -128,10 +128,7 @@ describe('useOnFocusOutside', () => {
     expect(callback).not.toHaveBeenCalled()
   })
 
-  // Skipped: native `focus` events do not bubble, and the composable registers
-  // its window listener without `capture`, so genuinely tabbing to an element
-  // outside never reaches the handler. See reported bug.
-  it.skip('calls the callback when the user actually moves focus outside', () => {
+  it('calls the callback when the user actually moves focus outside', () => {
     const callback = vi.fn()
     const wrapper = mountHost(callback)
 

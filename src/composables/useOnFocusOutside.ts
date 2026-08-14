@@ -31,11 +31,14 @@ export function useOnFocusOutside(element: Ref<HTMLElement | undefined>, callbac
     }
   }
 
+  // Native `focus` does not bubble, so it is caught during the capture phase on its way
+  // down to the target; a plain bubbling listener on `window` would only ever fire when
+  // the window itself regains focus.
   onMounted(() => {
-    window.addEventListener('focus', handler)
+    window.addEventListener('focus', handler, { capture: true })
   })
 
   onUnmounted(() => {
-    window.removeEventListener('focus', handler)
+    window.removeEventListener('focus', handler, { capture: true })
   })
 }
