@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import Table from '@/components/Table.vue'
 
@@ -39,6 +39,20 @@ function bodyRowTexts(wrapper: ReturnType<typeof mountTable>) {
 }
 
 describe('Table', () => {
+  describe('without vue-router registered', () => {
+    afterEach(() => {
+      vi.restoreAllMocks()
+    })
+
+    it('resolves no router-link when no column defines an href', () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+
+      mount(Table, { props: { items: users, columns } })
+
+      expect(warn).not.toHaveBeenCalled()
+    })
+  })
+
   it('renders a row per item and a cell per column', () => {
     const wrapper = mountTable()
 
@@ -356,14 +370,21 @@ describe('Table', () => {
     })
 
     // BUG: the `tools` slot is only used as a flag to render an empty <th>; its content is never rendered.
-    it.skip('renders the tools slot content in the header row', () => {
+    it('renders the tools slot content in the header row', () => {
       const wrapper = mountTable({}, { slots: { tools: '<button>Tools</button>' } })
 
       expect(wrapper.find('thead th button').text()).toBe('Tools')
     })
 
     // BUG: rowOptions adds a <td> per row but no matching <th>, so the header has one column fewer than the body.
-    it.skip('adds a header cell for the rowOptions column', () => {
+    it('keeps the header and the body the same width when only the tools slot is given', () => {
+      const wrapper = mountTable({}, { slots: { tools: '<b>x</b>' } })
+
+      expect(wrapper.findAll('thead th')).toHaveLength(3)
+      expect(wrapper.findAll('tbody tr')[0]!.findAll('td')).toHaveLength(3)
+    })
+
+    it('adds a header cell for the rowOptions column', () => {
       const wrapper = mountTable({}, { slots: { rowOptions: '<button>Edit</button>' } })
 
       expect(wrapper.findAll('thead th')).toHaveLength(3)
@@ -376,9 +397,7 @@ describe('Table', () => {
       expect(wrapper.find('tbody td').attributes('colspan')).toBe('2')
     })
 
-    // BUG: the noDataMessage colspan only counts the data columns, so with the `tools` slot the
-    // header renders three <th> while the empty-state row only spans two.
-    it.skip('spans the noDataMessage across the tools column as well', () => {
+    it('spans the noDataMessage across the tools column as well', () => {
       const wrapper = mountTable({ items: [], noDataMessage: 'Nothing here' }, { slots: { tools: '<b>x</b>' } })
 
       expect(wrapper.findAll('thead th')).toHaveLength(3)
@@ -544,9 +563,7 @@ describe('Table', () => {
       expect(bodyRowTexts(wrapper).map((cells) => cells[0])).toEqual(['0', '1', '5'])
     })
 
-    // BUG: the default comparator does `a - b` for non-strings, so a null/undefined cell yields NaN and the
-    // rows keep their original order instead of being grouped at one end.
-    it.skip('keeps rows with an empty value at one end when sorting', () => {
+    it('keeps rows with an empty value at one end when sorting', () => {
       const wrapper = mountTable({
         items: [{ name: 'A' }, { name: null }, { name: 'B' }],
         columns: [{ name: 'name', label: 'Name', sortable: true }],

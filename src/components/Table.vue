@@ -48,7 +48,9 @@
           </slot>
         </th>
 
-        <th v-if="$slots.tools"></th>
+        <th v-if="hasOptionsColumn">
+          <slot name="tools" />
+        </th>
       </tr>
     </thead>
 
@@ -71,14 +73,21 @@
             :name="`column:${cell.column.name}`"
             v-bind="{ item: row.item, value: cell.value, index, column: cell.column }"
           >
-            <router-link
+            <!--
+              Resolved as a dynamic component so that `router-link` is only looked up for the
+              columns that actually define an `href`. A static <router-link> tag is hoisted out
+              of the render function and resolved on every render, which logs a missing-component
+              warning in apps that do not register vue-router at all.
+            -->
+            <component
+              :is="'router-link'"
               v-if="cell.column.href"
               class="vuiii-link"
               :to="cell.column.href(cell.item)"
               :target="cell.column.target"
             >
               {{ cell.formattedValue }}
-            </router-link>
+            </component>
 
             <template v-else>
               {{ cell.formattedValue }}
@@ -86,13 +95,13 @@
           </slot>
         </td>
 
-        <td v-if="$slots.rowOptions" class="vuiii-table__rowOptions" @click="$event.preventDefault()">
+        <td v-if="hasOptionsColumn" class="vuiii-table__rowOptions" @click="$event.preventDefault()">
           <slot name="rowOptions" v-bind="{ item: row.item, index }" />
         </td>
       </tr>
 
       <tr v-if="!items?.length && ($props.noDataMessage || $slots.noDataMessage)">
-        <td :colspan="normalizedColumns.length">
+        <td :colspan="columnCount">
           <slot name="noDataMessage">
             <div class="vuiii-table__noDataMessage">
               {{ $props.noDataMessage }}
@@ -254,7 +263,7 @@ const emit = defineEmits<{
   'sort': [payload: { sortColumnName: string; sortDirection: 'asc' | 'desc' }]
 }>()
 
-defineSlots<
+const slots = defineSlots<
   {
     [K in `column:${(typeof props.columns)[number]['name']}`]: (props: {
       column: TableColumn<T>
@@ -282,12 +291,30 @@ const hasHeader = computed(() => {
   return normalizedColumns.value.some((column) => column.label)
 })
 
+/**
+ * Both slots occupy the same trailing column — `tools` fills its header cell, `rowOptions` its
+ * body cells — so either one on its own still has to widen the table by one column, otherwise
+ * the header and the body end up with a different number of cells.
+ */
+const hasOptionsColumn = computed(() => Boolean(slots.tools || slots.rowOptions))
+
+const columnCount = computed(() => normalizedColumns.value.length + (hasOptionsColumn.value ? 1 : 0))
+
 function defaultSorted(a: any, b: any) {
-  if (typeof a === 'string' && typeof b === 'string') {
-    return a.localeCompare(b)
+  const aIsEmpty = a === null || a === undefined || a === ''
+  const bIsEmpty = b === null || b === undefined || b === ''
+
+  // Empty cells are grouped at the end rather than compared, since `a - b` on a null or a
+  // mixed pair yields NaN and leaves the rows in an arbitrary order.
+  if (aIsEmpty || bIsEmpty) {
+    return Number(aIsEmpty) - Number(bIsEmpty)
   }
 
-  return a - b
+  if (typeof a === 'string' || typeof b === 'string') {
+    return String(a).localeCompare(String(b))
+  }
+
+  return Number(a) - Number(b)
 }
 
 const tableRows = computed<TableRow[]>(() => {
