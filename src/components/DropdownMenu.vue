@@ -10,6 +10,8 @@ type DropdownMenuProps = {
   listId?: string
   /** Prefix for per-option ids (`${optionIdPrefix}-${index}`), used for `aria-activedescendant`. */
   optionIdPrefix?: string
+  /** Marks an item as unavailable, so it renders disabled and emits no `item-click`. */
+  itemDisabled?: (item: Item, index: number) => boolean
 }
 
 type ItemWithIndex = { item: Item; index: number }
@@ -28,6 +30,8 @@ defineSlots<{
 }>()
 
 const itemElements = ref<HTMLElement[]>([])
+
+const isItemDisabled = (item: Item, index: number): boolean => Boolean(props.itemDisabled?.(item, index))
 
 watch(
   () => props.cursorIndex,
@@ -53,11 +57,14 @@ watch(
         :id="optionIdPrefix ? `${optionIdPrefix}-${index}` : undefined"
         :role="listRole === 'listbox' ? 'option' : listRole === 'menu' ? 'menuitem' : undefined"
         :aria-selected="listRole === 'listbox' ? cursorIndex === index : undefined"
+        :aria-disabled="isItemDisabled(item, index) ? 'true' : undefined"
         ref="itemElements"
       >
         <slot name="item" v-bind="{ item, index, cursorIndex }">
           <button
             class="DropdownMenu__button"
+            :class="{ 'DropdownMenu__button--disabled': isItemDisabled(item, index) }"
+            :disabled="isItemDisabled(item, index)"
             @click="emit('item-click', { item, index })"
             @mouseenter="emit('item-mouseenter', { item, index })"
             @mouseleave="emit('item-mouseleave', { item, index })"
@@ -130,9 +137,14 @@ watch(
   width: 100%;
   box-sizing: border-box;
 
-  &:hover {
+  &:hover:not(:disabled) {
     color: var(--vuiii-dropdownMenu-button-textColor--hover);
     background-color: var(--vuiii-dropdownMenu-button-bgColor--hover);
+  }
+
+  &:disabled {
+    cursor: default;
+    opacity: var(--vuiii-dropdownMenu-button-opacity--disabled, 0.5);
   }
 }
 </style>

@@ -368,6 +368,26 @@ describe('Autocomplete', () => {
       expect(wrapper.emitted('select')).toBeFalsy()
     })
 
+    it('leaves Enter to the browser while the list is closed, so a surrounding form can submit', async () => {
+      const wrapper = mountAutocomplete()
+
+      const event = new KeyboardEvent('keydown', { key: 'Enter', cancelable: true, bubbles: true })
+      input(wrapper).element.dispatchEvent(event)
+
+      expect(event.defaultPrevented).toBe(false)
+    })
+
+    it('swallows Enter when it picks an option, so the keystroke does not also submit a form', async () => {
+      const wrapper = mountAutocomplete()
+      await openByClick(wrapper)
+      await pressKey(wrapper, 'ArrowDown')
+
+      const event = new KeyboardEvent('keydown', { key: 'Enter', cancelable: true, bubbles: true })
+      input(wrapper).element.dispatchEvent(event)
+
+      expect(event.defaultPrevented).toBe(true)
+    })
+
     it('resets the cursor to the first option when the filtered list changes', async () => {
       const wrapper = mountAutocomplete()
       await openByClick(wrapper)
@@ -465,6 +485,24 @@ describe('Autocomplete', () => {
 
       expect(wrapper.emitted('select')).toBeFalsy()
       expect(isExpanded(wrapper)).toBe(true)
+    })
+
+    it('renders a disabled option as unavailable rather than as an ordinary option', async () => {
+      const wrapper = mountAutocomplete({
+        options: [
+          { name: 'Active', inactive: false },
+          { name: 'Archived', inactive: true },
+        ],
+        optionLabel: 'name',
+        optionDisabled: 'inactive',
+      })
+      await openByClick(wrapper)
+
+      const disabledOption = options(wrapper)[1]!
+
+      expect(disabledOption.attributes('aria-disabled')).toBe('true')
+      expect(disabledOption.find('button').attributes('disabled')).toBeDefined()
+      expect(options(wrapper)[0]!.attributes('aria-disabled')).toBeUndefined()
     })
 
     it('moves the cursor to the option the pointer enters', async () => {

@@ -58,6 +58,7 @@
         listRole="listbox"
         :listId="listboxId"
         :optionIdPrefix="optionIdPrefix"
+        :itemDisabled="(option) => Boolean(option.disabled)"
         @item-click="handleOptionSelect"
         @item-mouseenter="({ index }) => (cursorIndex = index)"
       >
@@ -311,9 +312,11 @@ function handleKeydown(event: KeyboardEvent) {
       }
       break
 
+    // Only swallowed when Enter actually picks an option; preventing it unconditionally would
+    // stop an Autocomplete inside a <form> from ever submitting it.
     case 'Enter':
-      event.preventDefault()
       if (isOpen.value && cursorItem.value) {
+        event.preventDefault()
         selectOption(cursorItem.value)
       }
       break

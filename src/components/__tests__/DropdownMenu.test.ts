@@ -210,4 +210,48 @@ describe('DropdownMenu', () => {
 
     expect(wrapper.find('ul').exists()).toBe(false)
   })
+
+  describe('disabled items', () => {
+    const itemDisabled = (item: string) => item === 'Duplicate'
+
+    it('renders an item flagged by itemDisabled as a natively disabled button', () => {
+      const wrapper = mount(DropdownMenu, { props: { items, itemDisabled } })
+
+      const buttons = wrapper.findAll('button')
+
+      expect(buttons.map((button) => button.attributes('disabled') !== undefined)).toEqual([false, true, false])
+    })
+
+    it('marks a disabled item with aria-disabled', () => {
+      const wrapper = mount(DropdownMenu, { props: { items, itemDisabled } })
+
+      expect(wrapper.findAll('li').map((item) => item.attributes('aria-disabled'))).toEqual([
+        undefined,
+        'true',
+        undefined,
+      ])
+    })
+
+    it('emits no item-click for a disabled item', async () => {
+      const wrapper = mount(DropdownMenu, { props: { items, itemDisabled } })
+
+      await wrapper.findAll('button')[1]!.trigger('click')
+
+      expect(wrapper.emitted('item-click')).toBeFalsy()
+    })
+
+    it('still emits item-click for the enabled items around it', async () => {
+      const wrapper = mount(DropdownMenu, { props: { items, itemDisabled } })
+
+      await wrapper.findAll('button')[0]!.trigger('click')
+
+      expect(wrapper.emitted('item-click')![0]![0]).toMatchObject({ index: 0 })
+    })
+
+    it('leaves every item enabled when no itemDisabled is given', () => {
+      const wrapper = mount(DropdownMenu, { props: { items } })
+
+      expect(wrapper.findAll('button').every((button) => button.attributes('disabled') === undefined)).toBe(true)
+    })
+  })
 })
