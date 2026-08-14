@@ -83,9 +83,7 @@ describe('IconButton', () => {
     expect(wrapper.classes()).toContain('vuiii-button--disabled')
   })
 
-  // BUG: Button declares `disabled` as a prop but never binds it to the rendered element,
-  // so a disabled IconButton is only styled as disabled and stays clickable/focusable.
-  it.skip('renders a natively disabled button when disabled', () => {
+  it('renders a natively disabled button when disabled', () => {
     const wrapper = mountIconButton({ disabled: true })
 
     expect(wrapper.attributes('disabled')).toBeDefined()

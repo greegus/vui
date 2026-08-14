@@ -230,9 +230,7 @@ describe('RadioButtonGroup', () => {
     expect(buttons.every((b) => b.classes().includes('vuiii-button--disabled'))).toBe(true)
   })
 
-  // BUG: Button never forwards its `disabled` prop to the rendered <button>, so a disabled
-  // option is only styled as disabled and still reacts to clicks.
-  it.skip('ignores clicks on a disabled option', async () => {
+  it('ignores clicks on a disabled option', async () => {
     const wrapper = mount(RadioButtonGroup, { props: { options: ['List', 'Grid'], disabled: true } })
 
     await wrapper.findAll('button')[1].trigger('click')

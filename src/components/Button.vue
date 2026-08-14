@@ -6,7 +6,7 @@
       [`vuiii-button--color-${$props.color}`]: $props.color,
       [`vuiii-button--variant-${$props.variant}`]: $props.variant,
       [`vuiii-button--size-${$props.size}`]: $props.size,
-      'vuiii-button--disabled': $props.disabled || $props.loading,
+      'vuiii-button--disabled': isDisabled,
       'vuiii-button--loading': $props.loading,
       'vuiii-button--block': $props.block,
       'vuiii-button--pill': $props.pill,
@@ -15,6 +15,9 @@
     :to="component === 'router-link' ? $props.to : undefined"
     :href="component === 'a' ? $props.href : undefined"
     :type="component === 'button' ? $props.type : undefined"
+    :disabled="component === 'button' ? isDisabled : undefined"
+    :aria-disabled="component !== 'button' && isDisabled ? 'true' : undefined"
+    :tabindex="component !== 'button' && isDisabled ? -1 : undefined"
   >
     <slot name="prefix">
       <Icon
@@ -140,6 +143,16 @@ defineSlots<{
   default?: void
   suffix?: void
 }>()
+
+/**
+ * A loading button is disabled too — the spinner replaces the prefix icon and the
+ * action must not be triggerable while it is in flight.
+ *
+ * Links (`a` / `router-link`) have no native `disabled`, so they get `aria-disabled`
+ * and are taken out of the tab order instead; `pointer-events: none` from
+ * `.vuiii-button--disabled` blocks pointer activation.
+ */
+const isDisabled = computed(() => Boolean(props.disabled || props.loading))
 
 const component = computed(() => {
   if (props.to) {

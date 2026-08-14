@@ -84,9 +84,7 @@ describe('DialogLayout', () => {
     expect(wrapper.find('.DialogLayout__buttons button').classes()).toContain('vuiii-button--disabled')
   })
 
-  // BUG: Button.vue declares `disabled` as a prop, so it never reaches the rendered <button>;
-  // a disabled dialog button is still clickable and closes the dialog.
-  it.skip('does not close the dialog when a disabled button is clicked', async () => {
+  it('does not close the dialog when a disabled button is clicked', async () => {
     const props = { buttons: [{ label: 'Delete', value: 'deleted', disabled: true }] }
     openDialog(DialogLayout, props)
     const wrapper = mountLayout(props)
@@ -166,9 +164,7 @@ describe('DialogLayout', () => {
     wrapper.unmount()
   })
 
-  // BUG: the initial-focus resolver looks for the class `vuiii-button--primary`, but Button renders
-  // `vuiii-button--color-primary`, so focus always lands on the first button instead of the primary one.
-  it.skip('focuses the primary button first', () => {
+  it('focuses the primary button first', () => {
     const wrapper = mount(DialogLayout, {
       props: {
         buttons: [

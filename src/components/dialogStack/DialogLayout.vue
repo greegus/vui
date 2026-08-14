@@ -128,7 +128,7 @@ useFocusTrap(root, {
     const actionButtons = buttons.filter((button) => !button.classList.contains('DialogLayout__close'))
 
     return (
-      actionButtons.find((button) => button.classList.contains('vuiii-button--primary')) ??
+      actionButtons.find((button) => button.classList.contains('vuiii-button--color-primary')) ??
       actionButtons[0] ??
       buttons[0]
     )
