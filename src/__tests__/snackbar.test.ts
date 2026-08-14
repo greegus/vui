@@ -162,4 +162,47 @@ describe('snackbar', () => {
       'message 6',
     ])
   })
+
+  it('keeps a persistent message when the cap evicts, dropping the oldest dismissible one instead', () => {
+    const snackbar = useSnackbar()
+
+    snackbar.success('persistent', 0)
+    for (let i = 1; i <= 5; i++) {
+      snackbar.success(`message ${i}`)
+    }
+
+    expect(messages.value.map(({ text }) => text)).toEqual([
+      'persistent',
+      'message 2',
+      'message 3',
+      'message 4',
+      'message 5',
+    ])
+  })
+
+  it('evicts the oldest message once every message on the stack is persistent', () => {
+    const snackbar = useSnackbar()
+
+    for (let i = 1; i <= 6; i++) {
+      snackbar.success(`message ${i}`, 0)
+    }
+
+    expect(messages.value.map(({ text }) => text)).toEqual([
+      'message 2',
+      'message 3',
+      'message 4',
+      'message 5',
+      'message 6',
+    ])
+  })
+
+  it('cancels the pending timer of a message dismissed early', () => {
+    useSnackbar().success('Item saved!')
+
+    expect(vi.getTimerCount()).toBe(1)
+
+    removeMessage(messages.value[0]!.id)
+
+    expect(vi.getTimerCount()).toBe(0)
+  })
 })
