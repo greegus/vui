@@ -59,9 +59,14 @@
         :listId="listboxId"
         :optionIdPrefix="optionIdPrefix"
         :itemDisabled="(option) => Boolean(option.disabled)"
+        :itemGroupLabel="(option) => option.group"
         @item-click="handleOptionSelect"
         @item-mouseenter="({ index }) => (cursorIndex = index)"
       >
+        <template v-if="$slots.optionGroup" #groupLabel="{ label }">
+          <slot name="optionGroup" :label="label" />
+        </template>
+
         <template #itemLabel="{ item, index }">
           <slot name="option" :option="item" :index="index" :isHighlighted="cursorIndex === index">
             <div class="Autocomplete__optionLabel">{{ item.label }}</div>
@@ -129,6 +134,30 @@
  * </Autocomplete>
  *
  * @example
+ * // Grouped options - each group renders under its own heading
+ * const options = [
+ *   { category: 'Fruits', items: [{ id: 1, name: 'Apple' }, { id: 2, name: 'Banana' }] },
+ *   { category: 'Vegetables', items: [{ id: 3, name: 'Carrot' }] }
+ * ]
+ *
+ * <Autocomplete
+ *   v-model="search"
+ *   :options="options"
+ *   group-label="category"
+ *   group-options="items"
+ *   option-value="id"
+ *   option-label="name"
+ * />
+ *
+ * @example
+ * // Custom group heading
+ * <Autocomplete v-model="search" :options="options" group-label="category" group-options="items">
+ *   <template #optionGroup="{ label }">
+ *     <Icon name="folder" /> {{ label }}
+ *   </template>
+ * </Autocomplete>
+ *
+ * @example
  * // Programmatic control via ref
  * const autocompleteRef = ref<AutocompleteRef>()
  *
@@ -139,6 +168,7 @@
  * @slot prefix - Content before the input
  * @slot suffix - Content after the input
  * @slot option - Custom option rendering. Props: { option, index, isHighlighted }
+ * @slot optionGroup - Custom group heading. Props: { label }
  *
  * @emits select - When an option is selected. Payload: Option<T>
  * @emits prefix-icon-click - When prefix icon is clicked
@@ -209,6 +239,7 @@ const emit = defineEmits<
 defineSlots<
   InputWrapperSlots & {
     option?: (props: { option: Option<T>; index: number; isHighlighted: boolean }) => any
+    optionGroup?: (props: { label: string }) => any
   }
 >()
 
@@ -243,8 +274,10 @@ const normalizedOptions = computed<Option<T>[]>(() => {
       },
       modelValue.value,
     )
-    // Flatten groups into a single array
-    return groups.flatMap((group) => group.options)
+    // Flattened into a single list so that filtering, cursor navigation and aria-activedescendant
+    // keep working on plain indices; each option carries its group label so the dropdown can
+    // still render a heading per group.
+    return groups.flatMap((group) => group.options.map((option) => ({ ...option, group: group.label })))
   }
 
   return normalizeOptions(props.options, extractors, modelValue.value)

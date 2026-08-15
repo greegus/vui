@@ -44,6 +44,29 @@ function optionLabels(wrapper: VueWrapper<any>) {
   return options(wrapper).map((option) => option.text())
 }
 
+function groupHeadings(wrapper: VueWrapper<any>) {
+  return wrapper.findAll('.DropdownMenu__groupLabel').map((heading) => heading.text())
+}
+
+const groupedOptions = [
+  { category: 'Fruits', items: [{ id: 1, name: 'Apple' }, { id: 2, name: 'Banana' }] },
+  { category: 'Vegetables', items: [{ id: 3, name: 'Carrot' }] },
+]
+
+function mountGroupedAutocomplete(props: Record<string, unknown> = {}, options: Record<string, unknown> = {}) {
+  return mountAutocomplete(
+    {
+      options: groupedOptions,
+      groupLabel: 'category',
+      groupOptions: 'items',
+      optionValue: 'id',
+      optionLabel: 'name',
+      ...props,
+    },
+    options,
+  )
+}
+
 function isExpanded(wrapper: VueWrapper<any>) {
   return input(wrapper).attributes('aria-expanded') === 'true'
 }
@@ -254,7 +277,7 @@ describe('Autocomplete', () => {
       expect(optionLabels(wrapper)).toEqual(['Draft', 'Published', 'Archived'])
     })
 
-    it('flattens grouped options into a single list', async () => {
+    it('renders every option of every group', async () => {
       const wrapper = mountAutocomplete({
         options: [
           { category: 'Fruits', items: [{ id: 1, name: 'Apple' }] },
@@ -269,6 +292,65 @@ describe('Autocomplete', () => {
       await openByClick(wrapper)
 
       expect(optionLabels(wrapper)).toEqual(['Apple', 'Carrot'])
+    })
+
+    it('renders a heading per group, above the options belonging to it', async () => {
+      const wrapper = mountGroupedAutocomplete()
+
+      await openByClick(wrapper)
+
+      expect(groupHeadings(wrapper)).toEqual(['Fruits', 'Vegetables'])
+      expect(optionLabels(wrapper)).toEqual(['Apple', 'Banana', 'Carrot'])
+    })
+
+    it('drops the heading of a group whose options are all filtered out', async () => {
+      const wrapper = mountGroupedAutocomplete()
+
+      await type(wrapper, 'carr')
+
+      expect(groupHeadings(wrapper)).toEqual(['Vegetables'])
+      expect(optionLabels(wrapper)).toEqual(['Carrot'])
+    })
+
+    it('renders no headings when the options are not grouped', async () => {
+      const wrapper = mountAutocomplete()
+
+      await openByClick(wrapper)
+
+      expect(groupHeadings(wrapper)).toEqual([])
+    })
+
+    it('steps the cursor over options only, skipping the headings', async () => {
+      const wrapper = mountGroupedAutocomplete()
+      await openByClick(wrapper)
+
+      await pressKey(wrapper, 'ArrowDown')
+      await pressKey(wrapper, 'ArrowDown')
+
+      expect(options(wrapper)[2]!.attributes('aria-selected')).toBe('true')
+      expect(input(wrapper).attributes('aria-activedescendant')).toBe(options(wrapper)[2]!.attributes('id'))
+    })
+
+    it('selects an option from a later group with Enter', async () => {
+      const wrapper = mountGroupedAutocomplete()
+      await openByClick(wrapper)
+
+      await pressKey(wrapper, 'ArrowDown')
+      await pressKey(wrapper, 'ArrowDown')
+      await pressKey(wrapper, 'Enter')
+
+      expect(wrapper.emitted('select')![0]![0]).toMatchObject({ label: 'Carrot', value: '3' })
+    })
+
+    it('replaces the heading content through the optionGroup slot', async () => {
+      const wrapper = mountGroupedAutocomplete(
+        {},
+        { slots: { optionGroup: '<b class="custom-group">{{ params.label }}</b>' } },
+      )
+
+      await openByClick(wrapper)
+
+      expect(wrapper.findAll('.custom-group').map((heading) => heading.text())).toEqual(['Fruits', 'Vegetables'])
     })
 
     it('filters across all groups', async () => {

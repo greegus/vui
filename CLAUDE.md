@@ -1490,7 +1490,7 @@ option-label="name"
 :options="{ draft: 'Draft', published: 'Published', archived: 'Archived' }"
 ```
 
-**4. Grouped Options** - For Select and Autocomplete with optgroup support
+**4. Grouped Options** - Select renders them as native optgroups, Autocomplete as a heading per group
 ```ts
 :options="[
   { category: 'Fruits', items: [{ id: 1, name: 'Apple' }] },

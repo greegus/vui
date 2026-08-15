@@ -131,6 +131,8 @@ export type Option<T = any> = {
   data: T
   index?: number
   isSelected?: boolean
+  /** Label of the group this option belongs to, set when options are normalized from groups. */
+  group?: string
 }
 
 export type OptionGroup<T = any> = {

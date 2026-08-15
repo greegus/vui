@@ -254,4 +254,92 @@ describe('DropdownMenu', () => {
       expect(wrapper.findAll('button').every((button) => button.attributes('disabled') === undefined)).toBe(true)
     })
   })
+
+  describe('grouping', () => {
+    const grouped = [
+      { label: 'Apple', group: 'Fruits' },
+      { label: 'Banana', group: 'Fruits' },
+      { label: 'Carrot', group: 'Vegetables' },
+    ]
+    const itemGroupLabel = (item: { group: string }) => item.group
+
+    function mountGrouped(props: Record<string, unknown> = {}) {
+      return mount(DropdownMenu, {
+        props: { items: grouped, itemGroupLabel, ...props },
+        slots: { itemLabel: (p: { item: { label: string } }) => p.item.label },
+      })
+    }
+
+    it('renders one heading per group, in list order', () => {
+      const wrapper = mountGrouped()
+
+      expect(wrapper.findAll('.DropdownMenu__groupLabel').map((h) => h.text())).toEqual(['Fruits', 'Vegetables'])
+    })
+
+    it('keeps the headings out of the option list', () => {
+      const wrapper = mountGrouped({ listRole: 'listbox' })
+
+      expect(wrapper.findAll('[role="option"]')).toHaveLength(3)
+      expect(wrapper.find('.DropdownMenu__groupLabel').attributes('role')).toBe('presentation')
+    })
+
+    it('keeps option indices contiguous across the headings', async () => {
+      const wrapper = mountGrouped()
+
+      await wrapper.findAll('.DropdownMenu__item button')[2]!.trigger('click')
+
+      expect(wrapper.emitted('item-click')![0]![0]).toMatchObject({ index: 2 })
+    })
+
+    it('keeps the option ids aligned with the cursor index', () => {
+      const wrapper = mountGrouped({ optionIdPrefix: 'opt', cursorIndex: 2 })
+
+      const highlighted = wrapper.find('.DropdownMenu__item--withCursor')
+
+      expect(highlighted.attributes('id')).toBe('opt-2')
+      expect(highlighted.text()).toBe('Carrot')
+    })
+
+    it('renders no headings when itemGroupLabel returns nothing', () => {
+      const wrapper = mount(DropdownMenu, { props: { items, itemGroupLabel: () => undefined } })
+
+      expect(wrapper.findAll('.DropdownMenu__groupLabel')).toHaveLength(0)
+      expect(wrapper.findAll('li')).toHaveLength(3)
+    })
+
+    it('renders no headings at all without the extractor', () => {
+      const wrapper = mount(DropdownMenu, { props: { items } })
+
+      expect(wrapper.findAll('.DropdownMenu__groupLabel')).toHaveLength(0)
+    })
+
+    it('replaces the heading content through the groupLabel slot', () => {
+      const wrapper = mount(DropdownMenu, {
+        props: { items: grouped, itemGroupLabel },
+        slots: { groupLabel: (p: { label: string }) => h('b', { class: 'custom-group' }, p.label) },
+      })
+
+      expect(wrapper.findAll('.custom-group').map((g) => g.text())).toEqual(['Fruits', 'Vegetables'])
+    })
+
+    it('scrolls the right option into view despite the interleaved headings', async () => {
+      const wrapper = mountGrouped({ cursorIndex: 0 })
+
+      await wrapper.setProps({ cursorIndex: 2 })
+
+      expect(scrollIntoView).toHaveBeenCalledTimes(1)
+      expect(scrollIntoView.mock.instances[0]).toBe(wrapper.findAll('.DropdownMenu__item')[2]!.element)
+    })
+
+    it('repeats a heading when the same group is split across the list', () => {
+      const wrapper = mount(DropdownMenu, {
+        props: {
+          items: [{ group: 'A' }, { group: 'B' }, { group: 'A' }],
+          itemGroupLabel,
+        },
+      })
+
+      expect(wrapper.findAll('.DropdownMenu__groupLabel').map((h) => h.text())).toEqual(['A', 'B', 'A'])
+    })
+  })
 })

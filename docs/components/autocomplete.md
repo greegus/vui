@@ -57,6 +57,7 @@ import { Autocomplete } from '../../src'
 | `prefix` | Content before the input (replaces prefixIcon)                   |
 | `suffix` | Content after the input (replaces suffixIcon)                    |
 | `option` | Custom option rendering. Props: `{ option, index, isHighlighted }` |
+| `optionGroup` | Custom group heading. Props: `{ label }`                    |
 
 ## Events
 
@@ -99,6 +100,48 @@ name: 'Jane Smith', email: 'jane@example.com' } ]
   </template>
 </Autocomplete>
 ```
+
+## Grouped Options
+
+Pass `group-label` and `group-options` to render the options under a heading per group. Filtering
+still runs across every group, and a group whose options are all filtered out drops its heading
+with them. Keyboard navigation steps over the options only — headings are never focusable.
+
+```vue
+<script setup>
+const options = [
+  { category: 'Fruits', items: [{ id: 1, name: 'Apple' }, { id: 2, name: 'Banana' }] },
+  { category: 'Vegetables', items: [{ id: 3, name: 'Carrot' }] }
+]
+</script>
+
+<template>
+  <Autocomplete
+    v-model="search"
+    :options="options"
+    group-label="category"
+    group-options="items"
+    option-value="id"
+    option-label="name"
+  />
+</template>
+```
+
+Use the `optionGroup` slot to render the heading yourself:
+
+```vue
+<Autocomplete v-model="search" :options="options" group-label="category" group-options="items">
+  <template #optionGroup="{ label }">
+    <Icon name="folder" /> {{ label }}
+  </template>
+</Autocomplete>
+```
+
+::: warning Accessibility
+Headings are rendered as presentational entries inside the listbox, so they are shown but not
+announced — screen reader users hear the options without their group. Grouping is a visual aid
+here; do not rely on it to convey meaning that the option labels do not already carry.
+:::
 
 ::: tip Storybook
 For interactive examples with all variants, see [Autocomplete in Storybook](https://greegus.github.io/vuiii/storybook/?path=/docs/components-autocomplete--docs).
