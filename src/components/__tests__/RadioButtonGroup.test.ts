@@ -272,4 +272,66 @@ describe('RadioButtonGroup', () => {
 
     expect(wrapper.findAll('button')).toHaveLength(0)
   })
+
+  describe('value parsing', () => {
+    it('emits a string value by default', async () => {
+      const wrapper = mount(RadioButtonGroup, { props: { options: ['List', 'Grid'] } })
+
+      await wrapper.findAll('button')[1]!.trigger('click')
+
+      expect(wrapper.emitted('update:modelValue')![0]![0]).toBe('Grid')
+    })
+
+    it('emits a number when type="number"', async () => {
+      const wrapper = mount(RadioButtonGroup, { props: { options: [1, 2, 3], type: 'number' } })
+
+      await wrapper.findAll('button')[2]!.trigger('click')
+
+      const emitted = wrapper.emitted('update:modelValue')![0]![0]
+
+      expect(emitted).toBe(3)
+      expect(typeof emitted).toBe('number')
+    })
+
+    it('marks the option matching a numeric model value as checked', () => {
+      const wrapper = mount(RadioButtonGroup, { props: { modelValue: 2, options: [1, 2, 3], type: 'number' } })
+
+      const buttons = wrapper.findAll('button')
+
+      expect(buttons.map((button) => button.attributes('aria-checked'))).toEqual(['false', 'true', 'false'])
+    })
+
+    it('emits a boolean when type="boolean"', async () => {
+      const wrapper = mount(RadioButtonGroup, {
+        props: { options: { true: 'Yes', false: 'No' }, type: 'boolean' },
+      })
+
+      await wrapper.findAll('button')[0]!.trigger('click')
+
+      expect(wrapper.emitted('update:modelValue')![0]![0]).toBe(true)
+    })
+
+    it('round-trips through a custom valueParser', async () => {
+      const valueParser = {
+        stringify: (value: any) => (value ? String(value.id) : ''),
+        parse: (value: string) => ({ id: Number(value) }),
+      }
+
+      const wrapper = mount(RadioButtonGroup, {
+        props: {
+          options: [
+            { id: 1, name: 'One' },
+            { id: 2, name: 'Two' },
+          ],
+          optionValue: (item: any) => item,
+          optionLabel: 'name',
+          valueParser,
+        },
+      })
+
+      await wrapper.findAll('button')[1]!.trigger('click')
+
+      expect(wrapper.emitted('update:modelValue')![0]![0]).toEqual({ id: 2 })
+    })
+  })
 })

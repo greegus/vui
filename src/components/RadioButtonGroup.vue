@@ -12,7 +12,7 @@
       :title="option.description"
       :prefix-icon="option.icon"
       :size
-      @click="modelValue = option.value"
+      @click="handleInput(option.value)"
     />
   </ButtonGroup>
 </template>
@@ -51,12 +51,25 @@
  *   option-label="label"
  *   option-icon="icon"
  * />
+ *
+ * @example
+ * // Typed values - the model keeps the parsed type instead of a string
+ * <RadioButtonGroup v-model="rating" :options="[1, 2, 3]" type="number" />
+ *
+ * @example
+ * // With a custom value parser
+ * <RadioButtonGroup
+ *   v-model="startsOn"
+ *   :options="dates"
+ *   :value-parser="{ stringify: (d) => d.toISOString(), parse: (v) => new Date(v) }"
+ * />
  */
 import { computed } from 'vue'
 
 import Button from '@/components/Button.vue'
 import ButtonGroup from '@/components/ButtonGroup.vue'
-import type { Extractor, InputSize, Option, OptionsProp } from '@/types'
+import type { Extractor, InputSize, Option, OptionsProp, ValueParser } from '@/types'
+import { createTypeParser } from '@/utils/createTypeParser'
 import { normalizeOptions } from '@/utils/normalizeOptions'
 
 const modelValue = defineModel<any>()
@@ -69,15 +82,22 @@ const props = withDefaults(
     optionDisabled?: Extractor
     optionIcon?: Extractor
     optionDescription?: Extractor
+    valueParser?: ValueParser<string>
     /** Render variant of the active button. */
     variant?: 'filled' | 'outlined'
     disabled?: boolean
     size?: InputSize
+    type?: 'string' | 'number' | 'boolean' | 'date'
   }>(),
   {
     variant: 'filled',
+    type: 'string',
   },
 )
+
+const optionParser = computed(() => {
+  return props.valueParser || createTypeParser(props.type)
+})
 
 const normalizedOptions = computed<Option[]>(() =>
   normalizeOptions(
@@ -88,10 +108,17 @@ const normalizedOptions = computed<Option[]>(() =>
       disabled: props.optionDisabled,
       description: props.optionDescription,
       icon: props.optionIcon,
+      stringifyValue: optionParser.value?.stringify,
     },
     modelValue.value,
   ),
 )
+
+// Options are normalized into the stringified domain, so the picked value is parsed back before
+// it reaches the model — matching Select, RadioGroup and CheckboxGroup.
+function handleInput(value: Option['value']) {
+  modelValue.value = optionParser.value.parse(String(value))
+}
 </script>
 
 <style scoped>

@@ -143,6 +143,27 @@ Use the `option-description` extractor to add tooltip text (shown via the `title
 />
 ```
 
+## Value Types
+
+Options are normalized to strings internally, so by default the model receives a string. Use
+`type` to have the picked value parsed back, exactly as in `Select`, `RadioGroup` and
+`CheckboxGroup`. Supported types: `string` (default), `number`, `boolean` and `date`.
+
+```vue
+<RadioButtonGroup v-model="rating" :options="[1, 2, 3]" type="number" />
+<!-- rating === 3, not '3' -->
+```
+
+For anything else, pass a `value-parser` with your own `stringify` / `parse` pair:
+
+```vue
+<RadioButtonGroup
+  v-model="startsOn"
+  :options="dates"
+  :value-parser="{ stringify: (d) => d.toISOString(), parse: (v) => new Date(v) }"
+/>
+```
+
 ::: tip Storybook
 For interactive examples with all variants, see [RadioButtonGroup in Storybook](https://greegus.github.io/vuiii/storybook/?path=/docs/components-radiobuttongroup--docs).
 :::
