@@ -1,4 +1,4 @@
-import { onUnmounted } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 
 import type { ElementRef } from '@/types'
 
@@ -40,7 +40,11 @@ export function useOnClickOutside(element: ElementRef, callback: (e: MouseEvent)
     }
   }
 
-  window.addEventListener('mousedown', handler)
+  // Subscribed on mount rather than during setup, so that server-side rendering a component that
+  // uses this composable does not reach for `window`.
+  onMounted(() => {
+    window.addEventListener('mousedown', handler)
+  })
 
   onUnmounted(() => {
     window.removeEventListener('mousedown', handler)
