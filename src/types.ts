@@ -201,10 +201,13 @@ export type FormField<Data extends {} = any> = {
   label?: string
   description?: string
   hint?: string
-  required?: boolean | ((value: any) => boolean)
-  disabled?: boolean | ((value: any) => boolean)
+  /** Static, or derived from the whole form data so a field can depend on another one. */
+  required?: boolean | ((data: Data) => boolean)
+  /** Static, or derived from the whole form data so a field can depend on another one. */
+  disabled?: boolean | ((data: Data) => boolean)
   component: string | Component | AsyncComponentLoader
-  props?: Record<string, unknown>
+  /** Static, or derived from the whole form data (e.g. options driven by another field). */
+  props?: Record<string, unknown> | ((data: Data) => Record<string, unknown>)
   value?: FormFieldValue<Data>
 }
 

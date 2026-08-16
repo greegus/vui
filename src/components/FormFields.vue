@@ -29,7 +29,7 @@
             :is="item.component"
             :id="fieldId(item.name)"
             :model-value="getFieldValue(item.name)"
-            v-bind="resolveIfComputed(item.name, item.props)"
+            v-bind="resolveIfComputed(item.props)"
             :required="normalizeRequired(item)"
             :disabled="normalizeDisabled(item)"
             :invalid="props.validationResults?.[item.name]?.isInvalid"
@@ -103,9 +103,9 @@
  *     name: 'state',
  *     component: Select,
  *     label: 'State',
- *     // Props can be a function that receives current field value
- *     props: (countryValue) => ({ options: statesByCountry[countryValue] }),
- *     disabled: (countryValue) => !countryValue
+ *     // props / required / disabled can be functions of the whole form data
+ *     props: (data) => ({ options: statesByCountry[data.country] }),
+ *     disabled: (data) => !data.country
  *   }
  * ]
  *
@@ -169,12 +169,12 @@ const getItemKey = (item: FormFieldOrRow<Data>, index: number): string => {
 
 // Helper to normalize required prop
 const normalizeRequired = (field: FormField<Data>): boolean => {
-  return Boolean(resolveIfComputed(field.name, field.required))
+  return Boolean(resolveIfComputed(field.required))
 }
 
 // Helper to normalize disabled prop
 const normalizeDisabled = (field: FormField<Data>): boolean => {
-  return Boolean(resolveIfComputed(field.name, field.disabled))
+  return Boolean(resolveIfComputed(field.disabled))
 }
 
 const fieldsByName = computed(() => {
@@ -204,9 +204,14 @@ const setFieldValue = (name: FormField<Data>['name'], value: unknown): void => {
   modelValue.value = setter(value, modelValue.value) as Data
 }
 
-const resolveIfComputed = <T = any>(name: ObjectKeyOrAnyString<T>, property: any): T => {
+/**
+ * Computed `props` / `required` / `disabled` receive the whole form data, the same as a field's
+ * `value.getter`. Passing only the field's own value would make the dependent-field case these
+ * callbacks exist for — a state select driven by the chosen country — impossible to express.
+ */
+const resolveIfComputed = <T = any>(property: any): T => {
   if (typeof property === 'function') {
-    return (property as any)?.((modelValue.value as any)[name])
+    return (property as any)?.(modelValue.value)
   }
 
   return property as T
