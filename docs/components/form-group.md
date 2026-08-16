@@ -3,6 +3,10 @@
 Form field wrapper with label, description, hint, and error message support.
 Used by FormFields internally, but can be used standalone for custom form layouts.
 
+::: tip Composition
+Labels a single control. For how it relates to `FormFields` and `InputWrapper`, see [Composing Forms](/getting-started/composing-forms).
+:::
+
 ## Import
 
 ```typescript

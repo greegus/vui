@@ -3,6 +3,10 @@
 Native select dropdown with support for various option formats and type parsing.
 Normalizes arrays, objects, and grouped options into a consistent format.
 
+::: tip Shared option API
+Accepts the shared option formats — primitive arrays, object arrays with extractors, key-value objects and groups. See [Option Extractors](/getting-started/option-extractors).
+:::
+
 ## Import
 
 ```typescript

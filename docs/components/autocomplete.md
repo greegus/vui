@@ -3,6 +3,10 @@
 Autocomplete input with dropdown suggestions and keyboard navigation.
 Supports custom option rendering, filtering, and various data formats.
 
+::: tip Shared option API
+Accepts the shared option formats — primitive arrays, object arrays with extractors, key-value objects and groups. See [Option Extractors](/getting-started/option-extractors).
+:::
+
 ## Import
 
 ```typescript

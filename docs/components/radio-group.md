@@ -3,6 +3,10 @@
 Radio button group for single selection from a list of options.
 Normalizes various option formats and supports custom value parsing.
 
+::: tip Shared option API
+Accepts the shared option formats — primitive arrays, object arrays with extractors and key-value objects. See [Option Extractors](/getting-started/option-extractors).
+:::
+
 ## Import
 
 ```typescript

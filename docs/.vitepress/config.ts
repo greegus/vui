@@ -31,6 +31,7 @@ export default defineConfig({
             { text: 'Installation', link: '/getting-started/' },
             { text: 'Configuration', link: '/getting-started/configuration' },
             { text: 'Theming', link: '/getting-started/theming' },
+            { text: 'Composing Forms', link: '/getting-started/composing-forms' },
             { text: 'Option Extractors', link: '/getting-started/option-extractors' },
           ],
         },

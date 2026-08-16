@@ -61,7 +61,8 @@ const statuses = {
 
 ### Grouped Options
 
-For Select and Autocomplete only. Creates `<optgroup>` elements.
+For Select and Autocomplete only. Select renders native `<optgroup>` elements; Autocomplete renders
+a heading above each group's options, and drops the heading when filtering empties the group.
 
 ```typescript
 const vehicles = [
@@ -159,6 +160,41 @@ By default, option values are strings. Use the `type` prop to parse values as di
 ```
 
 Supported types: `string` (default), `number`, `boolean`, `date`
+
+`type` works the same way in `Select`, `RadioGroup`, `RadioButtonGroup` and `CheckboxGroup`. For
+`CheckboxGroup` it applies to every entry of the emitted array.
+
+```vue
+<!-- selectedIds is number[], not string[] -->
+<CheckboxGroup v-model="selectedIds" :options="[1, 2, 3]" type="number" />
+```
+
+`Autocomplete` is the exception: its `v-model` is the search text the user typed, not an option
+value, so it has no `type` or `value-parser`. Take the typed value from the `select` event, whose
+payload carries the original item in `data`:
+
+```vue
+<Autocomplete v-model="search" :options="users" option-label="name" @select="(o) => (userId = o.data.id)" />
+```
+
+### Custom Value Parsers
+
+When the four built-in types are not enough — an object identity, a custom date format, a branded
+id — pass a `value-parser` instead. It is a `stringify` / `parse` pair: `stringify` produces the
+value the DOM works with, `parse` turns it back into what your model holds.
+
+```vue
+<script setup>
+const valueParser = {
+  stringify: (user) => String(user.id),
+  parse: (id) => users.find((user) => user.id === Number(id)),
+}
+</script>
+
+<template>
+  <RadioButtonGroup v-model="assignee" :options="users" :value-parser="valueParser" option-label="name" />
+</template>
+```
 
 ## Complete Example
 

@@ -59,15 +59,53 @@ Use the `item` or `itemLabel` slot to customize how items are displayed:
 
 ## Props
 
-| Prop          | Type     | Description                                               |
-| ------------- | -------- | --------------------------------------------------------- |
-| `items`       | `any[]`  | Array of menu items                                       |
-| `cursorIndex` | `number` | Index of currently focused item (for keyboard navigation) |
+| Prop             | Type                                            | Description                                                        |
+| ---------------- | ----------------------------------------------- | ------------------------------------------------------------------ |
+| `items`          | `Item[]`                                        | Array of menu items                                                |
+| `cursorIndex`    | `number`                                        | Index of the currently highlighted item (for keyboard navigation)  |
+| `itemDisabled`   | `(item, index) => boolean`                      | Marks an item unavailable: renders it disabled and emits no click  |
+| `itemGroupLabel` | `(item, index) => string \| undefined`          | Groups consecutive items under a heading                           |
+| `listRole`       | `'listbox' \| 'menu'`                           | ARIA role for the list element                                     |
+| `listId`         | `string`                                        | Id of the list element, referenced by a combobox via `aria-controls` |
+| `optionIdPrefix` | `string`                                        | Prefix for per-option ids, used for `aria-activedescendant`        |
+
+## Slots
+
+| Slot         | Description                                                            |
+| ------------ | ---------------------------------------------------------------------- |
+| `item`       | Replaces the whole item, button included. Props: `{ item, index, cursorIndex }` |
+| `itemLabel`  | Replaces only the item's label, keeping the button. Props: `{ item, index, cursorIndex }` |
+| `groupLabel` | Replaces a group heading. Props: `{ label }`                           |
 
 ## Events
 
-| Event            | Payload           | Description                       |
-| ---------------- | ----------------- | --------------------------------- |
-| `itemClick`      | `{ item, index }` | Emitted when an item is clicked   |
-| `itemMouseenter` | `{ item, index }` | Emitted when mouse enters an item |
-| `itemMouseleave` | `{ item, index }` | Emitted when mouse leaves an item |
+| Event             | Payload           | Description                       |
+| ----------------- | ----------------- | --------------------------------- |
+| `item-click`      | `{ item, index }` | Emitted when an item is clicked   |
+| `item-mouseenter` | `{ item, index }` | Emitted when mouse enters an item |
+| `item-mouseleave` | `{ item, index }` | Emitted when mouse leaves an item |
+
+## Disabled Items
+
+`itemDisabled` receives each item and returns whether it is unavailable. Disabled items render as
+natively disabled buttons, are marked `aria-disabled`, and emit no `item-click`.
+
+```vue
+<DropdownMenu :items="actions" :item-disabled="(action) => !action.allowed" @item-click="run" />
+```
+
+## Grouping
+
+`itemGroupLabel` renders a heading wherever the label changes. Items are expected to arrive already
+ordered by group — a group split across the list renders its heading twice.
+
+```vue
+<DropdownMenu :items="options" :item-group-label="(option) => option.category">
+  <template #groupLabel="{ label }">
+    <Icon name="folder" /> {{ label }}
+  </template>
+</DropdownMenu>
+```
+
+Indices stay contiguous across the headings, so `cursorIndex`, `optionIdPrefix` and the emitted
+payloads keep pointing at the item's position in `items`, not at its rendered row.

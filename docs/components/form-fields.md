@@ -3,6 +3,10 @@
 Dynamic form generator that renders fields from a configuration array.
 Supports vertical/horizontal layouts, nested rows, dividers, and validation integration.
 
+::: tip Composition
+Generates a form from a config array. For how it relates to `FormGroup` and the bare inputs, see [Composing Forms](/getting-started/composing-forms).
+:::
+
 ## Import
 
 ```typescript

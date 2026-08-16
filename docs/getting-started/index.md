@@ -70,4 +70,6 @@ const name = ref('')
 
 - [Configuration](/getting-started/configuration) - Configure global options
 - [Theming](/getting-started/theming) - Customize the look and feel
+- [Composing Forms](/getting-started/composing-forms) - Build forms from the atomic components, or generate them
+- [Option Extractors](/getting-started/option-extractors) - The shared data API behind every option component
 - [Components](/components/) - Explore all available components

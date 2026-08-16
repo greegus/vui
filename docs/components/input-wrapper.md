@@ -3,6 +3,10 @@
 Base wrapper component for input styling. Used internally by Input, Select, Autocomplete.
 Provides consistent styling, icon slots, and size variants across all input components.
 
+::: tip Composition
+The chrome shared by the built-in inputs — use it to build your own. See [Composing Forms](/getting-started/composing-forms).
+:::
+
 ## Import
 
 ```typescript

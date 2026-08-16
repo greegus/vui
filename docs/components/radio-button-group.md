@@ -3,6 +3,10 @@
 Button-styled radio group for single selection with visual button appearance.
 Each option is rendered as a Button within a ButtonGroup.
 
+::: tip Shared option API
+Accepts the shared option formats — primitive arrays, object arrays with extractors and key-value objects. See [Option Extractors](/getting-started/option-extractors).
+:::
+
 ## Import
 
 ```typescript
