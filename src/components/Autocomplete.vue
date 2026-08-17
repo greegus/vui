@@ -15,6 +15,10 @@
         :disabled="$props.disabled"
         :prefixIcon="$props.prefixIcon"
         :suffixIcon="$props.suffixIcon"
+        :prefixIconLabel="$props.prefixIconLabel"
+        :suffixIconLabel="$props.suffixIconLabel"
+        :prefixIconClickable="$props.prefixIconClickable"
+        :suffixIconClickable="$props.suffixIconClickable"
         :pill="$props.pill"
         @click="inputElement?.focus()"
         @prefix-icon-click="$emit('prefix-icon-click')"
@@ -58,8 +62,8 @@
         listRole="listbox"
         :listId="listboxId"
         :optionIdPrefix="optionIdPrefix"
-        :itemDisabled="(option) => Boolean(option.disabled)"
-        :itemGroupLabel="(option) => option.group"
+        :itemDisabled="isOptionDisabled"
+        :itemGroupLabel="optionGroupLabel"
         @item-click="handleOptionSelect"
         @item-mouseenter="({ index }) => (cursorIndex = index)"
       >
@@ -205,6 +209,11 @@ import { normalizeGroups, normalizeOptions } from '@/utils/normalizeOptions'
 
 export type AutocompleteFilterFn<T = any> = (option: Option<T>, query: string) => boolean
 
+// Stable identities: an inline arrow in the template would be a new prop on every render, which
+// would invalidate DropdownMenu's row list on every keystroke.
+const isOptionDisabled = (option: Option): boolean => Boolean(option.disabled)
+const optionGroupLabel = (option: Option): string | undefined => option.group
+
 const modelValue = defineModel<string>({ default: '' })
 
 const props = withDefaults(
@@ -275,9 +284,9 @@ const normalizedOptions = computed<Option<T>[]>(() => {
       modelValue.value,
     )
     // Flattened into a single list so that filtering, cursor navigation and aria-activedescendant
-    // keep working on plain indices; each option carries its group label so the dropdown can
-    // still render a heading per group.
-    return groups.flatMap((group) => group.options.map((option) => ({ ...option, group: group.label })))
+    // keep working on plain indices. `normalizeGroups` has tagged each option with its group, so
+    // the dropdown can still render a heading per group.
+    return groups.flatMap((group) => group.options)
   }
 
   return normalizeOptions(props.options, extractors, modelValue.value)

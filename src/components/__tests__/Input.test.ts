@@ -55,10 +55,32 @@ describe('Input', () => {
   })
 
   it('emits suffix-icon-click when the suffix icon is clicked', async () => {
-    const wrapper = mount(Input, { props: { suffixIcon: 'x-mark' } })
+    const wrapper = mount(Input, { props: { suffixIcon: 'x-mark', suffixIconClickable: true } })
 
     await wrapper.find('.vuiii-input__suffix-icon').trigger('click')
 
     expect(wrapper.emitted('suffix-icon-click')).toHaveLength(1)
+  })
+
+  describe('icon props forwarded to InputWrapper', () => {
+    it('renders a decorative icon as a plain element, not a button', () => {
+      const wrapper = mount(Input, { props: { prefixIcon: 'search' } })
+
+      expect(wrapper.find('.vuiii-input__prefix-icon').element.tagName).not.toBe('BUTTON')
+    })
+
+    it('renders an icon marked clickable as a button', () => {
+      const wrapper = mount(Input, { props: { suffixIcon: 'x', suffixIconClickable: true } })
+
+      expect(wrapper.find('.vuiii-input__suffix-icon').element.tagName).toBe('BUTTON')
+    })
+
+    it('forwards the accessible label of a clickable icon', () => {
+      const wrapper = mount(Input, {
+        props: { suffixIcon: 'x', suffixIconClickable: true, suffixIconLabel: 'Clear' },
+      })
+
+      expect(wrapper.find('.vuiii-input__suffix-icon').attributes('aria-label')).toBe('Clear')
+    })
   })
 })

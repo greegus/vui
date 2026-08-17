@@ -135,15 +135,59 @@ describe('InputWrapper', () => {
     expect(wrapper.find('.custom-suffix').exists()).toBe(true)
   })
 
-  it('renders a clickable suffix icon as a labelled button when a listener is attached', () => {
-    const wrapper = mount(InputWrapper, {
-      props: { suffixIcon: 'x', suffixIconLabel: 'Clear', onSuffixIconClick: () => {} },
-      slots,
+  describe('clickable icons', () => {
+    it('renders a suffix icon marked clickable as a labelled button', () => {
+      const wrapper = mount(InputWrapper, {
+        props: { suffixIcon: 'x', suffixIconClickable: true, suffixIconLabel: 'Clear' },
+        slots,
+      })
+
+      const suffix = wrapper.find('.vuiii-input__suffix-icon')
+
+      expect(suffix.element.tagName).toBe('BUTTON')
+      expect(suffix.attributes('aria-label')).toBe('Clear')
     })
 
-    const suffix = wrapper.find('.vuiii-input__suffix-icon')
+    it('falls back to the icon name as the accessible label', () => {
+      const wrapper = mount(InputWrapper, {
+        props: { suffixIcon: 'x', suffixIconClickable: true },
+        slots,
+      })
 
-    expect(suffix.element.tagName).toBe('BUTTON')
-    expect(suffix.attributes('aria-label')).toBe('Clear')
+      expect(wrapper.find('.vuiii-input__suffix-icon').attributes('aria-label')).toBe('x')
+    })
+
+    it('emits suffix-icon-click when the button is pressed', async () => {
+      const wrapper = mount(InputWrapper, {
+        props: { suffixIcon: 'x', suffixIconClickable: true },
+        slots,
+      })
+
+      await wrapper.find('.vuiii-input__suffix-icon').trigger('click')
+
+      expect(wrapper.emitted('suffix-icon-click')).toHaveLength(1)
+    })
+
+    it('leaves a decorative icon out of the tab order, even with a listener attached', () => {
+      const wrapper = mount(InputWrapper, {
+        props: { suffixIcon: 'x', onSuffixIconClick: () => {} },
+        slots,
+      })
+
+      const suffix = wrapper.find('.vuiii-input__suffix-icon')
+
+      expect(suffix.element.tagName).not.toBe('BUTTON')
+      expect(suffix.attributes('aria-label')).toBeUndefined()
+    })
+
+    it('marks the prefix icon independently of the suffix icon', () => {
+      const wrapper = mount(InputWrapper, {
+        props: { prefixIcon: 'search', prefixIconClickable: true, suffixIcon: 'x' },
+        slots,
+      })
+
+      expect(wrapper.find('.vuiii-input__prefix-icon').element.tagName).toBe('BUTTON')
+      expect(wrapper.find('.vuiii-input__suffix-icon').element.tagName).not.toBe('BUTTON')
+    })
   })
 })

@@ -6,6 +6,8 @@
     :invalid="$props.invalid"
     :disabled="$props.disabled"
     :prefix-icon="$props.prefixIcon"
+    :prefix-icon-label="$props.prefixIconLabel"
+    :prefix-icon-clickable="$props.prefixIconClickable"
     @click="textareaElement.focus()"
     @prefix-icon-click="$emit('prefix-icon-click')"
   >

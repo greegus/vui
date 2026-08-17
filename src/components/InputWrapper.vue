@@ -64,9 +64,11 @@
  * </InputWrapper>
  *
  * @example
- * // With clickable icons
+ * // With a clickable icon: opt in explicitly, so decorative icons stay out of the tab order
  * <InputWrapper
- *   suffix-icon="x-mark"
+ *   suffix-icon="x"
+ *   suffix-icon-clickable
+ *   suffix-icon-label="Clear"
  *   @suffix-icon-click="clearValue"
  * >
  *   <input class="vuiii-input__nested" v-model="value" />
@@ -89,6 +91,10 @@ export type InputWrapperProps = {
   prefixIconLabel?: string
   /** Accessible label for a clickable suffix icon (falls back to the icon name). */
   suffixIconLabel?: string
+  /** Renders the prefix icon as a focusable button that emits `prefix-icon-click`. */
+  prefixIconClickable?: boolean
+  /** Renders the suffix icon as a focusable button that emits `suffix-icon-click`. */
+  suffixIconClickable?: boolean
   size?: InputSize
   invalid?: boolean
   pill?: boolean
@@ -112,7 +118,7 @@ export default {
 
 <script lang="ts" setup>
 import '@/assets/css/input.css'
-import { computed, getCurrentInstance, useAttrs, useSlots } from 'vue'
+import { computed, useSlots } from 'vue'
 
 import Icon from '@/components/Icon.vue'
 
@@ -130,17 +136,16 @@ defineSlots<{
   suffix?: void
 }>()
 
-const attrs = useAttrs()
 const slots = useSlots()
-const instance = getCurrentInstance()
 
 /**
- * Read off the raw vnode props rather than `useAttrs()`: because both events are declared in
- * `defineEmits`, Vue removes their listeners from `$attrs`, which would leave these flags
- * permanently false and the icons rendered as plain, unfocusable elements.
+ * Declared rather than inferred from an attached listener. Inferring it cannot work through the
+ * components that wrap this one — `Input`, `Textarea` and `Autocomplete` re-emit both events
+ * unconditionally, so every icon would look interactive — and a decorative icon must stay out of
+ * the tab order.
  */
-const isPrefixIconClickable = computed<boolean>(() => Boolean(instance?.vnode.props?.onPrefixIconClick))
-const isSuffixIconClickable = computed<boolean>(() => Boolean(instance?.vnode.props?.onSuffixIconClick))
+const isPrefixIconClickable = computed<boolean>(() => Boolean(props.prefixIconClickable))
+const isSuffixIconClickable = computed<boolean>(() => Boolean(props.suffixIconClickable))
 </script>
 
 <style scoped>

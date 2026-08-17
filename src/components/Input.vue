@@ -2,6 +2,10 @@
   <InputWrapper
     :prefix-icon="$props.prefixIcon"
     :suffix-icon="$props.suffixIcon"
+    :prefix-icon-label="$props.prefixIconLabel"
+    :suffix-icon-label="$props.suffixIconLabel"
+    :prefix-icon-clickable="$props.prefixIconClickable"
+    :suffix-icon-clickable="$props.suffixIconClickable"
     :size="$props.size"
     :invalid="$props.invalid"
     :pill="$props.pill"

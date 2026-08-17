@@ -47,6 +47,8 @@ const amount = ref('')
 | ----------------- | -------------------------------- | ---------- | ---------------------------------------------------- |
 | `prefixIcon`      | `string`                         | -          | Icon name shown before the control                   |
 | `suffixIcon`      | `string`                         | -          | Icon name shown after the control                    |
+| `prefixIconClickable` | `boolean`                    | `false`    | Renders the prefix icon as a focusable button        |
+| `suffixIconClickable` | `boolean`                    | `false`    | Renders the suffix icon as a focusable button        |
 | `prefixIconLabel` | `string`                         | -          | Accessible label for a clickable prefix icon         |
 | `suffixIconLabel` | `string`                         | -          | Accessible label for a clickable suffix icon         |
 | `size`            | `'small' \| 'normal' \| 'large'` | `'normal'` | Control size                                         |
@@ -89,14 +91,16 @@ The same props the built-in inputs expose, because they forward them straight he
 
 ## Clickable Icons
 
-An icon becomes a focusable button only when something listens for its click event — otherwise it
-stays decorative and out of the tab order. Pass a label so it is announced.
+Mark an icon `*-icon-clickable` and it renders as a focusable button; without it the icon stays
+decorative and out of the tab order. Pass a label so the button is announced — it falls back to the
+icon name, which is rarely what you want a screen reader to read out.
 
 <ComponentDemo>
   <div style="width: 100%">
     <InputWrapper
       prefix-icon="search"
       suffix-icon="x"
+      suffix-icon-clickable
       suffix-icon-label="Clear"
       @suffix-icon-click="amount = ''"
     >
@@ -109,12 +113,19 @@ stays decorative and out of the tab order. Pass a label so it is announced.
 <InputWrapper
   prefix-icon="search"
   suffix-icon="x"
+  suffix-icon-clickable
   suffix-icon-label="Clear"
   @suffix-icon-click="query = ''"
 >
   <input class="vuiii-input__nested" v-model="query" />
 </InputWrapper>
 ```
+
+::: tip Why not infer it from the listener?
+Because the components that wrap this one — `Input`, `Textarea`, `Autocomplete` — re-emit both
+events unconditionally, so a listener is always present by the time it gets here. Declaring it keeps
+decorative icons unfocusable.
+:::
 
 ## Building a Native Date Field
 

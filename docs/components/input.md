@@ -38,6 +38,8 @@ const clearable = ref('Clear me')
 | `modelValue`    | `string \| number \| Date \| null` | -         | Bound value (use with `v-model`)                  |
 | `prefixIcon`    | `string`                         | -         | Icon name to show before the input                |
 | `suffixIcon`    | `string`                         | -         | Icon name to show after the input                 |
+| `prefixIconClickable` | `boolean`                  | `false`   | Renders the prefix icon as a focusable button     |
+| `suffixIconClickable` | `boolean`                  | `false`   | Renders the suffix icon as a focusable button     |
 | `prefixIconLabel` | `string`                       | -         | Accessible label for a clickable prefix icon      |
 | `suffixIconLabel` | `string`                       | -         | Accessible label for a clickable suffix icon      |
 | `size`          | `'small' \| 'normal' \| 'large'` | `'normal'` | Input size                                        |
@@ -111,17 +113,25 @@ parsed value instead, so you do not convert on every change.
 
 ## Clickable Icons
 
-Attach a listener to `prefix-icon-click` or `suffix-icon-click` and the icon becomes a real,
-focusable button — a decorative icon stays inert. Give it a label so it is announced.
+Mark the icon `suffix-icon-clickable` (or `prefix-icon-clickable`) and it becomes a real, focusable
+button; without it the icon stays decorative and out of the tab order. Give it a label so it is
+announced.
 
 <ComponentDemo>
-  <Input v-model="clearable" suffix-icon="x" suffix-icon-label="Clear" @suffix-icon-click="clearable = ''" />
+  <Input
+    v-model="clearable"
+    suffix-icon="x"
+    suffix-icon-clickable
+    suffix-icon-label="Clear"
+    @suffix-icon-click="clearable = ''"
+  />
 </ComponentDemo>
 
 ```vue
 <Input
   v-model="query"
   suffix-icon="x"
+  suffix-icon-clickable
   suffix-icon-label="Clear"
   @suffix-icon-click="query = ''"
 />
