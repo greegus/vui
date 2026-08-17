@@ -1,7 +1,18 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
+import { defineComponent } from 'vue'
 
 import Button from '@/components/Button.vue'
+
+// Stands in for vue-router's RouterLink, which builds its own href from `to`.
+const RouterLinkStub = defineComponent({
+  props: ['to'],
+  template: '<a :href="typeof to === \'string\' ? to : JSON.stringify(to)"><slot /></a>',
+})
+
+function mountLink(props: Record<string, unknown>) {
+  return mount(Button, { props, global: { stubs: { RouterLink: RouterLinkStub } } })
+}
 
 describe('Button', () => {
   it('defaults to filled secondary', () => {
@@ -37,5 +48,43 @@ describe('Button', () => {
     const wrapper = mount(Button, { props: { label: 'Label' }, slots: { default: 'Slotted' } })
 
     expect(wrapper.text()).toBe('Slotted')
+  })
+
+  describe('as a link', () => {
+    it('renders a router-link that keeps its own href', () => {
+      const wrapper = mountLink({ to: '/about', label: 'About' })
+
+      expect(wrapper.element.tagName).toBe('A')
+      expect(wrapper.attributes('href')).toBe('/about')
+    })
+
+    it('passes a route location object through to the router link', () => {
+      const wrapper = mountLink({ to: { name: 'home' }, label: 'Home' })
+
+      expect(wrapper.attributes('href')).toBe(JSON.stringify({ name: 'home' }))
+    })
+
+    it('sets no type attribute on a router link', () => {
+      const wrapper = mountLink({ to: '/about', label: 'About' })
+
+      expect(wrapper.attributes('type')).toBeUndefined()
+    })
+
+    it('renders an anchor with href for an external link', () => {
+      const wrapper = mount(Button, { props: { href: 'https://example.com', label: 'Visit' } })
+
+      expect(wrapper.element.tagName).toBe('A')
+      expect(wrapper.attributes('href')).toBe('https://example.com')
+      expect(wrapper.attributes('type')).toBeUndefined()
+    })
+
+    it('sets no href or to attribute on a plain button', () => {
+      const wrapper = mount(Button, { props: { label: 'Plain' } })
+
+      expect(wrapper.element.tagName).toBe('BUTTON')
+      expect(wrapper.attributes('href')).toBeUndefined()
+      expect(wrapper.attributes('to')).toBeUndefined()
+      expect(wrapper.attributes('type')).toBe('button')
+    })
   })
 })

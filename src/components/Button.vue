@@ -11,10 +11,7 @@
       'vuiii-button--block': $props.block,
       'vuiii-button--pill': $props.pill,
     }"
-    v-bind="$attrs"
-    :to="component === 'router-link' ? $props.to : undefined"
-    :href="component === 'a' ? $props.href : undefined"
-    :type="component === 'button' ? $props.type : undefined"
+    v-bind="{ ...$attrs, ...elementProps }"
     :disabled="component === 'button' ? isDisabled : undefined"
     :aria-disabled="component !== 'button' && isDisabled ? 'true' : undefined"
     :tabindex="component !== 'button' && isDisabled ? -1 : undefined"
@@ -164,5 +161,23 @@ const component = computed(() => {
   }
 
   return 'button'
+})
+
+/**
+ * Only the props belonging to the element actually rendered, so the others are absent rather than
+ * present-and-undefined. It matters for `router-link`: an inherited `href` overrides the anchor
+ * href RouterLink generates for itself, leaving a link that cannot be opened in a new tab, copied,
+ * or announced with a target.
+ */
+const elementProps = computed<Record<string, unknown>>(() => {
+  if (component.value === 'router-link') {
+    return { to: props.to }
+  }
+
+  if (component.value === 'a') {
+    return { href: props.href }
+  }
+
+  return { type: props.type }
 })
 </script>
