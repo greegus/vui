@@ -52,6 +52,7 @@ export { useSubmitAction } from './composables/useSubmitAction'
 export { useValidation } from './composables/useValidation'
 export { useCloseDialog, useDialogStack } from './dialogStack'
 export { useSnackbar } from './snackbar'
+export { FORM_DIVIDER } from './types'
 export type {
   BreadcrumbItems,
   ButtonColor,
