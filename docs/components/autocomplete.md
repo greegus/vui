@@ -18,17 +18,37 @@ import { Autocomplete } from 'vuiii'
 <script setup>
 import { ref } from 'vue'
 import { Autocomplete } from '../../src'
+
+const search = ref('')
+const userSearch = ref('')
+const selectedUser = ref()
+const startsWith = ref('')
+const grouped = ref('')
+
+const users = [
+  { id: 1, name: 'John Doe', email: 'john@example.com' },
+  { id: 2, name: 'Jane Smith', email: 'jane@example.com' },
+  { id: 3, name: 'Bob Brown', email: 'bob@example.com' },
+]
+
+const startsWithFilter = (option, query) => option.label.toLowerCase().startsWith(query.toLowerCase())
+
+const groupedOptions = [
+  { category: 'Fruits', items: [{ id: 1, name: 'Apple' }, { id: 2, name: 'Banana' }] },
+  { category: 'Vegetables', items: [{ id: 3, name: 'Carrot' }, { id: 4, name: 'Cabbage' }] },
+]
 </script>
 
 <ComponentDemo storybook="components-autocomplete--default">
-  <!-- Add live demo here -->
+  <Autocomplete v-model="search" :options="['Apple', 'Banana', 'Blueberry', 'Cherry']" placeholder="Type to search" />
 </ComponentDemo>
 
 ```vue
-// Basic usage with string array import { Autocomplete } from 'vuiii'
-
-<Autocomplete v-model="search" :options="['Apple', 'Banana', 'Cherry']" />
+<Autocomplete v-model="search" :options="['Apple', 'Banana', 'Blueberry', 'Cherry']" />
 ```
+
+The `v-model` is the text in the field, not the picked option — take that from the `select` event.
+Arrow keys move through the list, Enter picks the highlighted option, and Escape closes it.
 
 ## Props
 
@@ -71,12 +91,29 @@ import { Autocomplete } from '../../src'
 | `prefix-icon-click` | -           | When the prefix icon is clicked |
 | `suffix-icon-click` | -           | When the suffix icon is clicked |
 
-## More Examples
+## Object Options
+
+`option-description` renders a second line under each suggestion. The `select` event carries the
+whole normalized option, with your original item in `data`.
+
+<ComponentDemo>
+  <div style="width: 100%">
+    <Autocomplete
+      v-model="userSearch"
+      :options="users"
+      option-label="name"
+      option-value="id"
+      option-description="email"
+      placeholder="Search users"
+      @select="(option) => (selectedUser = option.data)"
+    />
+    <div v-if="selectedUser" style="margin-top: 0.5rem; opacity: 0.7; font-size: 0.875rem">
+      Selected #{{ selectedUser.id }} — {{ selectedUser.email }}
+    </div>
+  </div>
+</ComponentDemo>
 
 ```vue
-// With object options and extractors const users = [ { id: 1, name: 'John Doe', email: 'john@example.com' }, { id: 2,
-name: 'Jane Smith', email: 'jane@example.com' } ]
-
 <Autocomplete
   v-model="search"
   :options="users"
@@ -87,14 +124,47 @@ name: 'Jane Smith', email: 'jane@example.com' } ]
 />
 ```
 
-```vue
-// With custom filter function const customFilter = (option, query) => { return option.label.startsWith(query) }
+## Custom Filter
 
-<Autocomplete v-model="search" :options="options" :filter="customFilter" />
+By default an option matches when the query appears anywhere in its label or description. Pass
+`filter` to decide yourself — here, only a prefix match counts.
+
+<ComponentDemo>
+  <Autocomplete
+    v-model="startsWith"
+    :options="['Apple', 'Banana', 'Blueberry', 'Cherry']"
+    :filter="startsWithFilter"
+    placeholder="Try &quot;b&quot;"
+  />
+</ComponentDemo>
+
+```vue
+<script setup>
+const startsWithFilter = (option, query) => option.label.toLowerCase().startsWith(query.toLowerCase())
+</script>
+
+<template>
+  <Autocomplete v-model="search" :options="options" :filter="startsWithFilter" />
+</template>
 ```
 
+Returning `true` unconditionally turns filtering off entirely — useful when the options already come
+from a server that did the searching.
+
+## Custom Option Rendering
+
+<ComponentDemo>
+  <div style="width: 100%">
+    <Autocomplete v-model="userSearch" :options="users" option-label="name" option-description="email" placeholder="Search users">
+      <template #option="{ option }">
+        <div><strong>{{ option.label }}</strong></div>
+        <small style="opacity: 0.7">{{ option.description }}</small>
+      </template>
+    </Autocomplete>
+  </div>
+</ComponentDemo>
+
 ```vue
-// With custom option rendering
 <Autocomplete v-model="search" :options="users" option-label="name">
   <template #option="{ option, isHighlighted }">
     <div :class="{ highlighted: isHighlighted }">
@@ -111,11 +181,23 @@ Pass `group-label` and `group-options` to render the options under a heading per
 still runs across every group, and a group whose options are all filtered out drops its heading
 with them. Keyboard navigation steps over the options only — headings are never focusable.
 
+<ComponentDemo>
+  <Autocomplete
+    v-model="grouped"
+    :options="groupedOptions"
+    group-label="category"
+    group-options="items"
+    option-value="id"
+    option-label="name"
+    placeholder="Type to search"
+  />
+</ComponentDemo>
+
 ```vue
 <script setup>
 const options = [
   { category: 'Fruits', items: [{ id: 1, name: 'Apple' }, { id: 2, name: 'Banana' }] },
-  { category: 'Vegetables', items: [{ id: 3, name: 'Carrot' }] }
+  { category: 'Vegetables', items: [{ id: 3, name: 'Carrot' }] },
 ]
 </script>
 

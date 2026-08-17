@@ -18,15 +18,31 @@ import { Select } from 'vuiii'
 <script setup>
 import { ref } from 'vue'
 import { Select } from '../../src'
+
+const color = ref('Green')
+const country = ref()
+const status = ref('draft')
+const vehicle = ref()
+const quantity = ref(2)
+
+const countries = [
+  { code: 'us', name: 'United States' },
+  { code: 'uk', name: 'United Kingdom' },
+]
+
+const statuses = { draft: 'Draft', published: 'Published', archived: 'Archived' }
+
+const vehicles = [
+  { category: 'Cars', items: [{ id: 1, name: 'Sedan' }, { id: 2, name: 'SUV' }] },
+  { category: 'Bikes', items: [{ id: 3, name: 'Mountain' }, { id: 4, name: 'Road' }] },
+]
 </script>
 
 <ComponentDemo storybook="components-select--default">
-  <!-- Add live demo here -->
+  <Select v-model="color" :options="['Red', 'Green', 'Blue']" />
 </ComponentDemo>
 
 ```vue
-// Basic usage with string array import { Select } from 'vuiii'
-
 <Select v-model="color" :options="['Red', 'Green', 'Blue']" />
 ```
 
@@ -55,33 +71,117 @@ import { Select } from '../../src'
 
 The Select uses `v-model` and emits no custom events.
 
-## More Examples
+## Object Options
+
+Point `option-value` and `option-label` at the properties to use. `placeholder` adds a leading empty
+option, which is how you offer "nothing selected".
+
+<ComponentDemo>
+  <Select v-model="country" :options="countries" option-value="code" option-label="name" placeholder="Select a country" />
+</ComponentDemo>
 
 ```vue
-// With object array and extractors const countries = [ { code: 'us', name: 'United States' }, { code: 'uk', name:
-'United Kingdom' } ]
+<script setup>
+const countries = [
+  { code: 'us', name: 'United States' },
+  { code: 'uk', name: 'United Kingdom' },
+]
+</script>
 
-<Select v-model="country" :options="countries" option-value="code" option-label="name" placeholder="Select a country" />
+<template>
+  <Select
+    v-model="country"
+    :options="countries"
+    option-value="code"
+    option-label="name"
+    placeholder="Select a country"
+  />
+</template>
 ```
 
-```vue
-// With key-value object options const statuses = { draft: 'Draft', published: 'Published', archived: 'Archived' }
+## Key-Value Options
 
-<Select v-model="status" :options="statuses" />
+A plain object needs no extractors — keys become values, values become labels. Handy for enums.
+
+<ComponentDemo>
+  <Select v-model="status" :options="statuses" />
+</ComponentDemo>
+
+```vue
+<script setup>
+const statuses = { draft: 'Draft', published: 'Published', archived: 'Archived' }
+</script>
+
+<template>
+  <Select v-model="status" :options="statuses" />
+</template>
 ```
 
-```vue
-// With grouped options (optgroup) const vehicles = [ { category: 'Cars', items: [{ id: 1, name: 'Sedan' }, { id: 2,
-name: 'SUV' }] }, { category: 'Bikes', items: [{ id: 3, name: 'Mountain' }, { id: 4, name: 'Road' }] } ]
+## Grouped Options
 
-<Select
-  v-model="vehicle"
-  :options="vehicles"
-  group-label="category"
-  group-options="items"
-  option-value="id"
-  option-label="name"
-/>
+`group-label` and `group-options` render native `<optgroup>` elements.
+
+<ComponentDemo>
+  <Select
+    v-model="vehicle"
+    :options="vehicles"
+    group-label="category"
+    group-options="items"
+    option-value="id"
+    option-label="name"
+    placeholder="Pick a vehicle"
+  />
+</ComponentDemo>
+
+```vue
+<script setup>
+const vehicles = [
+  { category: 'Cars', items: [{ id: 1, name: 'Sedan' }, { id: 2, name: 'SUV' }] },
+  { category: 'Bikes', items: [{ id: 3, name: 'Mountain' }, { id: 4, name: 'Road' }] },
+]
+</script>
+
+<template>
+  <Select
+    v-model="vehicle"
+    :options="vehicles"
+    group-label="category"
+    group-options="items"
+    option-value="id"
+    option-label="name"
+  />
+</template>
+```
+
+## Typed Values
+
+A native select always reports a string. `type` parses the value back, so the model keeps the type
+your options actually had.
+
+<ComponentDemo>
+  <Select v-model="quantity" :options="[1, 2, 3, 4, 5]" type="number" />
+</ComponentDemo>
+
+```vue
+<!-- quantity is a number, not '2' -->
+<Select v-model="quantity" :options="[1, 2, 3, 4, 5]" type="number" />
+```
+
+## Sizes and Validation State
+
+<ComponentDemo>
+  <div style="display: flex; flex-flow: column; gap: 0.75rem; width: 100%;">
+    <Select :options="['Red', 'Green']" size="small" />
+    <Select :options="['Red', 'Green']" size="large" />
+    <Select :options="['Red', 'Green']" invalid />
+    <Select :options="['Red', 'Green']" disabled />
+  </div>
+</ComponentDemo>
+
+```vue
+<Select v-model="color" :options="colors" size="small" />
+<Select v-model="color" :options="colors" :invalid="!!errors.color" />
+<Select v-model="color" :options="colors" disabled />
 ```
 
 ::: tip Storybook

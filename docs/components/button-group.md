@@ -8,6 +8,16 @@ Groups related buttons together with connected styling. Adjacent buttons share b
 import { ButtonGroup, Button } from 'vuiii'
 ```
 
+## Props
+
+`ButtonGroup` takes no props — it is a layout wrapper that joins the buttons you put in it.
+
+## Slots
+
+| Slot      | Description                       |
+| --------- | --------------------------------- |
+| `default` | The buttons to group together     |
+
 ## Basic Usage
 
 <script setup>

@@ -45,6 +45,7 @@ export default defineConfig({
           text: 'Form Inputs',
           items: [
             { text: 'Input', link: '/components/input' },
+            { text: 'InputWrapper', link: '/components/input-wrapper' },
             { text: 'Textarea', link: '/components/textarea' },
             { text: 'Select', link: '/components/select' },
             { text: 'Autocomplete', link: '/components/autocomplete' },
@@ -138,6 +139,13 @@ export default defineConfig({
           items: [
             { text: 'useRouteQuery', link: '/composables/use-route-query' },
             { text: 'usePageFromRouteQuery', link: '/composables/use-page-from-route-query' },
+          ],
+        },
+        {
+          text: 'Dialogs & Notifications',
+          items: [
+            { text: 'useDialogStack', link: '/composables/dialog-stack' },
+            { text: 'useSnackbar', link: '/composables/snackbar' },
           ],
         },
       ],

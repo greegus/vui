@@ -14,15 +14,18 @@ import { Textarea } from 'vuiii'
 <script setup>
 import { ref } from 'vue'
 import { Textarea } from '../../src'
+
+const description = ref('')
+const content = ref('')
+const notes = ref('')
+const bio = ref('')
 </script>
 
 <ComponentDemo storybook="components-textarea--default">
-  <!-- Add live demo here -->
+  <Textarea v-model="description" placeholder="Enter description..." />
 </ComponentDemo>
 
 ```vue
-// Basic usage import { Textarea } from 'vuiii'
-
 <Textarea v-model="description" placeholder="Enter description..." />
 ```
 
@@ -51,21 +54,76 @@ import { Textarea } from '../../src'
 | ------------------- | ------- | ------------------------------- |
 | `prefix-icon-click` | -       | When the prefix icon is clicked |
 
-## More Examples
+## Rows
+
+`rows` passes straight through to the native element, so it sets the initial height.
+
+<ComponentDemo>
+  <Textarea v-model="content" placeholder="Write your message..." rows="5" />
+</ComponentDemo>
 
 ```vue
-// With rows and placeholder
 <Textarea v-model="content" placeholder="Write your message..." rows="5" />
 ```
 
-```vue
-// With prefix icon
-<Textarea v-model="notes" prefix-icon="document-text" placeholder="Notes..." />
-```
+## With a Prefix Icon
+
+<ComponentDemo>
+  <Textarea v-model="notes" prefix-icon="pencil" placeholder="Notes..." />
+</ComponentDemo>
 
 ```vue
-// Validation state
-<Textarea v-model="bio" :invalid="errors.bio" placeholder="Bio" />
+<Textarea v-model="notes" prefix-icon="pencil" placeholder="Notes..." />
+```
+
+## Validation State
+
+`invalid` draws the error styling. Pair it with [FormGroup](/components/form-group) to show the
+message alongside it — see [Composing Forms](/getting-started/composing-forms).
+
+<ComponentDemo>
+  <Textarea v-model="bio" invalid placeholder="Bio" />
+</ComponentDemo>
+
+```vue
+<Textarea v-model="bio" :invalid="!!errors.bio" placeholder="Bio" />
+```
+
+## Sizes
+
+<ComponentDemo>
+  <div style="display: flex; flex-flow: column; gap: 0.75rem; width: 100%;">
+    <Textarea size="small" placeholder="Small" rows="2" />
+    <Textarea size="normal" placeholder="Normal" rows="2" />
+    <Textarea size="large" placeholder="Large" rows="2" />
+  </div>
+</ComponentDemo>
+
+```vue
+<Textarea v-model="value" size="small" placeholder="Small" />
+<Textarea v-model="value" size="normal" placeholder="Normal" />
+<Textarea v-model="value" size="large" placeholder="Large" />
+```
+
+## Programmatic Focus
+
+A template ref exposes `focus()` and `select()`.
+
+```vue
+<script setup>
+import { ref } from 'vue'
+import type { TextareaRef } from 'vuiii'
+
+const textareaRef = ref<TextareaRef>()
+
+function focusIt() {
+  textareaRef.value?.focus()
+}
+</script>
+
+<template>
+  <Textarea ref="textareaRef" v-model="notes" />
+</template>
 ```
 
 ::: tip Storybook

@@ -13,6 +13,27 @@ Accepts the shared option formats — primitive arrays, object arrays with extra
 import { RadioButtonGroup } from 'vuiii'
 ```
 
+## Props
+
+| Prop                | Type                                            | Default    | Description                                     |
+| ------------------- | ----------------------------------------------- | ---------- | ----------------------------------------------- |
+| `modelValue`        | `any`                                           | -          | Selected value (`v-model`)                      |
+| `options`           | `any[] \| Record<string, any>`                  | -          | Options to render as buttons                    |
+| `optionLabel`       | `string \| ((item) => any)`                     | -          | Key or function to extract the display label    |
+| `optionValue`       | `string \| ((item) => any)`                     | -          | Key or function to extract the option value     |
+| `optionDisabled`    | `string \| ((item) => any)`                     | -          | Key or function to mark an option as disabled   |
+| `optionDescription` | `string \| ((item) => any)`                     | -          | Key or function for the button's `title`         |
+| `optionIcon`        | `string \| ((item) => any)`                     | -          | Key or function to extract the prefix icon name |
+| `valueParser`       | `ValueParser<string>`                           | -          | Custom parser for option values                 |
+| `type`              | `'string' \| 'number' \| 'boolean' \| 'date'`  | `'string'` | Built-in value type parsing                     |
+| `variant`           | `'filled' \| 'outlined'`                        | `'filled'` | Render style of the active button               |
+| `size`              | `'small' \| 'normal' \| 'large'`                | `'normal'` | Button size                                     |
+| `disabled`          | `boolean`                                       | `false`    | Disables the whole group                        |
+
+## Events
+
+Exposes the selected value through `v-model` (`update:modelValue`). It emits no other custom events.
+
 ## Basic Usage
 
 <script setup>
@@ -21,7 +42,7 @@ import { RadioButtonGroup } from '../../src'
 
 const view = ref()
 const status = ref()
-const viewIcon = ref('list')
+const viewIcon = ref('asc')
 const sized = ref()
 const varianted = ref()
 </script>
@@ -109,9 +130,8 @@ Use the `option-icon` extractor to display prefix icons on each button.
   <RadioButtonGroup
     v-model="viewIcon"
     :options="[
-      { value: 'list', label: 'List', icon: 'list-bullet' },
-      { value: 'grid', label: 'Grid', icon: 'squares-2x2' },
-      { value: 'table', label: 'Table', icon: 'table-cells' }
+      { value: 'asc', label: 'Ascending', icon: 'arrow-narrow-up' },
+      { value: 'desc', label: 'Descending', icon: 'arrow-narrow-down' }
     ]"
     option-value="value"
     option-label="label"
@@ -123,9 +143,8 @@ Use the `option-icon` extractor to display prefix icons on each button.
 <RadioButtonGroup
   v-model="view"
   :options="[
-    { value: 'list', label: 'List', icon: 'list-bullet' },
-    { value: 'grid', label: 'Grid', icon: 'squares-2x2' },
-    { value: 'table', label: 'Table', icon: 'table-cells' },
+    { value: 'asc', label: 'Ascending', icon: 'arrow-narrow-up' },
+    { value: 'desc', label: 'Descending', icon: 'arrow-narrow-down' },
   ]"
   option-value="value"
   option-label="label"

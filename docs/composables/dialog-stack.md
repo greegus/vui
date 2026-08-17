@@ -6,7 +6,7 @@ Supports custom dialog components, alerts, and confirmation dialogs.
 ## Import
 
 ```typescript
-import { dialogStack } from 'vuiii'
+import { useDialogStack } from 'vuiii'
 ```
 
 ## Usage

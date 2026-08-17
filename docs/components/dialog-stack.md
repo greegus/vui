@@ -8,6 +8,11 @@ Container component for displaying modal dialogs. Add this component once at you
 import { DialogStack } from 'vuiii'
 ```
 
+## Props
+
+`DialogStack` takes no props. Mount it once at the app root; everything else goes through
+[useDialogStack](/composables/dialog-stack).
+
 ## Setup
 
 Add `DialogStack` to your app root (typically App.vue):

@@ -13,15 +13,35 @@ import { Table } from 'vuiii'
 
 <script setup>
 import { ref } from 'vue'
-import { Table } from '../../src'
+import { Table, IconButton, Icon } from '../../src'
+
+const users = [
+  { id: 1, name: 'Charlie', email: 'charlie@example.com', active: true, signedUp: new Date('2024-03-01') },
+  { id: 2, name: 'Alice', email: 'alice@example.com', active: false, signedUp: new Date('2023-11-14') },
+  { id: 3, name: 'Bob', email: 'bob@example.com', active: true, signedUp: new Date('2025-01-22') },
+]
+
+const columns = [
+  { name: 'name', label: 'Name' },
+  { name: 'email', label: 'Email' },
+]
+
+const sortableColumns = [
+  { name: 'name', label: 'Name', sortable: true },
+  { name: 'signedUp', label: 'Signed up', sortable: true, formatter: (value) => value.toLocaleDateString('en-GB') },
+]
+
+const sortColumn = ref('name')
+const sortDir = ref('asc')
+const lastClicked = ref('')
 </script>
 
 <ComponentDemo storybook="components-table--default">
-  <!-- Add live demo here -->
+  <Table :items="users" :columns="columns" />
 </ComponentDemo>
 
 ```vue
-// Basic table with typed columns
+<script setup>
 import { Table } from 'vuiii'
 import type { TableColumn } from 'vuiii'
 
@@ -29,11 +49,17 @@ type User = { id: number; name: string; email: string }
 
 const columns: TableColumn<User>[] = [
   { name: 'name', label: 'Name' },
-  { name: 'email', label: 'Email' }
+  { name: 'email', label: 'Email' },
 ]
+</script>
 
-<Table :items="users" :columns="columns" />
+<template>
+  <Table :items="users" :columns="columns" />
+</template>
 ```
+
+A column reads `item[name]` by default. Give it a `value` function to derive the cell instead, and a
+`formatter` to control how it is displayed.
 
 ## Props
 
@@ -67,43 +93,169 @@ const columns: TableColumn<User>[] = [
 | `mouseleave-row` | `{ item: T, index: number }`                | When the mouse leaves a row            |
 | `sort`           | `{ sortColumnName: string, sortDirection: 'asc' \| 'desc' }` | When sort column or direction changes  |
 
-## More Examples
+## Custom Cells
+
+`column:{name}` replaces a single column's cells. The slot name does not have to match an existing
+data property — a column named `status` with no matching field is a perfectly good place to render
+something derived.
+
+<ComponentDemo>
+  <Table :items="users" :columns="[{ name: 'name', label: 'Name' }, { name: 'status', label: 'Status' }]">
+    <template #column:name="{ value }">
+      <strong>{{ value }}</strong>
+    </template>
+    <template #column:status="{ item }">
+      <Icon :name="item.active ? 'check' : 'x'" size="small" />
+      {{ item.active ? 'Active' : 'Inactive' }}
+    </template>
+  </Table>
+</ComponentDemo>
 
 ```vue
-// With custom cell rendering via slots
 <Table :items="users" :columns="columns">
-  <template #column:name="{ item, value }">
+  <template #column:name="{ value }">
     <strong>{{ value }}</strong>
   </template>
   <template #column:status="{ item }">
-    <Badge :variant="item.active ? 'success' : 'danger'">
+    <Badge :color="item.active ? 'success' : 'danger'">
       {{ item.active ? 'Active' : 'Inactive' }}
     </Badge>
   </template>
 </Table>
 ```
 
+## Row Actions
+
+`rowOptions` adds a trailing column of per-row actions. The `tools` slot fills its header cell.
+
+<ComponentDemo>
+  <Table :items="users" :columns="columns">
+    <template #tools>Actions</template>
+    <template #rowOptions="{ item }">
+      <IconButton icon="pencil" size="small" :title="`Edit ${item.name}`" />
+      <IconButton icon="trash" size="small" color="danger" :title="`Delete ${item.name}`" />
+    </template>
+  </Table>
+</ComponentDemo>
+
 ```vue
-// With row actions (rowOptions slot)
 <Table :items="users" :columns="columns">
-  <template #rowOptions="{ item, index }">
-    <IconButton icon="pencil" @click="edit(item)" />
-    <IconButton icon="trash" @click="remove(item)" />
+  <template #tools>Actions</template>
+  <template #rowOptions="{ item }">
+    <IconButton icon="pencil" title="Edit" @click="edit(item)" />
+    <IconButton icon="trash" color="danger" title="Delete" @click="remove(item)" />
   </template>
 </Table>
 ```
 
+Clicks inside that cell do not bubble up as `click-row`, so row actions and a clickable row can
+coexist.
+
+## Sorting
+
+Mark a column `sortable` and the header becomes a button. The sort state is yours to hold, through
+`v-model:sort-column-name` and `v-model:sort-direction` — which means the table can either sort the
+rows it was given, or you can ignore its rows and refetch from a server.
+
+<ComponentDemo>
+  <div style="width: 100%">
+    <Table
+      :items="users"
+      :columns="sortableColumns"
+      v-model:sort-column-name="sortColumn"
+      v-model:sort-direction="sortDir"
+    />
+    <div style="margin-top: 0.5rem; opacity: 0.7; font-size: 0.875rem">
+      Sorted by {{ sortColumn }} ({{ sortDir }})
+    </div>
+  </div>
+</ComponentDemo>
+
 ```vue
-// With sorting (v-model for sort state)
 <Table
+  v-model:sort-column-name="sortColumn"
+  v-model:sort-direction="sortDir"
   :items="users"
   :columns="[
     { name: 'name', label: 'Name', sortable: true },
-    { name: 'createdAt', label: 'Created', sortable: true, sorter: (a, b) => a - b },
+    { name: 'signedUp', label: 'Signed up', sortable: true },
   ]"
-  v-model:sort-column-name="sortColumn"
-  v-model:sort-direction="sortDir"
 />
+```
+
+Values are compared as strings or numbers depending on their type, and empty cells are grouped at the
+end. Pass a `sorter` on the column for anything else:
+
+```ts
+{ name: 'priority', label: 'Priority', sortable: true, sorter: (a, b) => order[a] - order[b] }
+```
+
+## Row Interaction
+
+<ComponentDemo>
+  <div style="width: 100%">
+    <Table
+      :items="users"
+      :columns="columns"
+      highlight-on-hover
+      @click-row="({ item }) => (lastClicked = item.name)"
+    />
+    <div style="margin-top: 0.5rem; opacity: 0.7; font-size: 0.875rem">
+      {{ lastClicked ? `Clicked ${lastClicked}` : 'Click a row' }}
+    </div>
+  </div>
+</ComponentDemo>
+
+```vue
+<Table
+  :items="users"
+  :columns="columns"
+  highlight-on-hover
+  @click-row="({ item }) => open(item)"
+/>
+```
+
+`rowClass` accepts a function too, for styling rows by their data:
+
+```vue
+<Table :items="users" :columns="columns" :row-class="({ item }) => (item.active ? '' : 'is-muted')" />
+```
+
+## Empty State
+
+<ComponentDemo>
+  <Table :items="[]" :columns="columns" no-data-message="No users yet" />
+</ComponentDemo>
+
+```vue
+<Table :items="[]" :columns="columns" no-data-message="No users yet" />
+```
+
+Use the `noDataMessage` slot for richer content — an illustration, or a button that creates the first
+record.
+
+## Density
+
+<ComponentDemo>
+  <div style="display: flex; flex-flow: column; gap: 1.5rem; width: 100%;">
+    <Table :items="users.slice(0, 2)" :columns="columns" size="small" />
+    <Table :items="users.slice(0, 2)" :columns="columns" size="large" />
+  </div>
+</ComponentDemo>
+
+```vue
+<Table :items="users" :columns="columns" size="small" />
+<Table :items="users" :columns="columns" size="large" />
+```
+
+## Linked Cells
+
+Give a column an `href` and its cells render as router links.
+
+```ts
+const columns: TableColumn<User>[] = [
+  { name: 'name', label: 'Name', href: (user) => ({ name: 'user', params: { id: user.id } }) },
+]
 ```
 
 ::: tip Storybook

@@ -14,15 +14,19 @@ import { Checkbox } from 'vuiii'
 <script setup>
 import { ref } from 'vue'
 import { Checkbox } from '../../src'
+
+const accepted = ref(false)
+const enabled = ref(true)
+const newsletter = ref(false)
+const partial = ref(false)
+const sized = ref(true)
 </script>
 
 <ComponentDemo storybook="components-checkbox--default">
-  <!-- Add live demo here -->
+  <Checkbox v-model="accepted" label="I accept the terms" />
 </ComponentDemo>
 
 ```vue
-// Basic usage import { Checkbox } from 'vuiii'
-
 <Checkbox v-model="accepted" label="I accept the terms" />
 ```
 
@@ -52,22 +56,82 @@ import { Checkbox } from '../../src'
 The Checkbox exposes its checked state through `v-model` (`update:modelValue`). It emits no other
 custom events.
 
-## More Examples
+## Switch Variant
+
+The `switch` prop restyles the same control as a toggle. It stays a native checkbox underneath, so
+keyboard behaviour and form semantics are unchanged — pick it when the setting takes effect
+immediately rather than on submit.
+
+<ComponentDemo storybook="components-checkbox--switch">
+  <Checkbox v-model="enabled" switch label="Enable notifications" />
+</ComponentDemo>
 
 ```vue
-// Switch variant (toggle)
 <Checkbox v-model="enabled" switch label="Enable notifications" />
 ```
 
+## With a Description
+
+<ComponentDemo>
+  <Checkbox v-model="newsletter" label="Subscribe to newsletter" description="Get weekly updates about new features" />
+</ComponentDemo>
+
 ```vue
-// With description
 <Checkbox v-model="newsletter" label="Subscribe to newsletter" description="Get weekly updates about new features" />
 ```
 
+## Indeterminate
+
+Use `indeterminate` for a parent checkbox whose children are partly selected. It is a visual state
+only — the bound value stays whatever it was, so drive it from your own logic.
+
+<ComponentDemo>
+  <Checkbox v-model="partial" indeterminate label="Some permissions selected" />
+</ComponentDemo>
+
 ```vue
-// Required checkbox
-<Checkbox v-model="terms" required label="I agree to the terms" />
+<Checkbox
+  v-model="allSelected"
+  :indeterminate="someSelected && !allSelected"
+  label="Select all"
+/>
 ```
+
+## Sizes
+
+<ComponentDemo>
+  <div style="display: flex; flex-flow: column; gap: 0.75rem;">
+    <Checkbox v-model="sized" size="small" label="Small" />
+    <Checkbox v-model="sized" size="normal" label="Normal" />
+    <Checkbox v-model="sized" size="large" label="Large" />
+  </div>
+</ComponentDemo>
+
+```vue
+<Checkbox v-model="value" size="small" label="Small" />
+<Checkbox v-model="value" size="normal" label="Normal" />
+<Checkbox v-model="value" size="large" label="Large" />
+```
+
+## Required and Disabled
+
+<ComponentDemo>
+  <div style="display: flex; flex-flow: column; gap: 0.75rem;">
+    <Checkbox v-model="accepted" required label="I agree to the terms" />
+    <Checkbox :model-value="true" disabled label="Managed by your administrator" />
+  </div>
+</ComponentDemo>
+
+```vue
+<Checkbox v-model="terms" required label="I agree to the terms" />
+<Checkbox :model-value="true" disabled label="Managed by your administrator" />
+```
+
+## Multiple Checkboxes
+
+For a list of options driven by data, reach for
+[CheckboxGroup](/components/checkbox-group) instead of repeating `Checkbox` by hand — it
+normalizes the options and emits an array.
 
 ::: tip Storybook
 For interactive examples with all variants, see [Checkbox in Storybook](https://greegus.github.io/vuiii/storybook/?path=/docs/components-checkbox--docs).

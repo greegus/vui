@@ -18,17 +18,28 @@ import { CheckboxGroup } from 'vuiii'
 <script setup>
 import { ref } from 'vue'
 import { CheckboxGroup } from '../../src'
+
+const selectedFruits = ref(['Apple'])
+const selectedPermissions = ref(['read'])
+const selectedInline = ref([])
+const selectedIds = ref([1])
+
+const permissions = [
+  { id: 'read', name: 'Read', info: 'View content' },
+  { id: 'write', name: 'Write', info: 'Edit content' },
+  { id: 'delete', name: 'Delete', info: 'Remove content' },
+]
 </script>
 
 <ComponentDemo storybook="components-checkboxgroup--default">
-  <!-- Add live demo here -->
+  <CheckboxGroup v-model="selectedFruits" :options="['Apple', 'Banana', 'Cherry']" />
 </ComponentDemo>
 
 ```vue
-// Basic usage with string array import { CheckboxGroup } from 'vuiii'
-
 <CheckboxGroup v-model="selectedFruits" :options="['Apple', 'Banana', 'Cherry']" />
 ```
+
+The model is always an array holding the values of the checked options.
 
 ## Props
 
@@ -56,28 +67,66 @@ import { CheckboxGroup } from '../../src'
 The CheckboxGroup exposes the selected values through `v-model` (`update:modelValue`). It emits no
 other custom events.
 
-## More Examples
+## With Descriptions
+
+<ComponentDemo>
+  <CheckboxGroup
+    v-model="selectedPermissions"
+    :options="permissions"
+    option-value="id"
+    option-label="name"
+    option-description="info"
+  />
+</ComponentDemo>
 
 ```vue
-// With object options and extractors const permissions = [ { id: 'read', name: 'Read', info: 'View content' }, { id:
-'write', name: 'Write', info: 'Edit content' }, { id: 'delete', name: 'Delete', info: 'Remove content' } ]
+<script setup>
+const permissions = [
+  { id: 'read', name: 'Read', info: 'View content' },
+  { id: 'write', name: 'Write', info: 'Edit content' },
+  { id: 'delete', name: 'Delete', info: 'Remove content' },
+]
+</script>
 
-<CheckboxGroup
-  v-model="selectedPermissions"
-  :options="permissions"
-  option-value="id"
-  option-label="name"
-  option-description="info"
-/>
+<template>
+  <CheckboxGroup
+    v-model="selectedPermissions"
+    :options="permissions"
+    option-value="id"
+    option-label="name"
+    option-description="info"
+  />
+</template>
 ```
 
+## Inline Layout
+
+<ComponentDemo>
+  <CheckboxGroup v-model="selectedInline" :options="['Option A', 'Option B', 'Option C']" inline />
+</ComponentDemo>
+
 ```vue
-// Inline layout (horizontal)
 <CheckboxGroup v-model="selected" :options="['Option A', 'Option B', 'Option C']" inline />
 ```
 
+## Typed Values
+
+`type` applies to every entry of the array, so a numeric model stays numeric both ways — the emitted
+values and the ones matched against the options.
+
+<ComponentDemo>
+  <CheckboxGroup
+    v-model="selectedIds"
+    :options="[{ id: 1, name: 'One' }, { id: 2, name: 'Two' }, { id: 3, name: 'Three' }]"
+    option-value="id"
+    option-label="name"
+    type="number"
+    inline
+  />
+</ComponentDemo>
+
 ```vue
-// With type parsing (values will be numbers)
+<!-- selectedIds is number[], and a model of [1] checks the first option -->
 <CheckboxGroup
   v-model="selectedIds"
   :options="[
@@ -89,6 +138,33 @@ other custom events.
   type="number"
 />
 ```
+
+## Disabled Options
+
+<ComponentDemo>
+  <CheckboxGroup
+    :model-value="[]"
+    :options="[{ id: 'a', name: 'Available' }, { id: 'b', name: 'Locked', locked: true }]"
+    option-value="id"
+    option-label="name"
+    option-disabled="locked"
+  />
+</ComponentDemo>
+
+```vue
+<CheckboxGroup
+  v-model="selected"
+  :options="options"
+  option-value="id"
+  option-label="name"
+  option-disabled="locked"
+/>
+```
+
+## A Single Checkbox
+
+For one standalone boolean, use [Checkbox](/components/checkbox) — it binds a boolean rather than an
+array.
 
 ::: tip Storybook
 For interactive examples with all variants, see [CheckboxGroup in Storybook](https://greegus.github.io/vuiii/storybook/?path=/docs/components-checkboxgroup--docs).

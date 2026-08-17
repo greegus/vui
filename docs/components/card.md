@@ -80,14 +80,14 @@ Use the `title` slot to render richer content in place of the plain title text.
 
 <ComponentDemo>
   <Card>
-    <template #title><Icon name="star" /> Featured</template>
+    <template #title><Icon name="exclamation" /> Needs attention</template>
     Card body content
   </Card>
 </ComponentDemo>
 
 ```vue
 <Card>
-  <template #title><Icon name="star" /> Featured</template>
+  <template #title><Icon name="exclamation" /> Needs attention</template>
   Card body content
 </Card>
 ```

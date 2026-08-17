@@ -18,15 +18,24 @@ import { RadioGroup } from 'vuiii'
 <script setup>
 import { ref } from 'vue'
 import { RadioGroup } from '../../src'
+
+const color = ref('Green')
+const selectedPlan = ref('pro')
+const size = ref('Medium')
+const quantity = ref(2)
+
+const plans = [
+  { id: 'free', name: 'Free', info: '0$/month' },
+  { id: 'pro', name: 'Pro', info: '10$/month' },
+  { id: 'enterprise', name: 'Enterprise', info: 'Contact us' },
+]
 </script>
 
 <ComponentDemo storybook="components-radiogroup--default">
-  <!-- Add live demo here -->
+  <RadioGroup v-model="color" :options="['Red', 'Green', 'Blue']" />
 </ComponentDemo>
 
 ```vue
-// Basic usage with string array import { RadioGroup } from 'vuiii'
-
 <RadioGroup v-model="color" :options="['Red', 'Green', 'Blue']" />
 ```
 
@@ -58,24 +67,83 @@ import { RadioGroup } from '../../src'
 The RadioGroup exposes the selected value through `v-model` (`update:modelValue`). It emits no other
 custom events.
 
-## More Examples
+## With Descriptions
+
+`option-description` renders a second line under each label — the reason to pick a radio group over
+a select when the choices need explaining.
+
+<ComponentDemo>
+  <RadioGroup v-model="selectedPlan" :options="plans" option-value="id" option-label="name" option-description="info" />
+</ComponentDemo>
 
 ```vue
-// With object options and extractors const plans = [ { id: 'free', name: 'Free', info: '0$/month' }, { id: 'pro', name:
-'Pro', info: '10$/month' }, { id: 'enterprise', name: 'Enterprise', info: 'Contact us' } ]
+<script setup>
+const plans = [
+  { id: 'free', name: 'Free', info: '0$/month' },
+  { id: 'pro', name: 'Pro', info: '10$/month' },
+  { id: 'enterprise', name: 'Enterprise', info: 'Contact us' },
+]
+</script>
 
-<RadioGroup v-model="selectedPlan" :options="plans" option-value="id" option-label="name" option-description="info" />
+<template>
+  <RadioGroup
+    v-model="selectedPlan"
+    :options="plans"
+    option-value="id"
+    option-label="name"
+    option-description="info"
+  />
+</template>
 ```
 
+## Inline Layout
+
+<ComponentDemo>
+  <RadioGroup v-model="size" :options="['Small', 'Medium', 'Large']" inline />
+</ComponentDemo>
+
 ```vue
-// Inline layout (horizontal)
 <RadioGroup v-model="size" :options="['Small', 'Medium', 'Large']" inline />
 ```
 
+## Typed Values
+
+<ComponentDemo>
+  <RadioGroup v-model="quantity" :options="[1, 2, 3, 4, 5]" type="number" inline />
+</ComponentDemo>
+
 ```vue
-// With type parsing
+<!-- quantity is a number, not '2' -->
 <RadioGroup v-model="quantity" :options="[1, 2, 3, 4, 5]" type="number" />
 ```
+
+## Disabled Options
+
+`option-disabled` marks individual options; the `disabled` prop covers the whole group.
+
+<ComponentDemo>
+  <RadioGroup
+    :options="[{ id: 'a', name: 'Available' }, { id: 'b', name: 'Sold out', soldOut: true }]"
+    option-value="id"
+    option-label="name"
+    option-disabled="soldOut"
+  />
+</ComponentDemo>
+
+```vue
+<RadioGroup
+  v-model="choice"
+  :options="options"
+  option-value="id"
+  option-label="name"
+  option-disabled="soldOut"
+/>
+```
+
+## As a Button Group
+
+For the same single choice rendered as a row of buttons, see
+[RadioButtonGroup](/components/radio-button-group) — same option API, different presentation.
 
 ::: tip Storybook
 For interactive examples with all variants, see [RadioGroup in Storybook](https://greegus.github.io/vuiii/storybook/?path=/docs/components-radiogroup--docs).

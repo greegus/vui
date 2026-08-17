@@ -6,7 +6,7 @@ Messages auto-dismiss after a configurable duration (default 7 seconds).
 ## Import
 
 ```typescript
-import { snackbar } from 'vuiii'
+import { useSnackbar } from 'vuiii'
 ```
 
 ## Usage

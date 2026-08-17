@@ -8,6 +8,11 @@ Container component for displaying toast notifications. Add this component once 
 import { SnackbarStack } from 'vuiii'
 ```
 
+## Props
+
+`SnackbarStack` takes no props. Mount it once at the app root; everything else goes through
+[useSnackbar](/composables/snackbar).
+
 ## Setup
 
 Add `SnackbarStack` to your app root (typically App.vue):

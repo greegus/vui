@@ -103,14 +103,14 @@ The Button forwards native events (`click`, etc.) to the rendered element (`<but
 
 <ComponentDemo>
   <Button prefixIcon="plus" label="Add Item" />
-  <Button label="Download" suffixIcon="arrow-down" />
-  <Button prefixIcon="save" suffixIcon="chevron-down" label="Save" />
+  <Button label="Download" suffixIcon="arrow-narrow-down" />
+  <Button prefixIcon="check" suffixIcon="chevron-down" label="Save" />
 </ComponentDemo>
 
 ```vue
 <Button prefixIcon="plus" label="Add Item" />
-<Button label="Download" suffixIcon="arrow-down" />
-<Button prefixIcon="save" suffixIcon="chevron-down" label="Save" />
+<Button label="Download" suffixIcon="arrow-narrow-down" />
+<Button prefixIcon="check" suffixIcon="chevron-down" label="Save" />
 ```
 
 ### Different Sizes
