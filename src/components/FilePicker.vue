@@ -111,16 +111,9 @@ function handleFileChange(event: Event) {
   input.value = ''
 }
 
-// Exposed as getters so that `accept` / `multiple` are read at drop time rather than
-// snapshotted here at setup, which would ignore any later prop change.
-useDropArea(pickerOpener, (files) => emit('files', files), {
-  get accept() {
-    return props.accept
-  },
-  get multiple() {
-    return props.multiple
-  },
-})
+// `props` itself is the reactive source, so `accept` / `multiple` are read at drop time rather
+// than snapshotted here at setup, which would ignore any later prop change.
+useDropArea(pickerOpener, (files) => emit('files', files), props)
 </script>
 
 <style scoped>

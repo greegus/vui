@@ -21,17 +21,17 @@
         :label="item.label"
         :description="item.description"
         :hint="item.hint"
-        :required="normalizeRequired(item)"
+        :required="resolvedFields.get(item.name)?.required"
         :error="props.validationResults?.[item.name]?.errorMessage || props.validationResults?.[item.name]?.isInvalid"
       >
-        <slot :name="`field:${String(item.name)}`" v-bind="{ ...item, index }">
+        <slot :name="`field:${String(item.name)}`" v-bind="{ ...item, ...resolvedFields.get(item.name), index }">
           <component
             :is="item.component"
             :id="fieldId(item.name)"
             :model-value="getFieldValue(item.name)"
-            v-bind="resolveIfComputed(item.props)"
-            :required="normalizeRequired(item)"
-            :disabled="normalizeDisabled(item)"
+            v-bind="resolvedFields.get(item.name)?.props"
+            :required="resolvedFields.get(item.name)?.required"
+            :disabled="resolvedFields.get(item.name)?.disabled"
             :invalid="props.validationResults?.[item.name]?.isInvalid"
             @update:model-value="setFieldValue(item.name, $event)"
           />
@@ -167,16 +167,6 @@ const getItemKey = (item: FormFieldOrRow<Data>, index: number): string => {
   return String(item.name)
 }
 
-// Helper to normalize required prop
-const normalizeRequired = (field: FormField<Data>): boolean => {
-  return Boolean(resolveIfComputed(field.required))
-}
-
-// Helper to normalize disabled prop
-const normalizeDisabled = (field: FormField<Data>): boolean => {
-  return Boolean(resolveIfComputed(field.disabled))
-}
-
 const fieldsByName = computed(() => {
   const flatFields: FormField<Data>[] = []
   props.fields.forEach((item) => {
@@ -188,6 +178,29 @@ const fieldsByName = computed(() => {
     // Skip dividers - they don't have values
   })
   return new Map<FormField<Data>['name'], FormField<Data>>(flatFields.map((field) => [field.name, field]))
+})
+
+/**
+ * `props`, `required` and `disabled` resolved once per field per render — the template reads each
+ * of them more than once, and a freshly built `props` object on every read would make the rendered
+ * control see changed props every time. Also what the `field:{name}` slot receives, so a consumer
+ * rendering a field themselves gets resolved values rather than the raw callbacks.
+ */
+const resolvedFields = computed(() => {
+  const resolved = new Map<
+    FormField<Data>['name'],
+    { props?: Record<string, unknown>; required: boolean; disabled: boolean }
+  >()
+
+  fieldsByName.value.forEach((field, name) =>
+    resolved.set(name, {
+      props: resolveIfComputed(field.props),
+      required: Boolean(resolveIfComputed(field.required)),
+      disabled: Boolean(resolveIfComputed(field.disabled)),
+    }),
+  )
+
+  return resolved
 })
 
 const getFieldValue = (name: FormField<Data>['name']): unknown => {

@@ -12,9 +12,6 @@
       'vuiii-button--pill': $props.pill,
     }"
     v-bind="{ ...$attrs, ...elementProps }"
-    :disabled="component === 'button' ? isDisabled : undefined"
-    :aria-disabled="component !== 'button' && isDisabled ? 'true' : undefined"
-    :tabindex="component !== 'button' && isDisabled ? -1 : undefined"
   >
     <slot name="prefix">
       <Icon
@@ -164,20 +161,25 @@ const component = computed(() => {
 })
 
 /**
- * Only the props belonging to the element actually rendered, so the others are absent rather than
- * present-and-undefined. It matters for `router-link`: an inherited `href` overrides the anchor
- * href RouterLink generates for itself, leaving a link that cannot be opened in a new tab, copied,
- * or announced with a target.
+ * Everything that depends on which element is rendered, in one place.
+ *
+ * The link props are omitted rather than passed as undefined: an inherited `href` overrides the
+ * anchor href RouterLink generates for itself, leaving a link that cannot be opened in a new tab,
+ * copied, or announced with a target. The disabled trio is the opposite — always present, so a
+ * consumer-supplied `tabindex` or `disabled` in `$attrs` keeps being overridden as before.
  */
 const elementProps = computed<Record<string, unknown>>(() => {
-  if (component.value === 'router-link') {
-    return { to: props.to }
-  }
+  const isNativeButton = component.value === 'button'
 
-  if (component.value === 'a') {
-    return { href: props.href }
-  }
+  const linkProps =
+    component.value === 'router-link' ? { to: props.to } : component.value === 'a' ? { href: props.href } : {}
 
-  return { type: props.type }
+  return {
+    ...linkProps,
+    'type': isNativeButton ? props.type : undefined,
+    'disabled': isNativeButton ? isDisabled.value : undefined,
+    'aria-disabled': !isNativeButton && isDisabled.value ? 'true' : undefined,
+    'tabindex': !isNativeButton && isDisabled.value ? -1 : undefined,
+  }
 })
 </script>

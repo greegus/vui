@@ -568,9 +568,11 @@ import { InputWrapper } from 'vuiii'
 ```
 
 ```typescript
-// With clickable icons
+// With a clickable icon: opt in explicitly, so decorative icons stay out of the tab order
 <InputWrapper
-  suffix-icon="x-mark"
+  suffix-icon="x"
+  suffix-icon-clickable
+  suffix-icon-label="Clear"
   @suffix-icon-click="clearValue"
 >
   <input class="vuiii-input__nested" v-model="value" />

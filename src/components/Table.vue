@@ -100,7 +100,7 @@
         </td>
       </tr>
 
-      <tr v-if="!items?.length && ($props.noDataMessage || $slots.noDataMessage)">
+      <tr v-if="!items?.length && ($props.noDataMessage || slots.noDataMessage)">
         <td :colspan="columnCount">
           <slot name="noDataMessage">
             <div class="vuiii-table__noDataMessage">
@@ -300,21 +300,20 @@ const hasOptionsColumn = computed(() => Boolean(slots.tools || slots.rowOptions)
 
 const columnCount = computed(() => normalizedColumns.value.length + (hasOptionsColumn.value ? 1 : 0))
 
-function defaultSorted(a: any, b: any) {
-  const aIsEmpty = a === null || a === undefined || a === ''
-  const bIsEmpty = b === null || b === undefined || b === ''
+const isEmptyCell = (value: any): boolean => value === null || value === undefined || value === ''
 
+function defaultSorted(a: any, b: any) {
   // Empty cells are grouped at the end rather than compared, since `a - b` on a null or a
   // mixed pair yields NaN and leaves the rows in an arbitrary order.
-  if (aIsEmpty || bIsEmpty) {
-    return Number(aIsEmpty) - Number(bIsEmpty)
+  if (isEmptyCell(a) || isEmptyCell(b)) {
+    return Number(isEmptyCell(a)) - Number(isEmptyCell(b))
   }
 
   if (typeof a === 'string' || typeof b === 'string') {
     return String(a).localeCompare(String(b))
   }
 
-  return Number(a) - Number(b)
+  return a - b
 }
 
 const tableRows = computed<TableRow[]>(() => {

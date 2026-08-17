@@ -123,13 +123,12 @@ const checkedValues = computed<Set<string>>(() => {
   return new Set((modelValue.value ?? []).map((value) => valueParser.value.stringify(value)))
 })
 
-/**
- * `Option.value` is typed `string | number` but `normalizeOptions` always stringifies it, so both
- * sides of the comparison are brought into the stringified domain here.
- */
+// `String` and not `stringify` on `option.value`: normalizeOptions has already put it through
+// `stringify`, so applying it twice would feed a custom parser its own output. Only the model side
+// (in `checkedValues` above) still needs converting.
 const isOptionChecked = (option: Option): boolean => checkedValues.value.has(String(option.value))
 
-const toggleCheckedValue = (value: string | number, checked: boolean) => {
+const toggleCheckedValue = (value: Option['value'], checked: boolean) => {
   const newCheckedValues = new Set(checkedValues.value)
   const stringifiedValue = String(value)
 

@@ -108,7 +108,7 @@ const normalizedOptions = computed<Option[]>(() =>
       disabled: props.optionDisabled,
       description: props.optionDescription,
       icon: props.optionIcon,
-      stringifyValue: optionParser.value?.stringify,
+      stringifyValue: optionParser.value.stringify,
     },
     modelValue.value,
   ),
@@ -117,6 +117,8 @@ const normalizedOptions = computed<Option[]>(() =>
 // Options are normalized into the stringified domain, so the picked value is parsed back before
 // it reaches the model — matching Select, RadioGroup and CheckboxGroup.
 function handleInput(value: Option['value']) {
+  // `String` and not `stringify`: the value arrives from `option.value`, which normalizeOptions has
+  // already put through `stringify`. Applying it twice would feed a custom parser its own output.
   modelValue.value = optionParser.value.parse(String(value))
 }
 </script>

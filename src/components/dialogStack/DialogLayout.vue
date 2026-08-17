@@ -38,7 +38,12 @@
     <div v-if="hasFooter" class="DialogLayout__footer">
       <slot name="footer">
         <div class="DialogLayout__buttons">
-          <span v-for="(button, $index) in $props.buttons" :key="$index" class="DialogLayout__buttonWrapper">
+          <span
+            v-for="(button, $index) in $props.buttons"
+            :key="$index"
+            class="DialogLayout__buttonWrapper"
+            :data-dialog-default="button.color === 'primary' || undefined"
+          >
             <Button
               type="button"
               :label="button.label"
@@ -124,14 +129,17 @@ useFocusTrap(root, {
       return input
     }
 
-    const buttons = Array.from(root.value?.querySelectorAll<HTMLButtonElement>('button') ?? [])
-    const actionButtons = buttons.filter((button) => !button.classList.contains('DialogLayout__close'))
+    // Marked at render time via `data-dialog-default`, rather than looked up by one of Button's
+    // styling classes — a rename in button.css would silently break focus again.
+    const defaultButton = root.value?.querySelector<HTMLButtonElement>('[data-dialog-default] button')
 
-    return (
-      actionButtons.find((button) => button.classList.contains('vuiii-button--color-primary')) ??
-      actionButtons[0] ??
-      buttons[0]
-    )
+    if (defaultButton) {
+      return defaultButton
+    }
+
+    const buttons = Array.from(root.value?.querySelectorAll<HTMLButtonElement>('button') ?? [])
+
+    return buttons.find((button) => !button.classList.contains('DialogLayout__close')) ?? buttons[0]
   },
 })
 </script>

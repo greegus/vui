@@ -175,6 +175,16 @@ export function normalizeOptions(
   return []
 }
 
+/**
+ * Stamps the group label onto each option, so a flattened list can still tell which group an option
+ * came from. Safe to mutate: `normalizeOptions` has just built these objects.
+ */
+function tagWithGroup(label: string, options: Option[]): Option[] {
+  options.forEach((option) => (option.group = label))
+
+  return options
+}
+
 export function normalizeGroups(
   items: any[] | { [label: string]: any[] },
   extractors: {
@@ -190,16 +200,23 @@ export function normalizeGroups(
   selectedValue?: any,
 ): OptionGroup[] {
   if (Array.isArray(items)) {
-    return items.map((group) => ({
-      label: retrieveValue(group, extractors.groupLabel),
-      options: normalizeOptions(retrieveValue(group, extractors.groupOptions), extractors, selectedValue),
-    }))
+    return items.map((group) => {
+      const label = retrieveValue(group, extractors.groupLabel)
+
+      return {
+        label,
+        options: tagWithGroup(
+          label,
+          normalizeOptions(retrieveValue(group, extractors.groupOptions), extractors, selectedValue),
+        ),
+      }
+    })
   }
 
   if (typeof items === 'object' && items !== null) {
     return Object.entries(items || {}).reduce(
       (groups, [label, options]) =>
-        groups.concat({ label, options: normalizeOptions(options, extractors, selectedValue) }),
+        groups.concat({ label, options: tagWithGroup(label, normalizeOptions(options, extractors, selectedValue)) }),
       [] as OptionGroup[],
     )
   }

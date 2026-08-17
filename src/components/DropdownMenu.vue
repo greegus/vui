@@ -23,7 +23,7 @@ type DropdownMenuProps = {
 type ItemWithIndex = { item: Item; index: number }
 
 /** A heading or an item, in render order — keeps item indices flat despite the interleaved headings. */
-type Row = { type: 'group'; label: string } | ({ type: 'item' } & ItemWithIndex)
+type Row = { type: 'group'; label: string } | ({ type: 'item'; disabled: boolean } & ItemWithIndex)
 
 const props = defineProps<DropdownMenuProps>()
 
@@ -41,8 +41,6 @@ defineSlots<{
 
 const itemElements = ref<HTMLElement[]>([])
 
-const isItemDisabled = (item: Item, index: number): boolean => Boolean(props.itemDisabled?.(item, index))
-
 const rows = computed<Row[]>(() => {
   const result: Row[] = []
   let currentGroup: string | undefined
@@ -56,7 +54,8 @@ const rows = computed<Row[]>(() => {
 
     currentGroup = label
 
-    result.push({ type: 'item', item, index })
+    // Resolved once per item here rather than per use in the template, which reads it three times.
+    result.push({ type: 'item', item, index, disabled: Boolean(props.itemDisabled?.(item, index)) })
   })
 
   return result
@@ -98,14 +97,14 @@ watch(
           :id="optionIdPrefix ? `${optionIdPrefix}-${row.index}` : undefined"
           :role="listRole === 'listbox' ? 'option' : listRole === 'menu' ? 'menuitem' : undefined"
           :aria-selected="listRole === 'listbox' ? cursorIndex === row.index : undefined"
-          :aria-disabled="isItemDisabled(row.item, row.index) ? 'true' : undefined"
+          :aria-disabled="row.disabled ? 'true' : undefined"
           ref="itemElements"
         >
           <slot name="item" v-bind="{ item: row.item, index: row.index, cursorIndex }">
             <button
               class="DropdownMenu__button"
-              :class="{ 'DropdownMenu__button--disabled': isItemDisabled(row.item, row.index) }"
-              :disabled="isItemDisabled(row.item, row.index)"
+              :class="{ 'DropdownMenu__button--disabled': row.disabled }"
+              :disabled="row.disabled"
               @click="emit('item-click', { item: row.item, index: row.index })"
               @mouseenter="emit('item-mouseenter', { item: row.item, index: row.index })"
               @mouseleave="emit('item-mouseleave', { item: row.item, index: row.index })"

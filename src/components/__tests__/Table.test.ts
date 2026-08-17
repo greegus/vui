@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
+import { RouterLinkStub } from '@/__tests__/helpers/stubs'
 import Table from '@/components/Table.vue'
 
 type User = { id: number; name: string; age: number }
@@ -20,11 +21,6 @@ const sortableColumns = [
   { name: 'name', label: 'Name', sortable: true },
   { name: 'age', label: 'Age', sortable: true },
 ]
-
-const RouterLinkStub = {
-  props: ['to', 'target'],
-  template: '<a :href="typeof to === \'string\' ? to : JSON.stringify(to)" :target="target"><slot /></a>',
-}
 
 function mountTable(props: Record<string, unknown> = {}, options: Record<string, any> = {}) {
   return mount(Table, {
@@ -369,14 +365,12 @@ describe('Table', () => {
       expect(wrapper.findAll('thead th').map((th) => th.text())).toEqual(['[Name]', 'Age'])
     })
 
-    // BUG: the `tools` slot is only used as a flag to render an empty <th>; its content is never rendered.
     it('renders the tools slot content in the header row', () => {
       const wrapper = mountTable({}, { slots: { tools: '<button>Tools</button>' } })
 
       expect(wrapper.find('thead th button').text()).toBe('Tools')
     })
 
-    // BUG: rowOptions adds a <td> per row but no matching <th>, so the header has one column fewer than the body.
     it('keeps the header and the body the same width when only the tools slot is given', () => {
       const wrapper = mountTable({}, { slots: { tools: '<b>x</b>' } })
 
