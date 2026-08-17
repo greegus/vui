@@ -1,14 +1,8 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
-import { defineComponent } from 'vue'
 
+import { RouterLinkStub } from '@/__tests__/helpers/stubs'
 import Button from '@/components/Button.vue'
-
-// Stands in for vue-router's RouterLink, which builds its own href from `to`.
-const RouterLinkStub = defineComponent({
-  props: ['to'],
-  template: '<a :href="typeof to === \'string\' ? to : JSON.stringify(to)"><slot /></a>',
-})
 
 function mountLink(props: Record<string, unknown>) {
   return mount(Button, { props, global: { stubs: { RouterLink: RouterLinkStub } } })

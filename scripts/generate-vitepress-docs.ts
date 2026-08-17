@@ -105,6 +105,12 @@ function scanDirectory(dir: string, extensions: string[]): string[] {
   try {
     const entries = readdirSync(dir)
     for (const entry of entries) {
+      // Tests and stories describe how the library is exercised, not its public API, and a
+      // block comment in one of them would otherwise be published as an API entry.
+      if (entry.startsWith('__') || /\.(test|spec|stories)\.ts$/.test(entry)) {
+        continue
+      }
+
       const fullPath = join(dir, entry)
       const stat = statSync(fullPath)
 

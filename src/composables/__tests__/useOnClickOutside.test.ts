@@ -1,49 +1,27 @@
-import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { defineComponent, ref } from 'vue'
 
+import { appendOutsideElement, createOutsideHost } from '@/__tests__/helpers/outsideHost'
 import { useOnClickOutside } from '@/composables/useOnClickOutside'
 
-const Host = defineComponent({
-  props: {
-    callback: { type: Function, required: true },
-    rendered: { type: Boolean, default: true },
-  },
-  setup(props) {
-    const element = ref<HTMLElement>()
-
-    useOnClickOutside(element, (e) => props.callback(e))
-
-    return { element }
-  },
-  template: `
-    <div v-if="rendered" ref="element" id="box">
-      <button id="inside">Inside</button>
-    </div>
-  `,
-})
-
-function mountHost(callback: (e: MouseEvent) => void, props: Record<string, unknown> = {}) {
-  return mount(Host, { props: { callback, ...props }, attachTo: document.body })
-}
+const mountHost = createOutsideHost((element, callback) => useOnClickOutside(element, callback))
 
 function mousedownOn(element: Element) {
   element.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }))
 }
 
 describe('useOnClickOutside', () => {
-  let outside: HTMLButtonElement | undefined
+  let removeOutside: (() => void) | undefined
 
   afterEach(() => {
-    outside?.remove()
-    outside = undefined
+    removeOutside?.()
+    removeOutside = undefined
   })
 
   function createOutsideElement() {
-    outside = document.createElement('button')
-    document.body.appendChild(outside)
+    const outside = appendOutsideElement()
+    removeOutside = outside.remove
 
-    return outside
+    return outside.element
   }
 
   it('calls the callback when the mousedown happens outside the element', () => {

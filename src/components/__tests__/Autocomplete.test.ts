@@ -1,20 +1,17 @@
 import { enableAutoUnmount, mount, type VueWrapper } from '@vue/test-utils'
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest'
 
+import { stubScrollIntoView } from '@/__tests__/helpers/stubs'
 import Autocomplete from '@/components/Autocomplete.vue'
 
 enableAutoUnmount(afterEach)
 
-// jsdom does not implement scrollIntoView, which the dropdown cursor watcher calls. Patching a
-// DOM prototype is global state, so install it for this file only and put it back afterwards.
-const originalScrollIntoView = Element.prototype.scrollIntoView
-
 beforeAll(() => {
-  Element.prototype.scrollIntoView = vi.fn()
+  stubScrollIntoView()
 })
 
 afterAll(() => {
-  Element.prototype.scrollIntoView = originalScrollIntoView
+  vi.restoreAllMocks()
 })
 
 const fruits = ['Apple', 'Banana', 'Blueberry', 'Cherry']
@@ -49,7 +46,13 @@ function groupHeadings(wrapper: VueWrapper<any>) {
 }
 
 const groupedOptions = [
-  { category: 'Fruits', items: [{ id: 1, name: 'Apple' }, { id: 2, name: 'Banana' }] },
+  {
+    category: 'Fruits',
+    items: [
+      { id: 1, name: 'Apple' },
+      { id: 2, name: 'Banana' },
+    ],
+  },
   { category: 'Vegetables', items: [{ id: 3, name: 'Carrot' }] },
 ]
 

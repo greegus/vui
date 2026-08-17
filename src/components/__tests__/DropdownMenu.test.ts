@@ -1,26 +1,20 @@
 import { mount } from '@vue/test-utils'
-import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { h } from 'vue'
 
+import { stubScrollIntoView } from '@/__tests__/helpers/stubs'
 import DropdownMenu from '@/components/DropdownMenu.vue'
 
 const items = ['Edit', 'Duplicate', 'Delete']
 
-// jsdom does not implement scrollIntoView, which the cursor watcher calls. Patching a DOM
-// prototype is global state, so install it for this file only and put it back afterwards.
-const scrollIntoView = vi.fn()
-const originalScrollIntoView = Element.prototype.scrollIntoView
-
-beforeAll(() => {
-  Element.prototype.scrollIntoView = scrollIntoView
-})
-
-afterAll(() => {
-  Element.prototype.scrollIntoView = originalScrollIntoView
-})
+let scrollIntoView: ReturnType<typeof stubScrollIntoView>
 
 beforeEach(() => {
-  scrollIntoView.mockClear()
+  scrollIntoView = stubScrollIntoView()
+})
+
+afterEach(() => {
+  vi.restoreAllMocks()
 })
 
 describe('DropdownMenu', () => {

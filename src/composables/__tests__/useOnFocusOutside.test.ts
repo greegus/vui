@@ -1,31 +1,9 @@
-import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { defineComponent, ref } from 'vue'
 
+import { appendOutsideElement, createOutsideHost } from '@/__tests__/helpers/outsideHost'
 import { useOnFocusOutside } from '@/composables/useOnFocusOutside'
 
-const Host = defineComponent({
-  props: {
-    callback: { type: Function, required: true },
-    rendered: { type: Boolean, default: true },
-  },
-  setup(props) {
-    const element = ref<HTMLElement>()
-
-    useOnFocusOutside(element, (e) => props.callback(e))
-
-    return { element }
-  },
-  template: `
-    <div v-if="rendered" ref="element" id="box">
-      <button id="inside">Inside</button>
-    </div>
-  `,
-})
-
-function mountHost(callback: (e: FocusEvent) => void, props: Record<string, unknown> = {}) {
-  return mount(Host, { props: { callback, ...props }, attachTo: document.body })
-}
+const mountHost = createOutsideHost((element, callback) => useOnFocusOutside(element, callback))
 
 // The composable subscribes to `focus` on `window` with capture, so both a real focus
 // change and an artificially bubbling event reach the handler.
@@ -34,18 +12,18 @@ function focusEventOn(element: Element) {
 }
 
 describe('useOnFocusOutside', () => {
-  let outside: HTMLButtonElement | undefined
+  let removeOutside: (() => void) | undefined
 
   afterEach(() => {
-    outside?.remove()
-    outside = undefined
+    removeOutside?.()
+    removeOutside = undefined
   })
 
   function createOutsideElement() {
-    outside = document.createElement('button')
-    document.body.appendChild(outside)
+    const outside = appendOutsideElement()
+    removeOutside = outside.remove
 
-    return outside
+    return outside.element
   }
 
   it('calls the callback when an element outside receives focus', () => {

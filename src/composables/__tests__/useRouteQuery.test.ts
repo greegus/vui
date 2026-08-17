@@ -1,36 +1,8 @@
-import { flushPromises, mount } from '@vue/test-utils'
+import { flushPromises } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
-import { defineComponent } from 'vue'
-import { createMemoryHistory, createRouter, type Router } from 'vue-router'
 
+import { mountWithRouter as withRouteQuery } from '@/__tests__/helpers/router'
 import { useRouteQuery } from '@/composables/useRouteQuery'
-
-async function withRouteQuery<T>(
-  composable: () => T,
-  initialQuery: Record<string, string> = {},
-): Promise<{ result: T; router: Router }> {
-  const router = createRouter({
-    history: createMemoryHistory(),
-    routes: [{ path: '/', component: { template: '<div />' } }],
-  })
-
-  await router.push({ path: '/', query: initialQuery })
-  await router.isReady()
-
-  let result!: T
-
-  mount(
-    defineComponent({
-      setup() {
-        result = composable()
-        return () => null
-      },
-    }),
-    { global: { plugins: [router] } },
-  )
-
-  return { result, router }
-}
 
 describe('useRouteQuery', () => {
   it('exposes the current query string parameters', async () => {

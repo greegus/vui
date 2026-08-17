@@ -14,11 +14,12 @@ async function loadIconModule() {
 
 const CustomIcon = { template: '<svg class="custom-icon" />' }
 
-// Built-in icons are async components whose loader dynamically imports the raw SVG,
-// so the rendered output only appears a few macrotasks after mounting.
+// Built-in icons are async components whose loader dynamically imports the raw SVG, so the rendered
+// output only appears once that import settles. `dynamicImportSettled` waits for it deterministically
+// instead of racing a fixed timeout, which was long enough in isolation but not under full-suite load.
 async function flushAsyncIcon(wrapper: { find: (selector: string) => { exists: () => boolean } }) {
-  for (let attempt = 0; attempt < 20 && !wrapper.find('svg').exists(); attempt++) {
-    await new Promise((resolve) => setTimeout(resolve, 5))
+  for (let attempt = 0; attempt < 10 && !wrapper.find('svg').exists(); attempt++) {
+    await vi.dynamicImportSettled()
     await flushPromises()
   }
 }

@@ -2,38 +2,14 @@ import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { defineComponent, ref } from 'vue'
 
+import { FILE_ITEM, HTML_ITEM, PLAIN_TEXT_ITEM, dragEvent } from '@/__tests__/helpers/dragEvents'
 import { useDropArea } from '@/composables/useDropArea'
 
 type DropAreaOptions = Parameters<typeof useDropArea>[2]
 
-/**
- * jsdom implements neither DragEvent nor DataTransfer, so we hand-roll the shape the
- * composable reads. `items` follows the DOM spec: `kind` is only ever 'file' or 'string',
- * and the MIME type lives in `type`.
- */
-type DataTransferItemShape = { kind: 'file' | 'string'; type: string }
-
-function dragEvent(
-  type: string,
-  { files = [] as File[], items }: { files?: File[]; items?: DataTransferItemShape[] } = {},
-): Event {
-  const event = new Event(type, { bubbles: true, cancelable: true })
-
-  Object.assign(event, {
-    dataTransfer: {
-      items: items ?? files.map((file) => ({ kind: 'file' as const, type: file.type })),
-      files,
-      dropEffect: 'none',
-      getData: () => '',
-    },
-  })
-
-  return event
-}
-
-const fileItem: DataTransferItemShape = { kind: 'file', type: 'image/png' }
-const htmlItem: DataTransferItemShape = { kind: 'string', type: 'text/html' }
-const plainTextItem: DataTransferItemShape = { kind: 'string', type: 'text/plain' }
+const fileItem = FILE_ITEM
+const htmlItem = HTML_ITEM
+const plainTextItem = PLAIN_TEXT_ITEM
 
 function mountDropArea(onFiles: (files: File[]) => void, options: DropAreaOptions = {}) {
   const Host = defineComponent({

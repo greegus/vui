@@ -8,11 +8,13 @@ import { dialogs, openAlert, openConfirm, openDialog } from '@/dialogStack'
 const CustomDialog = defineComponent({
   props: { label: { type: String, default: '' } },
   emits: ['close'],
-  setup: (props, { emit }) => () =>
-    h('div', { class: 'CustomDialog' }, [
-      props.label,
-      h('button', { type: 'button', onClick: () => emit('close', 'from-component') }, 'Done'),
-    ]),
+  setup:
+    (props, { emit }) =>
+    () =>
+      h('div', { class: 'CustomDialog' }, [
+        props.label,
+        h('button', { type: 'button', onClick: () => emit('close', 'from-component') }, 'Done'),
+      ]),
 })
 
 const mountStack = () => mount(DialogStack, { global: { stubs: { teleport: true } } })

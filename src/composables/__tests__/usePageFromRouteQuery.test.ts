@@ -1,36 +1,13 @@
-import { flushPromises, mount } from '@vue/test-utils'
+import { flushPromises } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
-import { defineComponent } from 'vue'
-import { createMemoryHistory, createRouter, type Router } from 'vue-router'
 
+import { mountWithRouter } from '@/__tests__/helpers/router'
 import { usePageFromRouteQuery } from '@/composables/usePageFromRouteQuery'
 
-async function withPageFromRouteQuery(
+const withPageFromRouteQuery = (
   options: Parameters<typeof usePageFromRouteQuery>[0] = {},
   initialQuery: Record<string, string> = {},
-): Promise<{ result: ReturnType<typeof usePageFromRouteQuery>; router: Router }> {
-  const router = createRouter({
-    history: createMemoryHistory(),
-    routes: [{ path: '/', component: { template: '<div />' } }],
-  })
-
-  await router.push({ path: '/', query: initialQuery })
-  await router.isReady()
-
-  let result!: ReturnType<typeof usePageFromRouteQuery>
-
-  mount(
-    defineComponent({
-      setup() {
-        result = usePageFromRouteQuery(options)
-        return () => null
-      },
-    }),
-    { global: { plugins: [router] } },
-  )
-
-  return { result, router }
-}
+) => mountWithRouter(() => usePageFromRouteQuery(options), initialQuery)
 
 describe('usePageFromRouteQuery', () => {
   it('writes the page into the query string on setPage', async () => {

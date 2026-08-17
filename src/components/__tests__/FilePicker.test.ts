@@ -1,38 +1,27 @@
 import { flushPromises, mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
 
+import { dragEvent } from '@/__tests__/helpers/dragEvents'
 import FilePicker from '@/components/FilePicker.vue'
 
 function createFile(name: string, type: string): File {
   return new File(['content'], name, { type })
 }
 
-/**
- * jsdom implements neither `DataTransfer` nor `DragEvent`, so we build the shape that
- * `useDropArea` / `retrieveFilesFromDataTransfer` actually read: `items` (for the
- * "is this a file drag?" guard), `files` and `getData('text/html')`.
- */
-function createDataTransfer({ files = [], html }: { files?: File[]; html?: string } = {}) {
-  const items = [
-    ...files.map((file) => ({ kind: 'file', type: file.type })),
-    ...(html ? [{ kind: 'string', type: 'text/html' }] : []),
-  ]
+type DragPayload = { files?: File[]; html?: string }
 
-  return {
-    dropEffect: 'none',
-    items,
-    files,
-    getData: (format: string) => (format === 'text/html' ? (html ?? '') : ''),
-  }
-}
+/** The payload is assembled by the shared `dragEvent` helper; this only names it at the call site. */
+const createDataTransfer = (payload: DragPayload = {}): DragPayload => payload
 
-function dispatchDragEvent(element: Element, type: string, dataTransfer: unknown): Event {
-  const event = new Event(type, { bubbles: true, cancelable: true })
-  Object.defineProperty(event, 'dataTransfer', { value: dataTransfer })
+function dispatchDragEvent(element: Element, type: string, payload: DragPayload): Event {
+  const event = dragEvent(type, payload)
   element.dispatchEvent(event)
 
   return event
 }
+
+/** The composable writes the drop effect onto the event's dataTransfer. */
+const dropEffectOf = (event: Event): string => (event as any).dataTransfer.dropEffect
 
 function selectFiles(input: HTMLInputElement, files: File[]) {
   Object.defineProperty(input, 'files', { value: files, configurable: true })
@@ -160,11 +149,7 @@ describe('FilePicker', () => {
     const first = createFile('a.png', 'image/png')
     const second = createFile('b.png', 'image/png')
 
-    dispatchDragEvent(
-      wrapper.find('button.FilePicker').element,
-      'drop',
-      createDataTransfer({ files: [first, second] }),
-    )
+    dispatchDragEvent(wrapper.find('button.FilePicker').element, 'drop', createDataTransfer({ files: [first, second] }))
     await flushPromises()
 
     expect(wrapper.emitted('files')![0][0]).toEqual([first])
@@ -238,7 +223,7 @@ describe('FilePicker', () => {
     const event = dispatchDragEvent(wrapper.find('button.FilePicker').element, 'dragover', dataTransfer)
 
     expect(event.defaultPrevented).toBe(true)
-    expect(dataTransfer.dropEffect).toBe('copy')
+    expect(dropEffectOf(event)).toBe('copy')
   })
 
   it('leaves a dragover carrying no files to the browser', () => {
@@ -248,7 +233,7 @@ describe('FilePicker', () => {
     const event = dispatchDragEvent(wrapper.find('button.FilePicker').element, 'dragover', dataTransfer)
 
     expect(event.defaultPrevented).toBe(false)
-    expect(dataTransfer.dropEffect).toBe('none')
+    expect(dropEffectOf(event)).toBe('none')
   })
 
   it('resets the drop effect when the drag leaves the trigger', () => {
@@ -256,11 +241,9 @@ describe('FilePicker', () => {
     const trigger = wrapper.find('button.FilePicker').element
     const dataTransfer = createDataTransfer({ files: [createFile('photo.png', 'image/png')] })
 
-    dispatchDragEvent(trigger, 'dragenter', dataTransfer)
-    expect(dataTransfer.dropEffect).toBe('copy')
-    dispatchDragEvent(trigger, 'dragleave', dataTransfer)
+    expect(dropEffectOf(dispatchDragEvent(trigger, 'dragenter', dataTransfer))).toBe('copy')
 
-    expect(dataTransfer.dropEffect).toBe('none')
+    expect(dropEffectOf(dispatchDragEvent(trigger, 'dragleave', dataTransfer))).toBe('none')
   })
 
   it('stops reacting to drops once the picker is unmounted', async () => {
@@ -275,10 +258,7 @@ describe('FilePicker', () => {
   })
 
   it('emits a file fetched from an image dragged in as HTML', async () => {
-    vi.stubGlobal(
-      'fetch',
-      vi.fn().mockResolvedValue({ blob: async () => new Blob(['binary'], { type: 'image/png' }) }),
-    )
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ blob: async () => new Blob(['binary'], { type: 'image/png' }) }))
     const wrapper = mount(FilePicker)
 
     dispatchDragEvent(
