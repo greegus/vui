@@ -716,7 +716,7 @@ import { ShortcutIcon } from 'vuiii'
 ```typescript
 // Multiple modifiers
 <ShortcutIcon :shortcut="{ key: 's', mod: true, shift: true }" />
-// macOS: [⇧] [⌘] [S]  |  Windows: [Ctrl] [Shift] [S]
+// macOS: [⇧] [⌘] [S]  |  Windows: [Shift] [Ctrl] [S]
 ```
 
 ```typescript

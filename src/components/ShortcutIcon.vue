@@ -23,12 +23,16 @@
  * @example
  * // Multiple modifiers
  * <ShortcutIcon :shortcut="{ key: 's', mod: true, shift: true }" />
- * // macOS: [⇧] [⌘] [S]  |  Windows: [Ctrl] [Shift] [S]
+ * // macOS: [⇧] [⌘] [S]  |  Windows: [Shift] [Ctrl] [S]
  *
  * @example
  * // Alt/Option modifier
  * <ShortcutIcon :shortcut="{ key: 'p', alt: true }" />
  * // macOS: [⌥] [P]  |  Windows: [Alt] [P]
+ *
+ * @example
+ * // Server-side rendering: pass the platform explicitly, since the server has no navigator
+ * <ShortcutIcon :shortcut="{ key: 'k', mod: true }" :platform="isMacRequest ? 'mac' : 'other'" />
  */
 import { computed } from 'vue'
 
@@ -41,28 +45,41 @@ type KeyPart = {
 
 const props = defineProps<{
   shortcut: Shortcut
+  /**
+   * Which key labels to use. Detected from the user agent when omitted, which is fine in the
+   * browser but cannot work while server-side rendering — there the server has no `navigator`,
+   * falls back to the Windows labels, and the client then hydrates macOS labels over them.
+   * Pass it explicitly to keep both renders in agreement.
+   */
+  platform?: 'mac' | 'other'
 }>()
 
-const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad|iPod/.test(navigator.userAgent)
+const isMac = computed(() => {
+  if (props.platform) {
+    return props.platform === 'mac'
+  }
+
+  return typeof navigator !== 'undefined' && /Mac|iPhone|iPad|iPod/.test(navigator.userAgent)
+})
 
 const keys = computed<KeyPart[]>(() => {
   const parts: KeyPart[] = []
   const { key, shift, alt, mod, ctrl } = props.shortcut
 
   if (ctrl) {
-    parts.push(isMac ? { label: '⌃' } : { label: 'Ctrl' })
+    parts.push(isMac.value ? { label: '⌃' } : { label: 'Ctrl' })
   }
 
   if (alt) {
-    parts.push(isMac ? { label: '⌥', icon: 'option' } : { label: 'Alt' })
+    parts.push(isMac.value ? { label: '⌥', icon: 'option' } : { label: 'Alt' })
   }
 
   if (shift) {
-    parts.push(isMac ? { label: '⇧', icon: 'shift' } : { label: 'Shift' })
+    parts.push(isMac.value ? { label: '⇧', icon: 'shift' } : { label: 'Shift' })
   }
 
   if (mod) {
-    parts.push(isMac ? { label: '⌘', icon: 'command' } : { label: 'Ctrl' })
+    parts.push(isMac.value ? { label: '⌘', icon: 'command' } : { label: 'Ctrl' })
   }
 
   const displayKey = key.length === 1 ? key.toUpperCase() : key

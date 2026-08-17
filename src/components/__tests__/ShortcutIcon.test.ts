@@ -6,15 +6,14 @@ import type { Shortcut } from '@/types'
 const MAC_USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'
 const WINDOWS_USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
 
-// The component reads the platform once when its module is evaluated, so the user agent
-// has to be stubbed before a fresh import of the module.
-async function mountOn(userAgent: string, shortcut: Shortcut) {
+// The user agent is stubbed before importing, so that platform detection sees it either way.
+async function mountOn(userAgent: string, shortcut: Shortcut, props: Record<string, unknown> = {}) {
   vi.stubGlobal('navigator', { userAgent })
   vi.resetModules()
 
   const ShortcutIcon = (await import('@/components/ShortcutIcon.vue')).default
 
-  return mount(ShortcutIcon, { props: { shortcut } })
+  return mount(ShortcutIcon, { props: { shortcut, ...props } })
 }
 
 function keyLabels(wrapper: Awaited<ReturnType<typeof mountOn>>) {
@@ -117,5 +116,44 @@ describe('ShortcutIcon', () => {
     await wrapper.setProps({ shortcut: { key: 'j' } })
 
     expect(keyLabels(wrapper)).toEqual(['J'])
+  })
+
+  describe('explicit platform', () => {
+    it('uses the macOS labels when platform="mac", whatever the user agent says', async () => {
+      const wrapper = await mountOn(WINDOWS_USER_AGENT, { key: 'k', mod: true }, { platform: 'mac' })
+
+      expect(keyLabels(wrapper)).toEqual(['⌘', 'K'])
+    })
+
+    it('uses the Windows labels when platform="other", whatever the user agent says', async () => {
+      const wrapper = await mountOn(MAC_USER_AGENT, { key: 'k', mod: true, shift: true }, { platform: 'other' })
+
+      expect(keyLabels(wrapper)).toEqual(['Shift', 'Ctrl', 'K'])
+    })
+
+    it('falls back to detection when the platform is not given', async () => {
+      const wrapper = await mountOn(MAC_USER_AGENT, { key: 'k', mod: true }, { platform: undefined })
+
+      expect(keyLabels(wrapper)).toEqual(['⌘', 'K'])
+    })
+
+    it('renders the same labels without a navigator as with platform="other"', async () => {
+      vi.stubGlobal('navigator', undefined)
+      vi.resetModules()
+      const ShortcutIcon = (await import('@/components/ShortcutIcon.vue')).default
+
+      const detected = mount(ShortcutIcon, { props: { shortcut: { key: 'k', mod: true } } })
+      const explicit = mount(ShortcutIcon, { props: { shortcut: { key: 'k', mod: true }, platform: 'other' } })
+
+      expect(keyLabels(detected)).toEqual(keyLabels(explicit))
+    })
+
+    it('switches labels when the platform prop changes', async () => {
+      const wrapper = await mountOn(WINDOWS_USER_AGENT, { key: 'k', mod: true }, { platform: 'other' })
+
+      await wrapper.setProps({ platform: 'mac' })
+
+      expect(keyLabels(wrapper)).toEqual(['⌘', 'K'])
+    })
   })
 })
