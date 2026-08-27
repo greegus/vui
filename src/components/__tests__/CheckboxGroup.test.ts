@@ -286,4 +286,51 @@ describe('CheckboxGroup', () => {
 
     expect(wrapper.findAll('input[type="checkbox"]')).toHaveLength(0)
   })
+
+  it('forwards disabled, invalid and size to every checkbox', () => {
+    const wrapper = mount(CheckboxGroup, {
+      props: { options: ['Apple', 'Banana'], disabled: true, invalid: true, size: 'small' },
+    })
+
+    expect(wrapper.findAll('input[type="checkbox"]').every((checkbox) => checkbox.element.disabled)).toBe(true)
+    expect(wrapper.findAll('.Checkbox--invalid')).toHaveLength(2)
+    expect(wrapper.findAll('.Checkbox--size-small')).toHaveLength(2)
+    expect(wrapper.find('[role="group"]').attributes('aria-invalid')).toBe('true')
+  })
+
+  // A click only runs the browser's activation behaviour — the toggle and the `input` event — on an
+  // element that is in the document, so these are mounted for real. Detached, nothing fires at all
+  // and a readonly assertion would pass for the wrong reason.
+  it('blocks toggling when readonly', async () => {
+    const wrapper = mount(CheckboxGroup, {
+      props: { options: ['Apple', 'Banana'], modelValue: [], readonly: true },
+      attachTo: document.body,
+    })
+
+    await wrapper.findAll('input[type="checkbox"]')[0]!.trigger('click')
+
+    expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    expect(wrapper.find('[role="group"]').attributes('aria-readonly')).toBe('true')
+
+    wrapper.unmount()
+  })
+
+  it('toggles on click when it is not readonly', async () => {
+    const wrapper = mount(CheckboxGroup, {
+      props: { options: ['Apple', 'Banana'], modelValue: [] },
+      attachTo: document.body,
+    })
+
+    await wrapper.findAll('input[type="checkbox"]')[0]!.trigger('click')
+
+    expect(wrapper.emitted('update:modelValue')![0]).toEqual([['Apple']])
+
+    wrapper.unmount()
+  })
+
+  it('marks the group as required', () => {
+    const wrapper = mount(CheckboxGroup, { props: { options: ['Apple'], required: true } })
+
+    expect(wrapper.find('[role="group"]').attributes('aria-required')).toBe('true')
+  })
 })

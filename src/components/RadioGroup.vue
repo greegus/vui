@@ -1,5 +1,18 @@
 <template>
-  <div class="RadioGroup" role="radiogroup" :class="[$attrs.class, { 'RadioGroup--inline': inline }]">
+  <div
+    class="RadioGroup"
+    role="radiogroup"
+    :class="[
+      $attrs.class,
+      {
+        [`RadioGroup--size-${$props.size}`]: $props.size,
+        'RadioGroup--inline': $props.inline,
+      },
+    ]"
+    :aria-invalid="$props.invalid || undefined"
+    :aria-readonly="$props.readonly || undefined"
+    :aria-required="$props.required || undefined"
+  >
     <label
       v-for="option in normalizedOptions"
       :key="option.value"
@@ -13,13 +26,13 @@
         type="radio"
         :name="inputName"
         :disabled="$props.disabled || option.disabled"
-        :readonly="$props.readonly"
         :checked="option.isSelected"
+        @click="handleClick($event)"
         @input="handleInput(option.value)"
       />
 
-      <slot name="symbol" v-bind="{ disabled: !!disabled, checked: !!option.isSelected }">
-        <div class="RadioGroup__radio vuiii-input">
+      <slot name="symbol" v-bind="{ disabled: !!disabled, checked: !!option.isSelected, invalid: !!invalid }">
+        <div class="RadioGroup__radio vuiii-input" :class="{ 'vuiii-input--invalid': $props.invalid }">
           <div class="RadioGroup__radioDot"></div>
         </div>
       </slot>
@@ -77,6 +90,18 @@
  * />
  *
  * @example
+ * // Validation state
+ * <RadioGroup v-model="plan" :options="plans" required :invalid="!!errors.plan" />
+ *
+ * @example
+ * // Read-only (shows the selection, but cannot be changed)
+ * <RadioGroup :model-value="plan" :options="plans" readonly />
+ *
+ * @example
+ * // Different sizes
+ * <RadioGroup v-model="size" :options="options" size="small" />
+ *
+ * @example
  * // With type parsing
  * <RadioGroup
  *   v-model="quantity"
@@ -103,7 +128,7 @@
  * </RadioGroup>
  *
  * @slot default - Custom option content. Props: { option }
- * @slot symbol - Custom radio symbol. Props: { checked, disabled }
+ * @slot symbol - Custom radio symbol. Props: { checked, disabled, invalid }
  */
 export default {
   inheritAttrs: false,
@@ -114,7 +139,7 @@ export default {
 import { computed, useAttrs, useId } from 'vue'
 
 import { useAttrsWithoutClass } from '@/composables/useAttrsWithoutClass'
-import type { Extractor, Option, OptionsProp, ValueParser } from '@/types'
+import type { Extractor, InputSize, Option, OptionsProp, ValueParser } from '@/types'
 import { createTypeParser } from '@/utils/createTypeParser'
 import { normalizeOptions } from '@/utils/normalizeOptions'
 
@@ -122,7 +147,7 @@ const modelValue = defineModel<any>()
 
 defineSlots<{
   default?: (props: { option: Option }) => any
-  symbol: (props: { checked: boolean; disabled: boolean }) => any
+  symbol: (props: { checked: boolean; disabled: boolean; invalid: boolean }) => any
 }>()
 
 const attrs = useAttrs()
@@ -141,10 +166,14 @@ const props = withDefaults(
     valueParser?: ValueParser<string>
     disabled?: boolean
     readonly?: boolean
+    required?: boolean
+    invalid?: boolean
     inline?: boolean
+    size?: InputSize
     type?: 'string' | 'number' | 'boolean' | 'date'
   }>(),
   {
+    size: 'normal',
     type: 'string',
   },
 )
@@ -167,6 +196,17 @@ const normalizedOptions = computed<Option[]>(() =>
   ),
 )
 
+/**
+ * The HTML `readonly` attribute has no effect on radios, so the change is blocked here instead.
+ * Cancelling the click stops the radio from ever being selected, which keeps the DOM in sync with
+ * the model — suppressing the `input` event alone would leave the radio visually checked.
+ */
+function handleClick(event: MouseEvent) {
+  if (props.readonly) {
+    event.preventDefault()
+  }
+}
+
 function handleInput(value: any) {
   modelValue.value = optionParser.value.parse(value)
 }
@@ -174,8 +214,21 @@ function handleInput(value: any) {
 
 <style scoped>
 .RadioGroup {
+  --radioGroup-iconSize: var(--vuiii-icon-size);
+  --radioGroup-labelFontSize: var(--vuiii-fontSize);
+
   & > * + * {
     margin-top: 0.75rem;
+  }
+
+  &.RadioGroup--size-small {
+    --radioGroup-iconSize: var(--vuiii-icon-size--small);
+    --radioGroup-labelFontSize: var(--vuiii-fontSize--small);
+  }
+
+  &.RadioGroup--size-large {
+    --radioGroup-iconSize: var(--vuiii-icon-size--large);
+    --radioGroup-labelFontSize: var(--vuiii-fontSize--large);
   }
 }
 
@@ -211,7 +264,7 @@ function handleInput(value: any) {
   --vuiii-input-transition: all 0.1s;
   --vuiii-input-padding: 0;
 
-  width: var(--vuiii-icon-size);
+  width: var(--radioGroup-iconSize);
   aspect-ratio: 1 / 1;
   border-radius: 999px;
   min-height: 0;
@@ -248,6 +301,7 @@ function handleInput(value: any) {
 
 .RadioGroup__label {
   line-height: 1.45;
+  font-size: var(--radioGroup-labelFontSize);
 }
 
 .RadioGroup__description {

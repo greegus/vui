@@ -50,12 +50,14 @@ function handleFiles(files) {
 | `multiple` | `boolean`             | `false` | Allows selecting and dropping more than one file  |
 | `accept`   | `string \| string[]`  | -       | Accepted types, as a list or a comma-separated string |
 | `label`    | `string`              | -       | Label of the default button trigger               |
+| `disabled` | `boolean`             | `false` | Blocks both the file dialog and dropped files     |
+| `invalid`  | `boolean`             | `false` | Renders the validation error state                |
 
 ## Slots
 
 | Slot      | Description                                             |
 | --------- | ------------------------------------------------------- |
-| `default` | Replaces the button entirely — the whole area stays clickable and droppable |
+| `default` | Replaces the button entirely — the whole area stays clickable and droppable. Props: `{ disabled, invalid }` |
 
 ## Events
 

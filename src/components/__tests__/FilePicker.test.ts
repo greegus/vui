@@ -274,4 +274,30 @@ describe('FilePicker', () => {
     expect(emitted[0].name).toBe('photo.png')
     vi.unstubAllGlobals()
   })
+
+  it('disables the trigger and ignores dropped files when disabled', async () => {
+    const wrapper = mount(FilePicker, { props: { disabled: true } })
+    const trigger = wrapper.find('button.FilePicker')
+
+    expect(trigger.attributes('disabled')).toBeDefined()
+
+    dispatchDragEvent(trigger.element, 'drop', createDataTransfer({ files: [createFile('photo.png', 'image/png')] }))
+    await flushPromises()
+
+    expect(wrapper.emitted('files')).toBeUndefined()
+  })
+
+  it('marks the trigger as invalid and colours the default button', () => {
+    const wrapper = mount(FilePicker, { props: { invalid: true } })
+
+    expect(wrapper.find('button.FilePicker').attributes('aria-invalid')).toBe('true')
+    expect(wrapper.find('.Button').classes()).toContain('vuiii-button--color-danger')
+  })
+
+  it('uses the primary colour and no invalid marker by default', () => {
+    const wrapper = mount(FilePicker)
+
+    expect(wrapper.find('button.FilePicker').attributes('aria-invalid')).toBeUndefined()
+    expect(wrapper.find('.Button').classes()).toContain('vuiii-button--color-primary')
+  })
 })

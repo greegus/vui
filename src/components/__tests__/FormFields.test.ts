@@ -2,7 +2,9 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 import { defineComponent } from 'vue'
 
+import CheckboxGroup from '@/components/CheckboxGroup.vue'
 import FormFields from '@/components/FormFields.vue'
+import RadioGroup from '@/components/RadioGroup.vue'
 
 const StubInput = defineComponent({
   props: ['modelValue', 'invalid', 'id', 'disabled', 'required', 'options'],
@@ -108,5 +110,44 @@ describe('FormFields', () => {
       expect(wrapper.find('input').attributes('data-options')).toBe('a')
       expect(wrapper.find('input').attributes('disabled')).toBeDefined()
     })
+  })
+
+  // The choice components have no native `invalid` attribute to fall back on, so before they took an
+  // `invalid` prop the flag passed here landed on their root element as a stray DOM attribute and no
+  // error state was ever shown. These mount the real components rather than a stub for that reason.
+  it('puts a real RadioGroup into its invalid state', () => {
+    const wrapper = mount(FormFields, {
+      props: {
+        fields: [{ name: 'plan', component: RadioGroup, label: 'Plan', props: { options: ['Free', 'Pro'] } }],
+        modelValue: { plan: '' },
+        validationResults: { plan: { isInvalid: true, errorMessage: 'Pick a plan' } },
+      },
+    })
+
+    const group = wrapper.find('[role="radiogroup"]')
+
+    expect(group.attributes('aria-invalid')).toBe('true')
+    expect(group.attributes('invalid')).toBeUndefined()
+    expect(
+      wrapper.findAll('.RadioGroup__radio').every((radio) => radio.classes().includes('vuiii-input--invalid')),
+    ).toBe(true)
+  })
+
+  it('puts a real CheckboxGroup into its invalid state', () => {
+    const wrapper = mount(FormFields, {
+      props: {
+        fields: [
+          { name: 'perms', component: CheckboxGroup, label: 'Permissions', props: { options: ['Read', 'Write'] } },
+        ],
+        modelValue: { perms: [] },
+        validationResults: { perms: { isInvalid: true, errorMessage: 'Pick at least one' } },
+      },
+    })
+
+    const group = wrapper.find('[role="group"]')
+
+    expect(group.attributes('aria-invalid')).toBe('true')
+    expect(group.attributes('invalid')).toBeUndefined()
+    expect(wrapper.findAll('.Checkbox--invalid')).toHaveLength(2)
   })
 })

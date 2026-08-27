@@ -37,6 +37,8 @@ const sized = ref(true)
 | `modelValue`    | `any`                            | -          | Checked state (`v-model`)                          |
 | `required`      | `boolean`                        | `false`    | Shows a required indicator                         |
 | `disabled`      | `boolean`                        | `false`    | Disables the checkbox                              |
+| `readonly`      | `boolean`                        | `false`    | Shows the value, but blocks toggling it            |
+| `invalid`       | `boolean`                        | `false`    | Renders the validation error state                 |
 | `switch`        | `boolean`                        | `false`    | Renders as a toggle/switch                         |
 | `indeterminate` | `boolean`                        | `false`    | Shows the indeterminate state                      |
 | `label`         | `string`                         | -          | Label text (alternative to default slot)           |
@@ -49,7 +51,7 @@ const sized = ref(true)
 | Slot      | Description                                                              |
 | --------- | ----------------------------------------------------------------------- |
 | `default` | Label content (alternative to label prop)                               |
-| `symbol`  | Custom checkbox/switch symbol. Props: `{ checked, disabled, indeterminate, size }` |
+| `symbol`  | Custom checkbox/switch symbol. Props: `{ checked, disabled, indeterminate, invalid, size }` |
 
 ## Events
 

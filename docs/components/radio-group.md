@@ -51,8 +51,11 @@ const plans = [
 | `optionDescription` | `string \| ((item) => any)`                     | -          | Key or function to extract description text     |
 | `valueParser`       | `ValueParser<string>`                           | -          | Custom parser for option values                |
 | `disabled`          | `boolean`                                        | `false`    | Disables all radio options                     |
-| `readonly`          | `boolean`                                        | `false`    | Renders the group as read-only                 |
+| `readonly`          | `boolean`                                        | `false`    | Shows the selection, but blocks changing it    |
+| `required`          | `boolean`                                        | `false`    | Marks the group as required                    |
+| `invalid`           | `boolean`                                        | `false`    | Renders the validation error state             |
 | `inline`            | `boolean`                                        | `false`    | Renders radio options horizontally             |
+| `size`              | `'small' \| 'normal' \| 'large'`                 | `'normal'` | Radio size                                     |
 | `type`              | `'string' \| 'number' \| 'boolean' \| 'date'`   | `'string'` | Type used to parse option values               |
 
 ## Slots
@@ -60,7 +63,7 @@ const plans = [
 | Slot      | Description                                        |
 | --------- | ------------------------------------------------- |
 | `default` | Custom option content. Props: `{ option }`        |
-| `symbol`  | Custom radio symbol. Props: `{ checked, disabled }` |
+| `symbol`  | Custom radio symbol. Props: `{ checked, disabled, invalid }` |
 
 ## Events
 

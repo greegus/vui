@@ -334,4 +334,22 @@ describe('RadioButtonGroup', () => {
       expect(wrapper.emitted('update:modelValue')![0]![0]).toEqual({ id: 2 })
     })
   })
+
+  it('marks the group as invalid and required', () => {
+    const wrapper = mount(RadioButtonGroup, {
+      props: { options: ['List', 'Grid'], invalid: true, required: true },
+    })
+
+    const group = wrapper.find('[role="radiogroup"]')
+
+    expect(group.classes()).toContain('RadioButtonGroup--invalid')
+    expect(group.attributes('aria-invalid')).toBe('true')
+    expect(group.attributes('aria-required')).toBe('true')
+  })
+
+  it('leaves the invalid class off by default', () => {
+    const wrapper = mount(RadioButtonGroup, { props: { options: ['List', 'Grid'] } })
+
+    expect(wrapper.find('[role="radiogroup"]').classes()).not.toContain('RadioButtonGroup--invalid')
+  })
 })

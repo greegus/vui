@@ -6,6 +6,7 @@
       {
         [`Checkbox--size-${$props.size}`]: $props.size,
         'Checkbox--disabled': $props.disabled,
+        'Checkbox--invalid': $props.invalid,
       },
     ]"
   >
@@ -15,20 +16,29 @@
       :indeterminate
       :required
       :disabled
+      :aria-invalid="$props.invalid || undefined"
+      :aria-readonly="$props.readonly || undefined"
       type="checkbox"
       v-bind="attrsWithoutClass"
+      @click="handleClick($event)"
       @input="handleInput($event)"
     />
 
     <slot
       name="symbol"
-      v-bind="{ disabled: !!disabled, size, checked: serializedModelValue, indeterminate: !!indeterminate }"
+      v-bind="{
+        disabled: !!disabled,
+        size,
+        checked: serializedModelValue,
+        indeterminate: !!indeterminate,
+        invalid: !!invalid,
+      }"
     >
       <div v-if="$props.switch" class="Checkbox__switch">
         <div class="Checkbox__switchDot"></div>
       </div>
 
-      <div v-else class="Checkbox__checkbox vuiii-input">
+      <div v-else class="Checkbox__checkbox vuiii-input" :class="{ 'vuiii-input--invalid': $props.invalid }">
         <Icon name="check" class="Checkbox__checkboxIcon Checkbox__checkboxIcon--check" :size="$props.size" />
         <Icon name="minus" class="Checkbox__checkboxIcon Checkbox__checkboxIcon--indeterminate" :size="$props.size" />
       </div>
@@ -89,6 +99,14 @@
  * />
  *
  * @example
+ * // Validation state
+ * <Checkbox v-model="terms" required :invalid="!!errors.terms" label="I agree to the terms" />
+ *
+ * @example
+ * // Read-only (shows the value, but cannot be toggled)
+ * <Checkbox :model-value="isVerified" readonly label="Verified" />
+ *
+ * @example
  * // Different sizes
  * <Checkbox v-model="small" size="small" label="Small" />
  * <Checkbox v-model="normal" size="normal" label="Normal" />
@@ -113,7 +131,7 @@
  * </Checkbox>
  *
  * @slot default - Label content (alternative to label prop)
- * @slot symbol - Custom checkbox/switch symbol. Props: { checked, disabled, indeterminate, size }
+ * @slot symbol - Custom checkbox/switch symbol. Props: { checked, disabled, indeterminate, invalid, size }
  */
 export default {
   inheritAttrs: false,
@@ -136,6 +154,8 @@ const props = withDefaults(
   defineProps<{
     required?: boolean
     disabled?: boolean
+    readonly?: boolean
+    invalid?: boolean
     switch?: boolean
     indeterminate?: boolean
     label?: string
@@ -150,7 +170,13 @@ const props = withDefaults(
 
 defineSlots<{
   default?: void
-  symbol?: (props: { checked: boolean; disabled: boolean; indeterminate: boolean; size: InputSize }) => any
+  symbol?: (props: {
+    checked: boolean
+    disabled: boolean
+    indeterminate: boolean
+    invalid: boolean
+    size: InputSize
+  }) => any
 }>()
 
 const valueParser = computed<ValueParser<boolean>>(() => {
@@ -165,6 +191,17 @@ const valueParser = computed<ValueParser<boolean>>(() => {
 const serializedModelValue = computed(() => {
   return valueParser.value.stringify(modelValue.value)
 })
+
+/**
+ * The HTML `readonly` attribute has no effect on checkboxes, so the toggle is blocked here instead.
+ * Cancelling the click stops the box from ever changing state, which keeps the DOM in sync with the
+ * model — suppressing the `input` event alone would leave the box visually checked.
+ */
+function handleClick(event: MouseEvent) {
+  if (props.readonly) {
+    event.preventDefault()
+  }
+}
 
 function handleInput(event: Event) {
   modelValue.value = valueParser.value.parse((event.target as HTMLInputElement).checked)
@@ -196,6 +233,12 @@ function handleInput(event: Event) {
 .Checkbox--disabled {
   opacity: 0.5;
   cursor: default;
+}
+
+.Checkbox--invalid {
+  & .Checkbox__switch {
+    border-color: var(--vuiii-input-borderColor--invalid);
+  }
 }
 
 .Checkbox__input {

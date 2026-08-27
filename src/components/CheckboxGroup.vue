@@ -1,15 +1,25 @@
 <template>
-  <div class="CheckboxGroup" role="group" :class="{ 'CheckboxGroup--inline': $props.inline }">
+  <div
+    class="CheckboxGroup"
+    role="group"
+    :class="{ 'CheckboxGroup--inline': $props.inline }"
+    :aria-invalid="$props.invalid || undefined"
+    :aria-readonly="$props.readonly || undefined"
+    :aria-required="$props.required || undefined"
+  >
     <div v-for="option in normalizedOptions" :key="option.value">
       <Checkbox
-        :disabled="option.disabled"
+        :disabled="$props.disabled || option.disabled"
+        :readonly="$props.readonly"
+        :invalid="$props.invalid"
+        :size="$props.size"
         :model-value="isOptionChecked(option)"
         :label="option.label"
         :description="option.description"
         @update:model-value="toggleCheckedValue(option.value, $event)"
       >
-        <template v-if="$slots.symbol" #symbol="{ checked, disabled }">
-          <slot name="symbol" v-bind="{ checked, disabled }" />
+        <template v-if="$slots.symbol" #symbol="{ checked, disabled, invalid }">
+          <slot name="symbol" v-bind="{ checked, disabled, invalid }" />
         </template>
       </Checkbox>
     </div>
@@ -56,6 +66,16 @@
  * />
  *
  * @example
+ * // Validation state
+ * <CheckboxGroup v-model="permissions" :options="options" required :invalid="!!errors.permissions" />
+ *
+ * @example
+ * // Disabled, read-only and sized
+ * <CheckboxGroup v-model="selected" :options="options" disabled />
+ * <CheckboxGroup :model-value="selected" :options="options" readonly />
+ * <CheckboxGroup v-model="selected" :options="options" size="small" />
+ *
+ * @example
  * // With type parsing (values will be numbers)
  * <CheckboxGroup
  *   v-model="selectedIds"
@@ -73,12 +93,12 @@
  *   </template>
  * </CheckboxGroup>
  *
- * @slot symbol - Custom checkbox symbol. Props: { checked, disabled }
+ * @slot symbol - Custom checkbox symbol. Props: { checked, disabled, invalid }
  */
 import { computed } from 'vue'
 
 import Checkbox from '@/components/Checkbox.vue'
-import type { Extractor, Option, OptionsProp, ValueParser } from '@/types'
+import type { Extractor, InputSize, Option, OptionsProp, ValueParser } from '@/types'
 import { createTypeParser } from '@/utils/createTypeParser'
 import { normalizeOptions } from '@/utils/normalizeOptions'
 
@@ -92,12 +112,17 @@ const props = defineProps<{
   optionDescription?: Extractor
   valueParser?: ValueParser
   type?: 'string' | 'number' | 'boolean' | 'date'
+  disabled?: boolean
+  readonly?: boolean
+  required?: boolean
+  invalid?: boolean
   inline?: boolean
+  size?: InputSize
 }>()
 
 defineSlots<{
   default?: void
-  symbol?: (props: { checked: boolean; disabled: boolean }) => any
+  symbol?: (props: { checked: boolean; disabled: boolean; invalid: boolean }) => any
 }>()
 
 const valueParser = computed(() => {

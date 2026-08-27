@@ -48,4 +48,47 @@ describe('Checkbox', () => {
     expect(wrapper.find('.Checkbox__switch').exists()).toBe(true)
     expect(wrapper.find('.Checkbox__checkbox').exists()).toBe(false)
   })
+
+  it('marks the input and the box as invalid', () => {
+    const wrapper = mount(Checkbox, { props: { invalid: true } })
+
+    expect(wrapper.find('input').attributes('aria-invalid')).toBe('true')
+    expect(wrapper.find('.Checkbox--invalid').exists()).toBe(true)
+    expect(wrapper.find('.Checkbox__checkbox').classes()).toContain('vuiii-input--invalid')
+  })
+
+  it('leaves the invalid markers off by default', () => {
+    const wrapper = mount(Checkbox)
+
+    expect(wrapper.find('input').attributes('aria-invalid')).toBeUndefined()
+    expect(wrapper.find('.Checkbox__checkbox').classes()).not.toContain('vuiii-input--invalid')
+  })
+
+  // A click only runs the browser's activation behaviour — the toggle and the `input` event — on an
+  // element that is in the document, so these are mounted for real. Detached, nothing fires at all
+  // and a readonly assertion would pass for the wrong reason.
+  it('blocks toggling when readonly', async () => {
+    const wrapper = mount(Checkbox, { props: { modelValue: false, readonly: true }, attachTo: document.body })
+
+    const input = wrapper.find('input')
+    await input.trigger('click')
+
+    expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    expect(input.element.checked).toBe(false)
+    expect(input.attributes('aria-readonly')).toBe('true')
+
+    wrapper.unmount()
+  })
+
+  it('toggles on click when it is not readonly', async () => {
+    const wrapper = mount(Checkbox, { props: { modelValue: false }, attachTo: document.body })
+
+    const input = wrapper.find('input')
+    await input.trigger('click')
+
+    expect(wrapper.emitted('update:modelValue')![0]).toEqual([true])
+    expect(input.element.checked).toBe(true)
+
+    wrapper.unmount()
+  })
 })

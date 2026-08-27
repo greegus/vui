@@ -29,6 +29,8 @@ import { RadioButtonGroup } from 'vuiii'
 | `variant`           | `'filled' \| 'outlined'`                        | `'filled'` | Render style of the active button               |
 | `size`              | `'small' \| 'normal' \| 'large'`                | `'normal'` | Button size                                     |
 | `disabled`          | `boolean`                                       | `false`    | Disables the whole group                        |
+| `required`          | `boolean`                                       | `false`    | Marks the group as required                     |
+| `invalid`           | `boolean`                                       | `false`    | Renders the validation error state              |
 
 ## Events
 

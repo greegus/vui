@@ -53,14 +53,19 @@ The model is always an array holding the values of the checked options.
 | `optionDescription` | `string \| ((item) => any)`                     | -       | Key or function to extract description text      |
 | `valueParser`       | `ValueParser`                                   | -       | Custom parser for option values                 |
 | `type`              | `'string' \| 'number' \| 'boolean' \| 'date'`   | -       | Type used to parse option values                |
+| `disabled`          | `boolean`                                        | `false` | Disables every checkbox in the group            |
+| `readonly`          | `boolean`                                        | `false` | Shows the selection, but blocks changing it     |
+| `required`          | `boolean`                                        | `false` | Marks the group as required                     |
+| `invalid`           | `boolean`                                        | `false` | Renders the validation error state              |
 | `inline`            | `boolean`                                        | `false` | Renders checkboxes horizontally                 |
+| `size`              | `'small' \| 'normal' \| 'large'`                 | `'normal'` | Checkbox size                                |
 
 ## Slots
 
 | Slot      | Description                                          |
 | --------- | --------------------------------------------------- |
 | `default` | Reserved default slot                               |
-| `symbol`  | Custom checkbox symbol. Props: `{ checked, disabled }` |
+| `symbol`  | Custom checkbox symbol. Props: `{ checked, disabled, invalid }` |
 
 ## Events
 

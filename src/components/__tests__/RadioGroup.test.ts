@@ -85,4 +85,57 @@ describe('RadioGroup', () => {
     expect(radios[0].element.disabled).toBe(false)
     expect(radios[1].element.disabled).toBe(true)
   })
+
+  it('marks the group and its radios as invalid', () => {
+    const wrapper = mount(RadioGroup, { props: { options: ['Red', 'Green'], invalid: true } })
+
+    expect(wrapper.find('[role="radiogroup"]').attributes('aria-invalid')).toBe('true')
+    expect(
+      wrapper.findAll('.RadioGroup__radio').every((radio) => radio.classes().includes('vuiii-input--invalid')),
+    ).toBe(true)
+  })
+
+  // A click only runs the browser's activation behaviour — the toggle and the `input` event — on an
+  // element that is in the document, so these are mounted for real. Detached, nothing fires at all
+  // and a readonly assertion would pass for the wrong reason.
+  it('blocks picking another option when readonly', async () => {
+    const wrapper = mount(RadioGroup, {
+      props: { options: ['Red', 'Green'], modelValue: 'Red', readonly: true },
+      attachTo: document.body,
+    })
+
+    const green = wrapper.findAll('input[type="radio"]')[1]!
+    await green.trigger('click')
+
+    expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    expect(green.element.checked).toBe(false)
+    expect(wrapper.find('[role="radiogroup"]').attributes('aria-readonly')).toBe('true')
+
+    wrapper.unmount()
+  })
+
+  it('picks an option on click when it is not readonly', async () => {
+    const wrapper = mount(RadioGroup, {
+      props: { options: ['Red', 'Green'], modelValue: 'Red' },
+      attachTo: document.body,
+    })
+
+    await wrapper.findAll('input[type="radio"]')[1]!.trigger('click')
+
+    expect(wrapper.emitted('update:modelValue')![0]).toEqual(['Green'])
+
+    wrapper.unmount()
+  })
+
+  it('applies the size class to the group', () => {
+    const wrapper = mount(RadioGroup, { props: { options: ['Red'], size: 'small' } })
+
+    expect(wrapper.find('[role="radiogroup"]').classes()).toContain('RadioGroup--size-small')
+  })
+
+  it('marks the group as required', () => {
+    const wrapper = mount(RadioGroup, { props: { options: ['Red'], required: true } })
+
+    expect(wrapper.find('[role="radiogroup"]').attributes('aria-required')).toBe('true')
+  })
 })

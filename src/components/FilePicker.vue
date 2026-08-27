@@ -1,7 +1,22 @@
 <template>
-  <button type="button" class="FilePicker" @click="openFilePicker" ref="pickerOpener" v-bind="$attrs">
-    <slot>
-      <Button prefix-icon="arrow-up-tray" :label color="primary" variant="outlined" />
+  <button
+    type="button"
+    class="FilePicker"
+    :class="{ 'FilePicker--disabled': $props.disabled }"
+    :disabled="$props.disabled"
+    :aria-invalid="$props.invalid || undefined"
+    @click="openFilePicker"
+    ref="pickerOpener"
+    v-bind="$attrs"
+  >
+    <slot v-bind="{ disabled: !!disabled, invalid: !!invalid }">
+      <Button
+        prefix-icon="arrow-up-tray"
+        :label
+        :color="$props.invalid ? 'danger' : 'primary'"
+        :disabled="$props.disabled"
+        variant="outlined"
+      />
     </slot>
   </button>
 
@@ -10,6 +25,7 @@
     type="file"
     :multiple="multiple"
     :accept="normalizedAccept"
+    :disabled="$props.disabled"
     hidden
     @change="handleFileChange"
   />
@@ -46,6 +62,11 @@
  * />
  *
  * @example
+ * // Disabled and validation states
+ * <FilePicker disabled @files="handleFiles" />
+ * <FilePicker :invalid="!!errors.attachment" @files="handleFiles" />
+ *
+ * @example
  * // Custom trigger with slot
  * <FilePicker accept="image/*" @files="handleFiles">
  *   <div class="dropzone">
@@ -62,7 +83,7 @@
  *   })
  * }
  *
- * @slot default - Custom trigger content (replaces default button)
+ * @slot default - Custom trigger content (replaces default button). Props: { disabled, invalid }
  *
  * @emits files - When files are selected or dropped. Payload: File[]
  */
@@ -76,6 +97,8 @@ const props = withDefaults(
     multiple?: boolean
     accept?: string | string[]
     label?: string
+    disabled?: boolean
+    invalid?: boolean
   }>(),
   {
     multiple: false,
@@ -87,7 +110,7 @@ const emit = defineEmits<{
 }>()
 
 defineSlots<{
-  default?: void
+  default?: (props: { disabled: boolean; invalid: boolean }) => any
 }>()
 
 const pickerOpener = ref<HTMLElement>()
@@ -98,6 +121,10 @@ const normalizedAccept = computed(() => {
 })
 
 function openFilePicker() {
+  if (props.disabled) {
+    return
+  }
+
   fileInput.value?.click()
 }
 
@@ -113,7 +140,19 @@ function handleFileChange(event: Event) {
 
 // `props` itself is the reactive source, so `accept` / `multiple` are read at drop time rather
 // than snapshotted here at setup, which would ignore any later prop change.
-useDropArea(pickerOpener, (files) => emit('files', files), props)
+useDropArea(
+  pickerOpener,
+  (files) => {
+    // `disabled` blocks clicks natively, but the drop listeners are bound to the element directly,
+    // so a dropped file would otherwise still come through.
+    if (props.disabled) {
+      return
+    }
+
+    emit('files', files)
+  },
+  props,
+)
 </script>
 
 <style scoped>
@@ -121,5 +160,10 @@ useDropArea(pickerOpener, (files) => emit('files', files), props)
   all: unset;
   cursor: pointer;
   display: inline-block;
+}
+
+/* `all: unset` drops the native disabled styling, so the cursor is restored by hand */
+.FilePicker--disabled {
+  cursor: default;
 }
 </style>

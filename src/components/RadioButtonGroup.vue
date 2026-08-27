@@ -1,5 +1,10 @@
 <template>
-  <ButtonGroup role="radiogroup">
+  <ButtonGroup
+    role="radiogroup"
+    :class="{ 'RadioButtonGroup--invalid': $props.invalid }"
+    :aria-invalid="$props.invalid || undefined"
+    :aria-required="$props.required || undefined"
+  >
     <Button
       v-for="option in normalizedOptions"
       :key="option.value"
@@ -53,6 +58,10 @@
  * />
  *
  * @example
+ * // Validation state
+ * <RadioButtonGroup v-model="view" :options="options" required :invalid="!!errors.view" />
+ *
+ * @example
  * // Typed values - the model keeps the parsed type instead of a string
  * <RadioButtonGroup v-model="rating" :options="[1, 2, 3]" type="number" />
  *
@@ -86,6 +95,8 @@ const props = withDefaults(
     /** Render variant of the active button. */
     variant?: 'filled' | 'outlined'
     disabled?: boolean
+    required?: boolean
+    invalid?: boolean
     size?: InputSize
     type?: 'string' | 'number' | 'boolean' | 'date'
   }>(),
@@ -127,5 +138,11 @@ function handleInput(value: Option['value']) {
 /* Raise the active button so its (primary) border sits above the overlapping neighbours */
 :deep(.Button[aria-checked='true']) {
   z-index: 1;
+}
+
+/* Mirrors the border treatment the other form controls get from `.vuiii-input--invalid` */
+.RadioButtonGroup--invalid :deep(.Button) {
+  --borderColor: var(--vuiii-input-borderColor--invalid);
+  --borderColor--hover: var(--vuiii-input-borderColor--invalid);
 }
 </style>
