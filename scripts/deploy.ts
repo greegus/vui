@@ -21,6 +21,29 @@ function incrementVersion(version: string): string {
   return `${prefix}${number}`
 }
 
+/**
+ * Incrementing only ever bumps the trailing number (`1.0.0-beta.98` → `1.0.0-beta.99`), so a
+ * release that changes anything else — leaving a prerelease, a minor or a major — has to be named
+ * explicitly: `npm run deploy -- 1.0.0`.
+ */
+function resolveNextVersion(currentVersion: string, requestedVersion: string | undefined): string {
+  if (requestedVersion === undefined) {
+    return incrementVersion(currentVersion)
+  }
+
+  const version = requestedVersion.replace(/^v/, '')
+
+  if (!/^\d+\.\d+\.\d+(-[0-9A-Za-z.-]+)?$/.test(version)) {
+    throw new Error(`Invalid version "${requestedVersion}", expected e.g. 1.0.0 or 1.1.0-beta.1`)
+  }
+
+  if (version === currentVersion) {
+    throw new Error(`Version ${version} is already the current version`)
+  }
+
+  return version
+}
+
 // 1. Lint
 run('npx oxlint')
 
@@ -32,7 +55,7 @@ const packageJsonPath = resolve(import.meta.dirname, '../package.json')
 const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'))
 
 const oldVersion = packageJson.version
-const newVersion = incrementVersion(oldVersion)
+const newVersion = resolveNextVersion(oldVersion, process.argv[2])
 packageJson.version = newVersion
 
 writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2) + '\n')
