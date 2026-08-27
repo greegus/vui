@@ -66,6 +66,53 @@ const customFilter = (option, query) => {
 />
 ```
 
+```typescript
+// With custom option rendering
+<Autocomplete v-model="search" :options="users" option-label="name">
+  <template #option="{ option, isHighlighted }">
+    <div :class="{ highlighted: isHighlighted }">
+      <strong>{{ option.label }}</strong>
+      <small>{{ option.description }}</small>
+    </div>
+  </template>
+</Autocomplete>
+```
+
+```typescript
+// Grouped options - each group renders under its own heading
+const options = [
+  { category: 'Fruits', items: [{ id: 1, name: 'Apple' }, { id: 2, name: 'Banana' }] },
+  { category: 'Vegetables', items: [{ id: 3, name: 'Carrot' }] }
+]
+
+<Autocomplete
+  v-model="search"
+  :options="options"
+  group-label="category"
+  group-options="items"
+  option-value="id"
+  option-label="name"
+/>
+```
+
+```typescript
+// Custom group heading
+<Autocomplete v-model="search" :options="options" group-label="category" group-options="items">
+  <template #optionGroup="{ label }">
+    <Icon name="folder" /> {{ label }}
+  </template>
+</Autocomplete>
+```
+
+```typescript
+// Programmatic control via ref
+const autocompleteRef = ref<AutocompleteRef>()
+
+autocompleteRef.value?.open()
+autocompleteRef.value?.close()
+autocompleteRef.value?.focus()
+```
+
 ### Breadcrumbs
 
 **File:** `src/components/Breadcrumbs.vue`
@@ -129,6 +176,44 @@ import { Button } from 'vuiii'
 <Button size="large" label="Large" />
 ```
 
+```typescript
+// As router link (renders as <router-link>)
+<Button :to="{ name: 'home' }" label="Go Home" />
+<Button :to="'/about'" label="About" color="secondary" />
+```
+
+```typescript
+// As external link (renders as <a>)
+<Button href="https://example.com" label="Visit Site" />
+```
+
+```typescript
+// Loading state (shows spinner, disables button)
+<Button :loading="isSubmitting" label="Submit" color="primary" />
+```
+
+```typescript
+// Variants: filled (default), outlined, text
+<Button color="primary" variant="filled" label="Filled" />
+<Button color="primary" variant="outlined" label="Outlined" />
+<Button color="primary" variant="text" label="Text" />
+```
+
+```typescript
+// Full width and pill shape
+<Button block label="Full Width" />
+<Button pill label="Rounded" />
+```
+
+```typescript
+// With custom slot content
+<Button color="primary">
+  <template #prefix><CustomIcon /></template>
+  Custom Content
+  <template #suffix><Badge>3</Badge></template>
+</Button>
+```
+
 ### Card
 
 **File:** `src/components/Card.vue`
@@ -165,6 +250,13 @@ import { Card } from 'vuiii'
 </Card>
 ```
 
+```typescript
+// Outlined card (override the transparent default border)
+<Card title="Outlined" style="--vuiii-card-borderColor: var(--vuiii-divider-color)">
+  ...
+</Card>
+```
+
 ### Checkbox
 
 **File:** `src/components/Checkbox.vue`
@@ -193,6 +285,58 @@ import { Checkbox } from 'vuiii'
   label="Subscribe to newsletter"
   description="Get weekly updates about new features"
 />
+```
+
+```typescript
+// Required checkbox
+<Checkbox v-model="terms" required label="I agree to the terms" />
+```
+
+```typescript
+// Indeterminate state (for "select all" patterns)
+<Checkbox
+  :model-value="allSelected"
+  :indeterminate="someSelected && !allSelected"
+  label="Select all"
+  @update:model-value="toggleAll"
+/>
+```
+
+```typescript
+// Validation state
+<Checkbox v-model="terms" required :invalid="!!errors.terms" label="I agree to the terms" />
+```
+
+```typescript
+// Read-only (shows the value, but cannot be toggled)
+<Checkbox :model-value="isVerified" readonly label="Verified" />
+```
+
+```typescript
+// Different sizes
+<Checkbox v-model="small" size="small" label="Small" />
+<Checkbox v-model="normal" size="normal" label="Normal" />
+<Checkbox v-model="large" size="large" label="Large" />
+```
+
+```typescript
+// Custom value parser (for non-boolean values)
+const yesNoParser = {
+  parse: (checked) => checked ? 'yes' : 'no',
+  stringify: (value) => value === 'yes'
+}
+
+<Checkbox v-model="answer" :value-parser="yesNoParser" label="Accept" />
+```
+
+```typescript
+// Custom symbol slot
+<Checkbox v-model="checked">
+  <template #symbol="{ checked, disabled, indeterminate }">
+    <Icon :name="checked ? 'check-square' : 'square'" />
+  </template>
+  Custom checkbox label
+</Checkbox>
 ```
 
 ### CheckboxGroup
@@ -235,6 +379,38 @@ const permissions = [
   :options="['Option A', 'Option B', 'Option C']"
   inline
 />
+```
+
+```typescript
+// Validation state
+<CheckboxGroup v-model="permissions" :options="options" required :invalid="!!errors.permissions" />
+```
+
+```typescript
+// Disabled, read-only and sized
+<CheckboxGroup v-model="selected" :options="options" disabled />
+<CheckboxGroup :model-value="selected" :options="options" readonly />
+<CheckboxGroup v-model="selected" :options="options" size="small" />
+```
+
+```typescript
+// With type parsing (values will be numbers)
+<CheckboxGroup
+  v-model="selectedIds"
+  :options="[{ id: 1, name: 'One' }, { id: 2, name: 'Two' }]"
+  option-value="id"
+  option-label="name"
+  type="number"
+/>
+```
+
+```typescript
+// With custom symbol slot
+<CheckboxGroup v-model="selected" :options="options">
+  <template #symbol="{ checked, disabled }">
+    <Icon :name="checked ? 'check-circle' : 'circle'" />
+  </template>
+</CheckboxGroup>
 ```
 
 ### Divider
@@ -321,6 +497,20 @@ dropdownRef.value?.toggle()
 if (dropdownRef.value?.isOpen) { ... }
 ```
 
+```typescript
+// With dropdown placement control
+<Dropdown label="Menu" dropdown-placement="right">
+  <DropdownMenu :items="items" />
+</Dropdown>
+```
+
+```typescript
+// Full-width block dropdown
+<Dropdown label="Select Action" block>
+  <DropdownMenu :items="actions" />
+</Dropdown>
+```
+
 ### DropdownMenu
 
 **File:** `src/components/DropdownMenu.vue`
@@ -360,6 +550,31 @@ import { FilePicker } from 'vuiii'
   label="Upload Documents"
   @files="handleFiles"
 />
+```
+
+```typescript
+// Disabled and validation states
+<FilePicker disabled @files="handleFiles" />
+<FilePicker :invalid="!!errors.attachment" @files="handleFiles" />
+```
+
+```typescript
+// Custom trigger with slot
+<FilePicker accept="image/*" @files="handleFiles">
+  <div class="dropzone">
+    <Icon name="cloud-upload" />
+    <span>Drop files here or click to upload</span>
+  </div>
+</FilePicker>
+```
+
+```typescript
+// Handle files
+function handleFiles(files: File[]) {
+  files.forEach(file => {
+    console.log(file.name, file.size, file.type)
+  })
+}
 ```
 
 ### FormFields
@@ -409,6 +624,55 @@ const fields: FormFieldOrRow<UserData>[] = [
 ]
 ```
 
+```typescript
+// With validation results from useValidation
+const { validatedFields, validate } = useValidation(data, validationRules)
+
+<FormFields
+  :fields="fields"
+  v-model="data"
+  :validation-results="validatedFields"
+/>
+```
+
+```typescript
+// Dynamic props based on current form values
+const fields: FormField<UserData>[] = [
+  {
+    name: 'country',
+    component: Select,
+    label: 'Country',
+    props: { options: countries }
+  },
+  {
+    name: 'state',
+    component: Select,
+    label: 'State',
+    // props / required / disabled can be functions of the whole form data
+    props: (data) => ({ options: statesByCountry[data.country] }),
+    disabled: (data) => !data.country
+  }
+]
+```
+
+```typescript
+// Custom getter/setter for complex data transformations
+const fields: FormField<UserData>[] = [
+  {
+    name: 'fullName',
+    component: Input,
+    label: 'Full Name',
+    value: {
+      getter: (data) => `${data.firstName} ${data.lastName}`,
+      setter: (value, data) => {
+        const [firstName, lastName] = value.split(' ')
+        return { ...data, firstName, lastName }
+      }
+    }
+  }
+]
+```
+
 ### FormGroup
 
 **File:** `src/components/FormGroup.vue`
@@ -449,6 +713,24 @@ import { FormGroup, Input } from 'vuiii'
 </FormGroup>
 ```
 
+```typescript
+// With custom label slot
+<FormGroup>
+  <template #label>
+    <span>Email</span>
+    <Icon name="info" v-tooltip="'We will never share your email'" />
+  </template>
+  <Input v-model="email" />
+</FormGroup>
+```
+
+```typescript
+// Boolean error (shows invalid state without message)
+<FormGroup label="Field" :error="hasError">
+  <Input v-model="value" :invalid="hasError" />
+</FormGroup>
+```
+
 ### Icon
 
 **File:** `src/components/Icon.vue`
@@ -483,6 +765,20 @@ registerCustomIconResolver((name) => {
 })
 ```
 
+```typescript
+// With Heroicons
+import * as HeroIcons from '@heroicons/vue/24/outline'
+
+registerCustomIconResolver((name) => {
+  const pascalName = name.split('-').map(s => s[0].toUpperCase() + s.slice(1)).join('') + 'Icon'
+  return HeroIcons[pascalName]
+})
+
+// Then use in templates
+<Icon name="user" />      // resolves to UserIcon
+<Icon name="check" />     // resolves to CheckIcon
+```
+
 ### IconButton
 
 **File:** `src/components/IconButton.vue`
@@ -513,6 +809,16 @@ import { IconButton } from 'vuiii'
 <IconButton icon="cog" size="large" />
 ```
 
+```typescript
+// With title (tooltip)
+<IconButton icon="trash" title="Delete item" @click="remove()" />
+```
+
+```typescript
+// Loading state
+<IconButton icon="arrow-path" :loading="isRefreshing" @click="refresh()" />
+```
+
 ### Input
 
 **File:** `src/components/Input.vue`
@@ -540,6 +846,42 @@ import { Input } from 'vuiii'
 // With icons
 <Input v-model="search" prefixIcon="magnifying-glass" placeholder="Search..." />
 <Input v-model="email" suffixIcon="envelope" placeholder="Email" />
+```
+
+```typescript
+// With clickable icons (emits events)
+<Input
+  v-model="password"
+  :suffix-icon="showPassword ? 'eye-slash' : 'eye'"
+  :type="showPassword ? 'text' : 'password'"
+  @suffix-icon-click="showPassword = !showPassword"
+/>
+```
+
+```typescript
+// Different sizes
+<Input v-model="text" size="small" placeholder="Small" />
+<Input v-model="text" size="normal" placeholder="Normal" />
+<Input v-model="text" size="large" placeholder="Large" />
+```
+
+```typescript
+// Validation state
+<Input v-model="email" :invalid="!isValidEmail" placeholder="Email" />
+```
+
+```typescript
+// Value as number or date (for type="number" or type="date")
+<Input v-model="count" type="number" value-as-number />
+<Input v-model="date" type="date" value-as-date />
+```
+
+```typescript
+// Programmatic control via ref
+const inputRef = ref<InputRef>()
+
+inputRef.value?.focus()
+inputRef.value?.select()
 ```
 
 ### InputWrapper
@@ -617,6 +959,25 @@ Each option is rendered as a Button within a ButtonGroup.
 />
 ```
 
+```typescript
+// Validation state
+<RadioButtonGroup v-model="view" :options="options" required :invalid="!!errors.view" />
+```
+
+```typescript
+// Typed values - the model keeps the parsed type instead of a string
+<RadioButtonGroup v-model="rating" :options="[1, 2, 3]" type="number" />
+```
+
+```typescript
+// With a custom value parser
+<RadioButtonGroup
+  v-model="startsOn"
+  :options="dates"
+  :value-parser="{ stringify: (d) => d.toISOString(), parse: (v) => new Date(v) }"
+/>
+```
+
 ### RadioGroup
 
 **File:** `src/components/RadioGroup.vue`
@@ -659,6 +1020,50 @@ const plans = [
 />
 ```
 
+```typescript
+// Validation state
+<RadioGroup v-model="plan" :options="plans" required :invalid="!!errors.plan" />
+```
+
+```typescript
+// Read-only (shows the selection, but cannot be changed)
+<RadioGroup :model-value="plan" :options="plans" readonly />
+```
+
+```typescript
+// Different sizes
+<RadioGroup v-model="size" :options="options" size="small" />
+```
+
+```typescript
+// With type parsing
+<RadioGroup
+  v-model="quantity"
+  :options="[1, 2, 3, 4, 5]"
+  type="number"
+/>
+```
+
+```typescript
+// With custom option rendering
+<RadioGroup v-model="theme" :options="themes" option-value="id">
+  <template #default="{ option }">
+    <div class="theme-preview" :style="{ background: option.data.color }">
+      {{ option.label }}
+    </div>
+  </template>
+</RadioGroup>
+```
+
+```typescript
+// With custom symbol slot
+<RadioGroup v-model="selected" :options="options">
+  <template #symbol="{ checked, disabled }">
+    <Icon :name="checked ? 'circle-dot' : 'circle'" />
+  </template>
+</RadioGroup>
+```
+
 ### Select
 
 **File:** `src/components/Select.vue`
@@ -698,6 +1103,38 @@ const statuses = { draft: 'Draft', published: 'Published', archived: 'Archived' 
 <Select v-model="status" :options="statuses" />
 ```
 
+```typescript
+// With grouped options (optgroup)
+const vehicles = [
+  { category: 'Cars', items: [{ id: 1, name: 'Sedan' }, { id: 2, name: 'SUV' }] },
+  { category: 'Bikes', items: [{ id: 3, name: 'Mountain' }, { id: 4, name: 'Road' }] }
+]
+
+<Select
+  v-model="vehicle"
+  :options="vehicles"
+  group-label="category"
+  group-options="items"
+  option-value="id"
+  option-label="name"
+/>
+```
+
+```typescript
+// With type parsing (automatically converts string value to number)
+<Select v-model="count" :options="[1, 2, 3, 4, 5]" type="number" />
+```
+
+```typescript
+// With custom value parser
+const dateParser = {
+  parse: (str) => new Date(str),
+  stringify: (date) => date.toISOString()
+}
+
+<Select v-model="date" :options="dates" :value-parser="dateParser" />
+```
+
 ### ShortcutIcon
 
 **File:** `src/components/ShortcutIcon.vue`
@@ -725,6 +1162,11 @@ import { ShortcutIcon } from 'vuiii'
 // Alt/Option modifier
 <ShortcutIcon :shortcut="{ key: 'p', alt: true }" />
 // macOS: [⌥] [P]  |  Windows: [Alt] [P]
+```
+
+```typescript
+// Server-side rendering: pass the platform explicitly, since the server has no navigator
+<ShortcutIcon :shortcut="{ key: 'k', mod: true }" :platform="isMacRequest ? 'mac' : 'other'" />
 ```
 
 ### Table
@@ -773,6 +1215,60 @@ const columns: TableColumn<User>[] = [
     <IconButton icon="trash" @click="remove(item)" />
   </template>
 </Table>
+```
+
+```typescript
+// With sorting (v-model for sort state)
+<Table
+  :items="users"
+  :columns="[
+    { name: 'name', label: 'Name', sortable: true },
+    { name: 'createdAt', label: 'Created', sortable: true, sorter: (a, b) => a - b }
+  ]"
+  v-model:sort-column-name="sortColumn"
+  v-model:sort-direction="sortDir"
+/>
+```
+
+```typescript
+// With custom value extraction and formatting
+const columns: TableColumn<User>[] = [
+  {
+    name: 'fullName',
+    label: 'Name',
+    value: (user) => `${user.firstName} ${user.lastName}`
+  },
+  {
+    name: 'createdAt',
+    label: 'Created',
+    formatter: (date) => date.toLocaleDateString()
+  },
+  {
+    name: 'profile',
+    label: 'Profile',
+    href: (user) => ({ name: 'user', params: { id: user.id } }),
+    target: '_blank'
+  }
+]
+```
+
+```typescript
+// With custom header slot
+<Table :items="users" :columns="columns">
+  <template #header:name="{ column }">
+    <Icon name="user" /> {{ column.label }}
+  </template>
+</Table>
+```
+
+```typescript
+// With row click handling and hover highlight
+<Table
+  :items="users"
+  :columns="columns"
+  highlight-on-hover
+  @click-row="({ item, index }) => selectUser(item)"
+/>
 ```
 
 ### Tabs
@@ -877,6 +1373,25 @@ import { Textarea } from 'vuiii'
 <Textarea v-model="notes" prefix-icon="document-text" placeholder="Notes..." />
 ```
 
+```typescript
+// Validation state
+<Textarea v-model="bio" :invalid="errors.bio" placeholder="Bio" />
+```
+
+```typescript
+// Disabled and readonly states
+<Textarea v-model="text" disabled />
+<Textarea v-model="text" readonly />
+```
+
+```typescript
+// Programmatic control via ref
+const textareaRef = ref<TextareaRef>()
+
+textareaRef.value?.focus()
+textareaRef.value?.select()
+```
+
 ### Tooltip
 
 **File:** `src/components/Tooltip.vue`
@@ -907,6 +1422,37 @@ import { Tooltip } from 'vuiii'
 // With arrow
 <Tooltip title="With arrow" withArrow>
   <Button label="Hover me" />
+</Tooltip>
+```
+
+```typescript
+// With a short default delay before showing
+<Tooltip title="Delayed tooltip" delayed>
+  <Button label="Hover me" />
+</Tooltip>
+```
+
+```typescript
+// With a custom delay (ms) — overrides `delayed`
+<Tooltip title="Delayed tooltip" :delay="800">
+  <Button label="Hover me" />
+</Tooltip>
+```
+
+```typescript
+// With custom title slot
+<Tooltip>
+  <template #title>
+    <strong>Rich</strong> tooltip content
+  </template>
+  <Button label="Hover me" />
+</Tooltip>
+```
+
+```typescript
+// Show on focus (for accessibility)
+<Tooltip title="Accessible tooltip" showOnFocus>
+  <Input placeholder="Focus me" />
 </Tooltip>
 ```
 
@@ -945,6 +1491,21 @@ import { Typography } from 'vuiii'
 </Typography>
 ```
 
+```typescript
+// Available variants and their default tags:
+// display -> h1
+// heading1 -> h1
+// heading2 -> h2
+// heading3 -> h3
+// heading4 -> h4
+// heading5 -> h5
+// heading6 -> h6
+// body1 -> p
+// body2 -> p
+// label -> span
+// caption -> span
+```
+
 ## Composables
 
 ### dialogStack
@@ -975,6 +1536,14 @@ const dialog = useDialogStack()
 await dialog.alert('Operation completed!')
 ```
 
+```typescript
+// Open a confirmation dialog
+const confirmed = await dialog.confirm('Are you sure you want to delete?')
+if (confirmed) {
+  deleteItem()
+}
+```
+
 ### snackbar
 
 **File:** `src/snackbar.ts`
@@ -1001,6 +1570,11 @@ import { useSnackbar } from 'vuiii'
 
 const snackbar = useSnackbar()
 snackbar.success('Item saved!')
+```
+
+```typescript
+// Show error message
+snackbar.error('Failed to save item')
 ```
 
 ### useCursor
@@ -1035,6 +1609,15 @@ console.log(cursorItem.value) // 'Banana'
 // With cycling
 const { moveCursorForward } = useCursor(items, { cycle: true })
 // At last item, moveCursorForward() goes back to first
+```
+
+```typescript
+// Handle keyboard navigation
+function handleKeydown(e: KeyboardEvent) {
+  if (e.key === 'ArrowDown') moveCursorForward()
+  if (e.key === 'ArrowUp') moveCursorBack()
+  if (e.key === 'Enter') selectItem(cursorItem.value)
+}
 ```
 
 ### useDropArea
@@ -1072,6 +1655,18 @@ useDropArea(
   dropElement,
   handleFiles,
   { accept: 'image/*' }
+)
+```
+
+```typescript
+// Multiple files with specific types
+useDropArea(
+  dropElement,
+  handleFiles,
+  {
+    accept: ['image/png', 'image/jpeg', 'application/pdf'],
+    multiple: true
+  }
 )
 ```
 
@@ -1123,6 +1718,16 @@ const { isLoading, data } = useLoadData(
 )
 ```
 
+```typescript
+// With parameters
+const { load, data } = useLoadData(
+  (userId: string) => api.getUser(userId)
+)
+
+await load('user-123')
+console.log(data.value) // user data
+```
+
 ### useLoadPaginatedData
 
 **File:** `src/composables/useLoadPaginatedData.ts`
@@ -1151,6 +1756,16 @@ const { items, pagination } = useLoadPaginatedData(
   ({ page, itemsPerPage }) => api.getItems({ page, itemsPerPage }),
   { immediate: true }
 )
+```
+
+```typescript
+// Navigation between pages
+const { loadPage, loadNextPage, loadPreviousPage, pagination } = useLoadPaginatedData(source)
+
+await loadPage(1)  // Load first page
+await loadNextPage()  // Go to page 2
+await loadPreviousPage()  // Back to page 1
+await loadPage(5)  // Jump to page 5
 ```
 
 ### useOnClickOutside
@@ -1248,6 +1863,11 @@ useOnKeyPress('s', (event) => {
     saveDocument()
   }
 })
+```
+
+```typescript
+// With event listener options
+useOnKeyPress('Enter', handleSubmit, { capture: true })
 ```
 
 ### usePageFromRouteQuery
@@ -1378,6 +1998,17 @@ const { submit, isSubmitting } = useSubmitAction(
 )
 ```
 
+```typescript
+// With dynamic messages
+const { submit, result } = useSubmitAction(
+  (data) => api.saveItem(data),
+  {
+    successMessage: ({ result }) => `Saved item ${result.id}`,
+    errorMessage: ({ error }) => `Error: ${error.message}`
+  }
+)
+```
+
 ### useValidation
 
 **File:** `src/composables/useValidation.ts`
@@ -1427,6 +2058,19 @@ async function submit() {
     // form is valid, proceed with submission
   }
 }
+```
+
+```typescript
+// Async validation (e.g., server-side)
+const { validate, isValidating } = useValidation(
+  async (data) => {
+    const result = await api.validateForm(data)
+    return result
+  }
+)
+
+// isValidating is true while validation is in progress
+<Button :loading="isValidating" @click="validate(data)">Validate</Button>
 ```
 
 ## Utilities

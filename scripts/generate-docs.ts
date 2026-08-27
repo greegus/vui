@@ -223,6 +223,12 @@ import 'vuiii/style.css'
 
 `
 
+  // CLAUDE.md is the agent-facing reference, so components get all of their examples: the later
+  // ones are exactly the less obvious states (validation, readonly, custom slots) an agent would
+  // otherwise have to discover by reading the source. Composables and utilities are capped because
+  // their trailing examples mostly repeat the first with a different option.
+  const MAX_COMPOSABLE_EXAMPLES = 3
+
   // Group by type
   const components = docs.filter((d) => d.type === 'component')
   const composables = docs.filter((d) => d.type === 'composable')
@@ -239,8 +245,7 @@ import 'vuiii/style.css'
     }
     if (examples.length > 0) {
       markdown += `**Examples:**\n\n`
-      for (const example of examples.slice(0, 3)) {
-        // Limit to 3 examples
+      for (const example of examples) {
         markdown += `\`\`\`typescript\n${example}\n\`\`\`\n\n`
       }
     }
@@ -257,7 +262,7 @@ import 'vuiii/style.css'
     }
     if (examples.length > 0) {
       markdown += `**Examples:**\n\n`
-      for (const example of examples.slice(0, 2)) {
+      for (const example of examples.slice(0, MAX_COMPOSABLE_EXAMPLES)) {
         markdown += `\`\`\`typescript\n${example}\n\`\`\`\n\n`
       }
     }
@@ -274,7 +279,7 @@ import 'vuiii/style.css'
     }
     if (examples.length > 0) {
       markdown += `**Examples:**\n\n`
-      for (const example of examples.slice(0, 2)) {
+      for (const example of examples.slice(0, MAX_COMPOSABLE_EXAMPLES)) {
         markdown += `\`\`\`typescript\n${example}\n\`\`\`\n\n`
       }
     }
