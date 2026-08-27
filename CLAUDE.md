@@ -626,7 +626,7 @@ const fields: FormFieldOrRow<UserData>[] = [
 
 ```typescript
 // With validation results from useValidation
-const { validatedFields, validate } = useValidation(data, validationRules)
+const { validatedFields, validate } = useValidation(validateForm)
 
 <FormFields
   :fields="fields"
@@ -2025,7 +2025,7 @@ import type { ValidationResults } from 'vuiii'
 
 type FormData = { email: string; password: string }
 
-function validateForm(data: FormData): ValidationResults<FormData> {
+function validateForm(data: Partial<FormData>): ValidationResults<FormData> {
   const errors: Record<string, string> = {}
 
   if (!data.email) errors.email = 'Email is required'

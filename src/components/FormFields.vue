@@ -82,7 +82,7 @@
  *
  * @example
  * // With validation results from useValidation
- * const { validatedFields, validate } = useValidation(data, validationRules)
+ * const { validatedFields, validate } = useValidation(validateForm)
  *
  * <FormFields
  *   :fields="fields"

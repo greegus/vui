@@ -18,7 +18,7 @@ import type { ValidationResults } from '@/types'
  *
  * type FormData = { email: string; password: string }
  *
- * function validateForm(data: FormData): ValidationResults<FormData> {
+ * function validateForm(data: Partial<FormData>): ValidationResults<FormData> {
  *   const errors: Record<string, string> = {}
  *
  *   if (!data.email) errors.email = 'Email is required'
