@@ -115,9 +115,13 @@ export function useRouteQuery<QueryParams extends Record<string, unknown> = Reco
   // Watched through a serialized snapshot, because `queryParams` is a computed that rebuilds a
   // fresh object on every route change — watching it directly would fire onChange (and so
   // typically refetch) even when no filtered parameter actually changed.
-  watch(() => JSON.stringify(queryParams.value), () => options.onChange?.(queryParams.value), {
-    immediate: options.immediate,
-  })
+  watch(
+    () => JSON.stringify(queryParams.value),
+    () => options.onChange?.(queryParams.value),
+    {
+      immediate: options.immediate,
+    },
+  )
 
   return {
     queryParams,
