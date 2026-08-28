@@ -136,4 +136,30 @@ describe('useRouteQuery', () => {
 
     expect(onChange).not.toHaveBeenCalled()
   })
+
+  it('uses router.replace instead of router.push when the replace option is set', async () => {
+    const { result, router } = await withRouteQuery(() => useRouteQuery({ replace: true }), { search: 'hello' })
+    const pushSpy = vi.spyOn(router, 'push')
+    const replaceSpy = vi.spyOn(router, 'replace')
+
+    result.setQueryParam('search', 'world')
+    await flushPromises()
+
+    expect(replaceSpy).toHaveBeenCalledWith({ query: { search: 'world' } })
+    expect(pushSpy).not.toHaveBeenCalled()
+    expect(router.currentRoute.value.query).toEqual({ search: 'world' })
+  })
+
+  it('uses router.replace on setQuery when the replace option is set', async () => {
+    const { result, router } = await withRouteQuery(() => useRouteQuery({ replace: true }), { search: 'hello' })
+    const pushSpy = vi.spyOn(router, 'push')
+    const replaceSpy = vi.spyOn(router, 'replace')
+
+    result.setQuery({ category: 'books' })
+    await flushPromises()
+
+    expect(replaceSpy).toHaveBeenCalledWith({ query: { category: 'books' } })
+    expect(pushSpy).not.toHaveBeenCalled()
+    expect(router.currentRoute.value.query).toEqual({ category: 'books' })
+  })
 })

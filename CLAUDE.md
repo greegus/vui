@@ -1959,6 +1959,14 @@ const { queryParams } = useRouteQuery({
 })
 ```
 
+```typescript
+// Update the current history entry instead of pushing a new one, e.g. for filters
+const { setQueryParam } = useRouteQuery({
+  filter: ['search'],
+  replace: true
+})
+```
+
 ### useSubmitAction
 
 **File:** `src/composables/useSubmitAction.ts`

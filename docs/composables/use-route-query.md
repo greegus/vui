@@ -44,3 +44,11 @@ const { queryParams } = useRouteQuery({
   immediate: true,
 })
 ```
+
+```typescript
+// Update the current history entry instead of pushing a new one, e.g. for filters
+const { setQueryParam } = useRouteQuery({
+  filter: ['search'],
+  replace: true,
+})
+```
