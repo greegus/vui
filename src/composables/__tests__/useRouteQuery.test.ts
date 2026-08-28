@@ -145,8 +145,9 @@ describe('useRouteQuery', () => {
     result.setQueryParam('search', 'world')
     await flushPromises()
 
-    expect(replaceSpy).toHaveBeenCalled()
+    expect(replaceSpy).toHaveBeenCalledWith({ query: { search: 'world' } })
     expect(pushSpy).not.toHaveBeenCalled()
+    expect(router.currentRoute.value.query).toEqual({ search: 'world' })
   })
 
   it('uses router.replace on setQuery when the replace option is set', async () => {
@@ -157,7 +158,8 @@ describe('useRouteQuery', () => {
     result.setQuery({ category: 'books' })
     await flushPromises()
 
-    expect(replaceSpy).toHaveBeenCalled()
+    expect(replaceSpy).toHaveBeenCalledWith({ query: { category: 'books' } })
     expect(pushSpy).not.toHaveBeenCalled()
+    expect(router.currentRoute.value.query).toEqual({ category: 'books' })
   })
 })
