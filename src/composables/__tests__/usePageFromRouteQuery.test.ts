@@ -75,4 +75,29 @@ describe('usePageFromRouteQuery', () => {
 
     expect(router.currentRoute.value.query).toEqual({ search: 'hello', page: '2' })
   })
+
+  it('uses router.push by default, so paging stays in the browser history', async () => {
+    const { result, router } = await withPageFromRouteQuery({}, { page: '1' })
+    const pushSpy = vi.spyOn(router, 'push')
+    const replaceSpy = vi.spyOn(router, 'replace')
+
+    result.setPage(2)
+    await flushPromises()
+
+    expect(pushSpy).toHaveBeenCalledWith({ query: { page: '2' } })
+    expect(replaceSpy).not.toHaveBeenCalled()
+  })
+
+  it('uses router.replace on setPage when the replace option is set', async () => {
+    const { result, router } = await withPageFromRouteQuery({ replace: true }, { page: '1' })
+    const pushSpy = vi.spyOn(router, 'push')
+    const replaceSpy = vi.spyOn(router, 'replace')
+
+    result.setPage(2)
+    await flushPromises()
+
+    expect(replaceSpy).toHaveBeenCalledWith({ query: { page: '2' } })
+    expect(pushSpy).not.toHaveBeenCalled()
+    expect(router.currentRoute.value.query).toEqual({ page: '2' })
+  })
 })

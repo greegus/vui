@@ -17,8 +17,21 @@ import { useRouteQuery } from './useRouteQuery'
  *
  * // In template
  * <Pagination :current="page" @change="setPage" />
+ *
+ * @example
+ * // Update the current history entry instead of pushing a new one, so paging through a list
+ * // doesn't leave one back-button entry per page
+ * const { page, setPage } = usePageFromRouteQuery({
+ *   onChange: (page) => loadPage(page),
+ *   replace: true
+ * })
  */
-export function usePageFromRouteQuery(options: { onChange?: (page: number) => void; immediate?: boolean }): {
+export function usePageFromRouteQuery(options: {
+  onChange?: (page: number) => void
+  immediate?: boolean
+  /** Use `router.replace()` instead of `router.push()`, so paging doesn't add browser-history entries. */
+  replace?: boolean
+}): {
   page: Ref<number>
   setPage: (page: number) => void
 } {
@@ -30,6 +43,7 @@ export function usePageFromRouteQuery(options: { onChange?: (page: number) => vo
     // supplied as a default rather than relying on the parser's fallback.
     defaults: { page: 1 },
     immediate: options.immediate,
+    replace: options.replace,
   })
 
   const page = computed<number>(() => queryParams.value.page as any)
