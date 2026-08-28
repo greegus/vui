@@ -34,6 +34,13 @@ import { useRoute, useRouter } from 'vue-router'
  *   onChange: (params) => fetchData(params),
  *   immediate: true
  * })
+ *
+ * @example
+ * // Update the current history entry instead of pushing a new one, e.g. for filters
+ * const { setQueryParam } = useRouteQuery({
+ *   filter: ['search'],
+ *   replace: true
+ * })
  */
 
 const valueIsNotEmpty = (value: any) => {
@@ -47,6 +54,8 @@ export function useRouteQuery<QueryParams extends Record<string, unknown> = Reco
   serialize?: Record<keyof QueryParams, (value: QueryParams[keyof QueryParams]) => string>
   immediate?: boolean
   defaults?: Partial<QueryParams>
+  /** Use `router.replace()` instead of `router.push()`, so updates don't add browser-history entries. */
+  replace?: boolean
 }): {
   queryParams: Ref<QueryParams>
   setQuery: (params: Partial<QueryParams>) => void
@@ -90,6 +99,9 @@ export function useRouteQuery<QueryParams extends Record<string, unknown> = Reco
     return encodeURIComponent(options.serialize?.[key] ? options.serialize[key](value) : value)
   }
 
+  const navigate = (location: Parameters<typeof router.push>[0]) =>
+    options.replace ? router.replace(location) : router.push(location)
+
   const setQuery = (params: Partial<QueryParams>) => {
     const serializedParams = Object.fromEntries(
       Object.entries(params)
@@ -97,7 +109,7 @@ export function useRouteQuery<QueryParams extends Record<string, unknown> = Reco
         .map(([key, value]) => [key, serializeValue(key, value)]),
     ) as Record<string, string>
 
-    return router.push({
+    return navigate({
       query: serializedParams,
     })
   }
@@ -109,7 +121,7 @@ export function useRouteQuery<QueryParams extends Record<string, unknown> = Reco
 
     newQueryParams[key as string] = valueIsNotEmpty(value) ? serializeValue(key, value) : (undefined as any)
 
-    return router.push({ query: newQueryParams })
+    return navigate({ query: newQueryParams })
   }
 
   // Watched through a serialized snapshot, because `queryParams` is a computed that rebuilds a
