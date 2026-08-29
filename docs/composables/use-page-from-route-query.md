@@ -23,3 +23,12 @@ const { page, setPage } = usePageFromRouteQuery({
 // In template
 <Pagination :current="page" @change="setPage" />
 ```
+
+```typescript
+// Update the current history entry instead of pushing a new one, so paging through a list
+// doesn't leave one back-button entry per page
+const { page, setPage } = usePageFromRouteQuery({
+  onChange: (page) => loadPage(page),
+  replace: true,
+})
+```
