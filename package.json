@@ -1,6 +1,6 @@
 {
   "name": "vuiii",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Simple and customizable Vue 3 component library with TypeScript support, dynamic forms, dialogs, snackbars and composables.",
   "keywords": [
     "component-library",
